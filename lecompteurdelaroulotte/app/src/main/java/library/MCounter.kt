@@ -1,9 +1,9 @@
 package library
 
-class MainCounter {
+class MCounter {
     var etat: kotlin.Int = 0
-    var rules: List<Rule>? = null
-    var counters: List<Counter>? = null
+    var rules: ArrayList<Rule>? = null
+    var counters: ArrayList<Counter>? = null
 
     constructor()
 
