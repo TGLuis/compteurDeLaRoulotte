@@ -32,6 +32,6 @@ class MyDatabase (context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, n
     companion object {
         private const val TAG = "===== MYDATABASE ====="
         private const val DATABASE_NAME = "database.sqlite"
-        private const val DATABASE_VERSION = 0
+        private const val DATABASE_VERSION = 1
     }
 }

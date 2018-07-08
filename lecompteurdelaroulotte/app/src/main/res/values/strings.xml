@@ -1,3 +1,10 @@
 <resources>
-    <string name="app_name">Le compteur de la roulotte</string>
+    <!-- General -->
+    <string name="app_name">Le compteur de la Roulotte</string>
+    <string name="banderole">Banderole</string>
+    <string name="project">Project</string>
+
+
+    <!-- Boutons -->
+    <string name="add_project">Add a project</string>
 </resources>
