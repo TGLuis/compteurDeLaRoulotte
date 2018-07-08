@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- General -->
+    <string name="app_name">Le compteur de la Roulotte</string>
+    <string name="banderole">Banderole</string>
+    <string name="project">Projet</string>
+
+
+    <!-- Boutons -->
+    <string name="add_project">Ajouter un project</string>
+</resources>
