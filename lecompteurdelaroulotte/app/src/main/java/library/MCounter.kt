@@ -1,7 +1,7 @@
 package library
 
 class MCounter {
-    var etat: kotlin.Int = 0
+    var etat: Int = 0
     var rules: ArrayList<Rule>? = null
     var counters: ArrayList<Counter>? = null
 
@@ -9,6 +9,7 @@ class MCounter {
 
     fun update(b: Boolean){
         if(b){etat++}else{etat--}
+        notify(b)
     }
 
     fun attach(c: Counter){
@@ -32,5 +33,11 @@ class MCounter {
         if (rules != null)
             rules!!.minus(r)
 
+    }
+
+    fun notify(b: Boolean){
+        counters!!.forEach{
+            it.update(b)
+        }
     }
 }
