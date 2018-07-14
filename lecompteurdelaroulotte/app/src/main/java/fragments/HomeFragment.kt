@@ -3,6 +3,7 @@ package fragments
 import android.os.Bundle
 import android.content.Context
 import android.support.v4.app.Fragment
+import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import android.view.LayoutInflater
 import android.view.View
@@ -11,6 +12,7 @@ import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.Toast
 import android.widget.*
+import kotlinx.android.synthetic.main.text_input_project.view.*
 import lufra.lecompteurdelaroulotte.MainActivity
 import lufra.lecompteurdelaroulotte.R
 import library.MyDatabase
@@ -18,8 +20,10 @@ import library.Project
 
 class HomeFragment: Fragment() {
     private val TAG = "===== MAINFRAGMENT ====="
-    private var context: MainActivity? = null
+    private lateinit var context: MainActivity
 
+    private lateinit var listViewProj: ListView
+    private lateinit var addProj: AlertDialog.Builder
     private lateinit var bouton: Button
     private lateinit var projects: ArrayList<Project>
 
@@ -55,13 +59,34 @@ class HomeFragment: Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        projects = context!!.projectsList
+        projects = context.projectsList
+        addProj = AlertDialog.Builder(context)
 
-        bouton = context!!.findViewById(R.id.button_add_project)
+        listViewProj = context.findViewById(R.id.listProject)
+        val adapteur = this.ProjectAdapter(context, projects)
+        listViewProj.adapter = adapteur
+        listViewProj.onItemClickListener = AdapterView.OnItemClickListener{ _, _, position, _ ->
+            context.actualProject = projects[position]
+            context.openFragment(ProjectFragment() as Fragment)
+        }
+
+        bouton = context.findViewById(R.id.button_add_project)
         bouton.setOnClickListener({
-            Toast.makeText(context!!,"TODO", Toast.LENGTH_SHORT)
+            val viewInflated = LayoutInflater.from(context).inflate(R.layout.text_input_project, view as ViewGroup, false)
+            addProj.setView(viewInflated)
+                    .setTitle(R.string.project_name_id)
+                    .setPositiveButton(R.string.ok, { dialog, _ ->
+                        val projectName = viewInflated.input.text.toString()
+                        //Toast.makeText(context,"something", Toast.LENGTH_SHORT).show()
+                        context.createProject(projectName)
+                        adapteur.notifyDataSetChanged()
+                        dialog.dismiss()
+                    })
+                    .setNegativeButton(R.string.cancel, { dialog, _ ->
+                        dialog.dismiss()
+                    })
+                    .create()
                     .show()
-            //TODO
         })
     }
 }

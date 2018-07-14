@@ -6,16 +6,16 @@ class Project {
     private lateinit var myCounter: MCounter
     private lateinit var myCounters: ArrayList<Counter>
 
-    constructor(name: String, s: String, myCounter: MCounter){
+    constructor(name: String){
         this.name = name
-        this.blocnote = s
-        this.myCounter = myCounter
+        this.blocnote = ""
+        this.myCounter = MCounter()
         myCounters = ArrayList<Counter>()
     }
 
     fun getMCounter(): MCounter{return myCounter}
 
-    fun getCounters(): List<Counter>{return myCounters as List<Counter>}
+    fun getCounters(): List<Counter>{return myCounters}
 
     fun addCounter(c: Counter){myCounters.add(c)}
 

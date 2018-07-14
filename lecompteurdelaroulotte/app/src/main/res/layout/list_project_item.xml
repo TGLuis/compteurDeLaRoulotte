@@ -14,11 +14,12 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent">
         <ImageView
-            android:id="@+id/follower_image"
+            android:id="@+id/project_image"
             android:layout_width="64dp"
             android:layout_height="64dp"
             app:srcCompat="@drawable/icon_project"
-            android:layout_marginLeft="10dp"/>
+            android:contentDescription="@string/project_image"
+            android:layout_marginStart="10dp"/>
         <TextView
             android:id="@+id/project_text"
             android:gravity="center_vertical"
@@ -27,7 +28,7 @@
             android:textColor="@color/mauve"
             android:text="@string/project"
             android:textSize="20sp"
-            android:layout_marginLeft="10dp"/>
+            android:layout_marginStart="10dp"/>
     </LinearLayout>
 
     <View

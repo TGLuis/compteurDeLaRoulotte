@@ -11,6 +11,7 @@ import library.Project
 class MainActivity: AppCompatActivity(){
     private val TAG = "===== MAINACTIVITY ====="
     lateinit var projectsList: ArrayList<Project>
+    var actualProject: Project? = null
 
     override fun onCreate(savedInstanceState: Bundle?){
         super.onCreate(savedInstanceState)
@@ -22,6 +23,13 @@ class MainActivity: AppCompatActivity(){
         projectsList = ArrayList<Project>()
 
         openFragment(HomeFragment() as Fragment)
+    }
+
+    fun createProject(projectName: String){
+        val newProj = Project(projectName)
+        projectsList.add(newProj)
+        //Todo: mettre a jour la bdd
+
     }
 
     fun openFragment(frag: Fragment){

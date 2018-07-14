@@ -4,8 +4,13 @@
     <string name="app_name">Le compteur de la Roulotte</string>
     <string name="banderole">Banderole</string>
     <string name="project">Projet</string>
+    <string name="project_image">Image d\'un projet</string>
+    <string name="project_name">Nom du projet</string>
+    <string name="project_name_id">Nom du projet:</string>
 
 
     <!-- Boutons -->
     <string name="add_project">Ajouter un project</string>
+    <string name="cancel">Annuler</string>
+    <string name="ok">Ok</string>
 </resources>
