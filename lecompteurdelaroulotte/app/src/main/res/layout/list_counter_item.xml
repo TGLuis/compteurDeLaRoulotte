@@ -8,28 +8,20 @@
     <LinearLayout
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
-        android:id="@+id/trip_text"
+        android:id="@+id/counter"
         android:layout_marginTop="8dp"
         android:orientation="horizontal"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent">
         <ImageView
-            android:id="@+id/project_image"
+            android:id="@+id/counter_image"
             android:layout_width="64dp"
             android:layout_height="64dp"
-            app:srcCompat="@drawable/icon_project"
-            android:contentDescription="@string/project_image"
+            app:srcCompat="@drawable/icon_counter"
+            android:contentDescription="@string/counter_image"
             android:layout_marginStart="10dp"/>
-        <TextView
-            android:id="@+id/project_text"
-            android:gravity="center_vertical"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:textColor="@color/mauve"
-            android:text="@string/project"
-            android:textSize="20sp"
-            android:layout_marginStart="10dp"/>
+        <!-- info about the counter TODO better-->
     </LinearLayout>
 
     <View
@@ -37,6 +29,6 @@
         android:layout_height="2dp"
         android:layout_marginTop="8dp"
         android:background="#c0c0c0"
-        app:layout_constraintTop_toBottomOf="@+id/trip_text" />
+        app:layout_constraintTop_toBottomOf="@+id/counter" />
 
 </android.support.constraint.ConstraintLayout>

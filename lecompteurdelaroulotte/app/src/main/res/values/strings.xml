@@ -6,10 +6,14 @@
     <string name="project_image">Picture of a project</string>
     <string name="project_name">Name of the projet</string>
     <string name="project_name_id">Name of the projet:</string>
+    <string name="notes_image">Picture of notes</string>
+    <string name="counter_image">Picture of a counter</string>
+    <string name="main_counter_image">Picture of the main counter</string>
 
 
     <!-- Boutons -->
     <string name="add_project">Add a project</string>
+    <string name="edit_notes">Edit notes</string>
     <string name="cancel">Cancel</string>
     <string name="ok">Ok</string>
 </resources>

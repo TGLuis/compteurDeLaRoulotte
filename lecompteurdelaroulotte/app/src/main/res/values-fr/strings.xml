@@ -7,10 +7,14 @@
     <string name="project_image">Image d\'un projet</string>
     <string name="project_name">Nom du projet</string>
     <string name="project_name_id">Nom du projet:</string>
+    <string name="notes_image">Image de notes</string>
+    <string name="counter_image">Image de compteur</string>
+    <string name="main_counter_image">Image du compteur principal</string>
 
 
     <!-- Boutons -->
     <string name="add_project">Ajouter un project</string>
+    <string name="edit_notes">Editer ses notes</string>
     <string name="cancel">Annuler</string>
     <string name="ok">Ok</string>
 </resources>
