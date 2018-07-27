@@ -11,4 +11,6 @@
     <include android:id="@+id/frame"
         layout="@layout/content_menu" />
 
+    <!-- TODO créer un "style" pour les boutons-->
+
 </android.support.v4.widget.DrawerLayout>

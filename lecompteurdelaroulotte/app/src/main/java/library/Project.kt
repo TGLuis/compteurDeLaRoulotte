@@ -15,7 +15,7 @@ class Project {
 
     fun getMCounter(): MCounter{return myCounter}
 
-    fun getCounters(): List<Counter>{return myCounters}
+    fun getCounters(): ArrayList<Counter>{return myCounters}
 
     fun addCounter(c: Counter){myCounters.add(c)}
 

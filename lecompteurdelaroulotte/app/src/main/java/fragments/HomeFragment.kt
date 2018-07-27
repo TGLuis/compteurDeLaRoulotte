@@ -51,9 +51,8 @@ class HomeFragment: Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         super.onCreateView(inflater, container, savedInstanceState)
         context = activity as MainActivity
-        val mainView = inflater.inflate(R.layout.fragment_acceuil, container, false)
 
-        return mainView
+        return inflater.inflate(R.layout.fragment_acceuil, container, false)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {

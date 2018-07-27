@@ -10,11 +10,16 @@
     <string name="notes_image">Image de notes</string>
     <string name="counter_image">Image de compteur</string>
     <string name="main_counter_image">Image du compteur principal</string>
+    <string name="count_of_counter">Compte du compteur</string>
 
 
     <!-- Boutons -->
     <string name="add_project">Ajouter un project</string>
+    <string name="add_counter">Ajouter un compteur</string>
     <string name="edit_notes">Editer ses notes</string>
+    <string name="edit_rules">Editer les règles</string>
+    <string name="button_minus">-</string>
+    <string name="button_plus">+</string>
     <string name="cancel">Annuler</string>
     <string name="ok">Ok</string>
 </resources>

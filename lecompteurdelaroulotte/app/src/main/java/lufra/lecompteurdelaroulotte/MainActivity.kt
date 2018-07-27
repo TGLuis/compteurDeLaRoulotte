@@ -35,4 +35,6 @@ class MainActivity: AppCompatActivity(){
     fun openFragment(frag: Fragment){
         supportFragmentManager.beginTransaction().replace(R.id.frame, frag).commit()
     }
+
+    //Todo: backward button to handle
 }
