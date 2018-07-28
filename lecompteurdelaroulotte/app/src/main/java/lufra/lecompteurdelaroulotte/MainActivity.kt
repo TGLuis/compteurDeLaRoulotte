@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatActivity
 import fragments.HomeFragment
+import library.Counter
 import library.MyDatabase
 import library.Project
 
@@ -26,10 +27,12 @@ class MainActivity: AppCompatActivity(){
     }
 
     fun createProject(projectName: String){
-        val newProj = Project(projectName)
-        projectsList.add(newProj)
-        //Todo: mettre a jour la bdd
+        projectsList.add(Project(projectName))
+    }
 
+
+    fun createCounter(counterName: String){
+        actualProject!!.addCounter(Counter(counterName, -1, false, null))
     }
 
     fun openFragment(frag: Fragment){

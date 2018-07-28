@@ -2,20 +2,22 @@ package library
 
 class Rule {
     var augmentation: Boolean = true
-    var elements: Array<Array<Integer>>? = null
+    var first: Int = 0
+    var second: Int = 0
+    var third: Int = 0
 
-    constructor(augm: Boolean, elem: Array<Array<Integer>>){
+    constructor(augm: Boolean, first: Int, second: Int, third: Int){
         this.augmentation = augm
-        this.elements = elem
+        this.first = first
+        this.second = second
+        this.third = third
     }
 
     override fun toString(): String {
-        var s:String = ""
-        if (augmentation) s=s+"Augmentation:\n"
-        else s=s+"Diminution:\n"
-        elements!!.forEach{
-            s=s+"tous les $it[0] rangs $it[1] x $it[2] mailles\n"
-        }
+        var s = ""
+        if (augmentation) s=s+"Augmentation: "
+        else s=s+"Diminution: "
+        s=s+"tous les $first rangs $second x $third mailles\n"
         return s
     }
 }

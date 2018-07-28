@@ -8,7 +8,7 @@ class Counter {
     var attachedMain: Boolean = false
     var counterAttached: Counter? = null
 
-    constructor(name: String, max: Int, attachedMain: Boolean, counterAttached: Counter){
+    constructor(name: String, max: Int, attachedMain: Boolean, counterAttached: Counter?){
         this.name = name
         this.max = max
         this.attachedMain = attachedMain

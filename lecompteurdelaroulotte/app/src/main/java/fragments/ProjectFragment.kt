@@ -3,13 +3,17 @@ package fragments
 import android.content.Context
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.support.v7.app.AlertDialog
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import kotlinx.android.synthetic.main.simple_text_input.view.*
 import library.Counter
+import library.MCounter
 import lufra.lecompteurdelaroulotte.MainActivity
 import lufra.lecompteurdelaroulotte.R
+import java.util.*
 
 class ProjectFragment: Fragment() {
     private val TAG = "===== PROJECTRAGMENT ====="
@@ -22,6 +26,9 @@ class ProjectFragment: Fragment() {
     private lateinit var buttonPlus: Button
     private lateinit var buttonMinus: Button
     private lateinit var counters: ArrayList<Counter>
+    private lateinit var mainCounter: MCounter
+    private lateinit var nombre: TextView
+    private lateinit var addCounter: AlertDialog.Builder
 
     inner class CounterAdapter(context: Context, list: ArrayList<Counter>) : ArrayAdapter<Counter>(context, 0, list) {
         private inner class ProjectViewHolder(var msg: TextView?= null)
@@ -55,18 +62,27 @@ class ProjectFragment: Fragment() {
         super.onActivityCreated(savedInstanceState)
 
         counters = context.actualProject!!.getCounters()
+        mainCounter = context.actualProject!!.getMCounter()
+        addCounter = AlertDialog.Builder(context)
+
+        nombre = context.findViewById(R.id.count)
+        nombre.text = mainCounter.etat.toString()
 
         buttonMinus = context.findViewById(R.id.button_minus)
         buttonMinus.setOnClickListener({
-            //TODO
+            if (mainCounter.etat > 0){
+                mainCounter.update(false)
+                nombre.text = mainCounter.etat.toString()
+            }
         })
 
         buttonPlus = context.findViewById(R.id.button_plus)
         buttonPlus.setOnClickListener({
-            //TODO
+            mainCounter.update(true)
+            nombre.text = mainCounter.etat.toString()
         })
 
-        listViewCounters = context.findViewById(R.id.listCounters)
+        listViewCounters = context.findViewById<ListView>(R.id.listCounters)
         val adapteur = this.CounterAdapter(context, counters)
         listViewCounters.adapter = adapteur
         listViewCounters.onItemClickListener = AdapterView.OnItemClickListener{ _, _, position, _ ->
@@ -85,7 +101,27 @@ class ProjectFragment: Fragment() {
 
         buttonAddCounter = context.findViewById(R.id.button_add_counter)
         buttonAddCounter.setOnClickListener({
-            //TODO
+            val viewInflated = LayoutInflater.from(context).inflate(R.layout.simple_text_input, view as ViewGroup, false)
+            addCounter.setView(viewInflated)
+                    .setTitle(R.string.counter_name_id)
+                    .setPositiveButton(R.string.ok, { dialog, _ ->
+                        val counterName = viewInflated.input_text.text.toString()
+                        //Toast.makeText(context,"something", Toast.LENGTH_SHORT).show()
+                        context.createCounter(counterName)
+                        adapteur.notifyDataSetChanged()
+                        dialog.dismiss()
+                    })
+                    .setNegativeButton(R.string.cancel, { dialog, _ ->
+                        dialog.dismiss()
+                    })
+                    .create()
+                    .show()
         })
+
+        if(Locale.getDefault().language == "fr"){
+            val size = resources.getDimension(R.dimen.french_text_size)*0.38F // correspond +- à 16sp
+            buttonAddCounter.textSize = size
+            buttonEditRules.textSize = size
+        }
     }
 }

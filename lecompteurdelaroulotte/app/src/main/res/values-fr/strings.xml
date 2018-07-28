@@ -6,7 +6,9 @@
     <string name="project">Projet</string>
     <string name="project_image">Image d\'un projet</string>
     <string name="project_name">Nom du projet</string>
+    <string name="counter_name">Nom du compteur</string>
     <string name="project_name_id">Nom du projet:</string>
+    <string name="counter_name_id">Nom du compteur:</string>
     <string name="notes_image">Image de notes</string>
     <string name="counter_image">Image de compteur</string>
     <string name="main_counter_image">Image du compteur principal</string>

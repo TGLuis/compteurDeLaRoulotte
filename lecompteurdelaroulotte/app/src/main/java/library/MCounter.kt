@@ -36,8 +36,10 @@ class MCounter {
     }
 
     fun notify(b: Boolean){
-        counters!!.forEach{
-            it.update(b)
+        if(counters != null){
+            counters!!.forEach{
+                it.update(b)
+            }
         }
     }
 }
