@@ -13,6 +13,7 @@
     <string name="counter_image">Image de compteur</string>
     <string name="main_counter_image">Image du compteur principal</string>
     <string name="count_of_counter">Compte du compteur</string>
+    <string name="delete_project">Supprimer le projet?</string>
 
 
     <!-- Boutons -->
@@ -20,6 +21,7 @@
     <string name="add_counter">Ajouter un compteur</string>
     <string name="edit_notes">Editer ses notes</string>
     <string name="edit_rules">Editer les règles</string>
+    <string name="delete_image">Supprimer</string>
     <string name="button_minus">-</string>
     <string name="button_plus">+</string>
     <string name="cancel">Annuler</string>

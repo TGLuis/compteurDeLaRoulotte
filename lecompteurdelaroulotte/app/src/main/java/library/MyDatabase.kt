@@ -7,7 +7,6 @@ import android.database.sqlite.SQLiteOpenHelper
 class MyDatabase (context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
     override fun onCreate(db: SQLiteDatabase?) {
         db!!.execSQL("DROP TABLE IF EXISTS '$DATABASE_NAME';")
-        //TODO: changer la structure du projet...
         db.execSQL("CREATE TABLE '" + PROJECT_TABLE + "' ('" +
                 PROJECT_NAME + "' TEXT NOT NULL PRIMARY KEY, '" +
                 ETAT + "' INTEGER NOT NULL, '" +

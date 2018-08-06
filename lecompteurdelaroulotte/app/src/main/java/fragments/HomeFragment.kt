@@ -2,6 +2,7 @@ package fragments
 
 import android.os.Bundle
 import android.content.Context
+import android.support.constraint.ConstraintLayout
 import android.support.v4.app.Fragment
 import android.support.v7.app.AlertDialog
 import android.view.LayoutInflater
@@ -20,6 +21,7 @@ import library.Project
 class HomeFragment: Fragment() {
     private val TAG = "===== MAINFRAGMENT ====="
     private lateinit var context: MainActivity
+    lateinit var adapteur:ProjectAdapter
 
     private lateinit var listViewProj: ListView
     private lateinit var addProj: AlertDialog.Builder
@@ -42,8 +44,38 @@ class HomeFragment: Fragment() {
                 viewHolder = convertView.tag as ProjectViewHolder
                 projectView = convertView
             }
+
+            val cancelButton = projectView.findViewById<ImageButton>(R.id.delete_image)
+            cancelButton.setOnClickListener{
+                val cancelDialog = AlertDialog.Builder(context)
+                cancelDialog.setTitle(R.string.delete_project)
+                        .setPositiveButton(R.string.ok) { dialog, _ ->
+                            (context as MainActivity).deleteProject(proj)
+                            adapteur.notifyDataSetChanged()
+                            dialog.dismiss()
+                        }
+                        .setNegativeButton(R.string.cancel) { dialog, _ ->
+                            dialog.dismiss()
+                        }
+                        .create()
+                        .show()
+
+            }
+
+            val constr = projectView.findViewById<ConstraintLayout>(R.id.content)
+            constr.setOnClickListener {openProj(proj)}
+
+            val enterText = projectView.findViewById<TextView>(R.id.project_text)
+            enterText.setOnClickListener {openProj(proj)}
+
             viewHolder.msg!!.text = proj.toString()
             return projectView
+        }
+
+        fun openProj(proj: Project){
+            (context as MainActivity).actualProject = proj
+            (context as MainActivity).frags.push(HomeFragment() as Fragment)
+            (context as MainActivity).openFragment(ProjectFragment() as Fragment)
         }
     }
 
@@ -61,13 +93,8 @@ class HomeFragment: Fragment() {
         addProj = AlertDialog.Builder(context)
 
         listViewProj = context.findViewById(R.id.listProject)
-        val adapteur = this.ProjectAdapter(context, projects)
+        adapteur = this.ProjectAdapter(context, projects)
         listViewProj.adapter = adapteur
-        listViewProj.onItemClickListener = AdapterView.OnItemClickListener{ _, _, position, _ ->
-            context.actualProject = projects[position]
-            context.frags.push(HomeFragment() as Fragment)
-            context.openFragment(ProjectFragment() as Fragment)
-        }
 
         bouton = context.findViewById(R.id.button_add_project)
         bouton.setOnClickListener{
@@ -76,7 +103,6 @@ class HomeFragment: Fragment() {
                     .setTitle(R.string.project_name_id)
                     .setPositiveButton(R.string.ok) { dialog, _ ->
                         val projectName = viewInflated.input_text.text.toString()
-                        //Toast.makeText(context,"something", Toast.LENGTH_SHORT).show()
                         context.createProject(projectName)
                         adapteur.notifyDataSetChanged()
                         dialog.dismiss()
@@ -87,5 +113,7 @@ class HomeFragment: Fragment() {
                     .create()
                     .show()
         }
+
+        context.setTitle(R.string.app_name)
     }
 }

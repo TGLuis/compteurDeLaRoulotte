@@ -12,6 +12,7 @@
     <string name="counter_image">Picture of a counter</string>
     <string name="main_counter_image">Picture of the main counter</string>
     <string name="count_of_counter">Count of the counter</string>
+    <string name="delete_project">Delete the project?</string>
 
 
     <!-- Boutons -->
@@ -19,6 +20,7 @@
     <string name="add_counter">Add a counter</string>
     <string name="edit_notes">Edit notes</string>
     <string name="edit_rules">Edit rules</string>
+    <string name="delete_image">Delete</string>
     <string name="button_minus">-</string>
     <string name="button_plus">+</string>
     <string name="cancel">Cancel</string>

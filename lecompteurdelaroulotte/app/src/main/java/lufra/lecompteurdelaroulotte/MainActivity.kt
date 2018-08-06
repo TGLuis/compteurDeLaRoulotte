@@ -36,6 +36,11 @@ class MainActivity: AppCompatActivity(){
         projectsList.add(Project(projectName))
     }
 
+    fun deleteProject(proj: Project){
+        db.deleteProjectDB(proj.toString())
+        projectsList.remove(proj)
+    }
+
 
     fun createCounter(counterName: String){
         db.addCounterDB(actualProject.toString(), counterName, 0, 0, -1, false, null)

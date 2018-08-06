@@ -124,5 +124,7 @@ class ProjectFragment: Fragment() {
             buttonAddCounter.textSize = size
             buttonEditRules.textSize = size
         }
+
+        context.title = project.toString()
     }
 }
