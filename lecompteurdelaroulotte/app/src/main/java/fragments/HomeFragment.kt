@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.content.Context
 import android.support.v4.app.Fragment
 import android.support.v7.app.AlertDialog
-import android.support.v7.app.AppCompatActivity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -66,26 +65,27 @@ class HomeFragment: Fragment() {
         listViewProj.adapter = adapteur
         listViewProj.onItemClickListener = AdapterView.OnItemClickListener{ _, _, position, _ ->
             context.actualProject = projects[position]
+            context.frags.push(HomeFragment() as Fragment)
             context.openFragment(ProjectFragment() as Fragment)
         }
 
         bouton = context.findViewById(R.id.button_add_project)
-        bouton.setOnClickListener({
+        bouton.setOnClickListener{
             val viewInflated = LayoutInflater.from(context).inflate(R.layout.simple_text_input, view as ViewGroup, false)
             addProj.setView(viewInflated)
                     .setTitle(R.string.project_name_id)
-                    .setPositiveButton(R.string.ok, { dialog, _ ->
+                    .setPositiveButton(R.string.ok) { dialog, _ ->
                         val projectName = viewInflated.input_text.text.toString()
                         //Toast.makeText(context,"something", Toast.LENGTH_SHORT).show()
                         context.createProject(projectName)
                         adapteur.notifyDataSetChanged()
                         dialog.dismiss()
-                    })
-                    .setNegativeButton(R.string.cancel, { dialog, _ ->
+                    }
+                    .setNegativeButton(R.string.cancel) { dialog, _ ->
                         dialog.dismiss()
-                    })
+                    }
                     .create()
                     .show()
-        })
+        }
     }
 }

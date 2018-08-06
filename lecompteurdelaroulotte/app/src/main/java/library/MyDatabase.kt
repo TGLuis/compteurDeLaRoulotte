@@ -7,23 +7,26 @@ import android.database.sqlite.SQLiteOpenHelper
 class MyDatabase (context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
     override fun onCreate(db: SQLiteDatabase?) {
         db!!.execSQL("DROP TABLE IF EXISTS '$DATABASE_NAME';")
+        //TODO: changer la structure du projet...
         db.execSQL("CREATE TABLE '" + PROJECT_TABLE + "' ('" +
                 PROJECT_NAME + "' TEXT NOT NULL PRIMARY KEY, '" +
+                ETAT + "' INTEGER NOT NULL, '" +
                 NOTES + "' TEXT NOT NULL);")
         db.execSQL("CREATE TABLE '" + RULE_TABLE + "' ('" +
                 PROJECT_NAME + "' TEXT NOT NULL REFERENCES PROJECT_TABLE, '" +
-                AUGMENTATION + "' INTEGER NOT NULL '" +
+                AUGMENTATION + "' INTEGER NOT NULL, '" +
                 FIRST + "' INTEGER NOT NULL, '" +
                 SECOND + "' INTEGER NOT NULL, '" +
                 THIRD + "' INTEGER NOT NULL);" )
         db.execSQL("CREATE TABLE '" + COUNTER_TABLE + "' ('" +
                 PROJECT_NAME + "' TEXT NOT NULL REFERENCES PROJECT_TABLE, '" +
-                COUNTER_NAME + "' TEXT NOT NULL PRIMARY KEY, '" +
+                COUNTER_NAME + "' TEXT NOT NULL, '" +
                 ETAT + "' INTEGER NOT NULL, '" +
                 TOURS + "' INTEGER NOT NULL, '" +
                 MAX + "' INTEGER NOT NULL, '" +
                 ATTACHED_MAIN + "' INTEGER NOT NULL, '" +
-                COUNTER_ATTACHED + "' TEXT REFERENCES COUNTER_NAME);")
+                COUNTER_ATTACHED + "' TEXT REFERENCES COUNTER_NAME, " +
+                "UNIQUE ($PROJECT_NAME, $COUNTER_NAME) ON CONFLICT REPLACE);")
     }
 
     override fun onUpgrade(database: SQLiteDatabase?, oldVersion: Int, newVersion: Int) {
@@ -45,18 +48,20 @@ class MyDatabase (context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, n
         return true
     }
 
-    fun getAllProjects(): ArrayList<Project>?{
+    fun getAllProjects(): ArrayList<Project>{
         val db = this.writableDatabase
-        val query = "SELECT $PROJECT_NAME, $NOTES FROM $PROJECT_TABLE;"
+        val query = "SELECT $PROJECT_NAME, $ETAT, $NOTES FROM $PROJECT_TABLE;"
         val cursor = db.rawQuery(query, null)
         var myProjects: ArrayList<Project>? = null
+        myProjects = ArrayList()
         if (cursor.moveToFirst()) {
-            myProjects = ArrayList()
             do {
                 val projectName = cursor.getString(0)
-                val notes = cursor.getString(1)
+                val etat = cursor.getInt(1)
+                val notes = cursor.getString(2)
                 val proj = Project(projectName)
-                // TODO GET all counters
+                proj.etat = etat
+                proj.notes = notes
                 val query2 = "SELECT $AUGMENTATION, $FIRST, $SECOND, $THIRD FROM $RULE_TABLE WHERE $PROJECT_NAME='$projectName';"
                 val cursor2 = db.rawQuery(query2, null)
                 if (cursor2.moveToFirst()){
@@ -87,8 +92,7 @@ class MyDatabase (context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, n
                     } while (cursor3.moveToNext())
                 }
                 cursor3.close()
-                
-                proj.setNotes(notes)
+
                 myProjects.add(proj)
             } while (cursor.moveToNext())
         }
@@ -98,20 +102,20 @@ class MyDatabase (context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, n
 
     fun addProjectDB(projectName: String, notes: String): Boolean{
         val db = this.writableDatabase
-        db.execSQL("INSERT INTO *PROJECT_TABLE ($PROJECT_NAME, $NOTES) " +
-                "VALUES ('$projectName','$notes');")
+        db.execSQL("INSERT INTO $PROJECT_TABLE ($PROJECT_NAME, $ETAT, $NOTES) " +
+                "VALUES ('$projectName', 0,'$notes');")
         return true
     }
 
-    fun updateProjectDB(projectName: String, notes: String): Boolean{
+    fun updateProjectDB(projectName: String, etat: Int, notes: String): Boolean{
         val db = this.writableDatabase
         db.execSQL("UPDATE $PROJECT_TABLE " +
-                " SET $NOTES='$notes'," +
+                " SET $NOTES='$notes', $ETAT=$etat" +
                 " WHERE $PROJECT_NAME='$projectName';")
         return true
     }
 
-    fun deleteProjectDB(projectName: String, notes: String): Boolean{
+    fun deleteProjectDB(projectName: String): Boolean{
         val db = this.writableDatabase
         db.execSQL("DELETE FROM $PROJECT_TABLE WHERE $PROJECT_NAME='$projectName';")
         db.execSQL("DELETE FROM $RULE_TABLE WHERE $PROJECT_NAME='$projectName';")
@@ -123,33 +127,33 @@ class MyDatabase (context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, n
         val db = this.writableDatabase
         val augm = if(augmentation) 1 else 0
         db.execSQL("INSERT INTO $RULE_TABLE ($PROJECT_NAME, $AUGMENTATION, $FIRST, $SECOND, $THIRD) "+
-                "VALUES ($projectName, $augm, $first, $second, $third);")
+                "VALUES ('$projectName', $augm, $first, $second, $third);")
         return true
     }
 
     fun deleteRuleDB(projectName: String, augmentation: Boolean, first: Int, second: Int, third: Int): Boolean{
         val db = this.writableDatabase
         val augm = if(augmentation) 1 else 0
-        db.execSQL("DELETE FROM $RULE_TABLE WHERE $PROJECT_NAME='$projectName' AND $AUGMENTATION='$augm'"+
-                " AND $FIRST='$first' AND $SECOND='$second' AND $THIRD='$third';")
+        db.execSQL("DELETE FROM $RULE_TABLE WHERE $PROJECT_NAME='$projectName' AND $AUGMENTATION=$augm"+
+                " AND $FIRST=$first AND $SECOND=$second AND $THIRD=$third;")
         return true
     }
 
-    fun addCounterDB(projectName: String, counterName: String, etat: Int, tours: Int, max: Int, attached_main: Boolean, attachedCounter: Counter): Boolean{
+    fun addCounterDB(projectName: String, counterName: String, etat: Int, tours: Int, max: Int, attached_main: Boolean, attachedCounter: Counter?): Boolean{
         val db = this.writableDatabase
         val att = if(attached_main) 1 else 0
-        val counterAtt = attachedCounter.name
-        db.execSQL("INSERT INTO $COUNTER_TABLE ($PROJECT_NAME, $COUNTER_NAME, $ETAT, $TOURS, $MAX, $ATTACHED_MAIN, $COUNTER_ATTACHED) "+
-                "VALUES ($projectName, $counterName, $etat, $tours, $max, $att, $counterAtt);")
+        val counterAtt = if(attachedCounter == null)  "__NO__" else attachedCounter.name
+        db.execSQL("INSERT INTO $COUNTER_TABLE ( $PROJECT_NAME, $COUNTER_NAME, $ETAT, $TOURS, $MAX, $ATTACHED_MAIN, $COUNTER_ATTACHED ) "+
+                "VALUES ( '$projectName', '$counterName', $etat, $tours, $max, $att, '$counterAtt' );")
         return true
     }
 
-    fun updateCounterDB(projectName: String, counterName: String, etat: Int, tours: Int, max: Int, attached_main: Boolean, attachedCounter: Counter): Boolean{
+    fun updateCounterDB(projectName: String, counterName: String, etat: Int, tours: Int, max: Int, attached_main: Boolean, attachedCounter: Counter?): Boolean{
         val db = this.writableDatabase
         val att = if(attached_main) 1 else 0
-        val counterAtt = attachedCounter.name
+        val counterAtt = if(attachedCounter == null)  "__NO__" else attachedCounter.name
         db.execSQL("UPDATE $COUNTER_TABLE " +
-                " SET $ETAT='$etat', $TOURS='$tours', $MAX='$max', $ATTACHED_MAIN='$att', $COUNTER_ATTACHED='$counterAtt'" +
+                " SET $ETAT=$etat, $TOURS=$tours, $MAX=$max, $ATTACHED_MAIN=$att, $COUNTER_ATTACHED='$counterAtt'" +
                 " WHERE $PROJECT_NAME='$projectName' AND $COUNTER_NAME='$counterName';")
         return true
     }
@@ -184,3 +188,11 @@ class MyDatabase (context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, n
         private const val COUNTER_ATTACHED = "counterAttached"
     }
 }
+
+
+/*
+CREATE TABLE 'project' ('projectName' TEXT NOT NULL PRIMARY KEY, 'etat' INTEGER NOT NULL, 'notes' TEXT NOT NULL);
+CREATE TABLE 'rules' ('projectName' TEXT NOT NULL REFERENCES project, 'augmentation' INTEGER NOT NULL, 'first' INTEGER NOT NULL, 'second' INTEGER NOT NULL, 'third' INTEGER NOT NULL);
+CREATE TABLE 'counter' ('projectName' TEXT NOT NULL REFERENCES project, 'counterName' TEXT NOT NULL PRIMARY KEY, 'etat' INTEGER NOT NULL, 'tours' INTEGER NOT NULL, 'max' INTEGER NOT NULL, 'attached' INTEGER NOT NULL, 'counterAttached' TEXT REFERENCES counterName);
+
+ */

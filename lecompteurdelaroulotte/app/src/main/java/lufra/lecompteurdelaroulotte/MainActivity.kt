@@ -7,31 +7,38 @@ import fragments.HomeFragment
 import library.Counter
 import library.MyDatabase
 import library.Project
+import java.util.*
 
 
 class MainActivity: AppCompatActivity(){
     private val TAG = "===== MAINACTIVITY ====="
     lateinit var projectsList: ArrayList<Project>
     var actualProject: Project? = null
+    lateinit var frags: Stack<Fragment>
+    lateinit var db: MyDatabase
 
     override fun onCreate(savedInstanceState: Bundle?){
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val db = MyDatabase(this)
+        db = MyDatabase(this)
 
-        //Todo: regarder si la bdd a des données et si oui les enregistrer dans projectsList
-        projectsList = ArrayList<Project>()
+        //Todo: mettre à jour la bdd quand on ajoute ou supprime un projet
+        projectsList = db.getAllProjects()
 
+        frags = Stack()
+        frags.push(HomeFragment() as Fragment)
         openFragment(HomeFragment() as Fragment)
     }
 
     fun createProject(projectName: String){
+        db.addProjectDB(projectName, " ")
         projectsList.add(Project(projectName))
     }
 
 
     fun createCounter(counterName: String){
+        db.addCounterDB(actualProject.toString(), counterName, 0, 0, -1, false, null)
         actualProject!!.addCounter(Counter(counterName, -1, false, null))
     }
 
@@ -39,5 +46,39 @@ class MainActivity: AppCompatActivity(){
         supportFragmentManager.beginTransaction().replace(R.id.frame, frag).commit()
     }
 
-    //Todo: backward button to handle
+    override fun onBackPressed() {
+        if(!frags.isEmpty())
+            openFragment(frags.pop())
+    }
+
+    override fun onDestroy() {
+        saveState()
+        super.onDestroy()
+    }
+
+    override fun onPause() {
+        saveState()
+        super.onPause()
+    }
+
+    override fun onStop() {
+        saveState()
+        super.onStop()
+    }
+
+    private fun saveState(){
+        if(!projectsList.isEmpty()){
+            projectsList.forEach{
+                val proj = it
+                db.updateProjectDB(proj.toString(), proj.etat, proj.notes)
+                val coun = proj.getCounters()
+                if(! coun.isEmpty()){
+                    coun.forEach{
+                        db.updateCounterDB(proj.toString(), it.name, it.etat, it.tours, it.max, it.attachedMain, it.counterAttached)
+                    }
+                }
+                //pas besoin de update les rules pcq on peut que les add ou les supprimer...
+            }
+        }
+    }
 }

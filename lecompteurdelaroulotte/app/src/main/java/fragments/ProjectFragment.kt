@@ -10,7 +10,7 @@ import android.view.ViewGroup
 import android.widget.*
 import kotlinx.android.synthetic.main.simple_text_input.view.*
 import library.Counter
-import library.MCounter
+import library.Project
 import lufra.lecompteurdelaroulotte.MainActivity
 import lufra.lecompteurdelaroulotte.R
 import java.util.*
@@ -18,6 +18,7 @@ import java.util.*
 class ProjectFragment: Fragment() {
     private val TAG = "===== PROJECTRAGMENT ====="
     private lateinit var context: MainActivity
+    private lateinit var project: Project
 
     private lateinit var listViewCounters: ListView
     private lateinit var buttonEditNotes: Button
@@ -26,7 +27,6 @@ class ProjectFragment: Fragment() {
     private lateinit var buttonPlus: Button
     private lateinit var buttonMinus: Button
     private lateinit var counters: ArrayList<Counter>
-    private lateinit var mainCounter: MCounter
     private lateinit var nombre: TextView
     private lateinit var addCounter: AlertDialog.Builder
 
@@ -61,26 +61,27 @@ class ProjectFragment: Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        counters = context.actualProject!!.getCounters()
-        mainCounter = context.actualProject!!.getMCounter()
+        project = context.actualProject!!
+
+        counters = project.getCounters()
         addCounter = AlertDialog.Builder(context)
 
         nombre = context.findViewById(R.id.count)
-        nombre.text = mainCounter.etat.toString()
+        nombre.text = context.actualProject!!.etat.toString()
 
         buttonMinus = context.findViewById(R.id.button_minus)
-        buttonMinus.setOnClickListener({
-            if (mainCounter.etat > 0){
-                mainCounter.update(false)
-                nombre.text = mainCounter.etat.toString()
+        buttonMinus.setOnClickListener{
+            if (project.etat > 0){
+                project.update(false)
+                nombre.text = project.etat.toString()
             }
-        })
+        }
 
         buttonPlus = context.findViewById(R.id.button_plus)
-        buttonPlus.setOnClickListener({
-            mainCounter.update(true)
-            nombre.text = mainCounter.etat.toString()
-        })
+        buttonPlus.setOnClickListener{
+            project.update(true)
+            nombre.text = project.etat.toString()
+        }
 
         listViewCounters = context.findViewById<ListView>(R.id.listCounters)
         val adapteur = this.CounterAdapter(context, counters)
@@ -90,33 +91,33 @@ class ProjectFragment: Fragment() {
         }
 
         buttonEditNotes = context.findViewById(R.id.button_notes)
-        buttonEditNotes.setOnClickListener({
+        buttonEditNotes.setOnClickListener{
             //TODO
-        })
+        }
 
         buttonEditRules = context.findViewById(R.id.button_rules)
-        buttonEditRules.setOnClickListener({
+        buttonEditRules.setOnClickListener{
             //TODO
-        })
+        }
 
         buttonAddCounter = context.findViewById(R.id.button_add_counter)
-        buttonAddCounter.setOnClickListener({
+        buttonAddCounter.setOnClickListener{
             val viewInflated = LayoutInflater.from(context).inflate(R.layout.simple_text_input, view as ViewGroup, false)
             addCounter.setView(viewInflated)
                     .setTitle(R.string.counter_name_id)
-                    .setPositiveButton(R.string.ok, { dialog, _ ->
+                    .setPositiveButton(R.string.ok) { dialog, _ ->
                         val counterName = viewInflated.input_text.text.toString()
                         //Toast.makeText(context,"something", Toast.LENGTH_SHORT).show()
                         context.createCounter(counterName)
                         adapteur.notifyDataSetChanged()
                         dialog.dismiss()
-                    })
-                    .setNegativeButton(R.string.cancel, { dialog, _ ->
+                    }
+                    .setNegativeButton(R.string.cancel) { dialog, _ ->
                         dialog.dismiss()
-                    })
+                    }
                     .create()
                     .show()
-        })
+        }
 
         if(Locale.getDefault().language == "fr"){
             val size = resources.getDimension(R.dimen.french_text_size)*0.38F // correspond +- à 16sp
