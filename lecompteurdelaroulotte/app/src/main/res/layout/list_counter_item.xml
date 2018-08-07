@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <LinearLayout
+    <android.support.constraint.ConstraintLayout
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
         android:id="@+id/counter"
@@ -14,20 +14,81 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent">
+        <TextView
+            android:id="@+id/counter_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/counter_name"
+            android:gravity="center"
+            android:textColor="@color/mauve"
+            android:textSize="20sp"
+            android:text="@string/counter_name"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent" />
         <ImageView
             android:id="@+id/counter_image"
             android:layout_width="64dp"
             android:layout_height="64dp"
             app:srcCompat="@drawable/icon_counter"
             android:contentDescription="@string/counter_image"
-            android:layout_marginStart="10dp"/>
-        <!-- info about the counter TODO better-->
-    </LinearLayout>
+            android:layout_marginStart="10dp"
+            app:layout_constraintTop_toBottomOf="@id/counter_name"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"/>
+
+        <TextView
+            android:id="@+id/count"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:contentDescription="@string/count_of_counter"
+            android:layout_marginStart="10dp"
+            android:gravity="center"
+            android:textColor="@color/mauve"
+            android:textSize="20sp"
+            android:text="0"
+            app:layout_constraintBaseline_toBaselineOf="@id/button_minus"
+            app:layout_constraintLeft_toRightOf="@id/counter_image"
+            app:layout_constraintRight_toLeftOf="@id/button_minus"/>
+
+        <Button
+            android:id="@+id/button_minus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textColor="@color/mauve"
+            android:text="@string/button_minus"
+            android:textSize="30sp"
+            app:layout_constraintTop_toBottomOf="@id/counter_name"
+            app:layout_constraintRight_toLeftOf="@id/button_plus"/>
+        <Button
+            android:id="@+id/button_plus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textColor="@color/mauve"
+            android:text="@string/button_plus"
+            android:textSize="30sp"
+            app:layout_constraintTop_toBottomOf="@id/counter_name"
+            app:layout_constraintRight_toLeftOf="@id/parameter" />
+
+        <ImageButton
+            android:id="@+id/parameter"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            app:srcCompat="@drawable/gear"
+            android:contentDescription="@string/parameter_image"
+            android:layout_marginEnd="10dp"
+            android:background="#00000000"
+            app:layout_constraintTop_toBottomOf="@id/counter_name"
+            app:layout_constraintRight_toRightOf="parent" />
+
+    </android.support.constraint.ConstraintLayout>
 
     <View
         android:layout_width="fill_parent"
         android:layout_height="2dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="2dp"
         android:background="@color/jaune"
         app:layout_constraintTop_toBottomOf="@id/counter" />
 

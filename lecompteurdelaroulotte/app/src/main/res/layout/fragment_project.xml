@@ -12,7 +12,6 @@
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
         android:id="@+id/MCounter"
-        android:layout_marginTop="8dp"
         android:orientation="horizontal"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -34,12 +33,13 @@
             android:contentDescription="@string/count_of_counter"
             android:layout_marginStart="10dp"
             android:textColor="@color/mauve"
-            android:textSize="20sp"
+            android:textSize="25sp"
+            android:textStyle="bold"
             android:text="0"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="@id/main_counter_image"
-            app:layout_constraintRight_toRightOf="@id/button_minus"/>
+            app:layout_constraintLeft_toRightOf="@id/main_counter_image"
+            app:layout_constraintRight_toLeftOf="@id/button_minus"/>
         <Button
             android:id="@+id/button_minus"
             android:layout_width="wrap_content"
@@ -68,7 +68,7 @@
     <View
         android:layout_width="fill_parent"
         android:layout_height="2dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="2dp"
         android:background="@color/jaune"
         app:layout_constraintTop_toBottomOf="@id/MCounter" />
 
@@ -81,8 +81,8 @@
         tools:listitem="@layout/list_counter_item"
         app:layout_constraintTop_toTopOf="@id/MCounter"
         app:layout_constraintBottom_toBottomOf="@id/notes"
-        android:layout_marginTop="86dp"
-        android:layout_marginBottom="86dp"/>
+        android:layout_marginTop="64dp"
+        android:layout_marginBottom="126dp"/>
 
     <LinearLayout
         android:id="@+id/notes"

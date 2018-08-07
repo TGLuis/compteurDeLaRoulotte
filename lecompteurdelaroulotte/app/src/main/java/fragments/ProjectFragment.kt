@@ -34,20 +34,52 @@ class ProjectFragment: Fragment() {
         private inner class ProjectViewHolder(var msg: TextView?= null)
 
         override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
-            val counte = super.getItem(position)
+            val count = super.getItem(position)
             val projectView: View
             val viewHolder: ProjectViewHolder
             if (convertView == null){
                 viewHolder = ProjectViewHolder()
                 projectView = LayoutInflater.from(context).inflate(R.layout.list_counter_item, parent, false)
-                //viewHolder.msg = projectView.findViewById(R.id.counter_text)
+                viewHolder.msg = projectView.findViewById(R.id.counter_name)
                 projectView.tag = viewHolder
             } else {
                 viewHolder = convertView.tag as ProjectViewHolder
                 projectView = convertView
             }
-            //viewHolder.msg!!.text = counte.toString()
+            viewHolder.msg!!.text = count.name
+
+            val nb = projectView.findViewById<TextView>(R.id.count)
+
+            val param = projectView.findViewById<ImageButton>(R.id.parameter)
+            param.setOnClickListener{
+                //TODO: ouvrir un pop up avec les paramètres du compteur...
+            }
+
+            val buttonM = projectView.findViewById<Button>(R.id.button_minus)
+            buttonM.setOnClickListener{
+                up(false, count)
+                nb.text = count.etat.toString()
+                nombre.text = project.etat.toString()
+            }
+
+            val buttonP = projectView.findViewById<Button>(R.id.button_plus)
+            buttonP.setOnClickListener{
+                up(true, count)
+                nb.text = count.etat.toString()
+                nombre.text = project.etat.toString()
+            }
+
             return projectView
+        }
+
+        fun up(b: Boolean, count: Counter) {
+            if (!b && count.attachedMain && project.etat == 0) {
+                Toast.makeText(context, R.string.problem_etat_nul, Toast.LENGTH_SHORT).show()
+            } else if (count.attachedMain && (b || (!b && count.etat > 0))){
+                project.update(b)
+            } else if (b || (!b && count.etat > 0)){
+                count.update(b)
+            }
         }
     }
 
@@ -86,9 +118,6 @@ class ProjectFragment: Fragment() {
         listViewCounters = context.findViewById<ListView>(R.id.listCounters)
         val adapteur = this.CounterAdapter(context, counters)
         listViewCounters.adapter = adapteur
-        listViewCounters.onItemClickListener = AdapterView.OnItemClickListener{ _, _, position, _ ->
-            //TODO
-        }
 
         buttonEditNotes = context.findViewById(R.id.button_notes)
         buttonEditNotes.setOnClickListener{
