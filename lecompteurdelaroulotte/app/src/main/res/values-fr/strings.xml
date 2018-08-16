@@ -6,15 +6,38 @@
     <string name="project">Projet</string>
     <string name="project_image">Image d\'un projet</string>
     <string name="project_name">Nom du projet</string>
-    <string name="counter_name">Nom du compteur</string>
     <string name="project_name_id">Nom du projet:</string>
+    <string name="counter_name">Nom du compteur</string>
     <string name="counter_name_id">Nom du compteur:</string>
+    <string name="counter_state">Etat du compteur</string>
+    <string name="counter_state_id">Etat du compteur:</string>
+    <string name="counter_max">Maximum du compteur</string>
+    <string name="counter_max_id">Maximum du compteur:</string>
+    <string name="counter_tours">Tours du compteur</string>
+    <string name="counter_tours_id">Tours du compteur:</string>
+    <string name="counter_attach_main">Lié au projet</string>
+    <string name="counter_attach_main_id">Lié au projet:</string>
+    <string name="counter_attached">Lié un autre compteur</string>
+    <string name="counter_attached_id">Lié un autre compteur:</string>
     <string name="notes_image">Image de notes</string>
     <string name="counter_image">Image de compteur</string>
     <string name="main_counter_image">Image du compteur principal</string>
     <string name="count_of_counter">Compte du compteur</string>
     <string name="delete_project">Supprimer le projet?</string>
     <string name="problem_etat_nul">Delier le compteur du compteur principal pour diminuer</string>
+    <string name="counter_already">Vous avez déjà un compteur avec ce nom</string>
+    <string name="modif">Vous avez modifié:</string>
+    <string name="sure_to_modif">Voulez-vous enregistrer les modifications?</string>
+    <string name="confirm">Confirmation</string>
+    <string name="max_condition">Le maximum doit être -1 ou plus que 1!</string>
+
+
+    <!-- help -->
+    <string name="info">Info</string>
+    <string name="help_max">Si vous voulez que le compteur boucle, vous pouvez définir un maximum. Après avoir atteint ce maximum, Le compteur va revenir à 1. Si vous ne voulez pas de maximum, vous devez écrier 0.</string>
+    <string name="help_tours">Le nombre "tours" est le nombre de fois que le compteur est revenu à 1 si vous avez défini un maximum au dessus.</string>
+    <string name="help_attach">Si vous cochez cette case, le compteur va être lié au projet. Chaque fois que vous augmentez/diminuez ce compteur ou le projet, les deux changerons ensemble.</string>
+    <string name="help_attached">Si vous choisissez un autre compteur ici, le compteur sélectionné va augmenter de 1 chaque fois que ce compteur ci, va boucler et revenir à 1.</string>
 
 
     <!-- Boutons -->
@@ -24,8 +47,11 @@
     <string name="edit_rules">Editer les règles</string>
     <string name="parameter_image">Paramètres</string>
     <string name="delete_image">Supprimer</string>
+    <string name="info_image">Info</string>
     <string name="button_minus">-</string>
     <string name="button_plus">+</string>
     <string name="cancel">Annuler</string>
+    <string name="save">Sauver</string>
+    <string name="none">Aucun</string>
     <string name="ok">Ok</string>
 </resources>

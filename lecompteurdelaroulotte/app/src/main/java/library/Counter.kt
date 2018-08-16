@@ -4,7 +4,7 @@ class Counter {
     var etat: Int = 0
     var name: String = ""
     var tours: Int = 0
-    var max: Int = -1
+    var max: Int = 0
     var attachedMain: Boolean = false
     var counterAttached: Counter? = null
 
@@ -21,7 +21,7 @@ class Counter {
                 tours++
                 if(counterAttached != null)
                     counterAttached!!.update(true)
-                etat=0
+                etat=1
             }else{
                 etat++
             }

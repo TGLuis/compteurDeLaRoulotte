@@ -1,0 +1,205 @@
+package fragments
+
+import android.media.Image
+import android.os.Bundle
+import android.support.v4.app.Fragment
+import android.support.v7.app.AlertDialog
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.*
+import library.Counter
+import lufra.lecompteurdelaroulotte.MainActivity
+import lufra.lecompteurdelaroulotte.R
+
+class CounterFragment: Fragment() {
+    private val TAG = "===== COUNTERFRAGMENT ====="
+    private lateinit var context: MainActivity
+    private lateinit var counter: Counter
+
+    private lateinit var ET_name: EditText
+    private lateinit var ET_state: EditText
+    private lateinit var ET_max: EditText
+    private lateinit var ET_tours: EditText
+    private lateinit var CB_attach: CheckBox
+    private lateinit var S_attached: Spinner
+    private lateinit var B_cancel: Button
+    private lateinit var B_save: Button
+    private lateinit var IB_max: ImageButton
+    private lateinit var IB_tours: ImageButton
+    private lateinit var IB_attach: ImageButton
+    private lateinit var IB_attached: ImageButton
+    private lateinit var expl: AlertDialog.Builder
+
+    private lateinit var selectedItem: String
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        super.onCreateView(inflater, container, savedInstanceState)
+        context = activity as MainActivity
+
+        return inflater.inflate(R.layout.fragment_counter, container, false)
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+
+        counter = context.actualCounter!!
+
+        ET_name = context.findViewById(R.id.counter_name)
+        ET_name.setText(counter.name)
+
+        ET_state = context.findViewById(R.id.counter_state)
+        ET_state.setText(counter.etat.toString())
+
+        ET_max = context.findViewById(R.id.counter_max)
+        ET_max.setText(counter.max.toString())
+
+        ET_tours = context.findViewById(R.id.counter_tours)
+        ET_tours.setText(counter.tours.toString())
+
+        CB_attach = context.findViewById(R.id.counter_attach)
+        CB_attach.isChecked = counter.attachedMain
+
+        S_attached = context.findViewById(R.id.counter_attached)
+        selectedItem = context.getString(R.string.none)
+        val arr = ArrayList<String>(context.actualProject!!.getCounters().size)
+        arr.add(context.getString(R.string.none))
+        context.actualProject!!.getCounters().forEach {
+            if(it != counter)
+                arr.add(it.name)
+        }
+        val adapteur = ArrayAdapter(context, R.layout.support_simple_spinner_dropdown_item, arr.toArray())
+        adapteur.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item)
+        S_attached.adapter = adapteur
+        S_attached.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onNothingSelected(parent: AdapterView<*>?) {}
+
+            override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
+                selectedItem = arr[p2]
+            }
+        }
+        if(counter.counterAttached != null){
+            S_attached.setSelection(adapteur.getPosition(counter.counterAttached!!.name))
+        }
+
+        B_save = context.findViewById(R.id.save)
+        B_save.setOnClickListener {
+            val temp_name = ET_name.text.toString()
+            val temp_etat = ET_state.text.toString().toInt()
+            val temp_max = ET_max.text.toString().toInt()
+            val temp_tours = ET_tours.text.toString().toInt()
+            val temp_attach = CB_attach.isChecked
+            val temp_attached = selectedItem
+
+            var changes = 0
+            var str = context.getString(R.string.modif) + "\n"
+            val name_changed = temp_name != counter.name
+            if (name_changed) {
+                changes++
+                str += "- " + context.getString(R.string.counter_name) + "\n"
+            }
+            val etat_changed = temp_etat != counter.etat
+            if (etat_changed) {
+                changes++
+                str += "- " + context.getString(R.string.counter_state) + "\n"
+            }
+            val max_changed = temp_max != counter.max
+            if (max_changed) {
+                changes++
+                str += "- " + context.getString(R.string.counter_max) + "\n"
+            }
+            val tours_changed = temp_tours != counter.tours
+            if (tours_changed) {
+                changes++
+                str += "- " + context.getString(R.string.counter_tours) + "\n"
+            }
+            val attach_changed = temp_attach != counter.attachedMain
+            if (attach_changed) {
+                changes++
+                str += "- " + context.getString(R.string.counter_attach_main_id) + "\n"
+            }
+            val cond1 = temp_attached != context.getString(R.string.none) && counter.counterAttached == null
+            val cond2 = counter.counterAttached != null && temp_attached != counter.counterAttached!!.name
+            val attached_changed = cond1 || cond2
+            if (attached_changed) {
+                changes++
+                str += "- " + context.getString(R.string.counter_attached_id) + "\n"
+            }
+            str += "\n" + context.getString(R.string.sure_to_modif)
+            if (name_changed && context.actualProject!!.getCounter(temp_name) != null) {
+                ET_name.error = context.getString(R.string.counter_already)
+            } else if (temp_max<0){
+                ET_max.error = context.getString(R.string.max_condition)
+            }else{
+                if(changes > 0) {
+                    val confirm = AlertDialog.Builder(context)
+                    confirm.setTitle(context.getString(R.string.confirm))
+                            .setMessage(str)
+                            .setPositiveButton(R.string.save) { dialog, _ ->
+                                if (name_changed) counter.name = temp_name
+                                if (etat_changed) counter.etat = temp_etat
+                                if (max_changed) counter.max = temp_max
+                                if (tours_changed) counter.tours = temp_tours
+                                if (attach_changed) counter.attachedMain = temp_attach
+                                if (attached_changed) {
+                                    if (temp_attached == context.getString(R.string.none)) {
+                                        counter.detach()
+                                    } else {
+                                        counter.attach(context.actualProject!!.getCounter(temp_attached)!!)
+                                    }
+                                }
+                                if (counter.attachedMain){
+                                    context.actualProject!!.attach(counter)
+                                }else {
+                                    context.actualProject!!.detach(counter)
+                                }
+                                if (counter.max > 1) {
+                                    counter.tours += counter.etat % counter.max
+                                    counter.etat = counter.etat / counter.max
+                                }
+                                dialog.dismiss()
+                            }
+                            .setNegativeButton(R.string.cancel) { dialog, _ ->
+                                dialog.dismiss()
+                            }
+                            .create()
+                            .show()
+                }
+                context.openFragment(context.frags.pop())
+            }
+        }
+
+        B_cancel = context.findViewById(R.id.cancel)
+        B_cancel.setOnClickListener {
+            context.openFragment(context.frags.pop())
+        }
+
+        expl = AlertDialog.Builder(context)
+        expl.setTitle(R.string.info)
+                .setPositiveButton(R.string.ok) { dialog, _ ->
+                    dialog.dismiss()
+                }
+
+        IB_max = context.findViewById(R.id.info_max)
+        IB_max.setOnClickListener {
+            expl.setMessage(R.string.help_max).create().show()
+        }
+
+        IB_tours = context.findViewById(R.id.info_tours)
+        IB_tours.setOnClickListener {
+            expl.setMessage(R.string.help_tours).create().show()
+        }
+
+        IB_attach = context.findViewById(R.id.info_attach)
+        IB_attach.setOnClickListener {
+            expl.setMessage(R.string.help_attach).create().show()
+        }
+
+        IB_attached = context.findViewById(R.id.info_attached)
+        IB_attached.setOnClickListener {
+            expl.setMessage(R.string.help_attached).create().show()
+        }
+
+        context.title = "${context.actualProject.toString()} -> ${counter.name}"
+    }
+}

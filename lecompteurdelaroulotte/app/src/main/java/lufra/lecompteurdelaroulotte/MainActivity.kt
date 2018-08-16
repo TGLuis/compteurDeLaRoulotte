@@ -14,6 +14,7 @@ class MainActivity: AppCompatActivity(){
     private val TAG = "===== MAINACTIVITY ====="
     lateinit var projectsList: ArrayList<Project>
     var actualProject: Project? = null
+    var actualCounter: Counter? = null
     lateinit var frags: Stack<Fragment>
     lateinit var db: MyDatabase
 
@@ -23,7 +24,6 @@ class MainActivity: AppCompatActivity(){
 
         db = MyDatabase(this)
 
-        //Todo: mettre à jour la bdd quand on ajoute ou supprime un projet
         projectsList = db.getAllProjects()
 
         frags = Stack()
@@ -43,8 +43,8 @@ class MainActivity: AppCompatActivity(){
 
 
     fun createCounter(counterName: String){
-        db.addCounterDB(actualProject.toString(), counterName, 0, 0, -1, false, null)
-        actualProject!!.addCounter(Counter(counterName, -1, false, null))
+        db.addCounterDB(actualProject.toString(), counterName, 0, 0, 0, false, null)
+        actualProject!!.addCounter(Counter(counterName, 0, false, null))
     }
 
     fun openFragment(frag: Fragment){
@@ -82,7 +82,6 @@ class MainActivity: AppCompatActivity(){
                         db.updateCounterDB(proj.toString(), it.name, it.etat, it.tours, it.max, it.attachedMain, it.counterAttached)
                     }
                 }
-                //pas besoin de update les rules pcq on peut que les add ou les supprimer...
             }
         }
     }

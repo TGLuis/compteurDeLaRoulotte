@@ -114,6 +114,6 @@ class HomeFragment: Fragment() {
                     .show()
         }
 
-        context.setTitle(R.string.app_name)
+        context.title = context.getString(R.string.app_name)
     }
 }

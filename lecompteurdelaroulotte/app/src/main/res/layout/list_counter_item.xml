@@ -56,7 +56,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:textColor="@color/mauve"
+            android:theme="@style/ButtonStyleTrans"
             android:text="@string/button_minus"
             android:textSize="30sp"
             app:layout_constraintTop_toBottomOf="@id/counter_name"
@@ -66,7 +66,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:textColor="@color/mauve"
+            android:theme="@style/ButtonStyleTrans"
             android:text="@string/button_plus"
             android:textSize="30sp"
             app:layout_constraintTop_toBottomOf="@id/counter_name"
@@ -74,13 +74,14 @@
 
         <ImageButton
             android:id="@+id/parameter"
-            android:layout_width="64dp"
-            android:layout_height="64dp"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
             app:srcCompat="@drawable/gear"
             android:contentDescription="@string/parameter_image"
             android:layout_marginEnd="10dp"
             android:background="#00000000"
             app:layout_constraintTop_toBottomOf="@id/counter_name"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintRight_toRightOf="parent" />
 
     </android.support.constraint.ConstraintLayout>

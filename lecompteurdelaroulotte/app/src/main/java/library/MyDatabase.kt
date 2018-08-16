@@ -88,6 +88,7 @@ class MyDatabase (context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, n
                         count.etat = etat
                         count.tours = tours
                         proj.addCounter(count)
+                        if(attachedMain) proj.attach(count)
                     } while (cursor3.moveToNext())
                 }
                 cursor3.close()

@@ -29,6 +29,17 @@ class ProjectFragment: Fragment() {
     private lateinit var counters: ArrayList<Counter>
     private lateinit var nombre: TextView
     private lateinit var addCounter: AlertDialog.Builder
+    private lateinit var nombres: ArrayList<Tuple>
+
+    class Tuple {
+        var t: TextView? = null
+        var c: Counter? = null
+
+        constructor(t: TextView, c: Counter){
+            this.t = t
+            this.c = c
+        }
+    }
 
     inner class CounterAdapter(context: Context, list: ArrayList<Counter>) : ArrayAdapter<Counter>(context, 0, list) {
         private inner class ProjectViewHolder(var msg: TextView?= null)
@@ -49,24 +60,20 @@ class ProjectFragment: Fragment() {
             viewHolder.msg!!.text = count.name
 
             val nb = projectView.findViewById<TextView>(R.id.count)
+            nombres.add(Tuple(nb,count))
+            nb.text = count.etat.toString()
 
             val param = projectView.findViewById<ImageButton>(R.id.parameter)
-            param.setOnClickListener{
-                //TODO: ouvrir un pop up avec les paramètres du compteur...
-            }
+            param.setOnClickListener{openCount(count)}
 
             val buttonM = projectView.findViewById<Button>(R.id.button_minus)
             buttonM.setOnClickListener{
                 up(false, count)
-                nb.text = count.etat.toString()
-                nombre.text = project.etat.toString()
             }
 
             val buttonP = projectView.findViewById<Button>(R.id.button_plus)
             buttonP.setOnClickListener{
                 up(true, count)
-                nb.text = count.etat.toString()
-                nombre.text = project.etat.toString()
             }
 
             return projectView
@@ -80,6 +87,14 @@ class ProjectFragment: Fragment() {
             } else if (b || (!b && count.etat > 0)){
                 count.update(b)
             }
+            nombre.text = project.etat.toString()
+            nombres.forEach { it.t!!.text = it.c!!.etat.toString() }
+        }
+
+        fun openCount(counter: Counter){
+            (context as MainActivity).actualCounter = counter
+            (context as MainActivity).frags.push(ProjectFragment() as Fragment)
+            (context as MainActivity).openFragment(CounterFragment() as Fragment)
         }
     }
 
@@ -95,6 +110,8 @@ class ProjectFragment: Fragment() {
 
         project = context.actualProject!!
 
+        nombres = ArrayList<Tuple>()
+
         counters = project.getCounters()
         addCounter = AlertDialog.Builder(context)
 
@@ -104,18 +121,16 @@ class ProjectFragment: Fragment() {
         buttonMinus = context.findViewById(R.id.button_minus)
         buttonMinus.setOnClickListener{
             if (project.etat > 0){
-                project.update(false)
-                nombre.text = project.etat.toString()
+                up(false)
             }
         }
 
         buttonPlus = context.findViewById(R.id.button_plus)
         buttonPlus.setOnClickListener{
-            project.update(true)
-            nombre.text = project.etat.toString()
+            up(true)
         }
 
-        listViewCounters = context.findViewById<ListView>(R.id.listCounters)
+        listViewCounters = context.findViewById(R.id.listCounters)
         val adapteur = this.CounterAdapter(context, counters)
         listViewCounters.adapter = adapteur
 
@@ -137,8 +152,12 @@ class ProjectFragment: Fragment() {
                     .setPositiveButton(R.string.ok) { dialog, _ ->
                         val counterName = viewInflated.input_text.text.toString()
                         //Toast.makeText(context,"something", Toast.LENGTH_SHORT).show()
-                        context.createCounter(counterName)
-                        adapteur.notifyDataSetChanged()
+                        if (project.has_counter(counterName)){
+                            Toast.makeText(context,R.string.counter_already, Toast.LENGTH_SHORT).show()
+                        }else{
+                            context.createCounter(counterName)
+                            adapteur.notifyDataSetChanged()
+                        }
                         dialog.dismiss()
                     }
                     .setNegativeButton(R.string.cancel) { dialog, _ ->
@@ -156,4 +175,9 @@ class ProjectFragment: Fragment() {
 
         context.title = project.toString()
     }
+
+    fun up(b: Boolean){
+        project.update(b)
+        nombre.text = project.etat.toString()
+        nombres.forEach { it.t!!.text = it.c!!.etat.toString() }    }
 }

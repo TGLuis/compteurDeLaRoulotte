@@ -15,7 +15,24 @@ class Project {
         myRules = ArrayList<Rule>()
     }
 
+    fun has_counter(s: String): Boolean{
+        myCounters.forEach {
+            if(s == it.name)
+                return true
+        }
+        return false
+    }
+
     fun getCounters(): ArrayList<Counter>{return myCounters}
+
+    fun getCounter(s: String): Counter?{
+        myCounters.forEach {
+            if(it.name == s){
+                return it
+            }
+        }
+        return null
+    }
 
     fun addCounter(c: Counter){myCounters.add(c)}
 
@@ -34,11 +51,11 @@ class Project {
         if (bindCounters == null){
             bindCounters = ArrayList<Counter>()
         }
-        bindCounters!!.plus(c)
+        bindCounters!!.add(c)
     }
     fun detach(c: Counter){
         if (bindCounters != null)
-            bindCounters!!.minus(c)
+            bindCounters!!.remove(c)
     }
 
     fun notify(b: Boolean){
