@@ -5,6 +5,17 @@ import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 
 class MyDatabase (context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
+
+    inner class Tuple {
+        var c1: Counter
+        var c2: String
+
+        constructor(a: Counter, b: String){
+            c1 = a
+            c2 = b
+        }
+    }
+
     override fun onCreate(db: SQLiteDatabase?) {
         db!!.execSQL("DROP TABLE IF EXISTS '$DATABASE_NAME';")
         db.execSQL("CREATE TABLE '" + PROJECT_TABLE + "' ('" +
@@ -76,6 +87,7 @@ class MyDatabase (context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, n
                 
                 val query3 = "SELECT $COUNTER_NAME, $ETAT, $TOURS, $MAX, $ATTACHED_MAIN, $COUNTER_ATTACHED FROM $COUNTER_TABLE WHERE $PROJECT_NAME='$projectName'"
                 val cursor3 = db.rawQuery(query3, null)
+                val tab = ArrayList<Tuple>()
                 if(cursor3.moveToFirst()){
                     do {
                         val counterName = cursor3.getString(0)
@@ -83,13 +95,21 @@ class MyDatabase (context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, n
                         val tours = cursor3.getInt(2)
                         val max = cursor3.getInt(3)
                         val attachedMain = cursor3.getInt(4)==1
-                        val counterAttached = cursor3.getString(5) //TODO gérer ce truc il se pourrait que le counter ne soit pas encore sorti de la db...
+                        val counterAttached = cursor3.getString(5)
                         val count = Counter(counterName, max, attachedMain, null)
                         count.etat = etat
                         count.tours = tours
+                        if(counterAttached != NO_ATTACHED) {
+                            tab.add(Tuple(count, counterAttached))
+                        }
                         proj.addCounter(count)
-                        if(attachedMain) proj.attach(count)
+                        if(attachedMain) {
+                            proj.attach(count)
+                        }
                     } while (cursor3.moveToNext())
+                }
+                tab.forEach {
+                    it.c1.attach(proj.getCounter(it.c2)!!)
                 }
                 cursor3.close()
 
@@ -142,7 +162,7 @@ class MyDatabase (context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, n
     fun addCounterDB(projectName: String, counterName: String, etat: Int, tours: Int, max: Int, attached_main: Boolean, attachedCounter: Counter?): Boolean{
         val db = this.writableDatabase
         val att = if(attached_main) 1 else 0
-        val counterAtt = if(attachedCounter == null)  "__NO__" else attachedCounter.name
+        val counterAtt = if(attachedCounter == null)  NO_ATTACHED else attachedCounter.name
         db.execSQL("INSERT INTO $COUNTER_TABLE ( $PROJECT_NAME, $COUNTER_NAME, $ETAT, $TOURS, $MAX, $ATTACHED_MAIN, $COUNTER_ATTACHED ) "+
                 "VALUES ( '$projectName', '$counterName', $etat, $tours, $max, $att, '$counterAtt' );")
         return true
@@ -151,7 +171,7 @@ class MyDatabase (context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, n
     fun updateCounterDB(projectName: String, counterName: String, etat: Int, tours: Int, max: Int, attached_main: Boolean, attachedCounter: Counter?): Boolean{
         val db = this.writableDatabase
         val att = if(attached_main) 1 else 0
-        val counterAtt = if(attachedCounter == null)  "__NO__" else attachedCounter.name
+        val counterAtt = if(attachedCounter == null)  NO_ATTACHED else attachedCounter.name
         db.execSQL("UPDATE $COUNTER_TABLE " +
                 " SET $ETAT=$etat, $TOURS=$tours, $MAX=$max, $ATTACHED_MAIN=$att, $COUNTER_ATTACHED='$counterAtt'" +
                 " WHERE $PROJECT_NAME='$projectName' AND $COUNTER_NAME='$counterName';")
@@ -186,6 +206,8 @@ class MyDatabase (context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, n
         private const val MAX = "max"
         private const val ATTACHED_MAIN = "attached"
         private const val COUNTER_ATTACHED = "counterAttached"
+
+        private const val NO_ATTACHED = "__--NO--__"
     }
 }
 

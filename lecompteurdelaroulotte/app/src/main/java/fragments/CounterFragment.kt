@@ -25,6 +25,7 @@ class CounterFragment: Fragment() {
     private lateinit var S_attached: Spinner
     private lateinit var B_cancel: Button
     private lateinit var B_save: Button
+    private lateinit var B_delete: Button
     private lateinit var IB_max: ImageButton
     private lateinit var IB_tours: ImageButton
     private lateinit var IB_attach: ImageButton
@@ -172,6 +173,23 @@ class CounterFragment: Fragment() {
         B_cancel = context.findViewById(R.id.cancel)
         B_cancel.setOnClickListener {
             context.openFragment(context.frags.pop())
+        }
+
+        B_delete = context.findViewById(R.id.delete)
+        B_delete.setOnClickListener {
+            val confirm = AlertDialog.Builder(context)
+            confirm.setTitle(R.string.confirm)
+                    .setMessage(R.string.delete_counter)
+                    .setPositiveButton(R.string.yes){ dialog, _ ->
+                        context.deleteCounter(context.actualCounter!!)
+                        context.openFragment(context.frags.pop())
+                        dialog.dismiss()
+                    }
+                    .setNegativeButton(R.string.cancel){ dialog, _ ->
+                        dialog.dismiss()
+                    }
+                    .create()
+                    .show()
         }
 
         expl = AlertDialog.Builder(context)

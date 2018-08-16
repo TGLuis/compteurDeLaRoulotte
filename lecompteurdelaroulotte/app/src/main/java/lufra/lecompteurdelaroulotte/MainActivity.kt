@@ -47,6 +47,14 @@ class MainActivity: AppCompatActivity(){
         actualProject!!.addCounter(Counter(counterName, 0, false, null))
     }
 
+    fun deleteCounter(counter: Counter){
+        if (actualCounter == counter){
+            actualCounter = null
+        }
+        db.deleteCounterDB(actualProject.toString(), counter.name)
+        actualProject!!.deleteCounter(counter)
+    }
+
     fun openFragment(frag: Fragment){
         supportFragmentManager.beginTransaction().replace(R.id.frame, frag).commit()
     }

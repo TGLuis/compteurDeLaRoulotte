@@ -17,7 +17,7 @@ class Counter {
 
     fun update(b: Boolean){
         if(b){
-            if(max != -1 && max == etat){
+            if(max != 0 && max == etat){
                 tours++
                 if(counterAttached != null)
                     counterAttached!!.update(true)
@@ -26,7 +26,7 @@ class Counter {
                 etat++
             }
         }else{
-            if(max != -1 && tours > 0 && etat == 0){
+            if(max != 0 && tours > 0 && etat == 1){
                 tours--
                 if(counterAttached != null)
                     counterAttached!!.update(false)

@@ -36,7 +36,17 @@ class Project {
 
     fun addCounter(c: Counter){myCounters.add(c)}
 
-    fun deleteCounter(c: Counter){myCounters.remove(c)}
+    fun deleteCounter(c: Counter){
+        myCounters.remove(c)
+        myCounters.forEach{
+            if (it.counterAttached != null && it.counterAttached!!.name == c.name){
+                it.detach()
+            }
+        }
+        if(bindCounters != null){
+            bindCounters!!.remove(c)
+        }
+    }
 
     fun addRule(r: Rule){myRules.add(r)}
 

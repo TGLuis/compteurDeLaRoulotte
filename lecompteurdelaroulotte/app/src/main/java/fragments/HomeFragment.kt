@@ -99,6 +99,7 @@ class HomeFragment: Fragment() {
         bouton = context.findViewById(R.id.button_add_project)
         bouton.setOnClickListener{
             val viewInflated = LayoutInflater.from(context).inflate(R.layout.simple_text_input, view as ViewGroup, false)
+            viewInflated.input_text.hint = context.getString(R.string.project_name)
             addProj.setView(viewInflated)
                     .setTitle(R.string.project_name_id)
                     .setPositiveButton(R.string.ok) { dialog, _ ->

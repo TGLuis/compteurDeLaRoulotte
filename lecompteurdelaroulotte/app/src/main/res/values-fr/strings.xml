@@ -24,6 +24,7 @@
     <string name="main_counter_image">Image du compteur principal</string>
     <string name="count_of_counter">Compte du compteur</string>
     <string name="delete_project">Supprimer le projet?</string>
+    <string name="delete_counter">Vous êtes sûr de vouloir supprimer le compteur?</string>
     <string name="problem_etat_nul">Delier le compteur du compteur principal pour diminuer</string>
     <string name="counter_already">Vous avez déjà un compteur avec ce nom</string>
     <string name="modif">Vous avez modifié:</string>
@@ -51,7 +52,9 @@
     <string name="button_minus">-</string>
     <string name="button_plus">+</string>
     <string name="cancel">Annuler</string>
+    <string name="delete">Supprimer</string>
     <string name="save">Sauver</string>
     <string name="none">Aucun</string>
+    <string name="yes">Oui</string>
     <string name="ok">Ok</string>
 </resources>

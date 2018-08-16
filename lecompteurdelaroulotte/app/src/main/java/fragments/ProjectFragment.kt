@@ -31,7 +31,7 @@ class ProjectFragment: Fragment() {
     private lateinit var addCounter: AlertDialog.Builder
     private lateinit var nombres: ArrayList<Tuple>
 
-    class Tuple {
+    inner class Tuple {
         var t: TextView? = null
         var c: Counter? = null
 
@@ -81,7 +81,7 @@ class ProjectFragment: Fragment() {
 
         fun up(b: Boolean, count: Counter) {
             if (!b && count.attachedMain && project.etat == 0) {
-                Toast.makeText(context, R.string.problem_etat_nul, Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, R.string.problem_etat_nul, Toast.LENGTH_LONG).show()
             } else if (count.attachedMain && (b || (!b && count.etat > 0))){
                 project.update(b)
             } else if (b || (!b && count.etat > 0)){

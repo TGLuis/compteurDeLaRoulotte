@@ -1,11 +1,11 @@
 <resources>
     <!-- General -->
-    <string name="app_name">Le compteur de la Roulotte</string>
-    <string name="banderole">Banderole</string>
+    <string name="app_name">The counter of \'La Roulotte\'</string>
+    <string name="banderole">Bande</string>
     <string name="project">Project</string>
     <string name="project_image">Picture of a project</string>
-    <string name="project_name">Name of the projet</string>
-    <string name="project_name_id">Name of the projet:</string>
+    <string name="project_name">Name of the project</string>
+    <string name="project_name_id">Name of the project:</string>
     <string name="counter_name">Name of the counter</string>
     <string name="counter_name_id">Name of the counter:</string>
     <string name="counter_state">State of the counter</string>
@@ -16,13 +16,14 @@
     <string name="counter_tours_id">Round of the counter:</string>
     <string name="counter_attach_main">Attached to project</string>
     <string name="counter_attach_main_id">Attached to project:</string>
-    <string name="counter_attached">Attach antoher counter</string>
-    <string name="counter_attached_id">Attach antoher counter:</string>
+    <string name="counter_attached">Attach another counter</string>
+    <string name="counter_attached_id">Attach another counter:</string>
     <string name="notes_image">Picture of notes</string>
     <string name="counter_image">Picture of a counter</string>
     <string name="main_counter_image">Picture of the main counter</string>
     <string name="count_of_counter">Count of the counter</string>
     <string name="delete_project">Delete the project?</string>
+    <string name="delete_counter">Are you sure you want to delete the counter?</string>
     <string name="problem_etat_nul">Detach the counter of the main counter to continue</string>
     <string name="counter_already">You have already a counter with this name</string>
     <string name="modif">You have modified:</string>
@@ -50,7 +51,9 @@
     <string name="button_minus">-</string>
     <string name="button_plus">+</string>
     <string name="cancel">Cancel</string>
+    <string name="delete">Delete</string>
     <string name="save">Save</string>
     <string name="none">None</string>
+    <string name="yes">Yes</string>
     <string name="ok">Ok</string>
 </resources>
