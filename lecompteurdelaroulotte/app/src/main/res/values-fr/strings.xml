@@ -31,6 +31,19 @@
     <string name="sure_to_modif">Voulez-vous enregistrer les modifications?</string>
     <string name="confirm">Confirmation</string>
     <string name="max_condition">Le maximum doit être -1 ou plus que 1!</string>
+    <string name="warning">Attention</string>
+    <string name="my_rules">mes règles</string>
+    <string name="start_now">Commencer à partir du rang actuel?</string>
+    <string name="start_other">Ou à partir du rang:</string>
+
+    <!-- rule -->
+    <string name="augmentation">Augmentation</string>
+    <string name="diminution">Diminution</string>
+    <string name="rule_text1">fois tous les</string>
+    <string name="rows">rangs</string>
+    <string name="stitch">mailles</string>
+    <string name="add_step">Ajouter une étape</string>
+    <string name="andthen">Ensuite</string>
 
 
     <!-- help -->
@@ -44,6 +57,7 @@
     <!-- Boutons -->
     <string name="add_project">Ajouter un project</string>
     <string name="add_counter">Ajouter un compteur</string>
+    <string name="add_rule">Ajouter une règle</string>
     <string name="edit_notes">Editer ses notes</string>
     <string name="edit_rules">Editer les règles</string>
     <string name="parameter_image">Paramètres</string>

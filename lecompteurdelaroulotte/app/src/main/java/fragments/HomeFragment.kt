@@ -74,8 +74,8 @@ class HomeFragment: Fragment() {
 
         fun openProj(proj: Project){
             (context as MainActivity).actualProject = proj
-            (context as MainActivity).frags.push(HomeFragment() as Fragment)
-            (context as MainActivity).openFragment(ProjectFragment() as Fragment)
+            (context as MainActivity).frags.push(HomeFragment())
+            (context as MainActivity).openFragment(ProjectFragment())
         }
     }
 

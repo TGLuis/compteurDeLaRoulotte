@@ -16,7 +16,7 @@ import lufra.lecompteurdelaroulotte.R
 import java.util.*
 
 class ProjectFragment: Fragment() {
-    private val TAG = "===== PROJECTRAGMENT ====="
+    private val TAG = "===== PROJECTFRAGMENT ====="
     private lateinit var context: MainActivity
     private lateinit var project: Project
 
@@ -30,6 +30,9 @@ class ProjectFragment: Fragment() {
     private lateinit var nombre: TextView
     private lateinit var addCounter: AlertDialog.Builder
     private lateinit var nombres: ArrayList<Tuple>
+
+    private lateinit var warning: AlertDialog.Builder
+    private lateinit var comment: TextView
 
     inner class Tuple {
         var t: TextView? = null
@@ -89,12 +92,17 @@ class ProjectFragment: Fragment() {
             }
             nombre.text = project.etat.toString()
             nombres.forEach { it.t!!.text = it.c!!.etat.toString() }
+
+            val mess = project.getMessageRule()
+            if (mess != null){
+                warn(mess)
+            }
         }
 
         fun openCount(counter: Counter){
             (context as MainActivity).actualCounter = counter
-            (context as MainActivity).frags.push(ProjectFragment() as Fragment)
-            (context as MainActivity).openFragment(CounterFragment() as Fragment)
+            (context as MainActivity).frags.push(ProjectFragment())
+            (context as MainActivity).openFragment(CounterFragment())
         }
     }
 
@@ -111,6 +119,13 @@ class ProjectFragment: Fragment() {
         project = context.actualProject!!
 
         nombres = ArrayList<Tuple>()
+
+        warning = AlertDialog.Builder(context)
+        warning.setTitle(R.string.warning)
+                .setPositiveButton(R.string.ok){ dialog, which ->
+                    dialog.dismiss()
+                }
+        comment = context.findViewById(R.id.message)
 
         counters = project.getCounters()
         addCounter = AlertDialog.Builder(context)
@@ -136,12 +151,14 @@ class ProjectFragment: Fragment() {
 
         buttonEditNotes = context.findViewById(R.id.button_notes)
         buttonEditNotes.setOnClickListener{
-            //TODO
+            context.frags.push(ProjectFragment())
+            context.openFragment(NotesFragment())
         }
 
         buttonEditRules = context.findViewById(R.id.button_rules)
         buttonEditRules.setOnClickListener{
-            //TODO
+            context.frags.push(ProjectFragment())
+            context.openFragment(SeeRuleFragment())
         }
 
         buttonAddCounter = context.findViewById(R.id.button_add_counter)
@@ -179,5 +196,18 @@ class ProjectFragment: Fragment() {
     fun up(b: Boolean){
         project.update(b)
         nombre.text = project.etat.toString()
-        nombres.forEach { it.t!!.text = it.c!!.etat.toString() }    }
+        nombres.forEach { it.t!!.text = it.c!!.etat.toString() }
+
+        val mess = project.getMessageRule()
+        if (mess != null){
+            warn(mess)
+        }
+    }
+
+    fun warn(mess: String){
+        warning.setMessage(mess)
+                .create()
+                .show()
+        comment.text = mess
+    }
 }

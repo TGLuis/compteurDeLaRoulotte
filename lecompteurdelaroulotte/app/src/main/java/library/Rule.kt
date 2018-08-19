@@ -2,22 +2,33 @@ package library
 
 class Rule {
     var augmentation: Boolean = true
-    var first: Int = 0
-    var second: Int = 0
-    var third: Int = 0
+    var num: Int = 0 // identifiant
+    var start: Int = 0 //depart
+    var steps: ArrayList<Step>
 
-    constructor(augm: Boolean, first: Int, second: Int, third: Int){
+    constructor(augm: Boolean, start: Int, identifiant: Int){
         this.augmentation = augm
-        this.first = first
-        this.second = second
-        this.third = third
+        this.start = start
+        this.num = identifiant
+        this.steps = ArrayList<Step>()
+    }
+
+    fun addStep(times: Int, rangs: Int, mailles: Int){
+        steps.add(Step(times, rangs, mailles))
     }
 
     override fun toString(): String {
         var s = ""
-        if (augmentation) s=s+"Augmentation: "
-        else s=s+"Diminution: "
-        s=s+"tous les $first rangs $second x $third mailles\n"
+        if (augmentation) s=s+ "Augmentation" //TODO: get Ressource file here... difficult
+        else s=s+ "Diminution"
+        s+=": \n"
+        for(i in 1..steps.size){
+            if(i != 1){
+                s += "puis "
+            }
+            s += "${steps[i].one} fois tous les ${steps[i].two} rangs ${steps[i].three} mailles\n"
+        }
+
         return s
     }
 }

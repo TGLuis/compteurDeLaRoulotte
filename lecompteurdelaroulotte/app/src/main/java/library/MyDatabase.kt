@@ -62,8 +62,7 @@ class MyDatabase (context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, n
         val db = this.writableDatabase
         val query = "SELECT $PROJECT_NAME, $ETAT, $NOTES FROM $PROJECT_TABLE;"
         val cursor = db.rawQuery(query, null)
-        var myProjects: ArrayList<Project>? = null
-        myProjects = ArrayList()
+        val myProjects = ArrayList<Project>()
         if (cursor.moveToFirst()) {
             do {
                 val projectName = cursor.getString(0)
@@ -71,7 +70,7 @@ class MyDatabase (context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, n
                 val notes = cursor.getString(2)
                 val proj = Project(projectName)
                 proj.etat = etat
-                proj.notes = notes
+                proj.notes = notes.replace('\r','\'')
                 val query2 = "SELECT $AUGMENTATION, $FIRST, $SECOND, $THIRD FROM $RULE_TABLE WHERE $PROJECT_NAME='$projectName';"
                 val cursor2 = db.rawQuery(query2, null)
                 if (cursor2.moveToFirst()){
@@ -80,7 +79,7 @@ class MyDatabase (context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, n
                         val first = cursor2.getInt(1)
                         val second = cursor2.getInt(2)
                         val third = cursor2.getInt(3)
-                        proj.addRule(Rule(augm, first, second, third))
+                        proj.addRule(Rule(augm, first, second))//TODO changer ici
                     } while(cursor2.moveToNext())
                 }
                 cursor2.close()
@@ -113,6 +112,7 @@ class MyDatabase (context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, n
                 }
                 cursor3.close()
 
+                proj.constructRappel()
                 myProjects.add(proj)
             } while (cursor.moveToNext())
         }
@@ -129,8 +129,9 @@ class MyDatabase (context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, n
 
     fun updateProjectDB(projectName: String, etat: Int, notes: String): Boolean{
         val db = this.writableDatabase
+        val newnote = notes.replace('\'','\r')
         db.execSQL("UPDATE $PROJECT_TABLE " +
-                " SET $NOTES='$notes', $ETAT=$etat" +
+                " SET $NOTES='$newnote', $ETAT=$etat" +
                 " WHERE $PROJECT_NAME='$projectName';")
         return true
     }
