@@ -54,6 +54,7 @@
             android:inputType="number"
             android:textStyle="bold"
             android:maxLines="1"
+            android:text="0"
             android:layout_marginStart="10dp"
             app:layout_constraintLeft_toRightOf="@id/other_start"
             app:layout_constraintBaseline_toBaselineOf="@id/other_start"/>
@@ -125,6 +126,7 @@
             android:textSize="16sp"
             android:textColor="@color/mauve"
             android:inputType="number"
+            android:text="0"
             app:layout_constraintLeft_toLeftOf="parent" />
         <TextView
             android:id="@+id/rule_text1"
@@ -143,6 +145,7 @@
             android:textSize="16sp"
             android:textColor="@color/mauve"
             android:inputType="number"
+            android:text="0"
             app:layout_constraintLeft_toRightOf="@id/rule_text1" />
         <TextView
             android:id="@+id/text_rows"
@@ -161,6 +164,7 @@
             android:textSize="16sp"
             android:textColor="@color/mauve"
             android:inputType="number"
+            android:text="0"
             app:layout_constraintLeft_toRightOf="@id/text_rows" />
         <TextView
             android:id="@+id/text_stitches"

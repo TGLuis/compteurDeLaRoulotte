@@ -19,6 +19,7 @@ class SeeRuleFragment: Fragment() {
     private lateinit var LV_rules: ListView
     private lateinit var B_addRule: Button
     private lateinit var rules: ArrayList<Rule>
+    private lateinit var adapteur: RulesAdapter
 
     inner class RulesAdapter(context: Context, list: ArrayList<Rule>) : ArrayAdapter<Rule>(context, 0, list) {
         private inner class ProjectViewHolder(var msg: TextView?= null)
@@ -39,16 +40,16 @@ class SeeRuleFragment: Fragment() {
             viewHolder.msg!!.text = rule.toString()
 
             val TV_rule = projectView.findViewById<TextView>(R.id.text_rule)
-            TV_rule.text = rule.toString()
+            TV_rule.text = (context as MainActivity).createTextFromRule(rule)
 
             val IB_del = projectView.findViewById<ImageButton>(R.id.delete_image)
             IB_del.setOnClickListener{
-                //TODO: delete rule
+                (context as MainActivity).actualProject!!.deleteRule(rule)
+                adapteur.notifyDataSetChanged()
             }
 
             return projectView
         }
-
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -70,7 +71,7 @@ class SeeRuleFragment: Fragment() {
         }
 
         LV_rules = context.findViewById(R.id.listRules)
-        val adapteur = this.RulesAdapter(context, rules)
+        adapteur = this.RulesAdapter(context, rules)
         LV_rules.adapter = adapteur
 
         context.title = "${context.actualProject.toString()} -> ${context.getString(R.string.my_rules)}"

@@ -96,6 +96,8 @@ class ProjectFragment: Fragment() {
             val mess = project.getMessageRule()
             if (mess != null){
                 warn(mess)
+            }else{
+                comment.text = ""
             }
         }
 
@@ -168,7 +170,6 @@ class ProjectFragment: Fragment() {
                     .setTitle(R.string.counter_name_id)
                     .setPositiveButton(R.string.ok) { dialog, _ ->
                         val counterName = viewInflated.input_text.text.toString()
-                        //Toast.makeText(context,"something", Toast.LENGTH_SHORT).show()
                         if (project.has_counter(counterName)){
                             Toast.makeText(context,R.string.counter_already, Toast.LENGTH_SHORT).show()
                         }else{
@@ -201,6 +202,8 @@ class ProjectFragment: Fragment() {
         val mess = project.getMessageRule()
         if (mess != null){
             warn(mess)
+        }else{
+            comment.text = ""
         }
     }
 

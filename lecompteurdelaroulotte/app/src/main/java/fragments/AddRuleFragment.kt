@@ -22,7 +22,6 @@ class AddRuleFragment: Fragment(){
 
     private lateinit var LV_steps: ListView
     private lateinit var steps: ArrayList<Step>
-    private lateinit var all_steps: ArrayList<Step>
     private lateinit var CB_startNow: CheckBox
     private lateinit var ET_otherStart: EditText
     private lateinit var CB_augm: CheckBox
@@ -46,9 +45,9 @@ class AddRuleFragment: Fragment(){
         override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
         override fun afterTextChanged(s: Editable?) {
             when(i){
-                1 -> st.one = s.toString().toInt()
-                2 -> st.two = s.toString().toInt()
-                3 -> st.three = s.toString().toInt()
+                1 -> try {st.one =   s.toString().toInt()} catch(e: NumberFormatException){st.one   = 1}
+                2 -> try {st.two =   s.toString().toInt()} catch(e: NumberFormatException){st.two   = 1}
+                3 -> try {st.three = s.toString().toInt()} catch(e: NumberFormatException){st.three = 1}
             }
         }
     }
@@ -100,12 +99,12 @@ class AddRuleFragment: Fragment(){
 
         IB_infoStart = context.findViewById(R.id.info_start)
         IB_infoStart.setOnClickListener {
-            //expl.setMessage(R.string.help_start).create().show()
+            expl.setMessage(R.string.help_start).create().show()
         }
 
         IB_infoAugm = context.findViewById(R.id.info_augm)
         IB_infoAugm.setOnClickListener {
-            //expl.setMessage(R.string.help_augm).create().show()
+            expl.setMessage(R.string.help_augm).create().show()
         }
 
         val first_step = Step(0,0,0)
@@ -119,8 +118,6 @@ class AddRuleFragment: Fragment(){
         c.setText(first_step.three.toString())
         c.addTextChangedListener(CustomWatcher(first_step,3))
 
-        all_steps = ArrayList<Step>()
-        all_steps.add(first_step)
         steps = ArrayList<Step>()
 
         LV_steps = context.findViewById(R.id.listSteps)
@@ -134,16 +131,32 @@ class AddRuleFragment: Fragment(){
 
         B_add_step = context.findViewById(R.id.button_add_step)
         B_add_step.setOnClickListener {
-            val s = Step(0,0,0)
-            all_steps.add(s)
-            steps.add(s)
+            steps.add(Step(0,0,0))
             adapteur.notifyDataSetChanged()
         }
 
         B_save = context.findViewById(R.id.button_save)
         B_save.setOnClickListener {
-            //TODO: c'est ici que le bat blesse
-            //all_steps contient l'arrayList avec toutes les steps!! normalement à jour
+            steps.add(0,first_step)
+            val augm = CB_augm.isChecked
+            val start = if(CB_startNow.isChecked) context.actualProject!!.etat else ET_otherStart.text.toString().toInt()
+            val my_rule = Rule(augm, start, 0)
+            my_rule.steps = steps
+            val prem = context.getString(R.string.pre_rule)
+            val mess = context.createTextFromRule(my_rule)
+            val dial = AlertDialog.Builder(context)
+            dial.setTitle(R.string.confirm)
+                    .setPositiveButton(R.string.save){ dialog, _ ->
+                        context.actualProject!!.addRule(my_rule)
+                        context.openFragment(context.frags.pop())
+                        dialog.dismiss()
+                    }
+                    .setNegativeButton(R.string.cancel){ dialog, _ ->
+                        dialog.dismiss()
+                    }
+                    .setMessage(prem + "\n" + mess)
+                    .create()
+                    .show()
         }
 
         context.title = context.getString(R.string.add_rule)

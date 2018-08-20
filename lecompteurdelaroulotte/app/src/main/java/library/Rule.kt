@@ -12,23 +12,4 @@ class Rule {
         this.num = identifiant
         this.steps = ArrayList<Step>()
     }
-
-    fun addStep(times: Int, rangs: Int, mailles: Int){
-        steps.add(Step(times, rangs, mailles))
-    }
-
-    override fun toString(): String {
-        var s = ""
-        if (augmentation) s=s+ "Augmentation" //TODO: get Ressource file here... difficult
-        else s=s+ "Diminution"
-        s+=": \n"
-        for(i in 1..steps.size){
-            if(i != 1){
-                s += "puis "
-            }
-            s += "${steps[i].one} fois tous les ${steps[i].two} rangs ${steps[i].three} mailles\n"
-        }
-
-        return s
-    }
 }

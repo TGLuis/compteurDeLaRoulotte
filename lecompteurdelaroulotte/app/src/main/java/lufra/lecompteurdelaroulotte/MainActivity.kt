@@ -7,6 +7,7 @@ import fragments.HomeFragment
 import library.Counter
 import library.MyDatabase
 import library.Project
+import library.Rule
 import java.util.*
 
 
@@ -92,5 +93,21 @@ class MainActivity: AppCompatActivity(){
                 }
             }
         }
+    }
+
+    fun createTextFromRule(r: Rule): String{
+        var s = ""
+        if (r.augmentation) s += getString(R.string.augmentation)
+        else s += getString(R.string.diminution)
+        s+=": \n"
+        for(i in 0 until r.steps.size){
+            if(i != 0){
+                s += getString(R.string.andthen)
+            }
+            s += r.steps[i].one.toString() + getString(R.string.rule_text1)
+            s += r.steps[i].two.toString() + getString(R.string.rows)
+            s += r.steps[i].three.toString() + getString(R.string.stitch) + "\n"
+        }
+        return s
     }
 }
