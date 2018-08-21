@@ -44,7 +44,9 @@
     <string name="stitch"> mailles</string>
     <string name="add_step">Ajouter une étape</string>
     <string name="andthen">Ensuite</string>
+    <string name="from_row">depuis le rang</string>
     <string name="pre_rule">Voulez-vous ajouter cette règle au projet?</string>
+    <string name="delete_rule">Vous êtes sûr de vouloir supprimer cette règle?</string>
 
 
     <!-- help -->

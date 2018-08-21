@@ -22,12 +22,6 @@ class MyDatabase (context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, n
                 PROJECT_NAME + "' TEXT NOT NULL PRIMARY KEY, '" +
                 ETAT + "' INTEGER NOT NULL, '" +
                 NOTES + "' TEXT NOT NULL);")
-        db.execSQL("CREATE TABLE '" + RULE_TABLE + "' ('" +
-                PROJECT_NAME + "' TEXT NOT NULL REFERENCES PROJECT_TABLE, '" +
-                AUGMENTATION + "' INTEGER NOT NULL, '" +
-                FIRST + "' INTEGER NOT NULL, '" +
-                SECOND + "' INTEGER NOT NULL, '" +
-                THIRD + "' INTEGER NOT NULL);" )
         db.execSQL("CREATE TABLE '" + COUNTER_TABLE + "' ('" +
                 PROJECT_NAME + "' TEXT NOT NULL REFERENCES PROJECT_TABLE, '" +
                 COUNTER_NAME + "' TEXT NOT NULL, '" +
@@ -37,6 +31,20 @@ class MyDatabase (context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, n
                 ATTACHED_MAIN + "' INTEGER NOT NULL, '" +
                 COUNTER_ATTACHED + "' TEXT REFERENCES COUNTER_NAME, " +
                 "UNIQUE ($PROJECT_NAME, $COUNTER_NAME) ON CONFLICT REPLACE);")
+        db.execSQL("CREATE TABLE '" + RULE_TABLE + "' ('" +
+                PROJECT_NAME + "' TEXT NOT NULL REFERENCES PROJECT_TABLE, '" +
+                AUGMENTATION + "' INTEGER NOT NULL, '" +
+                START + "' INTEGER NOT NULL, '" +
+                NUM + "' INTEGER NOT NULL, " +
+                "UNIQUE ($PROJECT_NAME, $NUM) ON CONFLICT REPLACE);" )
+        db.execSQL("CREATE TABLE '$STEP_TABLE' (" +
+                "'$PROJECT_NAME' TEXT NOT NULL REFERENCES PROJECT_TABLE, "+
+                "'$NUM' INTEGER NOT NULL, "+
+                "'$ORDER' INTEGER NOT NULL, "+
+                "'$FIRST' INTEGER NOT NULL, "+
+                "'$SECOND' INTEGER NOT NULL, "+
+                "'$THIRD' INTEGER NOT NULL, "+
+                "UNIQUE ($PROJECT_NAME, $NUM, $ORDER) ON CONFLICT REPLACE);")
     }
 
     override fun onUpgrade(database: SQLiteDatabase?, oldVersion: Int, newVersion: Int) {
@@ -71,30 +79,45 @@ class MyDatabase (context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, n
                 val proj = Project(projectName)
                 proj.etat = etat
                 proj.notes = notes.replace('\r','\'')
-                val query2 = "SELECT $AUGMENTATION, $FIRST, $SECOND, $THIRD FROM $RULE_TABLE WHERE $PROJECT_NAME='$projectName';"
-                val cursor2 = db.rawQuery(query2, null)
-                if (cursor2.moveToFirst()){
-                    do {
-                        val augm = cursor2.getInt(0)==1
-                        val first = cursor2.getInt(1)
-                        val second = cursor2.getInt(2)
-                        val third = cursor2.getInt(3)
-                        proj.addRule(Rule(augm, first, second))//TODO changer ici
-                    } while(cursor2.moveToNext())
-                }
-                cursor2.close()
                 
-                val query3 = "SELECT $COUNTER_NAME, $ETAT, $TOURS, $MAX, $ATTACHED_MAIN, $COUNTER_ATTACHED FROM $COUNTER_TABLE WHERE $PROJECT_NAME='$projectName'"
-                val cursor3 = db.rawQuery(query3, null)
-                val tab = ArrayList<Tuple>()
-                if(cursor3.moveToFirst()){
+                val queryR = "SELECT $AUGMENTATION, $START, $NUM FROM $RULE_TABLE WHERE $PROJECT_NAME='$projectName';"
+                val cursorR = db.rawQuery(queryR, null)
+                if (cursorR.moveToFirst()){
                     do {
-                        val counterName = cursor3.getString(0)
-                        val etat = cursor3.getInt(1)
-                        val tours = cursor3.getInt(2)
-                        val max = cursor3.getInt(3)
-                        val attachedMain = cursor3.getInt(4)==1
-                        val counterAttached = cursor3.getString(5)
+                        val augm = cursorR.getInt(0)==1
+                        val start = cursorR.getInt(1)
+                        val num = cursorR.getInt(2)
+                        val myRule = Rule(augm, start, num)
+                        
+                        val queryS = "SELECT $ORDER, $FIRST, $SECOND, $THIRD FROM $STEP_TABLE WHERE $PROJECT_NAME='$projectName' AND $NUM=$num;"
+                        val cursorS = db.rawQuery(queryS, null)
+                        if(cursorS.moveToFirst()){
+                            val myArr = ArrayList<Step>()
+                            do{
+                                val order = cursorS.getInt(0)
+                                val first = cursorS.getInt(1)
+                                val second = cursorS.getInt(2)
+                                val third = cursorS.getInt(3)
+                                myArr.add(order, Step(first, second, third))
+                            }while(cursorS.moveToNext())
+                            myRule.steps = myArr
+                        }
+                        proj.addRule(myRule)
+                    } while(cursorR.moveToNext())
+                }
+                cursorR.close()
+                
+                val queryC = "SELECT $COUNTER_NAME, $ETAT, $TOURS, $MAX, $ATTACHED_MAIN, $COUNTER_ATTACHED FROM $COUNTER_TABLE WHERE $PROJECT_NAME='$projectName'"
+                val cursorC = db.rawQuery(queryC, null)
+                val tab = ArrayList<Tuple>()
+                if(cursorC.moveToFirst()){
+                    do {
+                        val counterName = cursorC.getString(0)
+                        val etat = cursorC.getInt(1)
+                        val tours = cursorC.getInt(2)
+                        val max = cursorC.getInt(3)
+                        val attachedMain = cursorC.getInt(4)==1
+                        val counterAttached = cursorC.getString(5)
                         val count = Counter(counterName, max, attachedMain, null)
                         count.etat = etat
                         count.tours = tours
@@ -105,12 +128,12 @@ class MyDatabase (context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, n
                         if(attachedMain) {
                             proj.attach(count)
                         }
-                    } while (cursor3.moveToNext())
+                    } while (cursorC.moveToNext())
                 }
                 tab.forEach {
                     it.c1.attach(proj.getCounter(it.c2)!!)
                 }
-                cursor3.close()
+                cursorC.close()
 
                 proj.constructRappel()
                 myProjects.add(proj)
@@ -144,19 +167,27 @@ class MyDatabase (context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, n
         return true
     }
 
-    fun addRuleDB(projectName: String, augmentation: Boolean, first: Int, second: Int, third: Int): Boolean{
+    fun addRuleDB(projectName: String, r: Rule): Boolean{
         val db = this.writableDatabase
-        val augm = if(augmentation) 1 else 0
-        db.execSQL("INSERT INTO $RULE_TABLE ($PROJECT_NAME, $AUGMENTATION, $FIRST, $SECOND, $THIRD) "+
-                "VALUES ('$projectName', $augm, $first, $second, $third);")
+        val augm = if(r.augmentation) 1 else 0
+        db.execSQL("INSERT INTO $RULE_TABLE ($PROJECT_NAME, $AUGMENTATION, $START, $NUM) "+
+                "VALUES ('$projectName', $augm, ${r.start}, ${r.num});")
+        for(s in 0 until r.steps.size){
+            db.execSQL("INSERT INTO $STEP_TABLE ($PROJECT_NAME, $NUM, $ORDER, $FIRST, $SECOND, $THIRD) "+
+                "VALUES ('$projectName', ${r.num}, $s, ${r.steps[s].one}, ${r.steps[s].two}, ${r.steps[s].three});")
+        }
         return true
     }
 
-    fun deleteRuleDB(projectName: String, augmentation: Boolean, first: Int, second: Int, third: Int): Boolean{
+    fun deleteRuleDB(projectName: String, r: Rule): Boolean{
         val db = this.writableDatabase
-        val augm = if(augmentation) 1 else 0
+        val augm = if(r.augmentation) 1 else 0
         db.execSQL("DELETE FROM $RULE_TABLE WHERE $PROJECT_NAME='$projectName' AND $AUGMENTATION=$augm"+
-                " AND $FIRST=$first AND $SECOND=$second AND $THIRD=$third;")
+                " AND $START=${r.start} AND $NUM=${r.num};")
+        for(s in 0 until r.steps.size){
+            db.execSQL("DELETE FROM $STEP_TABLE WHERE $PROJECT_NAME='$projectName' AND $NUM=${r.num} "+
+                "AND $ORDER=$s AND $FIRST=${r.steps[s].one} AND $SECOND=${r.steps[s].two} AND $THIRD=${r.steps[s].three};")
+        }
         return true
     }
 
@@ -195,11 +226,6 @@ class MyDatabase (context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, n
         private const val PROJECT_TABLE = "project"
         private const val PROJECT_NAME = "projectName"
         private const val NOTES = "notes"
-        private const val RULE_TABLE = "rules"
-        private const val AUGMENTATION = "augmentation"
-        private const val FIRST = "first"
-        private const val SECOND = "second"
-        private const val THIRD = "third"
         private const val COUNTER_TABLE = "counter"
         private const val COUNTER_NAME = "counterName"
         private const val ETAT = "etat"
@@ -207,6 +233,15 @@ class MyDatabase (context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, n
         private const val MAX = "max"
         private const val ATTACHED_MAIN = "attached"
         private const val COUNTER_ATTACHED = "counterAttached"
+        private const val RULE_TABLE = "rules"
+        private const val AUGMENTATION = "augmentation"
+        private const val START = "start"
+        private const val NUM = "numero"
+        private const val STEP_TABLE = "steps"
+        private const val ORDER = "ordr"
+        private const val FIRST = "first"
+        private const val SECOND = "second"
+        private const val THIRD = "third"
 
         private const val NO_ATTACHED = "__--NO--__"
     }
@@ -215,7 +250,6 @@ class MyDatabase (context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, n
 
 /*
 CREATE TABLE 'project' ('projectName' TEXT NOT NULL PRIMARY KEY, 'etat' INTEGER NOT NULL, 'notes' TEXT NOT NULL);
-CREATE TABLE 'rules' ('projectName' TEXT NOT NULL REFERENCES project, 'augmentation' INTEGER NOT NULL, 'first' INTEGER NOT NULL, 'second' INTEGER NOT NULL, 'third' INTEGER NOT NULL);
 CREATE TABLE 'counter' ('projectName' TEXT NOT NULL REFERENCES project, 'counterName' TEXT NOT NULL PRIMARY KEY, 'etat' INTEGER NOT NULL, 'tours' INTEGER NOT NULL, 'max' INTEGER NOT NULL, 'attached' INTEGER NOT NULL, 'counterAttached' TEXT REFERENCES counterName);
 
  */

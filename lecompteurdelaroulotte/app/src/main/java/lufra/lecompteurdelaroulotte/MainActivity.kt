@@ -56,6 +56,17 @@ class MainActivity: AppCompatActivity(){
         actualProject!!.deleteCounter(counter)
     }
 
+    fun addRuleToProject(r: Rule){
+        actualProject!!.addRule(r)
+        db.addRuleDB(actualProject!!.toString(), r)
+    }
+
+    fun deleteRuleOfProject(r: Rule){
+        actualProject!!.deleteRule(r)
+        actualProject!!.constructRappel()
+        db.deleteRuleDB(actualProject!!.toString(), r)
+    }
+
     fun openFragment(frag: Fragment){
         supportFragmentManager.beginTransaction().replace(R.id.frame, frag).commit()
     }
@@ -99,14 +110,14 @@ class MainActivity: AppCompatActivity(){
         var s = ""
         if (r.augmentation) s += getString(R.string.augmentation)
         else s += getString(R.string.diminution)
-        s+=": \n"
+        s+=": " + getString(R.string.from_row) + " " + r.start.toString() + "\n"
         for(i in 0 until r.steps.size){
             if(i != 0){
-                s += getString(R.string.andthen)
+                s += getString(R.string.andthen) + " "
             }
-            s += r.steps[i].one.toString() + getString(R.string.rule_text1)
-            s += r.steps[i].two.toString() + getString(R.string.rows)
-            s += r.steps[i].three.toString() + getString(R.string.stitch) + "\n"
+            s += r.steps[i].one.toString() + " " + getString(R.string.rule_text1) + " "
+            s += r.steps[i].two.toString() + " " + getString(R.string.rows) + " "
+            s += r.steps[i].three.toString() + " " + getString(R.string.stitch) + "\n"
         }
         return s
     }

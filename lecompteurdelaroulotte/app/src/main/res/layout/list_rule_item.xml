@@ -23,6 +23,7 @@
             android:maxWidth="280dp"
             android:layout_marginStart="8dp"
             android:textAlignment="textStart"
+            android:textColor="@color/black"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toTopOf="parent"/>

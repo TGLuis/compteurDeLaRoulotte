@@ -96,6 +96,7 @@ class Project {
     }
 
     fun constructRappel(){
+        lesNums = ArrayList<Rappel>()
         for (r in myRules){
             addRuleInRappel(r)
         }

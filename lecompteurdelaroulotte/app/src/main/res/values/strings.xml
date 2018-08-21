@@ -43,7 +43,9 @@
     <string name="stitch"> stitches</string>
     <string name="add_step">Add a step</string>
     <string name="andthen">And then</string>
+    <string name="from_row">from row</string>
     <string name="pre_rule">Do you want to add this rule in the project?</string>
+    <string name="delete_rule">Are you sure you want to delete this rule?</string>
 
 
     <!-- help -->

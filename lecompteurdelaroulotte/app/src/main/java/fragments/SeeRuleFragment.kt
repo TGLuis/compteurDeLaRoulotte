@@ -3,6 +3,7 @@ package fragments
 import android.content.Context
 import android.support.v4.app.Fragment
 import android.os.Bundle
+import android.support.v7.app.AlertDialog
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -40,12 +41,24 @@ class SeeRuleFragment: Fragment() {
             viewHolder.msg!!.text = rule.toString()
 
             val TV_rule = projectView.findViewById<TextView>(R.id.text_rule)
-            TV_rule.text = (context as MainActivity).createTextFromRule(rule)
+            val rule_text = (context as MainActivity).createTextFromRule(rule)
+            TV_rule.text = rule_text
 
             val IB_del = projectView.findViewById<ImageButton>(R.id.delete_image)
             IB_del.setOnClickListener{
-                (context as MainActivity).actualProject!!.deleteRule(rule)
-                adapteur.notifyDataSetChanged()
+                val alert = AlertDialog.Builder(context)
+                alert.setTitle(R.string.confirm)
+                        .setMessage(getString(R.string.delete_rule) + "\n" + rule_text)
+                        .setPositiveButton(R.string.yes){ dialog, _ ->
+                            (context as MainActivity).deleteRuleOfProject(rule)
+                            adapteur.notifyDataSetChanged()
+                            dialog.dismiss()
+                        }
+                        .setNegativeButton(R.string.cancel){dialog, _ ->
+                            dialog.dismiss()
+                        }
+                        .create()
+                        .show()
             }
 
             return projectView

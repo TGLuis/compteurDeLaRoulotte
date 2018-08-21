@@ -139,19 +139,20 @@ class AddRuleFragment: Fragment(){
         B_save.setOnClickListener {
             steps.add(0,first_step)
             val augm = CB_augm.isChecked
-            val start = if(CB_startNow.isChecked) context.actualProject!!.etat else ET_otherStart.text.toString().toInt()
-            val my_rule = Rule(augm, start, 0)
+            val start = if(augm) context.actualProject!!.etat else try{ET_otherStart.text.toString().toInt()} catch(e: NumberFormatException){0}
+            val my_rule = Rule(augm, start, context.actualProject!!.myRules.size)
             my_rule.steps = steps
             val prem = context.getString(R.string.pre_rule)
             val mess = context.createTextFromRule(my_rule)
             val dial = AlertDialog.Builder(context)
             dial.setTitle(R.string.confirm)
                     .setPositiveButton(R.string.save){ dialog, _ ->
-                        context.actualProject!!.addRule(my_rule)
+                        context.addRuleToProject(my_rule)
                         context.openFragment(context.frags.pop())
                         dialog.dismiss()
                     }
                     .setNegativeButton(R.string.cancel){ dialog, _ ->
+                        steps.remove(first_step)
                         dialog.dismiss()
                     }
                     .setMessage(prem + "\n" + mess)
