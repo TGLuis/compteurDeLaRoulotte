@@ -16,6 +16,7 @@ class MainActivity: AppCompatActivity(){
     lateinit var projectsList: ArrayList<Project>
     var actualProject: Project? = null
     var actualCounter: Counter? = null
+    var actualRule: Rule? = null
     lateinit var frags: Stack<Fragment>
     lateinit var db: MyDatabase
 

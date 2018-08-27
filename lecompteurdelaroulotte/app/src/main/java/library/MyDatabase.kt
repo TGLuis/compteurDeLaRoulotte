@@ -5,7 +5,6 @@ import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 
 class MyDatabase (context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
-
     inner class Tuple {
         var c1: Counter
         var c2: String
@@ -76,7 +75,7 @@ class MyDatabase (context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, n
                 val projectName = cursor.getString(0)
                 val etat = cursor.getInt(1)
                 val notes = cursor.getString(2)
-                val proj = Project(projectName)
+                val proj = Project(projectName.replace('\r','\''))
                 proj.etat = etat
                 proj.notes = notes.replace('\r','\'')
                 
@@ -112,7 +111,7 @@ class MyDatabase (context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, n
                 val tab = ArrayList<Tuple>()
                 if(cursorC.moveToFirst()){
                     do {
-                        val counterName = cursorC.getString(0)
+                        val counterName = cursorC.getString(0).replace('\r','\'')
                         val etat = cursorC.getInt(1)
                         val tours = cursorC.getInt(2)
                         val max = cursorC.getInt(3)
@@ -145,36 +144,41 @@ class MyDatabase (context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, n
 
     fun addProjectDB(projectName: String, notes: String): Boolean{
         val db = this.writableDatabase
+        val name = projectName.replace('\'','\r')
         db.execSQL("INSERT INTO $PROJECT_TABLE ($PROJECT_NAME, $ETAT, $NOTES) " +
-                "VALUES ('$projectName', 0,'$notes');")
+                "VALUES ('$name', 0,'$notes');")
         return true
     }
 
     fun updateProjectDB(projectName: String, etat: Int, notes: String): Boolean{
         val db = this.writableDatabase
+        val name = projectName.replace('\'','\r')
         val newnote = notes.replace('\'','\r')
         db.execSQL("UPDATE $PROJECT_TABLE " +
                 " SET $NOTES='$newnote', $ETAT=$etat" +
-                " WHERE $PROJECT_NAME='$projectName';")
+                " WHERE $PROJECT_NAME='$name';")
         return true
     }
 
     fun deleteProjectDB(projectName: String): Boolean{
         val db = this.writableDatabase
-        db.execSQL("DELETE FROM $PROJECT_TABLE WHERE $PROJECT_NAME='$projectName';")
-        db.execSQL("DELETE FROM $RULE_TABLE WHERE $PROJECT_NAME='$projectName';")
-        db.execSQL("DELETE FROM $COUNTER_TABLE WHERE $PROJECT_NAME='$projectName';")
+        val name = projectName.replace('\'','\r')
+        db.execSQL("DELETE FROM $PROJECT_TABLE WHERE $PROJECT_NAME='$name';")
+        db.execSQL("DELETE FROM $RULE_TABLE WHERE $PROJECT_NAME='$name';")
+        db.execSQL("DELETE FROM $COUNTER_TABLE WHERE $PROJECT_NAME='$name';")
+        db.execSQL("DELETE FROM $STEP_TABLE WHERE $PROJECT_NAME='$name';")
         return true
     }
 
     fun addRuleDB(projectName: String, r: Rule): Boolean{
         val db = this.writableDatabase
         val augm = if(r.augmentation) 1 else 0
+        val name = projectName.replace('\'','\r')
         db.execSQL("INSERT INTO $RULE_TABLE ($PROJECT_NAME, $AUGMENTATION, $START, $NUM) "+
-                "VALUES ('$projectName', $augm, ${r.start}, ${r.num});")
+                "VALUES ('$name', $augm, ${r.start}, ${r.num});")
         for(s in 0 until r.steps.size){
             db.execSQL("INSERT INTO $STEP_TABLE ($PROJECT_NAME, $NUM, $ORDER, $FIRST, $SECOND, $THIRD) "+
-                "VALUES ('$projectName', ${r.num}, $s, ${r.steps[s].one}, ${r.steps[s].two}, ${r.steps[s].three});")
+                "VALUES ('$name', ${r.num}, $s, ${r.steps[s].one}, ${r.steps[s].two}, ${r.steps[s].three});")
         }
         return true
     }
@@ -182,10 +186,11 @@ class MyDatabase (context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, n
     fun deleteRuleDB(projectName: String, r: Rule): Boolean{
         val db = this.writableDatabase
         val augm = if(r.augmentation) 1 else 0
-        db.execSQL("DELETE FROM $RULE_TABLE WHERE $PROJECT_NAME='$projectName' AND $AUGMENTATION=$augm"+
+        val name = projectName.replace('\'','\r')
+        db.execSQL("DELETE FROM $RULE_TABLE WHERE $PROJECT_NAME='$name' AND $AUGMENTATION=$augm"+
                 " AND $START=${r.start} AND $NUM=${r.num};")
         for(s in 0 until r.steps.size){
-            db.execSQL("DELETE FROM $STEP_TABLE WHERE $PROJECT_NAME='$projectName' AND $NUM=${r.num} "+
+            db.execSQL("DELETE FROM $STEP_TABLE WHERE $PROJECT_NAME='$name' AND $NUM=${r.num} "+
                 "AND $ORDER=$s AND $FIRST=${r.steps[s].one} AND $SECOND=${r.steps[s].two} AND $THIRD=${r.steps[s].three};")
         }
         return true
@@ -194,26 +199,32 @@ class MyDatabase (context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, n
     fun addCounterDB(projectName: String, counterName: String, etat: Int, tours: Int, max: Int, attached_main: Boolean, attachedCounter: Counter?): Boolean{
         val db = this.writableDatabase
         val att = if(attached_main) 1 else 0
+        val name = projectName.replace('\'','\r')
+        val nameC = counterName.replace('\'','\r')
         val counterAtt = if(attachedCounter == null)  NO_ATTACHED else attachedCounter.name
         db.execSQL("INSERT INTO $COUNTER_TABLE ( $PROJECT_NAME, $COUNTER_NAME, $ETAT, $TOURS, $MAX, $ATTACHED_MAIN, $COUNTER_ATTACHED ) "+
-                "VALUES ( '$projectName', '$counterName', $etat, $tours, $max, $att, '$counterAtt' );")
+                "VALUES ( '$name', '$nameC', $etat, $tours, $max, $att, '$counterAtt' );")
         return true
     }
 
     fun updateCounterDB(projectName: String, counterName: String, etat: Int, tours: Int, max: Int, attached_main: Boolean, attachedCounter: Counter?): Boolean{
         val db = this.writableDatabase
         val att = if(attached_main) 1 else 0
+        val name = projectName.replace('\'','\r')
+        val nameC = counterName.replace('\'','\r')
         val counterAtt = if(attachedCounter == null)  NO_ATTACHED else attachedCounter.name
         db.execSQL("UPDATE $COUNTER_TABLE " +
                 " SET $ETAT=$etat, $TOURS=$tours, $MAX=$max, $ATTACHED_MAIN=$att, $COUNTER_ATTACHED='$counterAtt'" +
-                " WHERE $PROJECT_NAME='$projectName' AND $COUNTER_NAME='$counterName';")
+                " WHERE $PROJECT_NAME='$name' AND $COUNTER_NAME='$nameC';")
         return true
     }
 
     fun deleteCounterDB(projectName: String, counterName: String): Boolean{
         val db = this.writableDatabase
+        val name = projectName.replace('\'','\r')
+        val nameC = counterName.replace('\'','\r')
         db.execSQL("DELETE FROM $COUNTER_TABLE " +
-                " WHERE $PROJECT_NAME='$projectName' AND $COUNTER_NAME='$counterName';")
+                " WHERE $PROJECT_NAME='$name' AND $COUNTER_NAME='$nameC';")
         return true
     }
 

@@ -82,6 +82,7 @@ class Project {
         }
         bindCounters!!.add(c)
     }
+
     fun detach(c: Counter){
         if (bindCounters != null)
             bindCounters!!.remove(c)
@@ -103,7 +104,7 @@ class Project {
     }
 
     fun addRuleInRappel(r: Rule){
-        var x = r.start
+        var x = r.start-r.steps[0].two
         val aug = if(r.augmentation) "Augmentation" else "Diminution" //TODO: utiliser une ressource string
         for (elem in r.steps){
             for (i in 1..elem.one){

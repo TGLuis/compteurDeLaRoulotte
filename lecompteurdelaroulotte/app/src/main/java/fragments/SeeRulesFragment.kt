@@ -13,7 +13,7 @@ import lufra.lecompteurdelaroulotte.MainActivity
 import lufra.lecompteurdelaroulotte.R
 import java.util.ArrayList
 
-class SeeRuleFragment: Fragment() {
+class SeeRulesFragment: Fragment() {
     private val TAG = "===== SEERULESFRAGMENT ====="
     private lateinit var context: MainActivity
 
@@ -43,6 +43,12 @@ class SeeRuleFragment: Fragment() {
             val TV_rule = projectView.findViewById<TextView>(R.id.text_rule)
             val rule_text = (context as MainActivity).createTextFromRule(rule)
             TV_rule.text = rule_text
+            TV_rule.setOnClickListener {
+                (context as MainActivity).actualRule = rule
+                (context as MainActivity).deleteRuleOfProject(rule)
+                (context as MainActivity).frags.add(SeeRulesFragment())
+                (context as MainActivity).openFragment(RuleFragment())
+            }
 
             val IB_del = projectView.findViewById<ImageButton>(R.id.delete_image)
             IB_del.setOnClickListener{
@@ -79,8 +85,9 @@ class SeeRuleFragment: Fragment() {
 
         B_addRule = context.findViewById(R.id.button_add_rule)
         B_addRule.setOnClickListener {
-            context.frags.add(SeeRuleFragment())
-            context.openFragment(AddRuleFragment())
+            context.actualRule = null
+            context.frags.add(SeeRulesFragment())
+            context.openFragment(RuleFragment())
         }
 
         LV_rules = context.findViewById(R.id.listRules)

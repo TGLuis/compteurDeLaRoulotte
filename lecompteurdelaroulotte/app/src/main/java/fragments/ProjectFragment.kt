@@ -160,7 +160,7 @@ class ProjectFragment: Fragment() {
         buttonEditRules = context.findViewById(R.id.button_rules)
         buttonEditRules.setOnClickListener{
             context.frags.push(ProjectFragment())
-            context.openFragment(SeeRuleFragment())
+            context.openFragment(SeeRulesFragment())
         }
 
         buttonAddCounter = context.findViewById(R.id.button_add_counter)
@@ -191,6 +191,7 @@ class ProjectFragment: Fragment() {
             buttonEditRules.textSize = size
         }
 
+        affiche()
         context.title = project.toString()
     }
 
@@ -198,7 +199,10 @@ class ProjectFragment: Fragment() {
         project.update(b)
         nombre.text = project.etat.toString()
         nombres.forEach { it.t!!.text = it.c!!.etat.toString() }
+        affiche()
+    }
 
+    fun affiche(){
         val mess = project.getMessageRule()
         if (mess != null){
             warn(mess)

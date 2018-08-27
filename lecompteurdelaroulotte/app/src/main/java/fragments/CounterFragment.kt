@@ -44,6 +44,8 @@ class CounterFragment: Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
+        //TODO numéroter les compteurs pour leur ordre d'affichage
+
         counter = context.actualCounter!!
 
         ET_name = context.findViewById(R.id.counter_name)

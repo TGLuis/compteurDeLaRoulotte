@@ -54,7 +54,7 @@
             android:inputType="number"
             android:textStyle="bold"
             android:maxLines="1"
-            android:text="0"
+            android:hint="0"
             android:layout_marginStart="10dp"
             app:layout_constraintLeft_toRightOf="@id/other_start"
             app:layout_constraintBaseline_toBaselineOf="@id/other_start"/>
