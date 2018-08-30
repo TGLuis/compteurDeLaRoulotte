@@ -151,7 +151,6 @@ class RuleFragment: Fragment(){
         B_cancel.setOnClickListener {
             if(!add){
                 rule!!.steps.add(0, first_step)
-                context.addRuleToProject(rule)
             }
             context.openFragment(context.frags.pop())
         }
@@ -182,7 +181,9 @@ class RuleFragment: Fragment(){
             val dial = AlertDialog.Builder(context)
             dial.setTitle(R.string.confirm)
                     .setPositiveButton(R.string.save) { dialog, _ ->
-                        context.addRuleToProject(my_rule)
+                        if (!add){
+                            context.addRuleToProject(my_rule)
+                        }
                         context.openFragment(context.frags.pop())
                         dialog.dismiss()
                     }

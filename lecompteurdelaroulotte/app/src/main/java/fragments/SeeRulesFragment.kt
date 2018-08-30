@@ -45,7 +45,6 @@ class SeeRulesFragment: Fragment() {
             TV_rule.text = rule_text
             TV_rule.setOnClickListener {
                 (context as MainActivity).actualRule = rule
-                (context as MainActivity).deleteRuleOfProject(rule)
                 (context as MainActivity).frags.add(SeeRulesFragment())
                 (context as MainActivity).openFragment(RuleFragment())
             }

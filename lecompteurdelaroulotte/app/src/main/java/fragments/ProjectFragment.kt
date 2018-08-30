@@ -33,6 +33,7 @@ class ProjectFragment: Fragment() {
 
     private lateinit var warning: AlertDialog.Builder
     private lateinit var comment: TextView
+    private lateinit var names: ArrayList<Tuple>
 
     inner class Tuple {
         var t: TextView? = null
@@ -62,6 +63,8 @@ class ProjectFragment: Fragment() {
             }
             viewHolder.msg!!.text = count.name
 
+            names.add(Tuple(projectView.findViewById(R.id.counter_name),count))
+
             val nb = projectView.findViewById<TextView>(R.id.count)
             nombres.add(Tuple(nb,count))
             nb.text = count.etat.toString()
@@ -83,19 +86,23 @@ class ProjectFragment: Fragment() {
         }
 
         fun up(b: Boolean, count: Counter) {
+            var warning = true
             if (!b && count.attachedMain && project.etat == 0) {
                 Toast.makeText(context, R.string.problem_etat_nul, Toast.LENGTH_LONG).show()
             } else if (count.attachedMain && (b || (!b && count.etat > 0))){
                 project.update(b)
             } else if (b || (!b && count.etat > 0)){
                 count.update(b)
+                warning = false
             }
             nombre.text = project.etat.toString()
             nombres.forEach { it.t!!.text = it.c!!.etat.toString() }
 
             val mess = project.getMessageRule()
             if (mess != null){
-                warn(mess)
+                if(warning){
+                    warn(mess)
+                }
             }else{
                 comment.text = ""
             }
@@ -121,6 +128,7 @@ class ProjectFragment: Fragment() {
         project = context.actualProject!!
 
         nombres = ArrayList<Tuple>()
+        names = ArrayList<Tuple>()
 
         warning = AlertDialog.Builder(context)
         warning.setTitle(R.string.warning)
@@ -216,5 +224,14 @@ class ProjectFragment: Fragment() {
                 .create()
                 .show()
         comment.text = mess
+    }
+
+    //quand est-ce qu'il faut l'appeler? :/
+    fun updateNames(){
+        if(names != null){
+            names.forEach {
+                it.t!!.setText(it.c!!.name)
+            }
+        }
     }
 }
