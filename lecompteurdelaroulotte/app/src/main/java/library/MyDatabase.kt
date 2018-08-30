@@ -32,13 +32,13 @@ class MyDatabase (context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, n
                 "UNIQUE ($PROJECT_NAME, $COUNTER_NAME) ON CONFLICT REPLACE);")
         db.execSQL("CREATE TABLE '" + RULE_TABLE + "' ('" +
                 PROJECT_NAME + "' TEXT NOT NULL REFERENCES PROJECT_TABLE, '" +
-                AUGMENTATION + "' INTEGER NOT NULL, '" +
                 START + "' INTEGER NOT NULL, '" +
                 NUM + "' INTEGER NOT NULL, " +
                 "UNIQUE ($PROJECT_NAME, $NUM) ON CONFLICT REPLACE);" )
         db.execSQL("CREATE TABLE '$STEP_TABLE' (" +
                 "'$PROJECT_NAME' TEXT NOT NULL REFERENCES PROJECT_TABLE, "+
                 "'$NUM' INTEGER NOT NULL, "+
+                "'$AUGMENTATION' INTEGER NOT NULL, "+
                 "'$ORDER' INTEGER NOT NULL, "+
                 "'$FIRST' INTEGER NOT NULL, "+
                 "'$SECOND' INTEGER NOT NULL, "+
@@ -75,29 +75,29 @@ class MyDatabase (context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, n
                 val projectName = cursor.getString(0)
                 val etat = cursor.getInt(1)
                 val notes = cursor.getString(2)
-                val proj = Project(projectName.replace('\r','\''))
+                val proj = Project(projectName.replace('\r','\''))//astuce pour les guillemets
                 proj.etat = etat
                 proj.notes = notes.replace('\r','\'')
                 
-                val queryR = "SELECT $AUGMENTATION, $START, $NUM FROM $RULE_TABLE WHERE $PROJECT_NAME='$projectName';"
+                val queryR = "SELECT $START, $NUM FROM $RULE_TABLE WHERE $PROJECT_NAME='$projectName';"
                 val cursorR = db.rawQuery(queryR, null)
                 if (cursorR.moveToFirst()){
                     do {
-                        val augm = cursorR.getInt(0)==1
-                        val start = cursorR.getInt(1)
-                        val num = cursorR.getInt(2)
-                        val myRule = Rule(augm, start, num)
+                        val start = cursorR.getInt(0)
+                        val num = cursorR.getInt(1)
+                        val myRule = Rule(start, num)
                         
-                        val queryS = "SELECT $ORDER, $FIRST, $SECOND, $THIRD FROM $STEP_TABLE WHERE $PROJECT_NAME='$projectName' AND $NUM=$num;"
+                        val queryS = "SELECT $ORDER, $AUGMENTATION, $FIRST, $SECOND, $THIRD FROM $STEP_TABLE WHERE $PROJECT_NAME='$projectName' AND $NUM=$num;"
                         val cursorS = db.rawQuery(queryS, null)
                         if(cursorS.moveToFirst()){
                             val myArr = ArrayList<Step>()
                             do{
                                 val order = cursorS.getInt(0)
-                                val first = cursorS.getInt(1)
-                                val second = cursorS.getInt(2)
-                                val third = cursorS.getInt(3)
-                                myArr.add(order, Step(first, second, third))
+                                val augm = cursorS.getInt(1) == 1
+                                val first = cursorS.getInt(2)
+                                val second = cursorS.getInt(3)
+                                val third = cursorS.getInt(4)
+                                myArr.add(order, Step(augm, first, second, third))
                             }while(cursorS.moveToNext())
                             myRule.steps = myArr
                         }
@@ -172,25 +172,25 @@ class MyDatabase (context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, n
 
     fun addRuleDB(projectName: String, r: Rule): Boolean{
         val db = this.writableDatabase
-        val augm = if(r.augmentation) 1 else 0
         val name = projectName.replace('\'','\r')
-        db.execSQL("INSERT INTO $RULE_TABLE ($PROJECT_NAME, $AUGMENTATION, $START, $NUM) "+
-                "VALUES ('$name', $augm, ${r.start}, ${r.num});")
+        db.execSQL("INSERT INTO $RULE_TABLE ($PROJECT_NAME, $START, $NUM) "+
+                "VALUES ('$name', ${r.start}, ${r.num});")
         for(s in 0 until r.steps.size){
-            db.execSQL("INSERT INTO $STEP_TABLE ($PROJECT_NAME, $NUM, $ORDER, $FIRST, $SECOND, $THIRD) "+
-                "VALUES ('$name', ${r.num}, $s, ${r.steps[s].one}, ${r.steps[s].two}, ${r.steps[s].three});")
+            val augm = if(r.steps[s].augm) 1 else 0
+            db.execSQL("INSERT INTO $STEP_TABLE ($PROJECT_NAME, $NUM, $ORDER, $AUGMENTATION, $FIRST, $SECOND, $THIRD) "+
+                "VALUES ('$name', ${r.num}, $s, $augm, ${r.steps[s].one}, ${r.steps[s].two}, ${r.steps[s].three});")
         }
         return true
     }
 
     fun deleteRuleDB(projectName: String, r: Rule): Boolean{
         val db = this.writableDatabase
-        val augm = if(r.augmentation) 1 else 0
         val name = projectName.replace('\'','\r')
-        db.execSQL("DELETE FROM $RULE_TABLE WHERE $PROJECT_NAME='$name' AND $AUGMENTATION=$augm"+
+        db.execSQL("DELETE FROM $RULE_TABLE WHERE $PROJECT_NAME='$name'"+
                 " AND $START=${r.start} AND $NUM=${r.num};")
         for(s in 0 until r.steps.size){
-            db.execSQL("DELETE FROM $STEP_TABLE WHERE $PROJECT_NAME='$name' AND $NUM=${r.num} "+
+            val augm = if(r.steps[s].augm) 1 else 0
+            db.execSQL("DELETE FROM $STEP_TABLE WHERE $PROJECT_NAME='$name' AND $NUM=${r.num} AND $AUGMENTATION=$augm "+
                 "AND $ORDER=$s AND $FIRST=${r.steps[s].one} AND $SECOND=${r.steps[s].two} AND $THIRD=${r.steps[s].three};")
         }
         return true

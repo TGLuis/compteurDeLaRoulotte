@@ -1,86 +1,97 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
+<LinearLayout
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/andthen"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="16sp"
-        android:textColor="@color/black"
-        android:text="@string/andthen"
-        android:layout_marginStart="8dp"
-        app:layout_constraintLeft_toLeftOf="parent" />
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
-    <android.support.constraint.ConstraintLayout
+        <TextView
+            android:id="@+id/andthen"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:textColor="@color/black"
+            android:text="@string/andthen"
+            android:layout_marginStart="8dp"/>
+
+        <TextView
+            android:id="@+id/text_augm_or_dim"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="30dp"
+            android:textSize="16sp"
+            android:textColor="@color/black"
+            android:text="@string/augmentation"/>
+
+        <CheckBox
+            android:id="@+id/augm_check"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
         android:id="@+id/enter"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        app:layout_constraintTop_toBottomOf="@id/andthen">
+        android:layout_marginStart="8dp">
 
         <EditText
             android:id="@+id/enter_fois"
-            android:minWidth="40dp"
+            android:minWidth="30dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="16sp"
             android:textColor="@color/mauve"
             android:inputType="number"
-            android:hint="0"
-            app:layout_constraintLeft_toLeftOf="parent" />
+            android:hint="0"/>
         <TextView
             android:id="@+id/rule_text1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="16sp"
             android:textColor="@color/black"
-            android:text="@string/rule_text1"
-            app:layout_constraintLeft_toRightOf="@id/enter_fois"
-            app:layout_constraintBaseline_toBaselineOf="@id/enter_fois" />
+            android:text="@string/rule_text1"/>
         <EditText
             android:id="@+id/enter_rows"
-            android:minWidth="40dp"
+            android:minWidth="30dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="16sp"
             android:textColor="@color/mauve"
             android:inputType="number"
-            android:hint="0"
-            app:layout_constraintLeft_toRightOf="@id/rule_text1" />
+            android:hint="0" />
         <TextView
             android:id="@+id/text_rows"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="16sp"
             android:textColor="@color/black"
-            android:text="@string/rows"
-            app:layout_constraintLeft_toRightOf="@id/enter_rows"
-            app:layout_constraintBaseline_toBaselineOf="@id/enter_fois" />
+            android:text="@string/rows" />
         <EditText
             android:id="@+id/enter_stitches"
-            android:minWidth="40dp"
+            android:minWidth="30dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="16sp"
             android:textColor="@color/mauve"
             android:inputType="number"
-            android:hint="0"
-            app:layout_constraintLeft_toRightOf="@id/text_rows" />
+            android:hint="0" />
         <TextView
             android:id="@+id/text_stitches"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="16sp"
             android:textColor="@color/black"
-            android:text="@string/stitch"
-            app:layout_constraintLeft_toRightOf="@id/enter_stitches"
-            app:layout_constraintBaseline_toBaselineOf="@id/enter_fois" />
+            android:text="@string/stitch" />
+    </LinearLayout>
 
-
-    </android.support.constraint.ConstraintLayout>
-
-</android.support.constraint.ConstraintLayout>
+</LinearLayout>

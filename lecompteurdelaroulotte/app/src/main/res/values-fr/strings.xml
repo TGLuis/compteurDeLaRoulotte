@@ -46,17 +46,19 @@
     <string name="andthen">Ensuite</string>
     <string name="from_row">depuis le rang</string>
     <string name="pre_rule">Voulez-vous ajouter cette règle au projet?</string>
+    <string name="pre_rule_modif">Voulez-vous modifier cette règle?</string>
     <string name="delete_rule">Vous êtes sûr de vouloir supprimer cette règle?</string>
 
 
     <!-- help -->
     <string name="info">Info</string>
+    <string name="more_info_step">Cliquez sur l\'imge pour plus d'informations</string>
     <string name="help_max">Si vous voulez que le compteur boucle, vous pouvez définir un maximum. Après avoir atteint ce maximum, Le compteur va revenir à 1. Si vous ne voulez pas de maximum, vous devez écrier 0.</string>
     <string name="help_tours">Le nombre "tours" est le nombre de fois que le compteur est revenu à 1 si vous avez défini un maximum au dessus.</string>
     <string name="help_attach">Si vous cochez cette case, le compteur va être lié au projet. Chaque fois que vous augmentez/diminuez ce compteur ou le projet, les deux changerons ensemble.</string>
     <string name="help_attached">Si vous choisissez un autre compteur ici, le compteur sélectionné va augmenter de 1 chaque fois que ce compteur ci, va boucler et revenir à 1.</string>
     <string name="help_start">Si vous cochez cette case, la règle commencera à l\'état actuel du projet. Si vous ne la cochez pas, vous devez entrer un nombre juste en dessous pour dire à quel rand la règle doit commencer.</string>
-    <string name="help_augm">Si vous cochez cette case, la règle sera une augmentation, sinon ce sera une diminution.</string>
+    <string name="help_step">Si vous cochez la case de l\'étape, elle sera une augmentation, sinon ce sera une diminution.</string>
 
 
     <!-- Boutons -->

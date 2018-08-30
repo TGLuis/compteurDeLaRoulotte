@@ -45,17 +45,19 @@
     <string name="andthen">And then</string>
     <string name="from_row">from row</string>
     <string name="pre_rule">Do you want to add this rule in the project?</string>
+    <string name="pre_rule_modif">Do you want to modify this rule?</string>
     <string name="delete_rule">Are you sure you want to delete this rule?</string>
 
 
     <!-- help -->
     <string name="info">Info</string>
+    <string name="more_info_step">Click on the image for more informations</string>
     <string name="help_max">If you want the counter to loop, you can set a maximum. After reaching this maximum, the counter will come back to 1. If you don\'t want any maximum, you have to write 0.</string>
     <string name="help_tours">The number "round" is the number of time this counter has looped if you have set a maximum just above.</string>
     <string name="help_attach">If you mark the box, this counter will change with the counter of the project. Each time you increment/decrement this counter or the counter of the project, they both will change.</string>
     <string name="help_attached">If you choose another counter here, the counter chosen will increment each time this counter loop and come back to 1.</string>
     <string name="help_start">If you mark the bax, the rule will start from the current state of the project, if you don\'t mark it, you have to enter a number just below to say when it has to start.</string>
-    <string name="help_augm">If you mark this box, the rule will be an incrementing one, orelse it will be a decrementing one.</string>
+    <string name="help_step">If you mark the box of the step, the step will be an incrementing one, orelse it will be a decrementing one.</string>
 
     <!-- Boutons -->
     <string name="add_project">Add a project</string>

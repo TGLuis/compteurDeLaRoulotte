@@ -24,9 +24,8 @@ class RuleFragment: Fragment(){
     private lateinit var steps: ArrayList<Step>
     private lateinit var CB_startNow: CheckBox
     private lateinit var ET_otherStart: EditText
-    private lateinit var CB_augm: CheckBox
     private lateinit var IB_infoStart: ImageButton
-    private lateinit var IB_infoAugm: ImageButton
+    private lateinit var IB_infoStep: ImageButton
     private lateinit var expl: AlertDialog.Builder
 
     private lateinit var B_cancel: Button
@@ -72,8 +71,18 @@ class RuleFragment: Fragment(){
             c.hint = step.three.toString()
             c.addTextChangedListener(CustomWatcher(step,3))
 
+            val augment = projectView.findViewById<CheckBox>(R.id.augm_check)
+            augment.isChecked = step.augm
+            augment.setOnCheckedChangeListener{ _: CompoundButton, b: Boolean ->
+                step.augm = b
+            }
+
+            if(step == steps[0]){
+                val tv = projectView.findViewById<TextView>(R.id.andthen)
+                tv.text = ""
+            }
+
             //TODO pouvoir supprimer une étape d'un compteur
-            //TODO chaque étape d'une même règle peut être une augmentation ou une diminution indépendamment des autres.
 
             return projectView
         }
@@ -104,43 +113,24 @@ class RuleFragment: Fragment(){
         if (!add) {
             ET_otherStart.setText(rule!!.start.toString())
         }
-        CB_augm = context.findViewById(R.id.augm_check)
-        if (!add) {
-            CB_augm.isChecked = rule!!.augmentation
-        }
 
         IB_infoStart = context.findViewById(R.id.info_start)
         IB_infoStart.setOnClickListener {
             expl.setMessage(R.string.help_start).create().show()
         }
 
-        IB_infoAugm = context.findViewById(R.id.info_augm)
-        IB_infoAugm.setOnClickListener {
-            expl.setMessage(R.string.help_augm).create().show()
+        IB_infoStep = context.findViewById(R.id.info_step)
+        IB_infoStep.setOnClickListener {
+            expl.setMessage(R.string.help_step).create().show()
         }
-
-        val first_step = if (add) {
-            Step(1, 1, 1)
-        } else {
-            rule!!.steps[0]
-        }
-        val a = context.findViewById<EditText>(R.id.enter_fois)
-        a.setText(first_step.one.toString())
-        a.addTextChangedListener(CustomWatcher(first_step, 1))
-        val b = context.findViewById<EditText>(R.id.enter_rows)
-        b.setText(first_step.two.toString())
-        b.addTextChangedListener(CustomWatcher(first_step, 2))
-        val c = context.findViewById<EditText>(R.id.enter_stitches)
-        c.setText(first_step.three.toString())
-        c.addTextChangedListener(CustomWatcher(first_step, 3))
 
         steps = if (add) {
             ArrayList<Step>()
         } else {
             rule!!.steps
         }
-        if (!add) {
-            steps.remove(first_step)
+        if(add){
+            steps.add(Step(true, 1, 1, 1))
         }
 
         LV_steps = context.findViewById(R.id.listSteps)
@@ -149,46 +139,44 @@ class RuleFragment: Fragment(){
 
         B_cancel = context.findViewById(R.id.button_cancel)
         B_cancel.setOnClickListener {
-            if(!add){
-                rule!!.steps.add(0, first_step)
-            }
             context.openFragment(context.frags.pop())
         }
 
         B_add_step = context.findViewById(R.id.button_add_step)
         B_add_step.setOnClickListener {
-            steps.add(Step(1, 1, 1))
+            steps.add(Step(true, 1, 1, 1))
             adapteur.notifyDataSetChanged()
         }
 
         B_save = context.findViewById(R.id.button_save)
         B_save.setOnClickListener {
-            steps.add(0, first_step)
-            val augm = CB_augm.isChecked
-            if (!add) {rule!!.augmentation = augm}
             val start = if (CB_startNow.isChecked) context.actualProject!!.etat else try {
                 ET_otherStart.text.toString().toInt()
             } catch (e: NumberFormatException) {
                 0
             }
             if (!add) {rule!!.start = start}
-            val my_rule = if(add) {Rule(augm, start, context.actualProject!!.myRules.size)} else{
-                rule!!
-            }
+            val my_rule =
+                    if(add){
+                        Rule(start, context.actualProject!!.myRules.size)
+                    } else{
+                        rule!!
+                    }
             my_rule.steps = steps
-            val prem = context.getString(R.string.pre_rule)
+            val prem = if(add) context.getString(R.string.pre_rule) else context.getString(R.string.pre_rule_modif)
             val mess = context.createTextFromRule(my_rule)
             val dial = AlertDialog.Builder(context)
             dial.setTitle(R.string.confirm)
                     .setPositiveButton(R.string.save) { dialog, _ ->
-                        if (!add){
+                        if (add){
                             context.addRuleToProject(my_rule)
+                        }else{
+                            context.actualProject!!.constructRappel()
                         }
                         context.openFragment(context.frags.pop())
                         dialog.dismiss()
                     }
                     .setNegativeButton(R.string.cancel) { dialog, _ ->
-                        steps.remove(first_step)
                         dialog.dismiss()
                     }
                     .setMessage(prem + "\n" + mess)

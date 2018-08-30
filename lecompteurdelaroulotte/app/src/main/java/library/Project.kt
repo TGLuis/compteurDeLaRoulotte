@@ -105,8 +105,8 @@ class Project {
 
     fun addRuleInRappel(r: Rule){
         var x = r.start-r.steps[0].two
-        val aug = if(r.augmentation) "Augmentation" else "Diminution" //TODO: utiliser une ressource string
         for (elem in r.steps){
+            val aug = if(elem.augm) "Augmentation" else "Diminution" //TODO: utiliser une ressource string
             for (i in 1..elem.one){
                 x += elem.two
                 lesNums.add(Rappel(x,"%s de %d mailles".format(aug,elem.three)))//TODO: utiliser une ressource string à voir...

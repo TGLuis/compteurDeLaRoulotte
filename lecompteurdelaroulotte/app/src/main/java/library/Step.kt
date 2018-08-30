@@ -1,11 +1,13 @@
 package library
 
 class Step {
-    var one: Int = 0
-    var two: Int = 0
-    var three: Int = 0
+    var augm: Boolean
+    var one: Int
+    var two: Int
+    var three: Int
 
-    constructor(times: Int, rangs: Int, mailles: Int){
+    constructor(augm: Boolean, times: Int, rangs: Int, mailles: Int){
+        this.augm = augm
         one = times
         two = rangs
         three = mailles
