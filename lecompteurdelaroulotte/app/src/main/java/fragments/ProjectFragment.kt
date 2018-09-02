@@ -34,6 +34,7 @@ class ProjectFragment: Fragment() {
     private lateinit var warning: AlertDialog.Builder
     private lateinit var comment: TextView
     private lateinit var names: ArrayList<Tuple>
+    lateinit var adapteur: CounterAdapter
 
     inner class Tuple {
         var t: TextView? = null
@@ -96,7 +97,7 @@ class ProjectFragment: Fragment() {
                 warning = false
             }
             nombre.text = project.etat.toString()
-            nombres.forEach { it.t!!.text = it.c!!.etat.toString() }
+            updateState()
 
             val mess = project.getMessageRule()
             if (mess != null){
@@ -155,8 +156,9 @@ class ProjectFragment: Fragment() {
             up(true)
         }
 
+        Collections.sort(counters, { a, b -> a.order - b.order})
         listViewCounters = context.findViewById(R.id.listCounters)
-        val adapteur = this.CounterAdapter(context, counters)
+        adapteur = this.CounterAdapter(context, counters)
         listViewCounters.adapter = adapteur
 
         buttonEditNotes = context.findViewById(R.id.button_notes)
@@ -200,6 +202,8 @@ class ProjectFragment: Fragment() {
         }
 
         affiche()
+        updateNames()
+        updateState()
         context.title = project.toString()
     }
 
@@ -226,11 +230,18 @@ class ProjectFragment: Fragment() {
         comment.text = mess
     }
 
-    //quand est-ce qu'il faut l'appeler? :/
     fun updateNames(){
         if(names != null){
             names.forEach {
-                it.t!!.setText(it.c!!.name)
+                it.t!!.text = it.c!!.name
+            }
+        }
+    }
+
+    fun updateState(){
+        if(nombres != null){
+            nombres.forEach {
+                it.t!!.text = it.c!!.etat.toString()
             }
         }
     }

@@ -2,7 +2,6 @@
 <android.support.constraint.ConstraintLayout
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:background="@drawable/background_test"
     android:orientation="vertical"
     android:layout_width="match_parent"
@@ -122,7 +121,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         app:layout_constraintTop_toBottomOf="@id/max_of_counter"
-        app:layout_constraintBottom_toTopOf="@id/attach_of_counter">
+        app:layout_constraintBottom_toTopOf="@id/position_of_counter">
 
         <TextView
             android:id="@+id/count_tours"
@@ -157,13 +156,55 @@
             app:layout_constraintRight_toRightOf="parent"/>
     </android.support.constraint.ConstraintLayout>
 
+    <!-- Place du compteur -->
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/position_of_counter"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        app:layout_constraintTop_toBottomOf="@id/tours_of_counter"
+        app:layout_constraintBottom_toTopOf="@id/attach_of_counter">
+
+        <TextView
+            android:id="@+id/count_position"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:textSize="20sp"
+            android:textColor="@color/black"
+            android:text="@string/counter_position_id"
+            app:layout_constraintBaseline_toBaselineOf="@id/counter_position"
+            app:layout_constraintLeft_toLeftOf="parent"/>
+
+        <EditText
+            android:id="@+id/counter_position"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:textColor="@color/mauve"
+            android:textSize="20sp"
+            android:inputType="number"
+            android:textStyle="bold"
+            android:maxLines="1"
+            android:layout_marginStart="10dp"
+            app:layout_constraintLeft_toRightOf="@id/count_position"/>
+
+        <ImageButton
+            android:id="@+id/info_position"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            app:srcCompat="@drawable/info"
+            android:contentDescription="@string/info_image"
+            android:layout_marginEnd="10dp"
+            android:background="#00000000"
+            app:layout_constraintRight_toRightOf="parent"/>
+    </android.support.constraint.ConstraintLayout>
+
     <!-- Attacher le compteur au main -->
     <android.support.constraint.ConstraintLayout
         android:id="@+id/attach_of_counter"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        app:layout_constraintTop_toBottomOf="@id/tours_of_counter"
+        app:layout_constraintTop_toBottomOf="@id/position_of_counter"
         app:layout_constraintBottom_toTopOf="@id/attached_of_counter">
 
         <TextView

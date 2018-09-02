@@ -11,6 +11,8 @@ import android.widget.*
 import library.Counter
 import lufra.lecompteurdelaroulotte.MainActivity
 import lufra.lecompteurdelaroulotte.R
+import kotlin.math.max
+import kotlin.math.min
 
 class CounterFragment: Fragment() {
     private val TAG = "===== COUNTERFRAGMENT ====="
@@ -21,6 +23,7 @@ class CounterFragment: Fragment() {
     private lateinit var ET_state: EditText
     private lateinit var ET_max: EditText
     private lateinit var ET_tours: EditText
+    private lateinit var ET_position: EditText
     private lateinit var CB_attach: CheckBox
     private lateinit var S_attached: Spinner
     private lateinit var B_cancel: Button
@@ -28,6 +31,7 @@ class CounterFragment: Fragment() {
     private lateinit var B_delete: Button
     private lateinit var IB_max: ImageButton
     private lateinit var IB_tours: ImageButton
+    private lateinit var IB_position: ImageButton
     private lateinit var IB_attach: ImageButton
     private lateinit var IB_attached: ImageButton
     private lateinit var expl: AlertDialog.Builder
@@ -44,8 +48,6 @@ class CounterFragment: Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        //TODO numéroter les compteurs pour leur ordre d'affichage
-
         counter = context.actualCounter!!
 
         ET_name = context.findViewById(R.id.counter_name)
@@ -59,6 +61,9 @@ class CounterFragment: Fragment() {
 
         ET_tours = context.findViewById(R.id.counter_tours)
         ET_tours.setText(counter.tours.toString())
+
+        ET_position = context.findViewById(R.id.counter_position)
+        ET_position.setText((counter.order+1).toString())
 
         CB_attach = context.findViewById(R.id.counter_attach)
         CB_attach.isChecked = counter.attachedMain
@@ -91,6 +96,7 @@ class CounterFragment: Fragment() {
             val temp_etat = ET_state.text.toString().toInt()
             val temp_max = ET_max.text.toString().toInt()
             val temp_tours = ET_tours.text.toString().toInt()
+            var temp_pos = ET_position.text.toString().toInt()-1
             val temp_attach = CB_attach.isChecked
             val temp_attached = selectedItem
 
@@ -119,7 +125,12 @@ class CounterFragment: Fragment() {
             val attach_changed = temp_attach != counter.attachedMain
             if (attach_changed) {
                 changes++
-                str += "- " + context.getString(R.string.counter_attach_main_id) + "\n"
+                str += "- " + context.getString(R.string.counter_attach_main) + "\n"
+            }
+            val order_changed = temp_pos != counter.order
+            if(order_changed){
+                changes++
+                str += "- " + context.getString(R.string.counter_position)
             }
             val cond1 = temp_attached != context.getString(R.string.none) && counter.counterAttached == null
             val cond2 = counter.counterAttached != null && temp_attached != counter.counterAttached!!.name
@@ -139,11 +150,37 @@ class CounterFragment: Fragment() {
                     confirm.setTitle(context.getString(R.string.confirm))
                             .setMessage(str)
                             .setPositiveButton(R.string.save) { dialog, _ ->
-                                if (name_changed) counter.name = temp_name
+                                if (name_changed) {
+                                    context.updateCounterName(counter, temp_name)
+                                    counter.name = temp_name
+                                }
                                 if (etat_changed) counter.etat = temp_etat
                                 if (max_changed) counter.max = temp_max
                                 if (tours_changed) counter.tours = temp_tours
-                                if (attach_changed) counter.attachedMain = temp_attach
+                                if (attach_changed) {
+                                    counter.attachedMain = temp_attach
+                                    if (counter.attachedMain){
+                                        context.actualProject!!.attach(counter)
+                                    }else {
+                                        context.actualProject!!.detach(counter)
+                                    }
+                                }
+                                if (order_changed) {
+                                    if (temp_pos < counter.order){
+                                        if (temp_pos < 0) temp_pos = 0
+                                        for(i in temp_pos..counter.order-1){
+                                            context.actualProject!!.myCounters[i].order++
+                                        }
+                                    }else{
+                                        if (temp_pos >= context.actualProject!!.myCounters.size) {
+                                            temp_pos = context.actualProject!!.myCounters.size-1
+                                        }
+                                        for(i in counter.order+1..temp_pos){
+                                            context.actualProject!!.myCounters[i].order--
+                                        }
+                                    }
+                                    counter.order = temp_pos
+                                }
                                 if (attached_changed) {
                                     if (temp_attached == context.getString(R.string.none)) {
                                         counter.detach()
@@ -151,24 +188,20 @@ class CounterFragment: Fragment() {
                                         counter.attach(context.actualProject!!.getCounter(temp_attached)!!)
                                     }
                                 }
-                                if (counter.attachedMain){
-                                    context.actualProject!!.attach(counter)
-                                }else {
-                                    context.actualProject!!.detach(counter)
-                                }
                                 if (counter.max > 1) {
                                     counter.tours += counter.etat % counter.max
                                     counter.etat = counter.etat / counter.max
                                 }
+                                context.openFragment(context.frags.pop())
                                 dialog.dismiss()
                             }
                             .setNegativeButton(R.string.cancel) { dialog, _ ->
+                                context.openFragment(context.frags.pop())
                                 dialog.dismiss()
                             }
                             .create()
                             .show()
                 }
-                context.openFragment(context.frags.pop())
             }
         }
 
@@ -208,6 +241,11 @@ class CounterFragment: Fragment() {
         IB_tours = context.findViewById(R.id.info_tours)
         IB_tours.setOnClickListener {
             expl.setMessage(R.string.help_tours).create().show()
+        }
+
+        IB_position = context.findViewById(R.id.info_position)
+        IB_position.setOnClickListener {
+            expl.setMessage(R.string.help_position).create().show()
         }
 
         IB_attach = context.findViewById(R.id.info_attach)

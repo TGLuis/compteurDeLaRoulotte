@@ -27,6 +27,7 @@ class MyDatabase (context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, n
                 ETAT + "' INTEGER NOT NULL, '" +
                 TOURS + "' INTEGER NOT NULL, '" +
                 MAX + "' INTEGER NOT NULL, '" +
+                ORDER + "' INTEGER NOT NULL, '" +
                 ATTACHED_MAIN + "' INTEGER NOT NULL, '" +
                 COUNTER_ATTACHED + "' TEXT REFERENCES COUNTER_NAME, " +
                 "UNIQUE ($PROJECT_NAME, $COUNTER_NAME) ON CONFLICT REPLACE);")
@@ -106,7 +107,7 @@ class MyDatabase (context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, n
                 }
                 cursorR.close()
                 
-                val queryC = "SELECT $COUNTER_NAME, $ETAT, $TOURS, $MAX, $ATTACHED_MAIN, $COUNTER_ATTACHED FROM $COUNTER_TABLE WHERE $PROJECT_NAME='$projectName'"
+                val queryC = "SELECT $COUNTER_NAME, $ETAT, $TOURS, $MAX, $ORDER, $ATTACHED_MAIN, $COUNTER_ATTACHED FROM $COUNTER_TABLE WHERE $PROJECT_NAME='$projectName'"
                 val cursorC = db.rawQuery(queryC, null)
                 val tab = ArrayList<Tuple>()
                 if(cursorC.moveToFirst()){
@@ -115,9 +116,10 @@ class MyDatabase (context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, n
                         val etat = cursorC.getInt(1)
                         val tours = cursorC.getInt(2)
                         val max = cursorC.getInt(3)
-                        val attachedMain = cursorC.getInt(4)==1
-                        val counterAttached = cursorC.getString(5)
-                        val count = Counter(counterName, max, attachedMain, null)
+                        val order = cursorC.getInt(4)
+                        val attachedMain = cursorC.getInt(5)==1
+                        val counterAttached = cursorC.getString(6)
+                        val count = Counter(counterName, max, order, attachedMain, null)
                         count.etat = etat
                         count.tours = tours
                         if(counterAttached != NO_ATTACHED) {
@@ -196,25 +198,25 @@ class MyDatabase (context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, n
         return true
     }
 
-    fun addCounterDB(projectName: String, counterName: String, etat: Int, tours: Int, max: Int, attached_main: Boolean, attachedCounter: Counter?): Boolean{
+    fun addCounterDB(projectName: String, counterName: String, etat: Int, tours: Int, max: Int, order: Int, attached_main: Boolean, attachedCounter: Counter?): Boolean{
         val db = this.writableDatabase
         val att = if(attached_main) 1 else 0
         val name = projectName.replace('\'','\r')
         val nameC = counterName.replace('\'','\r')
         val counterAtt = if(attachedCounter == null)  NO_ATTACHED else attachedCounter.name
-        db.execSQL("INSERT INTO $COUNTER_TABLE ( $PROJECT_NAME, $COUNTER_NAME, $ETAT, $TOURS, $MAX, $ATTACHED_MAIN, $COUNTER_ATTACHED ) "+
-                "VALUES ( '$name', '$nameC', $etat, $tours, $max, $att, '$counterAtt' );")
+        db.execSQL("INSERT INTO $COUNTER_TABLE ( $PROJECT_NAME, $COUNTER_NAME, $ETAT, $TOURS, $MAX, $ORDER, $ATTACHED_MAIN, $COUNTER_ATTACHED ) "+
+                "VALUES ( '$name', '$nameC', $etat, $tours, $max, $order, $att, '$counterAtt' );")
         return true
     }
 
-    fun updateCounterDB(projectName: String, counterName: String, etat: Int, tours: Int, max: Int, attached_main: Boolean, attachedCounter: Counter?): Boolean{
+    fun updateCounterDB(projectName: String, counterName: String, etat: Int, tours: Int, max: Int, order: Int, attached_main: Boolean, attachedCounter: Counter?): Boolean{
         val db = this.writableDatabase
         val att = if(attached_main) 1 else 0
         val name = projectName.replace('\'','\r')
         val nameC = counterName.replace('\'','\r')
         val counterAtt = if(attachedCounter == null)  NO_ATTACHED else attachedCounter.name
         db.execSQL("UPDATE $COUNTER_TABLE " +
-                " SET $ETAT=$etat, $TOURS=$tours, $MAX=$max, $ATTACHED_MAIN=$att, $COUNTER_ATTACHED='$counterAtt'" +
+                " SET $ETAT=$etat, $TOURS=$tours, $MAX=$max, $ORDER=$order, $ATTACHED_MAIN=$att, $COUNTER_ATTACHED='$counterAtt'" +
                 " WHERE $PROJECT_NAME='$name' AND $COUNTER_NAME='$nameC';")
         return true
     }

@@ -18,6 +18,8 @@
     <string name="counter_attach_main_id">Attached to project:</string>
     <string name="counter_attached">Attach another counter</string>
     <string name="counter_attached_id">Attach another counter:</string>
+    <string name="counter_position">Position of the counter</string>
+    <string name="counter_position_id">Position of the counter:</string>
     <string name="notes_image">Picture of notes</string>
     <string name="counter_image">Picture of a counter</string>
     <string name="main_counter_image">Picture of the main counter</string>
@@ -36,6 +38,7 @@
     <string name="start_other">Or from row number:</string>
 
     <!-- rule -->
+    <string name="rule">Rule</string>
     <string name="augmentation">Incrementing</string>
     <string name="diminution">Decrementing</string>
     <string name="rule_text1"> times each </string>
@@ -54,6 +57,7 @@
     <string name="more_info_step">Click on the image for more informations</string>
     <string name="help_max">If you want the counter to loop, you can set a maximum. After reaching this maximum, the counter will come back to 1. If you don\'t want any maximum, you have to write 0.</string>
     <string name="help_tours">The number "round" is the number of time this counter has looped if you have set a maximum just above.</string>
+    <string name="help_position">The position of the counter is used uniquely in the display of the project. 1 to be the first counter and x to be the xth counter.</string>
     <string name="help_attach">If you mark the box, this counter will change with the counter of the project. Each time you increment/decrement this counter or the counter of the project, they both will change.</string>
     <string name="help_attached">If you choose another counter here, the counter chosen will increment each time this counter loop and come back to 1.</string>
     <string name="help_start">If you mark the bax, the rule will start from the current state of the project, if you don\'t mark it, you have to enter a number just below to say when it has to start.</string>

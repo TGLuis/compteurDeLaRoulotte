@@ -1,12 +1,14 @@
 package library
 
+import java.util.*
+
 class Project {
     var etat: Int = 0
     var bindCounters: ArrayList<Counter>? = null
     var notes: String = " "
     private var name: String = ""
     lateinit var myRules: ArrayList<Rule>
-    private lateinit var myCounters: ArrayList<Counter>
+    lateinit var myCounters: ArrayList<Counter>
 
     private lateinit var lesNums: ArrayList<Rappel>
 
@@ -47,7 +49,11 @@ class Project {
         return null
     }
 
-    fun addCounter(c: Counter){myCounters.add(c)}
+    fun addCounter(c: Counter){
+        if (c !in myCounters){
+            myCounters.add(c)
+        }
+    }
 
     fun deleteCounter(c: Counter){
         myCounters.remove(c)

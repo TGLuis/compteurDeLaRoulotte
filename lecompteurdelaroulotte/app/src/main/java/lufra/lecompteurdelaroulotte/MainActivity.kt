@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatActivity
 import fragments.HomeFragment
+import fragments.ProjectFragment
 import library.Counter
 import library.MyDatabase
 import library.Project
@@ -43,10 +44,10 @@ class MainActivity: AppCompatActivity(){
         projectsList.remove(proj)
     }
 
-
     fun createCounter(counterName: String){
-        db.addCounterDB(actualProject.toString(), counterName, 0, 0, 0, false, null)
-        actualProject!!.addCounter(Counter(counterName, 0, false, null))
+        val order = actualProject!!.getCounters().size
+        db.addCounterDB(actualProject.toString(), counterName, 0, 0, 0, order, false, null)
+        actualProject!!.addCounter(Counter(counterName, 0, order, false, null))
     }
 
     fun deleteCounter(counter: Counter){
@@ -55,6 +56,11 @@ class MainActivity: AppCompatActivity(){
         }
         db.deleteCounterDB(actualProject.toString(), counter.name)
         actualProject!!.deleteCounter(counter)
+    }
+
+    fun updateCounterName(c: Counter, new_name: String){
+        db.deleteCounterDB(actualProject.toString(), c.name)
+        db.addCounterDB(actualProject.toString(), new_name, c.etat, c.tours, c.max, c.order, c.attachedMain, c.counterAttached)
     }
 
     fun addRuleToProject(r: Rule){
@@ -100,7 +106,7 @@ class MainActivity: AppCompatActivity(){
                 val coun = proj.getCounters()
                 if(! coun.isEmpty()){
                     coun.forEach{
-                        db.updateCounterDB(proj.toString(), it.name, it.etat, it.tours, it.max, it.attachedMain, it.counterAttached)
+                        db.updateCounterDB(proj.toString(), it.name, it.etat, it.tours, it.max, it.order, it.attachedMain, it.counterAttached)
                     }
                 }
             }
@@ -108,7 +114,7 @@ class MainActivity: AppCompatActivity(){
     }
 
     fun createTextFromRule(r: Rule): String{
-        var s = "Rule"
+        var s = getString(R.string.rule)
         s+=": " + getString(R.string.from_row) + " " + r.start.toString() + "\n"
         for(i in 0 until r.steps.size){
             if(i != 0){

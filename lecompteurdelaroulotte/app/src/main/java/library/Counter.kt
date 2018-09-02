@@ -2,15 +2,17 @@ package library
 
 class Counter {
     var etat: Int = 0
-    var name: String = ""
+    var name: String
     var tours: Int = 0
-    var max: Int = 0
-    var attachedMain: Boolean = false
-    var counterAttached: Counter? = null
+    var max: Int
+    var order: Int
+    var attachedMain: Boolean
+    var counterAttached: Counter?
 
-    constructor(name: String, max: Int, attachedMain: Boolean, counterAttached: Counter?){
+    constructor(name: String, max: Int, order: Int, attachedMain: Boolean, counterAttached: Counter?){
         this.name = name
         this.max = max
+        this.order = order
         this.attachedMain = attachedMain
         this.counterAttached = counterAttached
     }
@@ -39,6 +41,4 @@ class Counter {
 
     fun attach(c: Counter){this.counterAttached=c}
     fun detach(){this.counterAttached=null}
-
-
 }

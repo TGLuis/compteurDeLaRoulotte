@@ -19,6 +19,8 @@
     <string name="counter_attach_main_id">Lié au projet:</string>
     <string name="counter_attached">Lié un autre compteur</string>
     <string name="counter_attached_id">Lié un autre compteur:</string>
+    <string name="counter_position">Position du compteur</string>
+    <string name="counter_position_id">Position du compteur:</string>
     <string name="notes_image">Image de notes</string>
     <string name="counter_image">Image de compteur</string>
     <string name="main_counter_image">Image du compteur principal</string>
@@ -37,6 +39,7 @@
     <string name="start_other">Ou à partir du rang:</string>
 
     <!-- rule -->
+    <string name="rule">Règle</string>
     <string name="augmentation">Augmentation</string>
     <string name="diminution">Diminution</string>
     <string name="rule_text1"> fois tous les </string>
@@ -55,6 +58,7 @@
     <string name="more_info_step">Cliquez sur l\'imge pour plus d'informations</string>
     <string name="help_max">Si vous voulez que le compteur boucle, vous pouvez définir un maximum. Après avoir atteint ce maximum, Le compteur va revenir à 1. Si vous ne voulez pas de maximum, vous devez écrier 0.</string>
     <string name="help_tours">Le nombre "tours" est le nombre de fois que le compteur est revenu à 1 si vous avez défini un maximum au dessus.</string>
+    <string name="help_position">La position du compteur ne sert que à l\'affichage dans votre projet. 1 pour être le premier compteur et x pour être le xieme compteur.</string>
     <string name="help_attach">Si vous cochez cette case, le compteur va être lié au projet. Chaque fois que vous augmentez/diminuez ce compteur ou le projet, les deux changerons ensemble.</string>
     <string name="help_attached">Si vous choisissez un autre compteur ici, le compteur sélectionné va augmenter de 1 chaque fois que ce compteur ci, va boucler et revenir à 1.</string>
     <string name="help_start">Si vous cochez cette case, la règle commencera à l\'état actuel du projet. Si vous ne la cochez pas, vous devez entrer un nombre juste en dessous pour dire à quel rand la règle doit commencer.</string>
