@@ -19,6 +19,8 @@ import java.util.ArrayList
 class RuleFragment: Fragment(){
     private val TAG = "===== ADDRULESFRAGMENT ====="
     private lateinit var context: MainActivity
+    private var rule: Rule? = null
+    private var add: Boolean = true
 
     private lateinit var LV_steps: ListView
     private lateinit var steps: ArrayList<Step>
@@ -31,6 +33,8 @@ class RuleFragment: Fragment(){
     private lateinit var B_cancel: Button
     private lateinit var B_add_step: Button
     private lateinit var B_save: Button
+
+    private lateinit var adapteur: StepsAdapter
 
     inner class CustomWatcher: TextWatcher{
         var st: Step
@@ -77,16 +81,39 @@ class RuleFragment: Fragment(){
                 step.augm = b
             }
 
+            val IB_del = projectView.findViewById<ImageButton>(R.id.delete_image)
+
             if(step == steps[0]){
                 val tv = projectView.findViewById<TextView>(R.id.andthen)
                 tv.text = ""
-            }
 
-            //TODO pouvoir supprimer une étape d'un compteur
+                IB_del.alpha = 0F
+            }else{
+                IB_del.setOnClickListener {
+                    val dial = AlertDialog.Builder(context)
+                    Toast.makeText(context, step.toString(), Toast.LENGTH_LONG)
+                    dial.setTitle(R.string.confirm)
+                            .setMessage(R.string.delete_step)
+                            .setPositiveButton(R.string.yes) { dialog, _ ->
+                                if (add){
+                                    rule!!.steps.remove(step)
+                                }else{
+                                    (context as MainActivity).deleteStepOfRule(rule!!, step)
+                                }
+                                adapteur = StepsAdapter(context, steps)
+                                LV_steps.adapter = adapteur
+                                dialog.dismiss()
+                            }
+                            .setNegativeButton(R.string.cancel) { dialog, _ ->
+                                dialog.dismiss()
+                            }
+                            .create()
+                            .show()
+                }
+            }
 
             return projectView
         }
-
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -99,8 +126,11 @@ class RuleFragment: Fragment(){
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        val rule = context.actualRule
-        val add = rule == null
+        rule = context.actualRule
+        add = rule == null
+        if (add){
+            rule = Rule(0, context.actualProject!!.myRules.size)
+        }
 
         expl = AlertDialog.Builder(context)
         expl.setTitle(R.string.info)
@@ -125,16 +155,17 @@ class RuleFragment: Fragment(){
         }
 
         steps = if (add) {
-            ArrayList<Step>()
-        } else {
-            rule!!.steps
-        }
+                    ArrayList<Step>()
+                } else {
+                    rule!!.steps
+                }
         if(add){
             steps.add(Step(true, 1, 1, 1))
         }
+        rule!!.steps = steps
 
         LV_steps = context.findViewById(R.id.listSteps)
-        val adapteur = this.StepsAdapter(context, steps)
+        adapteur = this.StepsAdapter(context, steps)
         LV_steps.adapter = adapteur
 
         B_cancel = context.findViewById(R.id.button_cancel)
@@ -155,22 +186,16 @@ class RuleFragment: Fragment(){
             } catch (e: NumberFormatException) {
                 0
             }
-            if (!add) {rule!!.start = start}
-            val my_rule =
-                    if(add){
-                        Rule(start, context.actualProject!!.myRules.size)
-                    } else{
-                        rule!!
-                    }
-            my_rule.steps = steps
+            rule!!.start = start
             val prem = if(add) context.getString(R.string.pre_rule) else context.getString(R.string.pre_rule_modif)
-            val mess = context.createTextFromRule(my_rule)
+            val mess = context.createTextFromRule(rule!!)
             val dial = AlertDialog.Builder(context)
             dial.setTitle(R.string.confirm)
                     .setPositiveButton(R.string.save) { dialog, _ ->
                         if (add){
-                            context.addRuleToProject(my_rule)
+                            context.addRuleToProject(rule!!)
                         }else{
+                            context.updateRule(rule!!)
                             context.actualProject!!.constructRappel()
                         }
                         context.openFragment(context.frags.pop())

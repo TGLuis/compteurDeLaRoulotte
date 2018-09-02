@@ -87,7 +87,7 @@ class MyDatabase (context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, n
                         val start = cursorR.getInt(0)
                         val num = cursorR.getInt(1)
                         val myRule = Rule(start, num)
-                        
+
                         val queryS = "SELECT $ORDER, $AUGMENTATION, $FIRST, $SECOND, $THIRD FROM $STEP_TABLE WHERE $PROJECT_NAME='$projectName' AND $NUM=$num;"
                         val cursorS = db.rawQuery(queryS, null)
                         if(cursorS.moveToFirst()){
@@ -188,13 +188,20 @@ class MyDatabase (context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, n
     fun deleteRuleDB(projectName: String, r: Rule): Boolean{
         val db = this.writableDatabase
         val name = projectName.replace('\'','\r')
-        db.execSQL("DELETE FROM $RULE_TABLE WHERE $PROJECT_NAME='$name'"+
-                " AND $START=${r.start} AND $NUM=${r.num};")
+        db.execSQL("DELETE FROM $RULE_TABLE WHERE $PROJECT_NAME='$name' AND $NUM=${r.num};")
         for(s in 0 until r.steps.size){
-            val augm = if(r.steps[s].augm) 1 else 0
-            db.execSQL("DELETE FROM $STEP_TABLE WHERE $PROJECT_NAME='$name' AND $NUM=${r.num} AND $AUGMENTATION=$augm "+
-                "AND $ORDER=$s AND $FIRST=${r.steps[s].one} AND $SECOND=${r.steps[s].two} AND $THIRD=${r.steps[s].three};")
+            db.execSQL("DELETE FROM $STEP_TABLE WHERE $PROJECT_NAME='$name' AND $NUM=${r.num};")
         }
+        return true
+    }
+
+    fun deleteStepDB(projectName: String, r: Rule, s: Step): Boolean{
+        val db = this.writableDatabase
+        val name = projectName.replace('\'','\r')
+        val order = r.steps.indexOf(s)
+        val augm = if(s.augm) 1 else 0
+        db.execSQL("DELETE FROM $STEP_TABLE WHERE $PROJECT_NAME='$name' AND $NUM=${r.num} AND $AUGMENTATION=$augm "+
+            "AND $ORDER=$order AND $FIRST=${s.one} AND $SECOND=${s.two} AND $THIRD=${s.three};")
         return true
     }
 

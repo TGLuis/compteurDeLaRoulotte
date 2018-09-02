@@ -5,10 +5,7 @@ import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatActivity
 import fragments.HomeFragment
 import fragments.ProjectFragment
-import library.Counter
-import library.MyDatabase
-import library.Project
-import library.Rule
+import library.*
 import java.util.*
 
 
@@ -68,10 +65,19 @@ class MainActivity: AppCompatActivity(){
         db.addRuleDB(actualProject!!.toString(), r)
     }
 
+    fun updateRule(r: Rule){
+        db.deleteRuleDB(actualProject!!.toString(), r)
+        db.addRuleDB(actualProject!!.toString(), r)
+    }
+
     fun deleteRuleOfProject(r: Rule){
         actualProject!!.deleteRule(r)
-        actualProject!!.constructRappel()
         db.deleteRuleDB(actualProject!!.toString(), r)
+    }
+
+    fun deleteStepOfRule(r: Rule, s: Step){
+        db.deleteStepDB(actualProject!!.toString(), r, s)
+        actualProject!!.deleteStepOfRule(r, s)
     }
 
     fun openFragment(frag: Fragment){

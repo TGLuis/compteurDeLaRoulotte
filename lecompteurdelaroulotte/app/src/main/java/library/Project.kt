@@ -77,6 +77,11 @@ class Project {
         constructRappel()
     }
 
+    fun deleteStepOfRule(r: Rule, s: Step){
+        r.steps.remove(s)
+        constructRappel()
+    }
+
     fun update(b: Boolean){
         if(b){etat++}else{etat--}
         notify(b)
