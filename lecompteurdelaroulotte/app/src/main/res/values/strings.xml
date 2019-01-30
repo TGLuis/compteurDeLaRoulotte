@@ -33,7 +33,7 @@
     <string name="confirm">Confirmation</string>
     <string name="max_condition">The maximum must be 0 or more!</string>
     <string name="warning">Warning</string>
-    <string name="my_rules">my rules</string>
+    <string name="my_rules">My rules</string>
     <string name="start_now">Begin from actual row?</string>
     <string name="start_other">Or from row number:</string>
 
@@ -81,4 +81,11 @@
     <string name="none">None</string>
     <string name="yes">Yes</string>
     <string name="ok">Ok</string>
+
+
+    <string name="navigation_drawer_open">Open</string>
+    <string name="navigation_drawer_close">Close</string>
+    <string name="home">Home</string>
+    <string name="my_counters">My counters</string>
+    <string name="counter">Counter: </string>
 </resources>

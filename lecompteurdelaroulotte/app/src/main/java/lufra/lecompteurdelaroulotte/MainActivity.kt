@@ -1,10 +1,17 @@
 package lufra.lecompteurdelaroulotte
 
 import android.os.Bundle
+import android.support.design.widget.NavigationView
 import android.support.v4.app.Fragment
+import android.support.v4.view.GravityCompat
+import android.support.v4.widget.DrawerLayout
+import android.support.v7.app.ActionBarDrawerToggle
+import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
-import fragments.HomeFragment
-import fragments.ProjectFragment
+import android.view.*
+import android.widget.Toast
+import fragments.*
+import kotlinx.android.synthetic.main.simple_text_input.view.*
 import library.*
 import java.util.*
 
@@ -14,7 +21,11 @@ class MainActivity: AppCompatActivity(){
     lateinit var projectsList: ArrayList<Project>
     var actualProject: Project? = null
     var actualCounter: Counter? = null
+    var actualFragment: Fragment? = null
     var actualRule: Rule? = null
+    lateinit var toolbar: android.support.v7.widget.Toolbar
+    lateinit var nav_view: NavigationView
+    lateinit var drawer_layout: DrawerLayout
     lateinit var frags: Stack<Fragment>
     lateinit var db: MyDatabase
 
@@ -22,23 +33,134 @@ class MainActivity: AppCompatActivity(){
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        // Database
         db = MyDatabase(this)
-
         projectsList = db.getAllProjects()
 
+        // Fragments
         frags = Stack()
         frags.push(HomeFragment() as Fragment)
         openFragment(HomeFragment() as Fragment)
+
+        // Toolbar
+        toolbar = this.findViewById(R.id.my_toolbar)
+        setSupportActionBar(toolbar)
+        drawer_layout = this.findViewById(R.id.drawer_layout)
+        val toggle = ActionBarDrawerToggle(
+                this, drawer_layout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close)
+        drawer_layout.addDrawerListener(toggle)
+        toggle.syncState()
+
+        //NavigationView
+        nav_view = this.findViewById(R.id.nav_view)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        menuInflater.inflate(R.menu.menu, menu)
+        return true
+    }
+
+    fun setMenu(which: String){
+        // todo: rajouter projet en cours pour arriver sur ProjectFragment
+        // todo: gérer les problèmes de stacks frag quand on clique plein de fois sur le même item du menu!!
+        // todo: clear la stack frag quand on revient sur le home
+        val context = this
+        nav_view.menu.clear()
+        when(which){
+            "home" -> {
+                projectsList.forEach {
+                    val proj = it
+                    nav_view.menu.add(it.name).apply {
+                        setOnMenuItemClickListener {
+                            context.actualProject = proj
+                            context.frags.push(HomeFragment())
+                            drawer_layout.closeDrawers()
+                            context.openFragment(ProjectFragment())
+                            true
+                        }
+                    }
+                }
+            }
+            "project" -> {
+                nav_view.menu.add(R.string.home).apply{
+                    setOnMenuItemClickListener {
+                        context.openFragment(HomeFragment())
+                        drawer_layout.closeDrawers()
+                        true
+                    }
+                }
+                nav_view.menu.add(R.string.edit_notes).apply{
+                    setOnMenuItemClickListener {
+                        context.frags.push(actualFragment)
+                        drawer_layout.closeDrawers()
+                        context.openFragment(NotesFragment())
+                        true
+                    }
+                }
+                nav_view.menu.add(R.string.add_counter).apply {
+                    setOnMenuItemClickListener {
+                        val viewInflated = LayoutInflater.from(context).inflate(R.layout.simple_text_input, context.nav_view as ViewGroup, false)
+                        val addCounter = AlertDialog.Builder(context)
+                        addCounter.setView(viewInflated)
+                                .setTitle(R.string.counter_name_id)
+                                .setPositiveButton(R.string.ok) { dialog, _ ->
+                                    val counterName = viewInflated.input_text.text.toString()
+                                    if (actualProject!!.has_counter(counterName)){
+                                        Toast.makeText(context,R.string.counter_already, Toast.LENGTH_SHORT).show()
+                                    }else{
+                                        context.createCounter(counterName)
+                                        drawer_layout.closeDrawers()
+                                        context.setMenu("project")
+                                    }
+                                    dialog.dismiss()
+                                }
+                                .setNegativeButton(R.string.cancel) { dialog, _ ->
+                                    dialog.dismiss()
+                                }
+                                .create()
+                                .show()
+                        true
+                    }
+                }
+                if(context.actualProject!!.myCounters.size > 0){
+                    context.actualProject!!.myCounters.forEach {
+                        val count = it
+                        val text = getResources().getString(R.string.counter) + it.name
+                        nav_view.menu.add(text).apply{
+                            setOnMenuItemClickListener {
+                                context.frags.push(actualFragment)
+                                drawer_layout.closeDrawers()
+                                context.actualCounter = count
+                                context.openFragment(CounterFragment())
+                                true
+                            }
+                        }
+                    }
+                }
+                nav_view.menu.add(R.string.my_rules).apply{
+                    setOnMenuItemClickListener {
+                        context.frags.push(actualFragment)
+                        drawer_layout.closeDrawers()
+                        context.openFragment(SeeRulesFragment())
+                        true
+                    }
+                }
+            }
+        }
+
     }
 
     fun createProject(projectName: String){
         db.addProjectDB(projectName, " ")
         projectsList.add(Project(projectName))
+        setMenu("home")
     }
 
     fun deleteProject(proj: Project){
         db.deleteProjectDB(proj.toString())
         projectsList.remove(proj)
+        setMenu("home")
     }
 
     fun createCounter(counterName: String){
@@ -65,9 +187,11 @@ class MainActivity: AppCompatActivity(){
         db.addRuleDB(actualProject!!.toString(), r)
     }
 
-    fun updateRule(r: Rule){
+    fun updateRule(r: Rule, new_r: Rule){
         db.deleteRuleDB(actualProject!!.toString(), r)
-        db.addRuleDB(actualProject!!.toString(), r)
+        actualProject!!.deleteRule(r)
+        db.addRuleDB(actualProject!!.toString(), new_r)
+        actualProject!!.addRule(new_r)
     }
 
     fun deleteRuleOfProject(r: Rule){
@@ -85,8 +209,16 @@ class MainActivity: AppCompatActivity(){
     }
 
     override fun onBackPressed() {
-        if(!frags.isEmpty())
-            openFragment(frags.pop())
+        if (drawer_layout.isDrawerOpen(GravityCompat.START)) {
+            drawer_layout.closeDrawer(GravityCompat.START)
+        } else {
+            if (!frags.isEmpty())
+                openFragment(frags.pop())
+            else {
+                saveState()
+                super.onBackPressed()
+            }
+        }
     }
 
     override fun onDestroy() {

@@ -258,6 +258,7 @@ class CounterFragment: Fragment() {
             expl.setMessage(R.string.help_attached).create().show()
         }
 
+        context.actualFragment = CounterFragment()
         context.title = "${context.actualProject.toString()} -> ${counter.name}"
     }
 }

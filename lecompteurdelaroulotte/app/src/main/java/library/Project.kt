@@ -6,7 +6,7 @@ class Project {
     var etat: Int = 0
     var bindCounters: ArrayList<Counter>? = null
     var notes: String = " "
-    private var name: String = ""
+    var name: String = ""
     lateinit var myRules: ArrayList<Rule>
     lateinit var myCounters: ArrayList<Counter>
 

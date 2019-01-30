@@ -130,6 +130,8 @@ class RuleFragment: Fragment(){
         add = rule == null
         if (add){
             rule = Rule(0, context.actualProject!!.myRules.size)
+        }else{
+            rule = rule!!.clone()
         }
 
         expl = AlertDialog.Builder(context)
@@ -195,7 +197,7 @@ class RuleFragment: Fragment(){
                         if (add){
                             context.addRuleToProject(rule!!)
                         }else{
-                            context.updateRule(rule!!)
+                            context.updateRule(context.actualRule!!, rule!!)
                             context.actualProject!!.constructRappel()
                         }
                         context.openFragment(context.frags.pop())
@@ -208,6 +210,7 @@ class RuleFragment: Fragment(){
                     .create()
                     .show()
         }
+        context.actualFragment = RuleFragment()
         context.title = context.getString(R.string.add_rule)
     }
 }

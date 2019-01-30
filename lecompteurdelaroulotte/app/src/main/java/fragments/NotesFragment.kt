@@ -39,12 +39,14 @@ class NotesFragment: Fragment() {
         super.onActivityCreated(savedInstanceState)
 
         project = context.actualProject!!
-        var notes = project.notes
+        val notes = project.notes
 
         ET_notes = context.findViewById(R.id.noteText)
         ET_notes.run {
             setText(notes)
             addTextChangedListener(CustomWatcher())
         }
+        context.actualFragment = NotesFragment()
+        context.title = context.getString(R.string.edit_notes)
     }
 }

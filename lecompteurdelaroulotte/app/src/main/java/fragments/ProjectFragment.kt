@@ -204,6 +204,8 @@ class ProjectFragment: Fragment() {
         affiche()
         updateNames()
         updateState()
+        context.actualFragment = ProjectFragment()
+        context.setMenu("project")
         context.title = project.toString()
     }
 

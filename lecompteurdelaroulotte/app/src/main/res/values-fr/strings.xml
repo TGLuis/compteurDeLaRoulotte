@@ -34,7 +34,7 @@
     <string name="confirm">Confirmation</string>
     <string name="max_condition">Le maximum doit être -1 ou plus que 1!</string>
     <string name="warning">Attention</string>
-    <string name="my_rules">mes règles</string>
+    <string name="my_rules">Mes règles</string>
     <string name="start_now">Commencer à partir du rang actuel?</string>
     <string name="start_other">Ou à partir du rang:</string>
 
@@ -56,7 +56,7 @@
 
     <!-- help -->
     <string name="info">Info</string>
-    <string name="more_info_step">Cliquez sur l\'imge pour plus d'informations</string>
+    <string name="more_info_step">Cliquez sur l\'imge pour plus d\'informations</string>
     <string name="help_max">Si vous voulez que le compteur boucle, vous pouvez définir un maximum. Après avoir atteint ce maximum, Le compteur va revenir à 1. Si vous ne voulez pas de maximum, vous devez écrier 0.</string>
     <string name="help_tours">Le nombre "tours" est le nombre de fois que le compteur est revenu à 1 si vous avez défini un maximum au dessus.</string>
     <string name="help_position">La position du compteur ne sert que à l\'affichage dans votre projet. 1 pour être le premier compteur et x pour être le xieme compteur.</string>
@@ -83,4 +83,11 @@
     <string name="none">Aucun</string>
     <string name="yes">Oui</string>
     <string name="ok">Ok</string>
+
+
+    <string name="navigation_drawer_open">Ouvrir</string>
+    <string name="navigation_drawer_close">Fermer</string>
+    <string name="home">Acceuil</string>
+    <string name="my_counters">Mes compteurs</string>
+    <string name="counter">Compteur: </string>
 </resources>

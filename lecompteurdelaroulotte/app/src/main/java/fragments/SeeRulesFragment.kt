@@ -93,6 +93,7 @@ class SeeRulesFragment: Fragment() {
         adapteur = this.RulesAdapter(context, rules)
         LV_rules.adapter = adapteur
 
+        context.actualFragment = SeeRulesFragment()
         context.title = "${context.actualProject.toString()} -> ${context.getString(R.string.my_rules)}"
     }
 }

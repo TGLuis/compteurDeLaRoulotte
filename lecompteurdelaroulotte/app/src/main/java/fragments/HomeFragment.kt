@@ -12,6 +12,7 @@ import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.Toast
 import android.widget.*
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.simple_text_input.view.*
 import lufra.lecompteurdelaroulotte.MainActivity
 import lufra.lecompteurdelaroulotte.R
@@ -114,7 +115,8 @@ class HomeFragment: Fragment() {
                     .create()
                     .show()
         }
-
+        context.actualFragment = HomeFragment()
+        context.setMenu("home")
         context.title = context.getString(R.string.app_name)
     }
 }
