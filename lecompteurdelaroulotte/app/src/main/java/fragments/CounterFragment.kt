@@ -22,7 +22,7 @@ class CounterFragment: Fragment() {
     private lateinit var ET_name: EditText
     private lateinit var ET_state: EditText
     private lateinit var ET_max: EditText
-    private lateinit var ET_tours: EditText
+    private lateinit var TV_tours: TextView
     private lateinit var ET_position: EditText
     private lateinit var CB_attach: CheckBox
     private lateinit var S_attached: Spinner
@@ -53,14 +53,16 @@ class CounterFragment: Fragment() {
         ET_name = context.findViewById(R.id.counter_name)
         ET_name.setText(counter.name)
 
+        ET_max = context.findViewById(R.id.counter_max)
+        val max = counter.max
+        ET_max.setText(max.toString())
+
         ET_state = context.findViewById(R.id.counter_state)
         ET_state.setText(counter.etat.toString())
 
-        ET_max = context.findViewById(R.id.counter_max)
-        ET_max.setText(counter.max.toString())
-
-        ET_tours = context.findViewById(R.id.counter_tours)
-        ET_tours.setText(counter.tours.toString())
+        TV_tours = context.findViewById(R.id.counter_tours)
+        val tours= if(max==0) 0 else counter.etat/max
+        TV_tours.text = tours.toString()
 
         ET_position = context.findViewById(R.id.counter_position)
         ET_position.setText((counter.order+1).toString())
@@ -81,7 +83,6 @@ class CounterFragment: Fragment() {
         S_attached.adapter = adapteur
         S_attached.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onNothingSelected(parent: AdapterView<*>?) {}
-
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
                 selectedItem = arr[p2]
             }
@@ -95,7 +96,6 @@ class CounterFragment: Fragment() {
             val temp_name = ET_name.text.toString()
             val temp_etat = ET_state.text.toString().toInt()
             val temp_max = ET_max.text.toString().toInt()
-            val temp_tours = ET_tours.text.toString().toInt()
             var temp_pos = ET_position.text.toString().toInt()-1
             val temp_attach = CB_attach.isChecked
             val temp_attached = selectedItem
@@ -116,11 +116,6 @@ class CounterFragment: Fragment() {
             if (max_changed) {
                 changes++
                 str += "- " + context.getString(R.string.counter_max) + "\n"
-            }
-            val tours_changed = temp_tours != counter.tours
-            if (tours_changed) {
-                changes++
-                str += "- " + context.getString(R.string.counter_tours) + "\n"
             }
             val attach_changed = temp_attach != counter.attachedMain
             if (attach_changed) {
@@ -156,7 +151,6 @@ class CounterFragment: Fragment() {
                                 }
                                 if (etat_changed) counter.etat = temp_etat
                                 if (max_changed) counter.max = temp_max
-                                if (tours_changed) counter.tours = temp_tours
                                 if (attach_changed) {
                                     counter.attachedMain = temp_attach
                                     if (counter.attachedMain){
@@ -187,10 +181,6 @@ class CounterFragment: Fragment() {
                                     } else {
                                         counter.attach(context.actualProject!!.getCounter(temp_attached)!!)
                                     }
-                                }
-                                if (counter.max > 1) {
-                                    counter.tours += counter.etat % counter.max
-                                    counter.etat = counter.etat / counter.max
                                 }
                                 context.openFragment(context.frags.pop())
                                 dialog.dismiss()

@@ -8,9 +8,39 @@
     android:background="@drawable/background_test">
 
     <android.support.constraint.ConstraintLayout
-        android:id="@+id/start"
+        android:id="@+id/more_info"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/want_more_info"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            android:text="@string/more_info_step"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"/>
+
+        <ImageButton
+            android:id="@+id/info_step"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            app:srcCompat="@drawable/info"
+            android:contentDescription="@string/info_image"
+            android:layout_marginEnd="10dp"
+            android:background="#00000000"
+            app:layout_constraintRight_toRightOf="parent"/>
+
+    </android.support.constraint.ConstraintLayout>
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/start"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/more_info">
 
         <TextView
             android:id="@+id/text_start"
@@ -75,31 +105,40 @@
     </android.support.constraint.ConstraintLayout>
 
     <android.support.constraint.ConstraintLayout
-        android:id="@+id/more_info"
+        android:id="@+id/counter_of_rule"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@id/start">
 
         <TextView
-            android:id="@+id/want_more_info"
+            android:id="@+id/which_counter"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
             android:layout_marginStart="8dp"
             android:textColor="@color/black"
             android:textSize="16sp"
-            android:text="@string/more_info_step"
+            android:text="@string/which_counter"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"/>
 
+        <Spinner
+            android:id="@+id/the_counter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintLeft_toRightOf="@id/which_counter"
+            app:layout_constraintBaseline_toBaselineOf="@id/which_counter" />
+
         <ImageButton
-            android:id="@+id/info_step"
+            android:id="@+id/info_which_counter"
             android:layout_width="40dp"
             android:layout_height="40dp"
             app:srcCompat="@drawable/info"
             android:contentDescription="@string/info_image"
             android:layout_marginEnd="10dp"
             android:background="#00000000"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintRight_toRightOf="parent"/>
 
     </android.support.constraint.ConstraintLayout>
@@ -110,7 +149,7 @@
         android:layout_height="match_parent"
         android:layout_alignParentStart="true"
         tools:listitem="@layout/list_step_item"
-        android:layout_marginTop="116dp"
+        android:layout_marginTop="156dp"
         android:layout_marginBottom="66dp"/>
 
 

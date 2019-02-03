@@ -3,7 +3,6 @@ package library
 class Counter {
     var etat: Int = 0
     var name: String
-    var tours: Int = 0
     var max: Int
     var order: Int
     var attachedMain: Boolean
@@ -19,23 +18,13 @@ class Counter {
 
     fun update(b: Boolean){
         if(b){
-            if(max != 0 && max == etat){
-                tours++
-                if(counterAttached != null)
-                    counterAttached!!.update(true)
-                etat=1
-            }else{
-                etat++
-            }
+            if(max != 0 && etat%max == max-1 && counterAttached != null)
+                counterAttached!!.update(true)
+            etat++
         }else{
-            if(max != 0 && tours > 0 && etat == 1){
-                tours--
-                if(counterAttached != null)
-                    counterAttached!!.update(false)
-                etat=max
-            }else if(etat != 0){
-                etat--
-            }
+            if(max != 0 && etat%max == 0 && counterAttached != null)
+                counterAttached!!.update(false)
+            etat--
         }
     }
 

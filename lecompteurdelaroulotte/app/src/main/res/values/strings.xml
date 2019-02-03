@@ -63,6 +63,7 @@
     <string name="help_attached">If you choose another counter here, the counter chosen will increment each time this counter loop and come back to 1.</string>
     <string name="help_start">If you mark the bax, the rule will start from the current state of the project, if you don\'t mark it, you have to enter a number just below to say when it has to start.</string>
     <string name="help_step">If you mark the box of the step, the step will be an incrementing one, orelse it will be a decrementing one.</string>
+    <string name="help_which_counter">The rule will be applied on the counter you indicate here. If you select "the project", the rule will follow the main counter.</string>
 
     <!-- Boutons -->
     <string name="add_project">Add a project</string>
@@ -88,4 +89,8 @@
     <string name="home">Home</string>
     <string name="my_counters">My counters</string>
     <string name="counter">Counter: </string>
+    <string name="which_counter">Bind this rule to</string>
+    <string name="the_project">The project</string>
+    <string name="of">of</string>
+    <string name="stitches">stitches</string>
 </resources>

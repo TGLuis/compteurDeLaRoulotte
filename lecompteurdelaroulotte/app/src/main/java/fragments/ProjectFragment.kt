@@ -68,7 +68,8 @@ class ProjectFragment: Fragment() {
 
             val nb = projectView.findViewById<TextView>(R.id.count)
             nombres.add(Tuple(nb,count))
-            nb.text = count.etat.toString()
+            val state = if(count.max == 0) count.etat else count.etat%count.max+1
+            nb.text = state.toString()
 
             val param = projectView.findViewById<ImageButton>(R.id.parameter)
             param.setOnClickListener{openCount(count)}
@@ -156,7 +157,7 @@ class ProjectFragment: Fragment() {
             up(true)
         }
 
-        Collections.sort(counters, { a, b -> a.order - b.order})
+        counters.sortWith(Comparator { a, b -> a.order - b.order})
         listViewCounters = context.findViewById(R.id.listCounters)
         adapteur = this.CounterAdapter(context, counters)
         listViewCounters.adapter = adapteur
@@ -212,7 +213,10 @@ class ProjectFragment: Fragment() {
     fun up(b: Boolean){
         project.update(b)
         nombre.text = project.etat.toString()
-        nombres.forEach { it.t!!.text = it.c!!.etat.toString() }
+        nombres.forEach {
+            val state = if(it.c!!.max == 0) it.c!!.etat else it.c!!.etat%it.c!!.max+1
+            it.t!!.text = state.toString()
+        }
         affiche()
     }
 
@@ -233,18 +237,15 @@ class ProjectFragment: Fragment() {
     }
 
     fun updateNames(){
-        if(names != null){
-            names.forEach {
-                it.t!!.text = it.c!!.name
-            }
+        names.forEach {
+            it.t!!.text = it.c!!.name
         }
     }
 
     fun updateState(){
-        if(nombres != null){
-            nombres.forEach {
-                it.t!!.text = it.c!!.etat.toString()
-            }
+        nombres.forEach {
+            val state = if(it.c!!.max == 0) it.c!!.etat else it.c!!.etat%it.c!!.max+1
+            it.t!!.text = state.toString()
         }
     }
 }

@@ -25,7 +25,6 @@ class MyDatabase (context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, n
                 PROJECT_NAME + "' TEXT NOT NULL REFERENCES PROJECT_TABLE, '" +
                 COUNTER_NAME + "' TEXT NOT NULL, '" +
                 ETAT + "' INTEGER NOT NULL, '" +
-                TOURS + "' INTEGER NOT NULL, '" +
                 MAX + "' INTEGER NOT NULL, '" +
                 ORDER + "' INTEGER NOT NULL, '" +
                 ATTACHED_MAIN + "' INTEGER NOT NULL, '" +
@@ -35,6 +34,8 @@ class MyDatabase (context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, n
                 PROJECT_NAME + "' TEXT NOT NULL REFERENCES PROJECT_TABLE, '" +
                 START + "' INTEGER NOT NULL, '" +
                 NUM + "' INTEGER NOT NULL, " +
+                COMMENT + "' TEXT NOT NULL, " +
+                COUNTER_NAME + "' TEXT NOT NULL, " +
                 "UNIQUE ($PROJECT_NAME, $NUM) ON CONFLICT REPLACE);" )
         db.execSQL("CREATE TABLE '$STEP_TABLE' (" +
                 "'$PROJECT_NAME' TEXT NOT NULL REFERENCES PROJECT_TABLE, "+
@@ -80,13 +81,15 @@ class MyDatabase (context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, n
                 proj.etat = etat
                 proj.notes = notes.replace('\r','\'')
                 
-                val queryR = "SELECT $START, $NUM FROM $RULE_TABLE WHERE $PROJECT_NAME='$projectName';"
+                val queryR = "SELECT $START, $NUM, $COMMENT, $COUNTER_NAME FROM $RULE_TABLE WHERE $PROJECT_NAME='$projectName';"
                 val cursorR = db.rawQuery(queryR, null)
                 if (cursorR.moveToFirst()){
                     do {
                         val start = cursorR.getInt(0)
                         val num = cursorR.getInt(1)
-                        val myRule = Rule(start, num)
+                        val counterName = cursorR.getString(2)
+                        val myRule = Rule(start, num, counterName)
+                        myRule.comment = cursorR.getString(3)
 
                         val queryS = "SELECT $ORDER, $AUGMENTATION, $FIRST, $SECOND, $THIRD FROM $STEP_TABLE WHERE $PROJECT_NAME='$projectName' AND $NUM=$num;"
                         val cursorS = db.rawQuery(queryS, null)
@@ -102,26 +105,25 @@ class MyDatabase (context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, n
                             }while(cursorS.moveToNext())
                             myRule.steps = myArr
                         }
+                        cursorS.close()
                         proj.addRule(myRule)
                     } while(cursorR.moveToNext())
                 }
                 cursorR.close()
                 
-                val queryC = "SELECT $COUNTER_NAME, $ETAT, $TOURS, $MAX, $ORDER, $ATTACHED_MAIN, $COUNTER_ATTACHED FROM $COUNTER_TABLE WHERE $PROJECT_NAME='$projectName'"
+                val queryC = "SELECT $COUNTER_NAME, $ETAT, $MAX, $ORDER, $ATTACHED_MAIN, $COUNTER_ATTACHED FROM $COUNTER_TABLE WHERE $PROJECT_NAME='$projectName'"
                 val cursorC = db.rawQuery(queryC, null)
                 val tab = ArrayList<Tuple>()
                 if(cursorC.moveToFirst()){
                     do {
                         val counterName = cursorC.getString(0).replace('\r','\'')
                         val etat = cursorC.getInt(1)
-                        val tours = cursorC.getInt(2)
-                        val max = cursorC.getInt(3)
-                        val order = cursorC.getInt(4)
-                        val attachedMain = cursorC.getInt(5)==1
-                        val counterAttached = cursorC.getString(6)
+                        val max = cursorC.getInt(2)
+                        val order = cursorC.getInt(3)
+                        val attachedMain = cursorC.getInt(4)==1
+                        val counterAttached = cursorC.getString(5)
                         val count = Counter(counterName, max, order, attachedMain, null)
                         count.etat = etat
-                        count.tours = tours
                         if(counterAttached != NO_ATTACHED) {
                             tab.add(Tuple(count, counterAttached))
                         }
@@ -175,8 +177,8 @@ class MyDatabase (context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, n
     fun addRuleDB(projectName: String, r: Rule): Boolean{
         val db = this.writableDatabase
         val name = projectName.replace('\'','\r')
-        db.execSQL("INSERT INTO $RULE_TABLE ($PROJECT_NAME, $START, $NUM) "+
-                "VALUES ('$name', ${r.start}, ${r.num});")
+        db.execSQL("INSERT INTO $RULE_TABLE ($PROJECT_NAME, $START, $NUM, $COMMENT, $COUNTER_NAME) "+
+                "VALUES ('$name', ${r.start}, ${r.num}, ${r.comment}, ${r.counter});")
         for(s in 0 until r.steps.size){
             val augm = if(r.steps[s].augm) 1 else 0
             db.execSQL("INSERT INTO $STEP_TABLE ($PROJECT_NAME, $NUM, $ORDER, $AUGMENTATION, $FIRST, $SECOND, $THIRD) "+
@@ -205,25 +207,25 @@ class MyDatabase (context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, n
         return true
     }
 
-    fun addCounterDB(projectName: String, counterName: String, etat: Int, tours: Int, max: Int, order: Int, attached_main: Boolean, attachedCounter: Counter?): Boolean{
+    fun addCounterDB(projectName: String, counterName: String, etat: Int, max: Int, order: Int, attached_main: Boolean, attachedCounter: Counter?): Boolean{
         val db = this.writableDatabase
         val att = if(attached_main) 1 else 0
         val name = projectName.replace('\'','\r')
         val nameC = counterName.replace('\'','\r')
         val counterAtt = if(attachedCounter == null)  NO_ATTACHED else attachedCounter.name
-        db.execSQL("INSERT INTO $COUNTER_TABLE ( $PROJECT_NAME, $COUNTER_NAME, $ETAT, $TOURS, $MAX, $ORDER, $ATTACHED_MAIN, $COUNTER_ATTACHED ) "+
-                "VALUES ( '$name', '$nameC', $etat, $tours, $max, $order, $att, '$counterAtt' );")
+        db.execSQL("INSERT INTO $COUNTER_TABLE ( $PROJECT_NAME, $COUNTER_NAME, $ETAT, $MAX, $ORDER, $ATTACHED_MAIN, $COUNTER_ATTACHED ) "+
+                "VALUES ( '$name', '$nameC', $etat, $max, $order, $att, '$counterAtt' );")
         return true
     }
 
-    fun updateCounterDB(projectName: String, counterName: String, etat: Int, tours: Int, max: Int, order: Int, attached_main: Boolean, attachedCounter: Counter?): Boolean{
+    fun updateCounterDB(projectName: String, counterName: String, etat: Int, max: Int, order: Int, attached_main: Boolean, attachedCounter: Counter?): Boolean{
         val db = this.writableDatabase
         val att = if(attached_main) 1 else 0
         val name = projectName.replace('\'','\r')
         val nameC = counterName.replace('\'','\r')
         val counterAtt = if(attachedCounter == null)  NO_ATTACHED else attachedCounter.name
         db.execSQL("UPDATE $COUNTER_TABLE " +
-                " SET $ETAT=$etat, $TOURS=$tours, $MAX=$max, $ORDER=$order, $ATTACHED_MAIN=$att, $COUNTER_ATTACHED='$counterAtt'" +
+                " SET $ETAT=$etat, $MAX=$max, $ORDER=$order, $ATTACHED_MAIN=$att, $COUNTER_ATTACHED='$counterAtt'" +
                 " WHERE $PROJECT_NAME='$name' AND $COUNTER_NAME='$nameC';")
         return true
     }
@@ -249,7 +251,6 @@ class MyDatabase (context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, n
         private const val COUNTER_TABLE = "counter"
         private const val COUNTER_NAME = "counterName"
         private const val ETAT = "etat"
-        private const val TOURS = "tours"
         private const val MAX = "max"
         private const val ATTACHED_MAIN = "attached"
         private const val COUNTER_ATTACHED = "counterAttached"
@@ -262,6 +263,7 @@ class MyDatabase (context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, n
         private const val FIRST = "first"
         private const val SECOND = "second"
         private const val THIRD = "third"
+        private const val COMMENT = "comment"
 
         private const val NO_ATTACHED = "__--NO--__"
     }

@@ -1,5 +1,6 @@
 package library
 
+import lufra.lecompteurdelaroulotte.R
 import java.util.*
 
 class Project {
@@ -7,18 +8,27 @@ class Project {
     var bindCounters: ArrayList<Counter>? = null
     var notes: String = " "
     var name: String = ""
-    lateinit var myRules: ArrayList<Rule>
-    lateinit var myCounters: ArrayList<Counter>
+    var myRules: ArrayList<Rule>
+    var myCounters: ArrayList<Counter>
 
-    private lateinit var lesNums: ArrayList<Rappel>
+    private var lesNums: ArrayList<Rappel>
 
+    /**
+     * Class to create a message when a rule is applied
+     */
     inner class Rappel{
+        var c: Counter?
         var x: Int
         var s: String
 
-        constructor(n: Int, message: String){
+        constructor(n: Int, message: String, count: Counter?){
             x = n
             s = message
+            c = count
+        }
+
+        fun is_ok(): Boolean{
+            return if(c == null) x == etat else x == c!!.etat
         }
     }
 
@@ -30,6 +40,9 @@ class Project {
         lesNums = ArrayList<Rappel>()
     }
 
+    /***********************************************************************************************
+     * Functions to manage the counters
+     */
     fun has_counter(s: String): Boolean{
         myCounters.forEach {
             if(s == it.name)
@@ -67,6 +80,9 @@ class Project {
         }
     }
 
+    /***********************************************************************************************
+     * Functions to manage the rules
+     */
     fun addRule(r: Rule){
         myRules.add(r)
         addRuleInRappel(r)
@@ -82,6 +98,9 @@ class Project {
         constructRappel()
     }
 
+    /***********************************************************************************************
+     * Functions to update manage the project
+     */
     fun update(b: Boolean){
         if(b){etat++}else{etat--}
         notify(b)
@@ -107,6 +126,9 @@ class Project {
         }
     }
 
+    /***********************************************************************************************
+     * Functions to manage the Rappel, the messages which appears when a rule aplly
+     */
     fun constructRappel(){
         lesNums = ArrayList<Rappel>()
         for (r in myRules){
@@ -117,10 +139,11 @@ class Project {
     fun addRuleInRappel(r: Rule){
         var x = r.start-r.steps[0].two
         for (elem in r.steps){
-            val aug = if(elem.augm) "Augmentation" else "Diminution" //TODO: utiliser une ressource string
+            val aug = if(elem.augm) R.string.augmentation else R.string.diminution
             for (i in 1..elem.one){
                 x += elem.two
-                lesNums.add(Rappel(x,"%s de %d mailles".format(aug,elem.three)))//TODO: utiliser une ressource string à voir...
+                val the_counter = myCounters.find { it.name == r.counter }
+                lesNums.add(Rappel(x,aug.toString() + " " + R.string.of + " " + elem.three + " " + R.string.stitches, the_counter))
             }
         }
     }
@@ -128,7 +151,7 @@ class Project {
     fun getMessageRule(): String?{
         var s = ""
         lesNums.forEach {
-            if( it.x == etat){
+            if( it.is_ok()){
                 s += it.s + "\n"
             }
         }
@@ -138,5 +161,8 @@ class Project {
         return s
     }
 
+    /***********************************************************************************************
+     * Other functions
+     */
     override fun toString(): String {return this.name}
 }

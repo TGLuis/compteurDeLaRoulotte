@@ -1,6 +1,7 @@
 package fragments
 
 import android.content.Context
+import android.media.Image
 import android.support.v4.app.Fragment
 import android.os.Bundle
 import android.support.v7.app.AlertDialog
@@ -28,7 +29,10 @@ class RuleFragment: Fragment(){
     private lateinit var ET_otherStart: EditText
     private lateinit var IB_infoStart: ImageButton
     private lateinit var IB_infoStep: ImageButton
+    private lateinit var S_counters: Spinner
+    private lateinit var IB_infoCounter: ImageButton
     private lateinit var expl: AlertDialog.Builder
+    private lateinit var selectedItem: String
 
     private lateinit var B_cancel: Button
     private lateinit var B_add_step: Button
@@ -129,7 +133,7 @@ class RuleFragment: Fragment(){
         rule = context.actualRule
         add = rule == null
         if (add){
-            rule = Rule(0, context.actualProject!!.myRules.size)
+            rule = Rule(0, context.actualProject!!.myRules.size, "")
         }else{
             rule = rule!!.clone()
         }
@@ -146,6 +150,29 @@ class RuleFragment: Fragment(){
             ET_otherStart.setText(rule!!.start.toString())
         }
 
+        S_counters = context.findViewById(R.id.the_counter)
+        val arr = ArrayList<String>(context.actualProject!!.getCounters().size+1)
+        val the_proj = context.getString(R.string.the_project)
+        arr.add(the_proj)
+        context.actualProject!!.getCounters().forEach {arr.add(it.name)}
+        selectedItem = the_proj
+        if (!add) {
+            selectedItem = rule!!.counter
+        }
+        val adaptor = ArrayAdapter(context, R.layout.support_simple_spinner_dropdown_item, arr.toArray())
+        adaptor.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item)
+        S_counters.adapter = adaptor
+        S_counters.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onNothingSelected(parent: AdapterView<*>?) {}
+            override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
+                rule!!.counter = arr[p2]
+            }
+        }
+        if (!add) {
+            val temp_selected = if(rule!!.counter == "") the_proj else rule!!.counter
+            S_counters.setSelection(adaptor.getPosition(temp_selected))
+        }
+
         IB_infoStart = context.findViewById(R.id.info_start)
         IB_infoStart.setOnClickListener {
             expl.setMessage(R.string.help_start).create().show()
@@ -154,6 +181,11 @@ class RuleFragment: Fragment(){
         IB_infoStep = context.findViewById(R.id.info_step)
         IB_infoStep.setOnClickListener {
             expl.setMessage(R.string.help_step).create().show()
+        }
+
+        IB_infoCounter = context.findViewById(R.id.info_which_counter)
+        IB_infoCounter.setOnClickListener {
+            expl.setMessage(R.string.help_which_counter).create().show()
         }
 
         steps = if (add) {

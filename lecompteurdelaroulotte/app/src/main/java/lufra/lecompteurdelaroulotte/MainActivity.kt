@@ -9,6 +9,9 @@ import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import android.view.*
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
+import android.widget.Spinner
 import android.widget.Toast
 import fragments.*
 import kotlinx.android.synthetic.main.simple_text_input.view.*
@@ -28,6 +31,7 @@ class MainActivity: AppCompatActivity(){
     lateinit var drawer_layout: DrawerLayout
     lateinit var frags: Stack<Fragment>
     lateinit var db: MyDatabase
+    lateinit var editCounter: AlertDialog.Builder
 
     override fun onCreate(savedInstanceState: Bundle?){
         super.onCreate(savedInstanceState)
@@ -53,6 +57,7 @@ class MainActivity: AppCompatActivity(){
 
         //NavigationView
         nav_view = this.findViewById(R.id.nav_view)
+        editCounter = AlertDialog.Builder(this)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -61,10 +66,12 @@ class MainActivity: AppCompatActivity(){
         return true
     }
 
+    /**
+     * Contextual menu, create dynamically the menu in function of the parameter 'which'
+     * If 'which' is "home" then it will create the menu for the home.
+     * If 'which' is "project" it will create the menu for every screen with a project.
+     */
     fun setMenu(which: String){
-        // todo: rajouter projet en cours pour arriver sur ProjectFragment
-        // todo: gérer les problèmes de stacks frag quand on clique plein de fois sur le même item du menu!!
-        // todo: clear la stack frag quand on revient sur le home
         val context = this
         nav_view.menu.clear()
         when(which){
@@ -90,9 +97,19 @@ class MainActivity: AppCompatActivity(){
                         true
                     }
                 }
+                nav_view.menu.add(actualProject!!.name).apply {
+                    setOnMenuItemClickListener {
+                        if(context.frags.peek() !is ProjectFragment)
+                            context.frags.push(actualFragment)
+                        drawer_layout.closeDrawers()
+                        context.openFragment(ProjectFragment())
+                        true
+                    }
+                }
                 nav_view.menu.add(R.string.edit_notes).apply{
                     setOnMenuItemClickListener {
-                        context.frags.push(actualFragment)
+                        if(context.frags.peek() !is NotesFragment)
+                            context.frags.push(actualFragment)
                         drawer_layout.closeDrawers()
                         context.openFragment(NotesFragment())
                         true
@@ -124,12 +141,40 @@ class MainActivity: AppCompatActivity(){
                     }
                 }
                 if(context.actualProject!!.myCounters.size > 0){
+                    val viewInflated = LayoutInflater.from(context).inflate(R.layout.simple_spinner_input, context.nav_view as ViewGroup, false)
+                    val the_spinner = viewInflated.findViewById<Spinner>(R.id.input_spinner)
+                    val arr = ArrayList<String>(context.actualProject!!.getCounters().size)
+                    this.actualProject!!.getCounters().forEach {arr.add(it.name)}
+                    val adapteur = ArrayAdapter(context, R.layout.support_simple_spinner_dropdown_item, arr.toArray())
+                    var selectedItem = arr[0]
+                    adapteur.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item)
+                    the_spinner.adapter = adapteur
+                    the_spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+                        override fun onNothingSelected(parent: AdapterView<*>?) {}
+                        override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
+                            selectedItem = arr[p2]
+                        }
+                    }
+                    editCounter.setView(viewInflated)
+                            .setTitle(R.string.project_name_id)
+                            .setPositiveButton(R.string.ok) { dialog, _ ->
+                                actualCounter = actualProject!!.myCounters.find { it.name == selectedItem }
+                                this.openFragment(CounterFragment())
+                                dialog.dismiss()
+                            }
+                            .setNegativeButton(R.string.cancel) { dialog, _ ->
+                                dialog.dismiss()
+                            }
+                            .create()
+                            .show()
+                    /* last version
                     context.actualProject!!.myCounters.forEach {
                         val count = it
                         val text = getResources().getString(R.string.counter) + it.name
                         nav_view.menu.add(text).apply{
                             setOnMenuItemClickListener {
-                                context.frags.push(actualFragment)
+                                if(context.frags.peek() !is CounterFragment)
+                                    context.frags.push(actualFragment)
                                 drawer_layout.closeDrawers()
                                 context.actualCounter = count
                                 context.openFragment(CounterFragment())
@@ -137,10 +182,12 @@ class MainActivity: AppCompatActivity(){
                             }
                         }
                     }
+                    */
                 }
                 nav_view.menu.add(R.string.my_rules).apply{
                     setOnMenuItemClickListener {
-                        context.frags.push(actualFragment)
+                        if(context.frags.peek() !is SeeRulesFragment)
+                            context.frags.push(actualFragment)
                         drawer_layout.closeDrawers()
                         context.openFragment(SeeRulesFragment())
                         true
@@ -151,6 +198,9 @@ class MainActivity: AppCompatActivity(){
 
     }
 
+    /***********************************************************************************************
+     *  Fucntions to manage a project and his features
+     */
     fun createProject(projectName: String){
         db.addProjectDB(projectName, " ")
         projectsList.add(Project(projectName))
@@ -165,7 +215,7 @@ class MainActivity: AppCompatActivity(){
 
     fun createCounter(counterName: String){
         val order = actualProject!!.getCounters().size
-        db.addCounterDB(actualProject.toString(), counterName, 0, 0, 0, order, false, null)
+        db.addCounterDB(actualProject.toString(), counterName, 0, 0, order, false, null)
         actualProject!!.addCounter(Counter(counterName, 0, order, false, null))
     }
 
@@ -173,13 +223,17 @@ class MainActivity: AppCompatActivity(){
         if (actualCounter == counter){
             actualCounter = null
         }
+        actualProject!!.myRules.forEach {
+            if(it.counter == counter.name)
+                deleteRuleOfProject(it)
+        }
         db.deleteCounterDB(actualProject.toString(), counter.name)
         actualProject!!.deleteCounter(counter)
     }
 
     fun updateCounterName(c: Counter, new_name: String){
         db.deleteCounterDB(actualProject.toString(), c.name)
-        db.addCounterDB(actualProject.toString(), new_name, c.etat, c.tours, c.max, c.order, c.attachedMain, c.counterAttached)
+        db.addCounterDB(actualProject.toString(), new_name, c.etat, c.max, c.order, c.attachedMain, c.counterAttached)
     }
 
     fun addRuleToProject(r: Rule){
@@ -208,6 +262,9 @@ class MainActivity: AppCompatActivity(){
         supportFragmentManager.beginTransaction().replace(R.id.frame, frag).commit()
     }
 
+    /***********************************************************************************************
+     * override of the activity functions
+     */
     override fun onBackPressed() {
         if (drawer_layout.isDrawerOpen(GravityCompat.START)) {
             drawer_layout.closeDrawer(GravityCompat.START)
@@ -236,6 +293,9 @@ class MainActivity: AppCompatActivity(){
         super.onStop()
     }
 
+    /***********************************************************************************************
+     * Some more functions
+     */
     private fun saveState(){
         if(!projectsList.isEmpty()){
             projectsList.forEach{
@@ -244,7 +304,7 @@ class MainActivity: AppCompatActivity(){
                 val coun = proj.getCounters()
                 if(! coun.isEmpty()){
                     coun.forEach{
-                        db.updateCounterDB(proj.toString(), it.name, it.etat, it.tours, it.max, it.order, it.attachedMain, it.counterAttached)
+                        db.updateCounterDB(proj.toString(), it.name, it.etat, it.max, it.order, it.attachedMain, it.counterAttached)
                     }
                 }
             }
@@ -253,7 +313,8 @@ class MainActivity: AppCompatActivity(){
 
     fun createTextFromRule(r: Rule): String{
         var s = getString(R.string.rule)
-        s+=": " + getString(R.string.from_row) + " " + r.start.toString() + "\n"
+        s+=": " + r.comment
+        s+="\n" + getString(R.string.from_row) + " " + r.start.toString() + "\n"
         for(i in 0 until r.steps.size){
             if(i != 0){
                 s += getString(R.string.andthen) + " "

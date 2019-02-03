@@ -115,7 +115,10 @@ class HomeFragment: Fragment() {
                     .create()
                     .show()
         }
+
         context.actualFragment = HomeFragment()
+        context.frags.clear()
+        context.frags.push(context.actualFragment)
         context.setMenu("home")
         context.title = context.getString(R.string.app_name)
     }
