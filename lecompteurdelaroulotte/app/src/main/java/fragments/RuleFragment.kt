@@ -1,7 +1,6 @@
 package fragments
 
 import android.content.Context
-import android.media.Image
 import android.support.v4.app.Fragment
 import android.os.Bundle
 import android.support.v7.app.AlertDialog
@@ -27,10 +26,12 @@ class RuleFragment: Fragment(){
     private lateinit var steps: ArrayList<Step>
     private lateinit var CB_startNow: CheckBox
     private lateinit var ET_otherStart: EditText
+    private lateinit var S_counters: Spinner
+    private lateinit var ET_comment: EditText
     private lateinit var IB_infoStart: ImageButton
     private lateinit var IB_infoStep: ImageButton
-    private lateinit var S_counters: Spinner
     private lateinit var IB_infoCounter: ImageButton
+    private lateinit var IB_infoComment: ImageButton
     private lateinit var expl: AlertDialog.Builder
     private lateinit var selectedItem: String
 
@@ -40,14 +41,8 @@ class RuleFragment: Fragment(){
 
     private lateinit var adapteur: StepsAdapter
 
-    inner class CustomWatcher: TextWatcher{
-        var st: Step
-        var i: Int
+    inner class CustomWatcher(var st: Step, var i: Int) : TextWatcher{
 
-        constructor(st: Step, i: Int){
-            this.st = st
-            this.i = i
-        }
         override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
         override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
         override fun afterTextChanged(s: Editable?) {
@@ -95,7 +90,6 @@ class RuleFragment: Fragment(){
             }else{
                 IB_del.setOnClickListener {
                     val dial = AlertDialog.Builder(context)
-                    Toast.makeText(context, step.toString(), Toast.LENGTH_LONG)
                     dial.setTitle(R.string.confirm)
                             .setMessage(R.string.delete_step)
                             .setPositiveButton(R.string.yes) { dialog, _ ->
@@ -133,7 +127,7 @@ class RuleFragment: Fragment(){
         rule = context.actualRule
         add = rule == null
         if (add){
-            rule = Rule(0, context.actualProject!!.myRules.size, "")
+            rule = Rule(0, context.actualProject!!.myRules.size)
         }else{
             rule = rule!!.clone()
         }
@@ -165,12 +159,20 @@ class RuleFragment: Fragment(){
         S_counters.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onNothingSelected(parent: AdapterView<*>?) {}
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
-                rule!!.counter = arr[p2]
+                if (p2 != 0)
+                    rule!!.counter = arr[p2]
+                else
+                    rule!!.counter = ""
             }
         }
         if (!add) {
             val temp_selected = if(rule!!.counter == "") the_proj else rule!!.counter
             S_counters.setSelection(adaptor.getPosition(temp_selected))
+        }
+
+        ET_comment = context.findViewById(R.id.the_comment)
+        if(!add){
+            ET_comment.setText(rule!!.comment)
         }
 
         IB_infoStart = context.findViewById(R.id.info_start)
@@ -188,8 +190,13 @@ class RuleFragment: Fragment(){
             expl.setMessage(R.string.help_which_counter).create().show()
         }
 
+        IB_infoComment = context.findViewById(R.id.info_comment)
+        IB_infoComment.setOnClickListener {
+            expl.setMessage(R.string.help_comment_rule).create().show()
+        }
+
         steps = if (add) {
-                    ArrayList<Step>()
+                    ArrayList()
                 } else {
                     rule!!.steps
                 }
@@ -221,6 +228,7 @@ class RuleFragment: Fragment(){
                 0
             }
             rule!!.start = start
+            rule!!.comment = ET_comment.text.toString()
             val prem = if(add) context.getString(R.string.pre_rule) else context.getString(R.string.pre_rule_modif)
             val mess = context.createTextFromRule(rule!!)
             val dial = AlertDialog.Builder(context)

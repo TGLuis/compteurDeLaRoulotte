@@ -8,7 +8,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
-import kotlinx.android.synthetic.main.simple_text_input.view.*
 import library.Counter
 import library.Project
 import lufra.lecompteurdelaroulotte.MainActivity
@@ -22,8 +21,6 @@ class ProjectFragment: Fragment() {
 
     private lateinit var listViewCounters: ListView
     private lateinit var buttonEditNotes: Button
-    private lateinit var buttonEditRules: Button
-    private lateinit var buttonAddCounter: Button
     private lateinit var buttonPlus: Button
     private lateinit var buttonMinus: Button
     private lateinit var counters: ArrayList<Counter>
@@ -36,14 +33,10 @@ class ProjectFragment: Fragment() {
     private lateinit var names: ArrayList<Tuple>
     lateinit var adapteur: CounterAdapter
 
-    inner class Tuple {
-        var t: TextView? = null
-        var c: Counter? = null
+    inner class Tuple(t: TextView, c: Counter) {
+        var t: TextView? = t
+        var c: Counter? = c
 
-        constructor(t: TextView, c: Counter){
-            this.t = t
-            this.c = c
-        }
     }
 
     inner class CounterAdapter(context: Context, list: ArrayList<Counter>) : ArrayAdapter<Counter>(context, 0, list) {
@@ -84,27 +77,33 @@ class ProjectFragment: Fragment() {
                 up(true, count)
             }
 
+            val comment = projectView.findViewById<TextView>(R.id.comment_of_the_counter)
+            val com = project.getMessageForCounter(count)
+            if(com == null){
+                comment.text = ""
+                comment.maxHeight = 0
+            }else{
+                comment.text = com
+                comment.maxHeight = 100
+            }
+
             return projectView
         }
 
         fun up(b: Boolean, count: Counter) {
-            var warning = true
             if (!b && count.attachedMain && project.etat == 0) {
                 Toast.makeText(context, R.string.problem_etat_nul, Toast.LENGTH_LONG).show()
             } else if (count.attachedMain && (b || (!b && count.etat > 0))){
                 project.update(b)
             } else if (b || (!b && count.etat > 0)){
                 count.update(b)
-                warning = false
             }
             nombre.text = project.etat.toString()
             updateState()
 
-            val mess = project.getMessageRule()
+            val mess = project.getMessageAll()
             if (mess != null){
-                if(warning){
-                    warn(mess)
-                }
+                warn(mess)
             }else{
                 comment.text = ""
             }
@@ -129,8 +128,8 @@ class ProjectFragment: Fragment() {
 
         project = context.actualProject!!
 
-        nombres = ArrayList<Tuple>()
-        names = ArrayList<Tuple>()
+        nombres = ArrayList()
+        names = ArrayList()
 
         warning = AlertDialog.Builder(context)
         warning.setTitle(R.string.warning)
@@ -168,40 +167,6 @@ class ProjectFragment: Fragment() {
             context.openFragment(NotesFragment())
         }
 
-        buttonEditRules = context.findViewById(R.id.button_rules)
-        buttonEditRules.setOnClickListener{
-            context.frags.push(ProjectFragment())
-            context.openFragment(SeeRulesFragment())
-        }
-
-        buttonAddCounter = context.findViewById(R.id.button_add_counter)
-        buttonAddCounter.setOnClickListener{
-            val viewInflated = LayoutInflater.from(context).inflate(R.layout.simple_text_input, view as ViewGroup, false)
-            addCounter.setView(viewInflated)
-                    .setTitle(R.string.counter_name_id)
-                    .setPositiveButton(R.string.ok) { dialog, _ ->
-                        val counterName = viewInflated.input_text.text.toString()
-                        if (project.has_counter(counterName)){
-                            Toast.makeText(context,R.string.counter_already, Toast.LENGTH_SHORT).show()
-                        }else{
-                            context.createCounter(counterName)
-                            adapteur.notifyDataSetChanged()
-                        }
-                        dialog.dismiss()
-                    }
-                    .setNegativeButton(R.string.cancel) { dialog, _ ->
-                        dialog.dismiss()
-                    }
-                    .create()
-                    .show()
-        }
-
-        if(Locale.getDefault().language == "fr"){
-            val size = resources.getDimension(R.dimen.french_text_size)*0.38F // correspond +- à 16sp
-            buttonAddCounter.textSize = size
-            buttonEditRules.textSize = size
-        }
-
         affiche()
         updateNames()
         updateState()
@@ -221,7 +186,7 @@ class ProjectFragment: Fragment() {
     }
 
     fun affiche(){
-        val mess = project.getMessageRule()
+        val mess = project.getMessageForMain()
         if (mess != null){
             warn(mess)
         }else{
@@ -237,15 +202,17 @@ class ProjectFragment: Fragment() {
     }
 
     fun updateNames(){
-        names.forEach {
+        adapteur.notifyDataSetChanged()
+        /*names.forEach {
             it.t!!.text = it.c!!.name
-        }
+        }*/
     }
 
     fun updateState(){
-        nombres.forEach {
+        adapteur.notifyDataSetChanged()
+        /*nombres.forEach {
             val state = if(it.c!!.max == 0) it.c!!.etat else it.c!!.etat%it.c!!.max+1
             it.t!!.text = state.toString()
-        }
+        }*/
     }
 }

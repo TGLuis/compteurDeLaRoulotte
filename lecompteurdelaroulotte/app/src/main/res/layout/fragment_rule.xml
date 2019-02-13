@@ -10,7 +10,8 @@
     <android.support.constraint.ConstraintLayout
         android:id="@+id/more_info"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent">
 
         <TextView
             android:id="@+id/want_more_info"
@@ -32,6 +33,8 @@
             android:contentDescription="@string/info_image"
             android:layout_marginEnd="10dp"
             android:background="#00000000"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintRight_toRightOf="parent"/>
 
     </android.support.constraint.ConstraintLayout>
@@ -143,13 +146,59 @@
 
     </android.support.constraint.ConstraintLayout>
 
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/a_comment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/counter_of_rule">
+
+        <TextView
+            android:id="@+id/comment_this"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginStart="8dp"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            android:text="@string/comment_this"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"/>
+
+        <EditText
+            android:id="@+id/the_comment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/mauve"
+            android:minWidth="80dp"
+            android:textSize="16sp"
+            android:maxLines="1"
+            android:hint="@string/a_comment"
+            android:layout_marginStart="10dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/comment_this"/>
+
+
+        <ImageButton
+            android:id="@+id/info_comment"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            app:srcCompat="@drawable/info"
+            android:contentDescription="@string/info_image"
+            android:layout_marginEnd="10dp"
+            android:background="#00000000"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintRight_toRightOf="parent"/>
+
+    </android.support.constraint.ConstraintLayout>
+
     <ListView
         android:id="@+id/listSteps"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_alignParentStart="true"
         tools:listitem="@layout/list_step_item"
-        android:layout_marginTop="156dp"
+        android:layout_marginTop="236dp"
         android:layout_marginBottom="66dp"/>
 
 
@@ -169,6 +218,8 @@
             android:theme="@style/ButtonStyleDark"
             android:text="@string/cancel"
             android:textSize="16sp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toLeftOf="@id/button_add_step"/>
 
@@ -179,6 +230,8 @@
             android:theme="@style/ButtonStyleDark"
             android:text="@string/add_step"
             android:textSize="16sp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toRightOf="@id/button_cancel"
             app:layout_constraintRight_toLeftOf="@id/button_save"/>
 
@@ -189,6 +242,8 @@
             android:theme="@style/ButtonStyleDark"
             android:text="@string/save"
             android:textSize="16sp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toRightOf="@id/button_add_step"
             app:layout_constraintRight_toRightOf="parent"/>
 

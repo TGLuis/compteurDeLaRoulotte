@@ -1,6 +1,5 @@
 package fragments
 
-import android.media.Image
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.app.AlertDialog
@@ -11,8 +10,6 @@ import android.widget.*
 import library.Counter
 import lufra.lecompteurdelaroulotte.MainActivity
 import lufra.lecompteurdelaroulotte.R
-import kotlin.math.max
-import kotlin.math.min
 
 class CounterFragment: Fragment() {
     private val TAG = "===== COUNTERFRAGMENT ====="

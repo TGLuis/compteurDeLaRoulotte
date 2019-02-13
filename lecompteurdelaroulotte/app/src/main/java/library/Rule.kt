@@ -1,21 +1,19 @@
 package library
 
-class Rule {
-    var num: Int // identifiant
-    var start: Int //depart
+class Rule(//depart
+        var start: Int, identifiant: Int) {
+    var num: Int = identifiant // identifiant
     var steps: java.util.ArrayList<Step>
     var comment: String = ""
-    var counter: String
+    var counter: String = ""
 
-    constructor(start: Int, identifiant: Int, counter: String){
-        this.start = start
-        this.num = identifiant
-        this.counter = counter
-        this.steps = java.util.ArrayList<Step>()
+    init {
+        this.steps = java.util.ArrayList()
     }
 
     fun clone(): Rule{
-        val r = Rule(num, start, counter)
+        val r = Rule(num, start)
+        r.counter = counter
         r.steps = steps.clone() as java.util.ArrayList<Step>
         return r
     }

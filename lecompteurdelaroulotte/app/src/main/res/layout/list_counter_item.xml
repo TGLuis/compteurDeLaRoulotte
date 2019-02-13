@@ -34,7 +34,7 @@
             android:contentDescription="@string/counter_image"
             android:layout_marginStart="10dp"
             app:layout_constraintTop_toBottomOf="@id/counter_name"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/comment_of_the_counter"
             app:layout_constraintLeft_toLeftOf="parent"/>
 
         <TextView
@@ -60,6 +60,7 @@
             android:text="@string/button_minus"
             android:textSize="30sp"
             app:layout_constraintTop_toBottomOf="@id/counter_name"
+            app:layout_constraintBottom_toTopOf="@id/comment_of_the_counter"
             app:layout_constraintRight_toLeftOf="@id/button_plus"/>
         <Button
             android:id="@+id/button_plus"
@@ -70,6 +71,7 @@
             android:text="@string/button_plus"
             android:textSize="30sp"
             app:layout_constraintTop_toBottomOf="@id/counter_name"
+            app:layout_constraintBottom_toTopOf="@id/comment_of_the_counter"
             app:layout_constraintRight_toLeftOf="@id/parameter" />
 
         <ImageButton
@@ -81,8 +83,20 @@
             android:layout_marginEnd="10dp"
             android:background="#00000000"
             app:layout_constraintTop_toBottomOf="@id/counter_name"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/comment_of_the_counter"
             app:layout_constraintRight_toRightOf="parent" />
+
+        <TextView
+            android:id="@+id/comment_of_the_counter"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/counter_comment"
+            android:gravity="center"
+            android:textColor="@color/mauve"
+            android:textSize="16sp"
+            android:text="@string/counter_comment"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
 
     </android.support.constraint.ConstraintLayout>
 

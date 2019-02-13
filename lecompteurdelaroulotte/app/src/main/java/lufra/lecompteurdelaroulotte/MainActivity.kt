@@ -8,6 +8,7 @@ import android.support.v4.widget.DrawerLayout
 import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
+import android.util.Log
 import android.view.*
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
@@ -39,7 +40,7 @@ class MainActivity: AppCompatActivity(){
 
         // Database
         db = MyDatabase(this)
-        projectsList = db.getAllProjects()
+        projectsList = db.getAllProjects(this)
 
         // Fragments
         frags = Stack()
@@ -155,34 +156,25 @@ class MainActivity: AppCompatActivity(){
                             selectedItem = arr[p2]
                         }
                     }
-                    editCounter.setView(viewInflated)
-                            .setTitle(R.string.project_name_id)
-                            .setPositiveButton(R.string.ok) { dialog, _ ->
-                                actualCounter = actualProject!!.myCounters.find { it.name == selectedItem }
-                                this.openFragment(CounterFragment())
-                                dialog.dismiss()
-                            }
-                            .setNegativeButton(R.string.cancel) { dialog, _ ->
-                                dialog.dismiss()
-                            }
-                            .create()
-                            .show()
-                    /* last version
-                    context.actualProject!!.myCounters.forEach {
-                        val count = it
-                        val text = getResources().getString(R.string.counter) + it.name
-                        nav_view.menu.add(text).apply{
-                            setOnMenuItemClickListener {
-                                if(context.frags.peek() !is CounterFragment)
-                                    context.frags.push(actualFragment)
-                                drawer_layout.closeDrawers()
-                                context.actualCounter = count
-                                context.openFragment(CounterFragment())
-                                true
-                            }
+                    nav_view.menu.add("Open a counter").apply{
+                        setOnMenuItemClickListener {
+                            editCounter.setView(viewInflated)
+                                    .setTitle(R.string.project_name_id)
+                                    .setPositiveButton(R.string.ok) { dialog, _ ->
+                                        actualCounter = actualProject!!.myCounters.find { it.name == selectedItem }
+                                        context.frags.push(actualFragment)
+                                        context.openFragment(CounterFragment())
+                                        drawer_layout.closeDrawers()
+                                        dialog.dismiss()
+                                    }
+                                    .setNegativeButton(R.string.cancel) { dialog, _ ->
+                                        dialog.dismiss()
+                                    }
+                                    .create()
+                                    .show()
+                            true
                         }
                     }
-                    */
                 }
                 nav_view.menu.add(R.string.my_rules).apply{
                     setOnMenuItemClickListener {
@@ -203,7 +195,7 @@ class MainActivity: AppCompatActivity(){
      */
     fun createProject(projectName: String){
         db.addProjectDB(projectName, " ")
-        projectsList.add(Project(projectName))
+        projectsList.add(Project(this, projectName))
         setMenu("home")
     }
 
@@ -268,28 +260,29 @@ class MainActivity: AppCompatActivity(){
     override fun onBackPressed() {
         if (drawer_layout.isDrawerOpen(GravityCompat.START)) {
             drawer_layout.closeDrawer(GravityCompat.START)
+        } else if (!frags.isEmpty()) {
+            openFragment(frags.pop())
         } else {
-            if (!frags.isEmpty())
-                openFragment(frags.pop())
-            else {
-                saveState()
-                super.onBackPressed()
-            }
+            saveState()
+            super.onBackPressed()
         }
     }
 
     override fun onDestroy() {
         saveState()
+        actualFragment = HomeFragment()
         super.onDestroy()
     }
 
     override fun onPause() {
         saveState()
+        actualFragment = HomeFragment()
         super.onPause()
     }
 
     override fun onStop() {
         saveState()
+        actualFragment = HomeFragment()
         super.onStop()
     }
 

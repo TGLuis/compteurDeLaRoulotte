@@ -28,6 +28,7 @@
     <string name="delete_counter">Are you sure you want to delete the counter?</string>
     <string name="problem_etat_nul">Detach the counter of the main counter to continue</string>
     <string name="counter_already">You have already a counter with this name</string>
+    <string name="project_already">You have already a project with this name</string>
     <string name="modif">You have modified:</string>
     <string name="sure_to_modif">Do you want to save the changes?</string>
     <string name="confirm">Confirmation</string>
@@ -64,6 +65,7 @@
     <string name="help_start">If you mark the bax, the rule will start from the current state of the project, if you don\'t mark it, you have to enter a number just below to say when it has to start.</string>
     <string name="help_step">If you mark the box of the step, the step will be an incrementing one, orelse it will be a decrementing one.</string>
     <string name="help_which_counter">The rule will be applied on the counter you indicate here. If you select "the project", the rule will follow the main counter.</string>
+    <string name="help_comment_rule">The comment will be added to the text that appear when the rule will show a reminder.</string>
 
     <!-- Boutons -->
     <string name="add_project">Add a project</string>
@@ -93,4 +95,7 @@
     <string name="the_project">The project</string>
     <string name="of">of</string>
     <string name="stitches">stitches</string>
+    <string name="comment_this">Comment this rule</string>
+    <string name="a_comment">A comment</string>
+    <string name="counter_comment">Comment of the counter</string>
 </resources>

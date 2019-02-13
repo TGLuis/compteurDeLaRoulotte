@@ -1,20 +1,7 @@
 package library
 
-class Counter {
+class Counter(var name: String, var max: Int, var order: Int, var attachedMain: Boolean, var counterAttached: Counter?) {
     var etat: Int = 0
-    var name: String
-    var max: Int
-    var order: Int
-    var attachedMain: Boolean
-    var counterAttached: Counter?
-
-    constructor(name: String, max: Int, order: Int, attachedMain: Boolean, counterAttached: Counter?){
-        this.name = name
-        this.max = max
-        this.order = order
-        this.attachedMain = attachedMain
-        this.counterAttached = counterAttached
-    }
 
     fun update(b: Boolean){
         if(b){

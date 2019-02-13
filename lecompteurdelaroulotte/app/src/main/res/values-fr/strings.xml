@@ -29,6 +29,7 @@
     <string name="delete_counter">Vous êtes sûr de vouloir supprimer le compteur?</string>
     <string name="problem_etat_nul">Delier le compteur du compteur principal pour diminuer</string>
     <string name="counter_already">Vous avez déjà un compteur avec ce nom</string>
+    <string name="project_already">Vous avez déjà un projet avec ce nom</string>
     <string name="modif">Vous avez modifié:</string>
     <string name="sure_to_modif">Voulez-vous enregistrer les modifications?</string>
     <string name="confirm">Confirmation</string>
@@ -65,7 +66,7 @@
     <string name="help_start">Si vous cochez cette case, la règle commencera à l\'état actuel du projet. Si vous ne la cochez pas, vous devez entrer un nombre juste en dessous pour dire à quel rand la règle doit commencer.</string>
     <string name="help_step">Si vous cochez la case de l\'étape, elle sera une augmentation, sinon ce sera une diminution.</string>
     <string name="help_which_counter">La règle va être appliquée sur le compteur que vous indiquez ici. Si vous sélectionner "Le projet", la règle va porter sur le compteur principal.</string>
-
+    <string name="help_comment_rule">Le commentaire va êtra ajouté aux texte montré lorsque la règle va montrer un rappel.</string>
 
     <!-- Boutons -->
     <string name="add_project">Ajouter un project</string>
@@ -95,4 +96,7 @@
     <string name="the_project">le projet</string>
     <string name="of">de</string>
     <string name="stitches">mailles</string>
+    <string name="comment_this">Commentez cette règle</string>
+    <string name="a_comment">Un commentaire</string>
+    <string name="counter_comment">Commentaire du compteur</string>
 </resources>

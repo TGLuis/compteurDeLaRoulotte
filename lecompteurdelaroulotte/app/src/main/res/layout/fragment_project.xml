@@ -70,7 +70,7 @@
             android:textSize="16sp"
             android:textColor="@color/mauve"
             android:textAlignment="textStart"
-            android:maxLines="3"
+            android:maxLines="5"
             app:layout_constraintBottom_toBottomOf="parent"/>
 
     </android.support.constraint.ConstraintLayout>
@@ -79,6 +79,8 @@
         android:layout_width="fill_parent"
         android:layout_height="2dp"
         android:background="@color/jaune"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintBottom_toTopOf="@id/listCounters" />
 
     <!-- for the list of counters -->
@@ -90,13 +92,15 @@
         tools:listitem="@layout/list_counter_item"
         app:layout_constraintTop_toBottomOf="@id/MCounter"
         app:layout_constraintBottom_toTopOf="@id/notes"
-        android:layout_marginTop="130dp"
-        android:layout_marginBottom="126dp"/>
+        android:layout_marginTop="150dp"
+        android:layout_marginBottom="86dp"/>
 
     <View
         android:layout_width="fill_parent"
         android:layout_height="2dp"
         android:background="@color/jaune"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/listCounters" />
 
     <LinearLayout
@@ -104,7 +108,7 @@
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
         android:orientation="horizontal"
-        app:layout_constraintBottom_toTopOf="@id/button_rules"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         android:layout_marginBottom="8dp">
@@ -126,32 +130,5 @@
             android:layout_marginStart="10dp"
             android:layout_marginEnd="10dp"/>
     </LinearLayout>
-
-    <Button
-        android:id="@+id/button_rules"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="center_vertical"
-        android:theme="@style/ButtonStyleDark"
-        android:text="@string/edit_rules"
-        android:textSize="20sp"
-        android:layout_marginStart="10dp"
-        android:layout_marginBottom="8dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toLeftOf="@id/button_add_counter" />
-    <Button
-        android:id="@+id/button_add_counter"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="center_vertical"
-        android:theme="@style/ButtonStyleDark"
-        android:text="@string/add_counter"
-        android:textSize="20sp"
-        android:layout_marginStart="10dp"
-        android:layout_marginBottom="8dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintLeft_toRightOf="@id/button_rules" />
 
 </android.support.constraint.ConstraintLayout>

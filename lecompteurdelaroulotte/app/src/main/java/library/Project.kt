@@ -1,30 +1,33 @@
 package library
 
+import android.content.Context
 import lufra.lecompteurdelaroulotte.R
 import java.util.*
 
-class Project {
+class Project(var context: Context, var name: String) {
     var etat: Int = 0
     var bindCounters: ArrayList<Counter>? = null
     var notes: String = " "
-    var name: String = ""
     var myRules: ArrayList<Rule>
     var myCounters: ArrayList<Counter>
+    var myComments: ArrayList<Comment>
 
     private var lesNums: ArrayList<Rappel>
 
     /**
      * Class to create a message when a rule is applied
      */
-    inner class Rappel{
-        var c: Counter?
-        var x: Int
-        var s: String
+    inner class Rappel(n: Int, message: String, count: Counter?) {
+        var c: Counter? = count
+        var x: Int = n
+        var s: String = message
 
-        constructor(n: Int, message: String, count: Counter?){
-            x = n
-            s = message
-            c = count
+        fun is_ok_main(): Boolean{
+            return c == null && x == etat
+        }
+
+        fun is_ok_counter(c: Counter): Boolean{
+            return c == this.c && c.etat == x
         }
 
         fun is_ok(): Boolean{
@@ -32,12 +35,12 @@ class Project {
         }
     }
 
-    constructor(name: String){
-        this.name = name
+    init {
         this.notes = " "
-        myCounters = ArrayList<Counter>()
-        myRules = ArrayList<Rule>()
-        lesNums = ArrayList<Rappel>()
+        myCounters = ArrayList()
+        myRules = ArrayList()
+        myComments = ArrayList()
+        lesNums = ArrayList()
     }
 
     /***********************************************************************************************
@@ -55,29 +58,25 @@ class Project {
 
     fun getCounter(s: String): Counter?{
         myCounters.forEach {
-            if(it.name == s){
+            if(it.name == s)
                 return it
-            }
         }
         return null
     }
 
     fun addCounter(c: Counter){
-        if (c !in myCounters){
+        if (c !in myCounters)
             myCounters.add(c)
-        }
     }
 
     fun deleteCounter(c: Counter){
         myCounters.remove(c)
         myCounters.forEach{
-            if (it.counterAttached != null && it.counterAttached!!.name == c.name){
+            if (it.counterAttached != null && it.counterAttached!!.name == c.name)
                 it.detach()
-            }
         }
-        if(bindCounters != null){
+        if(bindCounters != null)
             bindCounters!!.remove(c)
-        }
     }
 
     /***********************************************************************************************
@@ -99,6 +98,14 @@ class Project {
     }
 
     /***********************************************************************************************
+     * Functions to manage the rules
+     */
+    fun addComment(c: Comment){
+        myComments.add(c)
+        constructRappel()// TODO verify this
+    }
+
+    /***********************************************************************************************
      * Functions to update manage the project
      */
     fun update(b: Boolean){
@@ -107,9 +114,8 @@ class Project {
     }
 
     fun attach(c: Counter){
-        if (bindCounters == null){
-            bindCounters = ArrayList<Counter>()
-        }
+        if (bindCounters == null)
+            bindCounters = ArrayList()
         bindCounters!!.add(c)
     }
 
@@ -127,13 +133,12 @@ class Project {
     }
 
     /***********************************************************************************************
-     * Functions to manage the Rappel, the messages which appears when a rule aplly
+     * Functions to manage the Rappel, the messages which appears when a rule aply
      */
     fun constructRappel(){
-        lesNums = ArrayList<Rappel>()
-        for (r in myRules){
+        lesNums = ArrayList()
+        for (r in myRules)
             addRuleInRappel(r)
-        }
     }
 
     fun addRuleInRappel(r: Rule){
@@ -142,22 +147,54 @@ class Project {
             val aug = if(elem.augm) R.string.augmentation else R.string.diminution
             for (i in 1..elem.one){
                 x += elem.two
-                val the_counter = myCounters.find { it.name == r.counter }
-                lesNums.add(Rappel(x,aug.toString() + " " + R.string.of + " " + elem.three + " " + R.string.stitches, the_counter))
+                val theCounter = myCounters.find { it.name == r.counter }
+                var theMessage = context.getString(aug) + " " + context.getString(R.string.of) + " " + elem.three + " " + context.getString(R.string.stitches)
+                if(r.comment != "" && r.counter != ""){
+                    theMessage = r.counter + "; " + r.comment + ": " + theMessage
+                }else if(r.comment != ""){
+                    theMessage = r.comment + ": " + theMessage
+                }else if(r.counter != ""){
+                    theMessage = r.counter + ": " + theMessage
+                }
+                lesNums.add(Rappel(x,theMessage , theCounter))
             }
         }
     }
 
-    fun getMessageRule(): String?{
+    fun getMessageAll(): String?{
+        var s = ""
+        val mainText = getMessageForMain()
+        if(mainText != null)
+            s += mainText
+        myCounters.forEach {
+            val counterText = getMessageForCounter(it)
+            if(counterText != null)
+                s += counterText
+        }
+        if(s == "")
+            return null
+        return s
+    }
+
+    fun getMessageForMain(): String?{
         var s = ""
         lesNums.forEach {
-            if( it.is_ok()){
+            if(it.is_ok_main())
                 s += it.s + "\n"
-            }
         }
-        if(s == ""){
+        if(s == "")
             return null
+        return s
+    }
+
+    fun getMessageForCounter(c: Counter): String?{
+        var s = ""
+        lesNums.forEach {
+            if(it. is_ok_counter(c))
+                s += it.s + "\n"
         }
+        if(s == "")
+            return null
         return s
     }
 

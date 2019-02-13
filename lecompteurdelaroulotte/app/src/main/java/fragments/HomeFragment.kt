@@ -12,11 +12,9 @@ import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.Toast
 import android.widget.*
-import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.simple_text_input.view.*
 import lufra.lecompteurdelaroulotte.MainActivity
 import lufra.lecompteurdelaroulotte.R
-import library.MyDatabase
 import library.Project
 
 class HomeFragment: Fragment() {
@@ -105,9 +103,13 @@ class HomeFragment: Fragment() {
                     .setTitle(R.string.project_name_id)
                     .setPositiveButton(R.string.ok) { dialog, _ ->
                         val projectName = viewInflated.input_text.text.toString()
-                        context.createProject(projectName)
-                        adapteur.notifyDataSetChanged()
-                        dialog.dismiss()
+                        if(context.projectsList.find { it.name == projectName } == null){
+                            context.createProject(projectName)
+                            adapteur.notifyDataSetChanged()
+                            dialog.dismiss()
+                        }else {
+                            Toast.makeText(context,R.string.project_already, Toast.LENGTH_SHORT).show()
+                        }
                     }
                     .setNegativeButton(R.string.cancel) { dialog, _ ->
                         dialog.dismiss()
