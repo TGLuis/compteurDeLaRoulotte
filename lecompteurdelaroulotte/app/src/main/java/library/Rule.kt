@@ -3,13 +3,9 @@ package library
 class Rule(//depart
         var start: Int, identifiant: Int) {
     var num: Int = identifiant // identifiant
-    var steps: java.util.ArrayList<Step>
+    var steps: java.util.ArrayList<Step> = java.util.ArrayList()
     var comment: String = ""
     var counter: String = ""
-
-    init {
-        this.steps = java.util.ArrayList()
-    }
 
     fun clone(): Rule{
         val r = Rule(num, start)

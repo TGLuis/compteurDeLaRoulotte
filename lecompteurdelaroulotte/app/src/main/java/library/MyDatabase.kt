@@ -63,15 +63,6 @@ class MyDatabase (context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, n
         db.execSQL("DROP TABLE IF EXISTS '$DATABASE_NAME';")
     }
 
-    fun open(): Boolean {
-        try {
-            this.writableDatabase
-        } catch (t: Throwable) {
-            return false
-        }
-        return true
-    }
-
     fun getAllProjects(context: Context): ArrayList<Project>{
         val db = this.writableDatabase
         val query = "SELECT $PROJECT_NAME, $ETAT, $NOTES FROM $PROJECT_TABLE;"

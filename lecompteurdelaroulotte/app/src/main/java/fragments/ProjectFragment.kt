@@ -78,19 +78,21 @@ class ProjectFragment: Fragment() {
             }
 
             val comment = projectView.findViewById<TextView>(R.id.comment_of_the_counter)
-            val com = project.getMessageForCounter(count)
+            val com = project.getMessageForCounter(count, false)
             if(com == null){
                 comment.text = ""
-                comment.maxHeight = 0
+                comment.height = 0
             }else{
                 comment.text = com
-                comment.maxHeight = 100
+                val params = comment.layoutParams
+                params.height = ViewGroup.LayoutParams.WRAP_CONTENT
+                comment.layoutParams = params
             }
 
             return projectView
         }
 
-        fun up(b: Boolean, count: Counter) {
+        private fun up(b: Boolean, count: Counter) {
             if (!b && count.attachedMain && project.etat == 0) {
                 Toast.makeText(context, R.string.problem_etat_nul, Toast.LENGTH_LONG).show()
             } else if (count.attachedMain && (b || (!b && count.etat > 0))){
@@ -99,17 +101,11 @@ class ProjectFragment: Fragment() {
                 count.update(b)
             }
             nombre.text = project.etat.toString()
-            updateState()
-
-            val mess = project.getMessageAll()
-            if (mess != null){
-                warn(mess)
-            }else{
-                comment.text = ""
-            }
+            adapteur.notifyDataSetChanged()
+            affiche()
         }
 
-        fun openCount(counter: Counter){
+        private fun openCount(counter: Counter){
             (context as MainActivity).actualCounter = counter
             (context as MainActivity).frags.push(ProjectFragment())
             (context as MainActivity).openFragment(CounterFragment())
@@ -119,7 +115,6 @@ class ProjectFragment: Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         super.onCreateView(inflater, container, savedInstanceState)
         context = activity as MainActivity
-
         return inflater.inflate(R.layout.fragment_project, container, false)
     }
 
@@ -133,7 +128,7 @@ class ProjectFragment: Fragment() {
 
         warning = AlertDialog.Builder(context)
         warning.setTitle(R.string.warning)
-                .setPositiveButton(R.string.ok){ dialog, which ->
+                .setPositiveButton(R.string.ok){ dialog, _ ->
                     dialog.dismiss()
                 }
         comment = context.findViewById(R.id.message)
@@ -168,14 +163,12 @@ class ProjectFragment: Fragment() {
         }
 
         affiche()
-        updateNames()
-        updateState()
         context.actualFragment = ProjectFragment()
         context.setMenu("project")
         context.title = project.toString()
     }
 
-    fun up(b: Boolean){
+    private fun up(b: Boolean){
         project.update(b)
         nombre.text = project.etat.toString()
         nombres.forEach {
@@ -186,7 +179,7 @@ class ProjectFragment: Fragment() {
     }
 
     fun affiche(){
-        val mess = project.getMessageForMain()
+        val mess = project.getMessageAll()
         if (mess != null){
             warn(mess)
         }else{
@@ -194,25 +187,10 @@ class ProjectFragment: Fragment() {
         }
     }
 
-    fun warn(mess: String){
+    private fun warn(mess: String){
         warning.setMessage(mess)
                 .create()
                 .show()
         comment.text = mess
-    }
-
-    fun updateNames(){
-        adapteur.notifyDataSetChanged()
-        /*names.forEach {
-            it.t!!.text = it.c!!.name
-        }*/
-    }
-
-    fun updateState(){
-        adapteur.notifyDataSetChanged()
-        /*nombres.forEach {
-            val state = if(it.c!!.max == 0) it.c!!.etat else it.c!!.etat%it.c!!.max+1
-            it.t!!.text = state.toString()
-        }*/
     }
 }

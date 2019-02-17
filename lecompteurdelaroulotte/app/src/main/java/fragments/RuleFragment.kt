@@ -41,7 +41,7 @@ class RuleFragment: Fragment(){
 
     private lateinit var adapteur: StepsAdapter
 
-    inner class CustomWatcher(var st: Step, var i: Int) : TextWatcher{
+    inner class CustomWatcher(private var st: Step, private var i: Int) : TextWatcher{
 
         override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
         override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
@@ -58,12 +58,8 @@ class RuleFragment: Fragment(){
     inner class StepsAdapter(context: Context, list: ArrayList<Step>) : ArrayAdapter<Step>(context, 0, list) {
         override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
             val step = super.getItem(position)
-            val projectView: View
-            if (convertView == null){
-                projectView = LayoutInflater.from(context).inflate(R.layout.list_step_item, parent, false)
-            } else {
-                projectView = convertView
-            }
+            val projectView: View = convertView ?: LayoutInflater.from(context).inflate(R.layout.list_step_item, parent, false)
+
             val a = projectView.findViewById<EditText>(R.id.enter_fois)
             a.hint = step.one.toString()
             a.addTextChangedListener(CustomWatcher(step,1))
@@ -126,11 +122,7 @@ class RuleFragment: Fragment(){
 
         rule = context.actualRule
         add = rule == null
-        if (add){
-            rule = Rule(0, context.actualProject!!.myRules.size)
-        }else{
-            rule = rule!!.clone()
-        }
+        rule = if (add) Rule(0, context.actualProject!!.myRules.size) else rule!!.clone()
 
         expl = AlertDialog.Builder(context)
         expl.setTitle(R.string.info)

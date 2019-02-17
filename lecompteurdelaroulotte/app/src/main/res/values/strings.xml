@@ -83,7 +83,7 @@
     <string name="save">Save</string>
     <string name="none">None</string>
     <string name="yes">Yes</string>
-    <string name="ok">Ok</string>
+    <string name="ok">OK</string>
 
 
     <string name="navigation_drawer_open">Open</string>
@@ -98,4 +98,7 @@
     <string name="comment_this">Comment this rule</string>
     <string name="a_comment">A comment</string>
     <string name="counter_comment">Comment of the counter</string>
+    <string name="rule_on_main">Bound to the project</string>
+    <string name="rule_on_counter">Bound to the counter: </string>
+    <string name="open_a_counter">Open a counter</string>
 </resources>

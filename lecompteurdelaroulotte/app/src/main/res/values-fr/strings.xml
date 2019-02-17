@@ -84,7 +84,7 @@
     <string name="save">Sauver</string>
     <string name="none">Aucun</string>
     <string name="yes">Oui</string>
-    <string name="ok">Ok</string>
+    <string name="ok">OK</string>
 
 
     <string name="navigation_drawer_open">Ouvrir</string>
@@ -99,4 +99,7 @@
     <string name="comment_this">Commentez cette règle</string>
     <string name="a_comment">Un commentaire</string>
     <string name="counter_comment">Commentaire du compteur</string>
+    <string name="rule_on_main">Lié au projet</string>
+    <string name="rule_on_counter">Lié au compteur:</string>
+    <string name="open_a_counter">Ouvrir un compteur</string>
 </resources>

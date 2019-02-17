@@ -6,11 +6,11 @@ import java.util.*
 
 class Project(var context: Context, var name: String) {
     var etat: Int = 0
-    var bindCounters: ArrayList<Counter>? = null
+    private var bindCounters: ArrayList<Counter>? = null
     var notes: String = " "
     var myRules: ArrayList<Rule>
     var myCounters: ArrayList<Counter>
-    var myComments: ArrayList<Comment>
+    private var myComments: ArrayList<Comment>
 
     private var lesNums: ArrayList<Rappel>
 
@@ -18,8 +18,8 @@ class Project(var context: Context, var name: String) {
      * Class to create a message when a rule is applied
      */
     inner class Rappel(n: Int, message: String, count: Counter?) {
-        var c: Counter? = count
-        var x: Int = n
+        private var c: Counter? = count
+        private var x: Int = n
         var s: String = message
 
         fun is_ok_main(): Boolean{
@@ -28,10 +28,6 @@ class Project(var context: Context, var name: String) {
 
         fun is_ok_counter(c: Counter): Boolean{
             return c == this.c && c.etat == x
-        }
-
-        fun is_ok(): Boolean{
-            return if(c == null) x == etat else x == c!!.etat
         }
     }
 
@@ -124,7 +120,7 @@ class Project(var context: Context, var name: String) {
             bindCounters!!.remove(c)
     }
 
-    fun notify(b: Boolean){
+    private fun notify(b: Boolean){
         if(bindCounters != null){
             bindCounters!!.forEach{
                 it.update(b)
@@ -141,7 +137,7 @@ class Project(var context: Context, var name: String) {
             addRuleInRappel(r)
     }
 
-    fun addRuleInRappel(r: Rule){
+    private fun addRuleInRappel(r: Rule){
         var x = r.start-r.steps[0].two
         for (elem in r.steps){
             val aug = if(elem.augm) R.string.augmentation else R.string.diminution
@@ -149,12 +145,8 @@ class Project(var context: Context, var name: String) {
                 x += elem.two
                 val theCounter = myCounters.find { it.name == r.counter }
                 var theMessage = context.getString(aug) + " " + context.getString(R.string.of) + " " + elem.three + " " + context.getString(R.string.stitches)
-                if(r.comment != "" && r.counter != ""){
-                    theMessage = r.counter + "; " + r.comment + ": " + theMessage
-                }else if(r.comment != ""){
+                if(r.comment != ""){
                     theMessage = r.comment + ": " + theMessage
-                }else if(r.counter != ""){
-                    theMessage = r.counter + ": " + theMessage
                 }
                 lesNums.add(Rappel(x,theMessage , theCounter))
             }
@@ -167,7 +159,7 @@ class Project(var context: Context, var name: String) {
         if(mainText != null)
             s += mainText
         myCounters.forEach {
-            val counterText = getMessageForCounter(it)
+            val counterText = getMessageForCounter(it, true)
             if(counterText != null)
                 s += counterText
         }
@@ -176,7 +168,7 @@ class Project(var context: Context, var name: String) {
         return s
     }
 
-    fun getMessageForMain(): String?{
+    private fun getMessageForMain(): String?{
         var s = ""
         lesNums.forEach {
             if(it.is_ok_main())
@@ -187,11 +179,14 @@ class Project(var context: Context, var name: String) {
         return s
     }
 
-    fun getMessageForCounter(c: Counter): String?{
+    fun getMessageForCounter(c: Counter, withName: Boolean): String?{
         var s = ""
         lesNums.forEach {
-            if(it. is_ok_counter(c))
+            if(it.is_ok_counter(c)) {
+                if (withName)
+                    s += c.name + ": "
                 s += it.s + "\n"
+            }
         }
         if(s == "")
             return null

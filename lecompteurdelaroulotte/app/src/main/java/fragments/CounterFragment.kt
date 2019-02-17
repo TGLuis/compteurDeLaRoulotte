@@ -159,7 +159,7 @@ class CounterFragment: Fragment() {
                                 if (order_changed) {
                                     if (temp_pos < counter.order){
                                         if (temp_pos < 0) temp_pos = 0
-                                        for(i in temp_pos..counter.order-1){
+                                        for(i in temp_pos until counter.order){
                                             context.actualProject!!.myCounters[i].order++
                                         }
                                     }else{

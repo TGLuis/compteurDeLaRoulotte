@@ -71,7 +71,7 @@ class HomeFragment: Fragment() {
             return projectView
         }
 
-        fun openProj(proj: Project){
+        private fun openProj(proj: Project){
             (context as MainActivity).actualProject = proj
             (context as MainActivity).frags.push(HomeFragment())
             (context as MainActivity).openFragment(ProjectFragment())

@@ -8,7 +8,6 @@ import android.support.v4.widget.DrawerLayout
 import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
-import android.util.Log
 import android.view.*
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
@@ -27,12 +26,12 @@ class MainActivity: AppCompatActivity(){
     var actualCounter: Counter? = null
     var actualFragment: Fragment? = null
     var actualRule: Rule? = null
-    lateinit var toolbar: android.support.v7.widget.Toolbar
-    lateinit var nav_view: NavigationView
-    lateinit var drawer_layout: DrawerLayout
+    private lateinit var toolbar: android.support.v7.widget.Toolbar
+    private lateinit var navView: NavigationView
+    private lateinit var drawerLayout: DrawerLayout
     lateinit var frags: Stack<Fragment>
-    lateinit var db: MyDatabase
-    lateinit var editCounter: AlertDialog.Builder
+    private lateinit var db: MyDatabase
+    private lateinit var editCounter: AlertDialog.Builder
 
     override fun onCreate(savedInstanceState: Bundle?){
         super.onCreate(savedInstanceState)
@@ -50,14 +49,14 @@ class MainActivity: AppCompatActivity(){
         // Toolbar
         toolbar = this.findViewById(R.id.my_toolbar)
         setSupportActionBar(toolbar)
-        drawer_layout = this.findViewById(R.id.drawer_layout)
+        drawerLayout = this.findViewById(R.id.drawer_layout)
         val toggle = ActionBarDrawerToggle(
-                this, drawer_layout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close)
-        drawer_layout.addDrawerListener(toggle)
+                this, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close)
+        drawerLayout.addDrawerListener(toggle)
         toggle.syncState()
 
         //NavigationView
-        nav_view = this.findViewById(R.id.nav_view)
+        navView = this.findViewById(R.id.nav_view)
         editCounter = AlertDialog.Builder(this)
     }
 
@@ -74,16 +73,16 @@ class MainActivity: AppCompatActivity(){
      */
     fun setMenu(which: String){
         val context = this
-        nav_view.menu.clear()
+        navView.menu.clear()
         when(which){
             "home" -> {
                 projectsList.forEach {
                     val proj = it
-                    nav_view.menu.add(it.name).apply {
+                    navView.menu.add(it.name).apply {
                         setOnMenuItemClickListener {
                             context.actualProject = proj
                             context.frags.push(HomeFragment())
-                            drawer_layout.closeDrawers()
+                            drawerLayout.closeDrawers()
                             context.openFragment(ProjectFragment())
                             true
                         }
@@ -91,34 +90,34 @@ class MainActivity: AppCompatActivity(){
                 }
             }
             "project" -> {
-                nav_view.menu.add(R.string.home).apply{
+                navView.menu.add(R.string.home).apply{
                     setOnMenuItemClickListener {
                         context.openFragment(HomeFragment())
-                        drawer_layout.closeDrawers()
+                        drawerLayout.closeDrawers()
                         true
                     }
                 }
-                nav_view.menu.add(actualProject!!.name).apply {
+                navView.menu.add(actualProject!!.name).apply {
                     setOnMenuItemClickListener {
                         if(context.frags.peek() !is ProjectFragment)
                             context.frags.push(actualFragment)
-                        drawer_layout.closeDrawers()
+                        drawerLayout.closeDrawers()
                         context.openFragment(ProjectFragment())
                         true
                     }
                 }
-                nav_view.menu.add(R.string.edit_notes).apply{
+                navView.menu.add(R.string.edit_notes).apply{
                     setOnMenuItemClickListener {
                         if(context.frags.peek() !is NotesFragment)
                             context.frags.push(actualFragment)
-                        drawer_layout.closeDrawers()
+                        drawerLayout.closeDrawers()
                         context.openFragment(NotesFragment())
                         true
                     }
                 }
-                nav_view.menu.add(R.string.add_counter).apply {
+                navView.menu.add(R.string.add_counter).apply {
                     setOnMenuItemClickListener {
-                        val viewInflated = LayoutInflater.from(context).inflate(R.layout.simple_text_input, context.nav_view as ViewGroup, false)
+                        val viewInflated = LayoutInflater.from(context).inflate(R.layout.simple_text_input, context.navView as ViewGroup, false)
                         val addCounter = AlertDialog.Builder(context)
                         addCounter.setView(viewInflated)
                                 .setTitle(R.string.counter_name_id)
@@ -128,7 +127,7 @@ class MainActivity: AppCompatActivity(){
                                         Toast.makeText(context,R.string.counter_already, Toast.LENGTH_SHORT).show()
                                     }else{
                                         context.createCounter(counterName)
-                                        drawer_layout.closeDrawers()
+                                        drawerLayout.closeDrawers()
                                         context.setMenu("project")
                                     }
                                     dialog.dismiss()
@@ -142,7 +141,7 @@ class MainActivity: AppCompatActivity(){
                     }
                 }
                 if(context.actualProject!!.myCounters.size > 0){
-                    val viewInflated = LayoutInflater.from(context).inflate(R.layout.simple_spinner_input, context.nav_view as ViewGroup, false)
+                    val viewInflated = LayoutInflater.from(context).inflate(R.layout.simple_spinner_input, context.navView as ViewGroup, false)
                     val the_spinner = viewInflated.findViewById<Spinner>(R.id.input_spinner)
                     val arr = ArrayList<String>(context.actualProject!!.getCounters().size)
                     this.actualProject!!.getCounters().forEach {arr.add(it.name)}
@@ -156,7 +155,7 @@ class MainActivity: AppCompatActivity(){
                             selectedItem = arr[p2]
                         }
                     }
-                    nav_view.menu.add("Open a counter").apply{
+                    navView.menu.add(R.string.open_a_counter).apply{
                         setOnMenuItemClickListener {
                             editCounter.setView(viewInflated)
                                     .setTitle(R.string.project_name_id)
@@ -164,7 +163,7 @@ class MainActivity: AppCompatActivity(){
                                         actualCounter = actualProject!!.myCounters.find { it.name == selectedItem }
                                         context.frags.push(actualFragment)
                                         context.openFragment(CounterFragment())
-                                        drawer_layout.closeDrawers()
+                                        drawerLayout.closeDrawers()
                                         dialog.dismiss()
                                     }
                                     .setNegativeButton(R.string.cancel) { dialog, _ ->
@@ -176,11 +175,11 @@ class MainActivity: AppCompatActivity(){
                         }
                     }
                 }
-                nav_view.menu.add(R.string.my_rules).apply{
+                navView.menu.add(R.string.my_rules).apply{
                     setOnMenuItemClickListener {
                         if(context.frags.peek() !is SeeRulesFragment)
                             context.frags.push(actualFragment)
-                        drawer_layout.closeDrawers()
+                        drawerLayout.closeDrawers()
                         context.openFragment(SeeRulesFragment())
                         true
                     }
@@ -205,7 +204,7 @@ class MainActivity: AppCompatActivity(){
         setMenu("home")
     }
 
-    fun createCounter(counterName: String){
+    private fun createCounter(counterName: String){
         val order = actualProject!!.getCounters().size
         db.addCounterDB(actualProject.toString(), counterName, 0, 0, order, false, null)
         actualProject!!.addCounter(Counter(counterName, 0, order, false, null))
@@ -258,8 +257,8 @@ class MainActivity: AppCompatActivity(){
      * override of the activity functions
      */
     override fun onBackPressed() {
-        if (drawer_layout.isDrawerOpen(GravityCompat.START)) {
-            drawer_layout.closeDrawer(GravityCompat.START)
+        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
+            drawerLayout.closeDrawer(GravityCompat.START)
         } else if (!frags.isEmpty()) {
             openFragment(frags.pop())
         } else {
@@ -291,8 +290,8 @@ class MainActivity: AppCompatActivity(){
      */
     private fun saveState(){
         if(!projectsList.isEmpty()){
-            projectsList.forEach{
-                val proj = it
+            projectsList.forEach{ thisit ->
+                val proj = thisit
                 db.updateProjectDB(proj.toString(), proj.etat, proj.notes)
                 val coun = proj.getCounters()
                 if(! coun.isEmpty()){
@@ -306,14 +305,15 @@ class MainActivity: AppCompatActivity(){
 
     fun createTextFromRule(r: Rule): String{
         var s = getString(R.string.rule)
-        s+=": " + r.comment
-        s+="\n" + getString(R.string.from_row) + " " + r.start.toString() + "\n"
+        s += ": " + r.comment + "\n"
+        s += if(r.counter == "") getString(R.string.rule_on_main) else getString(R.string.rule_on_counter) + " " + r.counter + "\n"
+        s += "\n" + getString(R.string.from_row) + " " + r.start.toString() + "\n"
         for(i in 0 until r.steps.size){
             if(i != 0){
                 s += getString(R.string.andthen) + " "
             }
-            if (r.steps[i].augm) s += getString(R.string.augmentation)
-            else s += getString(R.string.diminution)
+            s += if (r.steps[i].augm) getString(R.string.augmentation)
+            else getString(R.string.diminution)
             s += " " + r.steps[i].one.toString() + " " + getString(R.string.rule_text1) + " "
             s += r.steps[i].two.toString() + " " + getString(R.string.rows) + " "
             s += r.steps[i].three.toString() + " " + getString(R.string.stitch) + "\n"

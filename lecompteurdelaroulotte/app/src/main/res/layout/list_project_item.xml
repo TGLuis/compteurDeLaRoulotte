@@ -57,6 +57,8 @@
         android:layout_height="2dp"
         android:layout_marginTop="8dp"
         android:background="@color/jaune"
-        app:layout_constraintTop_toBottomOf="@id/content" />
+        app:layout_constraintTop_toBottomOf="@id/content"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
 
 </android.support.constraint.ConstraintLayout>
