@@ -72,14 +72,14 @@
             android:textSize="30sp"
             app:layout_constraintTop_toBottomOf="@id/counter_name"
             app:layout_constraintBottom_toTopOf="@id/comment_of_the_counter"
-            app:layout_constraintRight_toLeftOf="@id/parameter" />
+            app:layout_constraintRight_toLeftOf="@id/linked" />
 
-        <ImageButton
-            android:id="@+id/parameter"
+        <ImageView
+            android:id="@+id/linked"
             android:layout_width="60dp"
             android:layout_height="60dp"
             app:srcCompat="@drawable/gear"
-            android:contentDescription="@string/parameter_image"
+            android:contentDescription="@string/linked_image"
             android:layout_marginEnd="10dp"
             android:background="#00000000"
             app:layout_constraintTop_toBottomOf="@id/counter_name"

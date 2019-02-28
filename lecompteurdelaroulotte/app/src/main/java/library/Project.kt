@@ -168,7 +168,7 @@ class Project(var context: Context, var name: String) {
         return s
     }
 
-    private fun getMessageForMain(): String?{
+    fun getMessageForMain(): String?{
         var s = ""
         lesNums.forEach {
             if(it.is_ok_main())

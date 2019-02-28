@@ -74,6 +74,7 @@
     <string name="edit_notes">Edit notes</string>
     <string name="edit_rules">Edit rules</string>
     <string name="parameter_image">Parameters</string>
+    <string name="linked_image">Linked image</string>
     <string name="delete_image">Delete</string>
     <string name="info_image">Info</string>
     <string name="button_minus">-</string>

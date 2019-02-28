@@ -32,6 +32,7 @@ class ProjectFragment: Fragment() {
     private lateinit var comment: TextView
     private lateinit var names: ArrayList<Tuple>
     lateinit var adapteur: CounterAdapter
+    var previous_message: String? = null
 
     inner class Tuple(t: TextView, c: Counter) {
         var t: TextView? = t
@@ -64,8 +65,8 @@ class ProjectFragment: Fragment() {
             val state = if(count.max == 0) count.etat else count.etat%count.max+1
             nb.text = state.toString()
 
-            val param = projectView.findViewById<ImageButton>(R.id.parameter)
-            param.setOnClickListener{openCount(count)}
+            val linked = projectView.findViewById<ImageView>(R.id.linked)
+            if(count.attachedMain) linked.setImageDrawable(context.getDrawable(R.drawable.gear_color))
 
             val buttonM = projectView.findViewById<Button>(R.id.button_minus)
             buttonM.setOnClickListener{
@@ -81,12 +82,10 @@ class ProjectFragment: Fragment() {
             val com = project.getMessageForCounter(count, false)
             if(com == null){
                 comment.text = ""
-                comment.height = 0
+                comment.maxHeight = 0
             }else{
                 comment.text = com
-                val params = comment.layoutParams
-                params.height = ViewGroup.LayoutParams.WRAP_CONTENT
-                comment.layoutParams = params
+                comment.maxHeight = 10000
             }
 
             return projectView
@@ -162,7 +161,7 @@ class ProjectFragment: Fragment() {
             context.openFragment(NotesFragment())
         }
 
-        affiche()
+        affiche(true)
         context.actualFragment = ProjectFragment()
         context.setMenu("project")
         context.title = project.toString()
@@ -178,19 +177,38 @@ class ProjectFragment: Fragment() {
         affiche()
     }
 
-    fun affiche(){
+    fun affiche(force: Boolean = false){
         val mess = project.getMessageAll()
-        if (mess != null){
+        if(force && mess != null){
             warn(mess)
+            comment.text = mess
+        }else if(mess != null){
+            if (previous_message == null){
+                warn(mess)
+            }else{
+                var completeMess = ""
+                val otherMess = project.getMessageForMain()
+                if(otherMess != null && !previous_message!!.contains(otherMess)){
+                    completeMess += otherMess
+                }
+                counters.forEach {
+                    val messC = project.getMessageForCounter(it, true)
+                    if(messC != null && !previous_message!!.contains(messC)){
+                        completeMess += messC
+                    }
+                }
+                if(completeMess != "") warn(completeMess)
+            }
+            comment.text = mess
         }else{
             comment.text = ""
         }
+        previous_message = mess
     }
 
     private fun warn(mess: String){
         warning.setMessage(mess)
                 .create()
                 .show()
-        comment.text = mess
     }
 }
