@@ -143,8 +143,7 @@ class MyDatabase (context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, n
                         val end = cursorCo.getInt(3)
                         val com = Comment(num, start, end)
                         com.comment = cursorCo.getString(1).replace('\r','\'')
-                        val counterAttached = cursorC.getString(4)
-                        com.counter = if(counterAttached == NO_ATTACHED) null else counterAttached
+                        com.counter = cursorC.getString(4).replace('\r','\'')
                         proj.addComment(com)
                     } while (cursorCo.moveToNext())
                 }
@@ -219,6 +218,21 @@ class MyDatabase (context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, n
         db.execSQL("DELETE FROM $STEP_TABLE WHERE $PROJECT_NAME='$name' AND $NUM=${r.num} AND $AUGMENTATION=$augm "+
             "AND $ORDER=$order AND $FIRST=${s.one} AND $SECOND=${s.two} AND $THIRD=${s.three};")
         return true
+    }
+
+    fun addCommentDB(projectName: String, c: Comment){
+        val db = this.writableDatabase
+        val name = projectName.replace('\'','\r')
+        val comment = c.comment.replace('\'', '\r')
+        val counter = c.counter.replace('\'','\r')
+        db.execSQL("INSERT INTO $COMMENT_TABLE($PROJECT_NAME, $NUM, $START, $END, $COUNTER_ATTACHED, $COMMENT) " +
+                "VALUES ('$name', ${c.num}, ${c.start}, ${c.end}, '${counter}', '${comment}');")
+    }
+
+    fun deleteCommentDB(projectName: String, c: Comment){
+        val db = this.writableDatabase
+        val name = projectName.replace('\'','\r')
+        db.execSQL("DELETE FROM $COMMENT_TABLE WHERE $PROJECT_NAME='$name' AND $NUM=${c.num};")
     }
 
     fun addCounterDB(projectName: String, counterName: String, etat: Int, max: Int, order: Int, attached_main: Boolean, attachedCounter: Counter?): Boolean{

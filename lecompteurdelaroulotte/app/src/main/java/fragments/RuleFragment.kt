@@ -14,6 +14,7 @@ import library.Rule
 import library.Step
 import lufra.lecompteurdelaroulotte.MainActivity
 import lufra.lecompteurdelaroulotte.R
+import java.lang.Exception
 import java.util.ArrayList
 
 class RuleFragment: Fragment(){
@@ -53,7 +54,6 @@ class RuleFragment: Fragment(){
             }
         }
     }
-
 
     inner class StepsAdapter(context: Context, list: ArrayList<Step>) : ArrayAdapter<Step>(context, 0, list) {
         override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
@@ -101,8 +101,9 @@ class RuleFragment: Fragment(){
                             .setNegativeButton(R.string.cancel) { dialog, _ ->
                                 dialog.dismiss()
                             }
-                            .create()
-                            .show()
+                    try{
+                        dial.create()
+                    }catch (e: Exception){} finally { dial.show() }
                 }
             }
 
@@ -239,6 +240,7 @@ class RuleFragment: Fragment(){
                         dialog.dismiss()
                     }
                     .setMessage(prem + "\n" + mess)
+                    .setCancelable(false)
                     .create()
                     .show()
         }

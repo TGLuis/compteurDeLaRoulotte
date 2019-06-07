@@ -1,6 +1,7 @@
 package library
 
 import android.content.Context
+import android.util.Log
 import lufra.lecompteurdelaroulotte.R
 import java.util.*
 
@@ -10,9 +11,8 @@ class Project(var context: Context, var name: String) {
     var notes: String = " "
     var myRules: ArrayList<Rule>
     var myCounters: ArrayList<Counter>
-    private var myComments: ArrayList<Comment>
-
-    private var lesNums: ArrayList<Rappel>
+    var myComments: ArrayList<Comment>
+    private var lesRappels: ArrayList<Rappel>
 
     /**
      * Class to create a message when a rule is applied
@@ -29,6 +29,16 @@ class Project(var context: Context, var name: String) {
         fun is_ok_counter(c: Counter): Boolean{
             return c == this.c && c.etat == x
         }
+
+        override fun toString(): String{
+            var s = ""
+            if(c == null)
+                s += " ON main counter "
+            else
+                s += " ON counter="+ c!!.name
+            s += " ROW number " + x.toString() + " MESSAGE: " + this.s
+            return s
+        }
     }
 
     init {
@@ -36,7 +46,7 @@ class Project(var context: Context, var name: String) {
         myCounters = ArrayList()
         myRules = ArrayList()
         myComments = ArrayList()
-        lesNums = ArrayList()
+        lesRappels = ArrayList()
     }
 
     /***********************************************************************************************
@@ -94,11 +104,16 @@ class Project(var context: Context, var name: String) {
     }
 
     /***********************************************************************************************
-     * Functions to manage the rules
+     * Functions to manage the comments
      */
     fun addComment(c: Comment){
         myComments.add(c)
-        constructRappel()// TODO verify this
+        addCommentInRappel(c)
+    }
+
+    fun deleteComment(c: Comment){
+        myComments.remove(c)
+        constructRappel()
     }
 
     /***********************************************************************************************
@@ -132,23 +147,32 @@ class Project(var context: Context, var name: String) {
      * Functions to manage the Rappel, the messages which appears when a rule aply
      */
     fun constructRappel(){
-        lesNums = ArrayList()
+        lesRappels = ArrayList()
         for (r in myRules)
             addRuleInRappel(r)
+        for (c in myComments)
+            addCommentInRappel(c)
+    }
+
+    private fun addCommentInRappel(c: Comment){
+        val theCounter = myCounters.find { it.name == c.counter }
+        for (i in c.start..c.end) {
+            lesRappels.add(Rappel(i,c.comment,theCounter))
+        }
     }
 
     private fun addRuleInRappel(r: Rule){
         var x = r.start-r.steps[0].two
+        val theCounter = myCounters.find { it.name == r.counter }
         for (elem in r.steps){
             val aug = if(elem.augm) R.string.augmentation else R.string.diminution
             for (i in 1..elem.one){
                 x += elem.two
-                val theCounter = myCounters.find { it.name == r.counter }
                 var theMessage = context.getString(aug) + " " + context.getString(R.string.of) + " " + elem.three + " " + context.getString(R.string.stitches)
                 if(r.comment != ""){
                     theMessage = r.comment + ": " + theMessage
                 }
-                lesNums.add(Rappel(x,theMessage , theCounter))
+                lesRappels.add(Rappel(x, theMessage, theCounter))
             }
         }
     }
@@ -170,7 +194,7 @@ class Project(var context: Context, var name: String) {
 
     fun getMessageForMain(): String?{
         var s = ""
-        lesNums.forEach {
+        lesRappels.forEach {
             if(it.is_ok_main())
                 s += it.s + "\n"
         }
@@ -181,7 +205,7 @@ class Project(var context: Context, var name: String) {
 
     fun getMessageForCounter(c: Counter, withName: Boolean): String?{
         var s = ""
-        lesNums.forEach {
+        lesRappels.forEach {
             if(it.is_ok_counter(c)) {
                 if (withName)
                     s += c.name + ": "

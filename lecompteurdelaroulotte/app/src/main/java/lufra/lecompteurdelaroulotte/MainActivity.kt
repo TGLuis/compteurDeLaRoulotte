@@ -1,5 +1,6 @@
 package lufra.lecompteurdelaroulotte
 
+import android.content.DialogInterface
 import android.os.Bundle
 import android.support.design.widget.NavigationView
 import android.support.v4.app.Fragment
@@ -16,6 +17,7 @@ import android.widget.Toast
 import fragments.*
 import kotlinx.android.synthetic.main.simple_text_input.view.*
 import library.*
+import java.lang.Exception
 import java.util.*
 
 
@@ -26,6 +28,7 @@ class MainActivity: AppCompatActivity(){
     var actualCounter: Counter? = null
     var actualFragment: Fragment? = null
     var actualRule: Rule? = null
+    var actualComment: Comment? = null
     private lateinit var toolbar: android.support.v7.widget.Toolbar
     private lateinit var navView: NavigationView
     private lateinit var drawerLayout: DrawerLayout
@@ -76,6 +79,7 @@ class MainActivity: AppCompatActivity(){
         navView.menu.clear()
         when(which){
             "home" -> {
+                // todo add a button to add a project
                 projectsList.forEach {
                     val proj = it
                     navView.menu.add(it.name).apply {
@@ -135,6 +139,7 @@ class MainActivity: AppCompatActivity(){
                                 .setNegativeButton(R.string.cancel) { dialog, _ ->
                                     dialog.dismiss()
                                 }
+                                .setCancelable(false)
                                 .create()
                                 .show()
                         true
@@ -169,6 +174,7 @@ class MainActivity: AppCompatActivity(){
                                     .setNegativeButton(R.string.cancel) { dialog, _ ->
                                         dialog.dismiss()
                                     }
+                                    .setCancelable(false)
                                     .create()
                                     .show()
                             true
@@ -184,8 +190,21 @@ class MainActivity: AppCompatActivity(){
                         true
                     }
                 }
+                navView.menu.add(R.string.my_comments).apply{
+                    setOnMenuItemClickListener {
+                        if(context.frags.peek() !is SeeCommentsFragment)
+                            context.frags.push(actualFragment)
+                        drawerLayout.closeDrawers()
+                        context.openFragment(SeeCommentsFragment())
+                        true
+                    }
+                }
             }
         }
+
+        // todo add How does it work? fragment
+        // todo add about fragment
+        // navView.menu.add()
 
     }
 
@@ -242,6 +261,23 @@ class MainActivity: AppCompatActivity(){
     fun deleteRuleOfProject(r: Rule){
         actualProject!!.deleteRule(r)
         db.deleteRuleDB(actualProject!!.toString(), r)
+    }
+
+    fun addCommentToProject(c: Comment){
+        actualProject!!.addComment(c)
+        db.addCommentDB(actualProject!!.toString(), c)
+    }
+
+    fun updateComment(c: Comment, new_c: Comment){
+        db.deleteCommentDB(actualProject!!.toString(), c)
+        actualProject!!.deleteComment(c)
+        db.addCommentDB(actualProject!!.toString(), new_c)
+        actualProject!!.addComment(new_c)
+    }
+
+    fun deleteCommentOfProject(c: Comment){
+        actualProject!!.deleteComment(c)
+        db.deleteCommentDB(actualProject!!.toString(), c)
     }
 
     fun deleteStepOfRule(r: Rule, s: Step){
@@ -306,7 +342,7 @@ class MainActivity: AppCompatActivity(){
     fun createTextFromRule(r: Rule): String{
         var s = getString(R.string.rule)
         s += ": " + r.comment + "\n"
-        s += if(r.counter == "") getString(R.string.rule_on_main) else getString(R.string.rule_on_counter) + " " + r.counter + "\n"
+        s += if(r.counter == "") getString(R.string.on_main) else getString(R.string.on_counter) + " " + r.counter
         s += "\n" + getString(R.string.from_row) + " " + r.start.toString() + "\n"
         for(i in 0 until r.steps.size){
             if(i != 0){
@@ -318,6 +354,16 @@ class MainActivity: AppCompatActivity(){
             s += r.steps[i].two.toString() + " " + getString(R.string.rows) + " "
             s += r.steps[i].three.toString() + " " + getString(R.string.stitch) + "\n"
         }
+        return s
+    }
+
+    fun createTextFromComment(c: Comment): String{
+        var s = getString(R.string.comment)
+        s += ":\n"
+        s += if(c.counter == "") getString(R.string.on_main) else getString(R.string.on_counter) + " " + c.counter
+        s += "\n" + getString(R.string.from_row) + " " + c.start.toString() + " "
+        s += getString(R.string.to_row) + " " + c.end.toString() + "\n"
+        s += c.comment
         return s
     }
 }

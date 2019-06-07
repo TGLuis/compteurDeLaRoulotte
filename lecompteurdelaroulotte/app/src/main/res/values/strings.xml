@@ -35,6 +35,7 @@
     <string name="max_condition">The maximum must be 0 or more!</string>
     <string name="warning">Warning</string>
     <string name="my_rules">My rules</string>
+    <string name="my_comments">My comments</string>
     <string name="start_now">Begin from actual row?</string>
     <string name="start_other">Or from row number:</string>
 
@@ -71,6 +72,7 @@
     <string name="add_project">Add a project</string>
     <string name="add_counter">Add a counter</string>
     <string name="add_rule">Add a rule</string>
+    <string name="add_comment">Add a comment</string>
     <string name="edit_notes">Edit notes</string>
     <string name="edit_rules">Edit rules</string>
     <string name="parameter_image">Parameters</string>
@@ -92,14 +94,18 @@
     <string name="home">Home</string>
     <string name="my_counters">My counters</string>
     <string name="counter">Counter: </string>
-    <string name="which_counter">Bind this rule to</string>
+    <string name="which_counter_rule">Bind this rule to</string>
+    <string name="which_counter_comment">Bind this comment to</string>
     <string name="the_project">The project</string>
     <string name="of">of</string>
     <string name="stitches">stitches</string>
     <string name="comment_this">Comment this rule</string>
     <string name="a_comment">A comment</string>
     <string name="counter_comment">Comment of the counter</string>
-    <string name="rule_on_main">Bound to the project</string>
-    <string name="rule_on_counter">Bound to the counter: </string>
     <string name="open_a_counter">Open a counter</string>
+    <string name="to_row">to row</string>
+    <string name="delete_comment">Are you sure you want to delete this comment?</string>
+    <string name="comment">Comment</string>
+    <string name="on_main">Bound to the project</string>
+    <string name="on_counter">Bound to the counter: </string>
 </resources>

@@ -12,6 +12,7 @@ import library.Counter
 import library.Project
 import lufra.lecompteurdelaroulotte.MainActivity
 import lufra.lecompteurdelaroulotte.R
+import java.lang.Exception
 import java.util.*
 
 class ProjectFragment: Fragment() {
@@ -130,6 +131,7 @@ class ProjectFragment: Fragment() {
                 .setPositiveButton(R.string.ok){ dialog, _ ->
                     dialog.dismiss()
                 }
+                .setCancelable(false)
         comment = context.findViewById(R.id.message)
 
         counters = project.getCounters()

@@ -11,6 +11,7 @@ import android.widget.*
 import library.Rule
 import lufra.lecompteurdelaroulotte.MainActivity
 import lufra.lecompteurdelaroulotte.R
+import java.lang.Exception
 import java.util.ArrayList
 
 class SeeRulesFragment: Fragment() {
@@ -62,6 +63,7 @@ class SeeRulesFragment: Fragment() {
                         .setNegativeButton(R.string.cancel){dialog, _ ->
                             dialog.dismiss()
                         }
+                        .setCancelable(false)
                         .create()
                         .show()
             }

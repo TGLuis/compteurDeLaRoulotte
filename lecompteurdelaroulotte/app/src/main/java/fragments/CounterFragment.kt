@@ -10,6 +10,7 @@ import android.widget.*
 import library.Counter
 import lufra.lecompteurdelaroulotte.MainActivity
 import lufra.lecompteurdelaroulotte.R
+import java.lang.Exception
 
 class CounterFragment: Fragment() {
     private val TAG = "===== COUNTERFRAGMENT ====="
@@ -186,6 +187,7 @@ class CounterFragment: Fragment() {
                                 context.openFragment(context.frags.pop())
                                 dialog.dismiss()
                             }
+                            .setCancelable(false)
                             .create()
                             .show()
                 }
@@ -210,6 +212,7 @@ class CounterFragment: Fragment() {
                     .setNegativeButton(R.string.cancel){ dialog, _ ->
                         dialog.dismiss()
                     }
+                    .setCancelable(false)
                     .create()
                     .show()
         }
@@ -219,6 +222,7 @@ class CounterFragment: Fragment() {
                 .setPositiveButton(R.string.ok) { dialog, _ ->
                     dialog.dismiss()
                 }
+                .setCancelable(false)
 
         IB_max = context.findViewById(R.id.info_max)
         IB_max.setOnClickListener {

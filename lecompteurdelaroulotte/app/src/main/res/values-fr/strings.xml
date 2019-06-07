@@ -36,6 +36,7 @@
     <string name="max_condition">Le maximum doit être -1 ou plus que 1!</string>
     <string name="warning">Attention</string>
     <string name="my_rules">Mes règles</string>
+    <string name="my_comments">Mes commentaires</string>
     <string name="start_now">Commencer à partir du rang actuel?</string>
     <string name="start_other">Ou à partir du rang:</string>
 
@@ -51,8 +52,8 @@
     <string name="from_row">depuis le rang</string>
     <string name="pre_rule">Voulez-vous ajouter cette règle au projet?</string>
     <string name="pre_rule_modif">Voulez-vous modifier cette règle?</string>
-    <string name="delete_rule">Vous êtes sûr de vouloir supprimer cette règle?</string>
-    <string name="delete_step">Vous êtes sûr de vouloir supprimer cette étape?</string>
+    <string name="delete_rule">Vous êtes sûr de vouloir supprimer cette règle ?</string>
+    <string name="delete_step">Vous êtes sûr de vouloir supprimer cette étape ?</string>
 
 
     <!-- help -->
@@ -72,6 +73,7 @@
     <string name="add_project">Ajouter un project</string>
     <string name="add_counter">Ajouter un compteur</string>
     <string name="add_rule">Ajouter une règle</string>
+    <string name="add_comment">Ajouter un commentaire</string>
     <string name="edit_notes">Editer ses notes</string>
     <string name="edit_rules">Editer les règles</string>
     <string name="parameter_image">Paramètres</string>
@@ -93,14 +95,18 @@
     <string name="home">Acceuil</string>
     <string name="my_counters">Mes compteurs</string>
     <string name="counter">Compteur: </string>
-    <string name="which_counter">Lier cette règle avec le compteur</string>
+    <string name="which_counter_rule">Lier cette règle avec le compteur</string>
+    <string name="which_counter_comment">Lier ce commentaire avec le compteur</string>
     <string name="the_project">le projet</string>
     <string name="of">de</string>
     <string name="stitches">mailles</string>
     <string name="comment_this">Commentez cette règle</string>
     <string name="a_comment">Un commentaire</string>
     <string name="counter_comment">Commentaire du compteur</string>
-    <string name="rule_on_main">Lié au projet</string>
-    <string name="rule_on_counter">Lié au compteur:</string>
+    <string name="on_main">Lié au projet</string>
+    <string name="on_counter">Lié au compteur:</string>
     <string name="open_a_counter">Ouvrir un compteur</string>
+    <string name="to_row">jusqu\'au rang</string>
+    <string name="delete_comment">Vous êtes sûr de vouloir supprimer ce commentaire ?</string>
+    <string name="comment">Commentaire</string>
 </resources>

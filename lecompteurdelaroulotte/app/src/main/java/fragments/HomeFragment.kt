@@ -16,6 +16,7 @@ import kotlinx.android.synthetic.main.simple_text_input.view.*
 import lufra.lecompteurdelaroulotte.MainActivity
 import lufra.lecompteurdelaroulotte.R
 import library.Project
+import java.lang.Exception
 
 class HomeFragment: Fragment() {
     private val TAG = "===== MAINFRAGMENT ====="
@@ -56,8 +57,9 @@ class HomeFragment: Fragment() {
                         .setNegativeButton(R.string.cancel) { dialog, _ ->
                             dialog.dismiss()
                         }
-                        .create()
-                        .show()
+                try{
+                    cancelDialog.create()
+                }catch (e: Exception){} finally { cancelDialog.show() }
 
             }
 
@@ -114,6 +116,7 @@ class HomeFragment: Fragment() {
                     .setNegativeButton(R.string.cancel) { dialog, _ ->
                         dialog.dismiss()
                     }
+                    .setCancelable(false)
                     .create()
                     .show()
         }
