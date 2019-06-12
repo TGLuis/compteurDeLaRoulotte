@@ -8,28 +8,26 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <!-- for the list of rules -->
+    <!-- for the list of comments -->
     <ListView
-        android:id="@+id/listRules"
+        android:id="@+id/list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_alignParentStart="true"
-        tools:listitem="@layout/list_rule_item"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="@id/button_add_rule"
+        app:layout_constraintBottom_toBottomOf="@id/button_add"
         android:layout_marginTop="8dp"
         android:layout_marginBottom="66dp"/>
 
     <Button
-        android:id="@+id/button_add_rule"
+        android:id="@+id/button_add"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:theme="@style/ButtonStyleDark"
         android:textSize="20sp"
-        android:text="@string/add_rule"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/listRules"/>
+        app:layout_constraintTop_toBottomOf="@id/list"/>
 
 </android.support.constraint.ConstraintLayout>

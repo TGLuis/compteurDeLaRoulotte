@@ -143,7 +143,7 @@ class MyDatabase (context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, n
                         val end = cursorCo.getInt(3)
                         val com = Comment(num, start, end)
                         com.comment = cursorCo.getString(1).replace('\r','\'')
-                        com.counter = cursorC.getString(4).replace('\r','\'')
+                        com.counter = cursorCo.getString(4).replace('\r','\'')
                         proj.addComment(com)
                     } while (cursorCo.moveToNext())
                 }
@@ -298,10 +298,3 @@ class MyDatabase (context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, n
         private const val NO_ATTACHED = "__--NO--__"
     }
 }
-
-
-/*
-CREATE TABLE 'project' ('projectName' TEXT NOT NULL PRIMARY KEY, 'etat' INTEGER NOT NULL, 'notes' TEXT NOT NULL);
-CREATE TABLE 'counter' ('projectName' TEXT NOT NULL REFERENCES project, 'counterName' TEXT NOT NULL PRIMARY KEY, 'etat' INTEGER NOT NULL, 'tours' INTEGER NOT NULL, 'max' INTEGER NOT NULL, 'attached' INTEGER NOT NULL, 'counterAttached' TEXT REFERENCES counterName);
-
- */

@@ -1,6 +1,5 @@
 package lufra.lecompteurdelaroulotte
 
-import android.content.DialogInterface
 import android.os.Bundle
 import android.support.design.widget.NavigationView
 import android.support.v4.app.Fragment
@@ -17,11 +16,10 @@ import android.widget.Toast
 import fragments.*
 import kotlinx.android.synthetic.main.simple_text_input.view.*
 import library.*
-import java.lang.Exception
 import java.util.*
 
 
-class MainActivity: AppCompatActivity(){
+class MainActivity: AppCompatActivity() {
     private val TAG = "===== MAINACTIVITY ====="
     lateinit var projectsList: ArrayList<Project>
     var actualProject: Project? = null
@@ -29,6 +27,7 @@ class MainActivity: AppCompatActivity(){
     var actualFragment: Fragment? = null
     var actualRule: Rule? = null
     var actualComment: Comment? = null
+    var seeWhat: String = "Comments"
     private lateinit var toolbar: android.support.v7.widget.Toolbar
     private lateinit var navView: NavigationView
     private lateinit var drawerLayout: DrawerLayout
@@ -183,19 +182,21 @@ class MainActivity: AppCompatActivity(){
                 }
                 navView.menu.add(R.string.my_rules).apply{
                     setOnMenuItemClickListener {
-                        if(context.frags.peek() !is SeeRulesFragment)
+                        if(context.frags.peek() !is SeeFragment)
                             context.frags.push(actualFragment)
                         drawerLayout.closeDrawers()
-                        context.openFragment(SeeRulesFragment())
+                        context.seeWhat = "Rules"
+                        context.openFragment(SeeFragment())
                         true
                     }
                 }
                 navView.menu.add(R.string.my_comments).apply{
                     setOnMenuItemClickListener {
-                        if(context.frags.peek() !is SeeCommentsFragment)
+                        if(context.frags.peek() !is SeeFragment)
                             context.frags.push(actualFragment)
                         drawerLayout.closeDrawers()
-                        context.openFragment(SeeCommentsFragment())
+                        context.seeWhat = "Comments"
+                        context.openFragment(SeeFragment())
                         true
                     }
                 }
