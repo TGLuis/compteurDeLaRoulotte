@@ -92,6 +92,11 @@ class ProjectFragment: Fragment() {
             return projectView
         }
 
+        /**
+         * When we update the state of the counter @param:count
+         * @param:b if it is true -> increment
+         *          if it is false -> decrement
+         */
         private fun up(b: Boolean, count: Counter) {
             if (!b && count.attachedMain && project.etat == 0) {
                 Toast.makeText(context, R.string.problem_etat_nul, Toast.LENGTH_LONG).show()
@@ -103,12 +108,6 @@ class ProjectFragment: Fragment() {
             nombre.text = project.etat.toString()
             adapteur.notifyDataSetChanged()
             affiche()
-        }
-
-        private fun openCount(counter: Counter){
-            (context as MainActivity).actualCounter = counter
-            (context as MainActivity).frags.push(ProjectFragment())
-            (context as MainActivity).openFragment(CounterFragment())
         }
     }
 
@@ -169,6 +168,11 @@ class ProjectFragment: Fragment() {
         context.title = project.toString()
     }
 
+    /**
+     * When we update the state of the main counter
+     * @param:b if it is true -> increment
+     *          if it is false -> decrement
+     */
     private fun up(b: Boolean){
         project.update(b)
         nombre.text = project.etat.toString()
@@ -179,6 +183,14 @@ class ProjectFragment: Fragment() {
         affiche()
     }
 
+
+    /**
+     * This function will handle all the message for every counters and for the main.
+     * It will also handle if you need to display a warning in the case where a message appear
+     * for the first time.
+     * @param:force is used to force the warning to display all the messages. In the case where the
+     *        screen ProjectFragment is open for the first time.
+     */
     fun affiche(force: Boolean = false){
         val mess = project.getMessageAll()
         if(force && mess != null){
@@ -208,6 +220,9 @@ class ProjectFragment: Fragment() {
         previous_message = mess
     }
 
+    /**
+     * Display in warning the string @param:mess.
+     */
     private fun warn(mess: String){
         warning.setMessage(mess)
                 .create()

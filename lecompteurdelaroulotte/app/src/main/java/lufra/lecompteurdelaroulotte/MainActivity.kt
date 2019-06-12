@@ -8,6 +8,7 @@ import android.support.v4.widget.DrawerLayout
 import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
+import android.support.v7.widget.Toolbar
 import android.view.*
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
@@ -17,7 +18,8 @@ import fragments.*
 import kotlinx.android.synthetic.main.simple_text_input.view.*
 import library.*
 import java.util.*
-
+import com.crashlytics.android.Crashlytics
+import io.fabric.sdk.android.Fabric
 
 class MainActivity: AppCompatActivity() {
     private val TAG = "===== MAINACTIVITY ====="
@@ -28,7 +30,7 @@ class MainActivity: AppCompatActivity() {
     var actualRule: Rule? = null
     var actualComment: Comment? = null
     var seeWhat: String = "Comments"
-    private lateinit var toolbar: android.support.v7.widget.Toolbar
+    private lateinit var toolbar: Toolbar
     private lateinit var navView: NavigationView
     private lateinit var drawerLayout: DrawerLayout
     lateinit var frags: Stack<Fragment>
@@ -37,6 +39,7 @@ class MainActivity: AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?){
         super.onCreate(savedInstanceState)
+        Fabric.with(this, Crashlytics())
         setContentView(R.layout.activity_main)
 
         // Database
