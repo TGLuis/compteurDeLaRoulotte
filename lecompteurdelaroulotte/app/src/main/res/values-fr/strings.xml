@@ -109,4 +109,8 @@
     <string name="to_row">jusqu\'au rang</string>
     <string name="delete_comment">Vous êtes sûr de vouloir supprimer ce commentaire ?</string>
     <string name="comment">Commentaire</string>
+
+    <string name="AboutTitle">A propos</string>
+    <string name="AboutText">Cette application a été développée par\nLuis Tascon Gutierrez\navec les conseils de\nAlexandra Point\net le magasin\n\'La roulotte aux pelotes\'.\n\n
+    C'est un projet open source, vous pouvez le trouvez sur Github à l'adresse:\n..\nNous vous invitons à donnez votre avis sur le Play store ou de collaborer sur Github.</string>
 </resources>

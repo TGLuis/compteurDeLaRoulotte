@@ -206,10 +206,18 @@ class MainActivity: AppCompatActivity() {
             }
         }
 
-        // todo add How does it work? fragment
-        // todo add about fragment
+        // todo add Help fragment
         // navView.menu.add()
 
+        navView.menu.add(R.string.AboutTitle).apply{
+            setOnMenuItemClickListener {
+                if(context.frags.peek() !is AboutFragment)
+                    context.frags.push(AboutFragment())
+                drawerLayout.closeDrawers()
+                context.openFragment(AboutFragment())
+                true
+            }
+        }
     }
 
     /***********************************************************************************************
