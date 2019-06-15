@@ -20,7 +20,6 @@ class AboutFragment: Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        context.actualFragment = AboutFragment()
         context.title = context.getString(R.string.AboutTitle)
     }
 }

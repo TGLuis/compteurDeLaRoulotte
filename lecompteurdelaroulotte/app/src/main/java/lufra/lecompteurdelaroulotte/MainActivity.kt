@@ -9,6 +9,7 @@ import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
+import android.util.Log
 import android.view.*
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
@@ -22,11 +23,10 @@ import com.crashlytics.android.Crashlytics
 import io.fabric.sdk.android.Fabric
 
 class MainActivity: AppCompatActivity() {
-    private val TAG = "===== MAINACTIVITY ====="
+    private val TAG = "==== MAINACTIVITY ===="
     lateinit var projectsList: ArrayList<Project>
     var actualProject: Project? = null
     var actualCounter: Counter? = null
-    var actualFragment: Fragment? = null
     var actualRule: Rule? = null
     var actualComment: Comment? = null
     var seeWhat: String = "Comments"
@@ -48,8 +48,7 @@ class MainActivity: AppCompatActivity() {
 
         // Fragments
         frags = Stack()
-        frags.push(HomeFragment() as Fragment)
-        openFragment(HomeFragment() as Fragment)
+        openFragment(HomeFragment())
 
         // Toolbar
         toolbar = this.findViewById(R.id.my_toolbar)
@@ -87,7 +86,6 @@ class MainActivity: AppCompatActivity() {
                     navView.menu.add(it.name).apply {
                         setOnMenuItemClickListener {
                             context.actualProject = proj
-                            context.frags.push(HomeFragment())
                             drawerLayout.closeDrawers()
                             context.openFragment(ProjectFragment())
                             true
@@ -105,8 +103,6 @@ class MainActivity: AppCompatActivity() {
                 }
                 navView.menu.add(actualProject!!.name).apply {
                     setOnMenuItemClickListener {
-                        if(context.frags.peek() !is ProjectFragment)
-                            context.frags.push(actualFragment)
                         drawerLayout.closeDrawers()
                         context.openFragment(ProjectFragment())
                         true
@@ -114,8 +110,6 @@ class MainActivity: AppCompatActivity() {
                 }
                 navView.menu.add(R.string.edit_notes).apply{
                     setOnMenuItemClickListener {
-                        if(context.frags.peek() !is NotesFragment)
-                            context.frags.push(actualFragment)
                         drawerLayout.closeDrawers()
                         context.openFragment(NotesFragment())
                         true
@@ -168,7 +162,6 @@ class MainActivity: AppCompatActivity() {
                                     .setTitle(R.string.project_name_id)
                                     .setPositiveButton(R.string.ok) { dialog, _ ->
                                         actualCounter = actualProject!!.myCounters.find { it.name == selectedItem }
-                                        context.frags.push(actualFragment)
                                         context.openFragment(CounterFragment())
                                         drawerLayout.closeDrawers()
                                         dialog.dismiss()
@@ -185,8 +178,6 @@ class MainActivity: AppCompatActivity() {
                 }
                 navView.menu.add(R.string.my_rules).apply{
                     setOnMenuItemClickListener {
-                        if(context.frags.peek() !is SeeFragment)
-                            context.frags.push(actualFragment)
                         drawerLayout.closeDrawers()
                         context.seeWhat = "Rules"
                         context.openFragment(SeeFragment())
@@ -195,8 +186,6 @@ class MainActivity: AppCompatActivity() {
                 }
                 navView.menu.add(R.string.my_comments).apply{
                     setOnMenuItemClickListener {
-                        if(context.frags.peek() !is SeeFragment)
-                            context.frags.push(actualFragment)
                         drawerLayout.closeDrawers()
                         context.seeWhat = "Comments"
                         context.openFragment(SeeFragment())
@@ -211,8 +200,6 @@ class MainActivity: AppCompatActivity() {
 
         navView.menu.add(R.string.AboutTitle).apply{
             setOnMenuItemClickListener {
-                if(context.frags.peek() !is AboutFragment)
-                    context.frags.push(AboutFragment())
                 drawerLayout.closeDrawers()
                 context.openFragment(AboutFragment())
                 true
@@ -297,7 +284,10 @@ class MainActivity: AppCompatActivity() {
         actualProject!!.deleteStepOfRule(r, s)
     }
 
-    fun openFragment(frag: Fragment){
+    fun openFragment(frag: Fragment, pop: Boolean = false){
+        if(!pop && (frags.empty() || frag::class != this.frags.peek()::class)){
+            frags.push(frag)
+        }
         supportFragmentManager.beginTransaction().replace(R.id.frame, frag).commit()
     }
 
@@ -307,8 +297,11 @@ class MainActivity: AppCompatActivity() {
     override fun onBackPressed() {
         if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
             drawerLayout.closeDrawer(GravityCompat.START)
+        } else if (frags.size >= 2) {
+            frags.pop()
+            openFragment(frags.pop(), true)
         } else if (!frags.isEmpty()) {
-            openFragment(frags.pop())
+            openFragment(frags.pop(), true)
         } else {
             saveState()
             super.onBackPressed()
@@ -317,19 +310,16 @@ class MainActivity: AppCompatActivity() {
 
     override fun onDestroy() {
         saveState()
-        actualFragment = HomeFragment()
         super.onDestroy()
     }
 
     override fun onPause() {
         saveState()
-        actualFragment = HomeFragment()
         super.onPause()
     }
 
     override fun onStop() {
         saveState()
-        actualFragment = HomeFragment()
         super.onStop()
     }
 

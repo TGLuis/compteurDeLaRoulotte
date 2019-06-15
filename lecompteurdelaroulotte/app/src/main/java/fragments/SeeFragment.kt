@@ -48,7 +48,6 @@ class SeeFragment: Fragment() {
             TV_comment.text = comment_text
             TV_comment.setOnClickListener {
                 (context as MainActivity).actualComment = comment
-                (context as MainActivity).frags.add(SeeFragment())
                 (context as MainActivity).openFragment(CommentFragment())
             }
 
@@ -97,7 +96,6 @@ class SeeFragment: Fragment() {
             TV_rule.text = rule_text
             TV_rule.setOnClickListener {
                 (context as MainActivity).actualRule = rule
-                (context as MainActivity).frags.add(SeeFragment())
                 (context as MainActivity).openFragment(RuleFragment())
             }
 
@@ -141,7 +139,6 @@ class SeeFragment: Fragment() {
                 B_add.text = getString(R.string.add_comment)
                 B_add.setOnClickListener {
                     context.actualComment = null
-                    context.frags.add(SeeFragment())
                     context.openFragment(CommentFragment())
                 }
 
@@ -154,7 +151,6 @@ class SeeFragment: Fragment() {
                 B_add.text = getString(R.string.add_rule)
                 B_add.setOnClickListener {
                     context.actualRule = null
-                    context.frags.add(SeeFragment())
                     context.openFragment(RuleFragment())
                 }
 
@@ -163,6 +159,5 @@ class SeeFragment: Fragment() {
                 context.title = "${context.actualProject.toString()} -> ${context.getString(R.string.my_rules)}"
             }
         }
-        context.actualFragment = SeeFragment()
     }
 }

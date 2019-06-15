@@ -30,18 +30,6 @@ class CommentFragment: Fragment() {
     private lateinit var B_cancel: Button
     private lateinit var B_save: Button
 
-    /*inner class CustomWatcher: TextWatcher {
-        override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-        override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
-
-        override fun afterTextChanged(s: Editable?) {
-            try {
-                if (ET_end_line.text.toString().toInt() < ET_start_line.text.toString().toInt()) {
-                    ET_end_line.setText(ET_start_line.text.toString())
-            } catch (e: java.lang.NumberFormatException) {}
-        }
-    }*/
-
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         super.onCreateView(inflater, container, savedInstanceState)
         context = activity as MainActivity
@@ -146,7 +134,6 @@ class CommentFragment: Fragment() {
                     .show()
         }
 
-        context.actualFragment = CommentFragment()
         context.title = context.getString(R.string.add_comment)
     }
 }

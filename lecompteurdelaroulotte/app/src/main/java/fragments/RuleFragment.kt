@@ -244,7 +244,6 @@ class RuleFragment: Fragment(){
                     .create()
                     .show()
         }
-        context.actualFragment = RuleFragment()
         context.title = context.getString(R.string.add_rule)
     }
 }

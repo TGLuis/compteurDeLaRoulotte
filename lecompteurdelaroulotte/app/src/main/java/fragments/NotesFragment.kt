@@ -46,7 +46,6 @@ class NotesFragment: Fragment() {
             setText(notes)
             addTextChangedListener(CustomWatcher())
         }
-        context.actualFragment = NotesFragment()
         context.title = context.getString(R.string.edit_notes)
     }
 }

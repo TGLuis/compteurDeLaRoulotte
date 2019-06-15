@@ -163,7 +163,6 @@ class ProjectFragment: Fragment() {
         }
 
         affiche(true)
-        context.actualFragment = ProjectFragment()
         context.setMenu("project")
         context.title = project.toString()
     }

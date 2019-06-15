@@ -75,7 +75,6 @@ class HomeFragment: Fragment() {
 
         private fun openProj(proj: Project){
             (context as MainActivity).actualProject = proj
-            (context as MainActivity).frags.push(HomeFragment())
             (context as MainActivity).openFragment(ProjectFragment())
         }
     }
@@ -121,9 +120,6 @@ class HomeFragment: Fragment() {
                     .show()
         }
 
-        context.actualFragment = HomeFragment()
-        context.frags.clear()
-        context.frags.push(context.actualFragment)
         context.setMenu("home")
         context.title = context.getString(R.string.app_name)
     }
