@@ -9,7 +9,6 @@ import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
-import android.util.Log
 import android.view.*
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
@@ -30,10 +29,10 @@ class MainActivity: AppCompatActivity() {
     var actualRule: Rule? = null
     var actualComment: Comment? = null
     var seeWhat: String = "Comments"
+    lateinit var frags: Stack<Fragment>
     private lateinit var toolbar: Toolbar
     private lateinit var navView: NavigationView
     private lateinit var drawerLayout: DrawerLayout
-    lateinit var frags: Stack<Fragment>
     private lateinit var db: MyDatabase
     private lateinit var editCounter: AlertDialog.Builder
 
@@ -142,22 +141,22 @@ class MainActivity: AppCompatActivity() {
                     }
                 }
                 if(context.actualProject!!.myCounters.size > 0){
-                    val viewInflated = LayoutInflater.from(context).inflate(R.layout.simple_spinner_input, context.navView as ViewGroup, false)
-                    val the_spinner = viewInflated.findViewById<Spinner>(R.id.input_spinner)
-                    val arr = ArrayList<String>(context.actualProject!!.getCounters().size)
-                    this.actualProject!!.getCounters().forEach {arr.add(it.name)}
-                    val adapteur = ArrayAdapter(context, R.layout.support_simple_spinner_dropdown_item, arr.toArray())
-                    var selectedItem = arr[0]
-                    adapteur.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item)
-                    the_spinner.adapter = adapteur
-                    the_spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-                        override fun onNothingSelected(parent: AdapterView<*>?) {}
-                        override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
-                            selectedItem = arr[p2]
-                        }
-                    }
                     navView.menu.add(R.string.open_a_counter).apply{
                         setOnMenuItemClickListener {
+                            val viewInflated = LayoutInflater.from(context).inflate(R.layout.simple_spinner_input, context.navView as ViewGroup, false)
+                            val the_spinner = viewInflated.findViewById<Spinner>(R.id.input_spinner)
+                            val arr = ArrayList<String>(context.actualProject!!.getCounters().size)
+                            context.actualProject!!.getCounters().forEach {arr.add(it.name)}
+                            val adapteur = ArrayAdapter(context, R.layout.support_simple_spinner_dropdown_item, arr.toArray())
+                            var selectedItem = arr[0]
+                            adapteur.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item)
+                            the_spinner.adapter = adapteur
+                            the_spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+                                override fun onNothingSelected(parent: AdapterView<*>?) {}
+                                override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
+                                    selectedItem = arr[p2]
+                                }
+                            }
                             editCounter.setView(viewInflated)
                                     .setTitle(R.string.project_name_id)
                                     .setPositiveButton(R.string.ok) { dialog, _ ->
@@ -195,9 +194,13 @@ class MainActivity: AppCompatActivity() {
             }
         }
 
-        // todo add Help fragment
-        // navView.menu.add()
-
+        navView.menu.add(R.string.HelpTitle).apply{
+            setOnMenuItemClickListener {
+                drawerLayout.closeDrawers()
+                context.openFragment(HelpFragment())
+                true
+            }
+        }
         navView.menu.add(R.string.AboutTitle).apply{
             setOnMenuItemClickListener {
                 drawerLayout.closeDrawers()
@@ -299,9 +302,7 @@ class MainActivity: AppCompatActivity() {
             drawerLayout.closeDrawer(GravityCompat.START)
         } else if (frags.size >= 2) {
             frags.pop()
-            openFragment(frags.pop(), true)
-        } else if (!frags.isEmpty()) {
-            openFragment(frags.pop(), true)
+            openFragment(frags.peek(), true)
         } else {
             saveState()
             super.onBackPressed()

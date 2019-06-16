@@ -112,4 +112,16 @@
     <string name="AboutTitle">About</string>
     <string name="AboutText">This application was developed by\nLuis Tascon Gutierrez\nwith the advice of\nAlexandra Point\nand the shop\n\'La roulotte aux pelotes\'.\n\n
     This is an open source project, you can find it on Github at this address:\n..\nFeel free to give your opinion on the PlayStore or to collaborate on Github.</string>
+
+    <!-- for the help fragment-->
+    <string name="HelpTitle">Help</string>
+    <string name="drop">Drop button</string>
+    <string name="help_general_title">General help</string>
+    <string name="help_general">hey blablabla</string>
+    <string name="help_counter_title">Counter</string>
+    <string name="help_counter">...</string>
+    <string name="help_comment_title">Comment</string>
+    <string name="help_comment">...</string>
+    <string name="help_rule_title">Rule</string>
+    <string name="help_rule">...</string>
 </resources>

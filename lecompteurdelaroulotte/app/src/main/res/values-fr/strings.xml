@@ -113,4 +113,16 @@
     <string name="AboutTitle">A propos</string>
     <string name="AboutText">Cette application a été développée par\nLuis Tascon Gutierrez\navec les conseils de\nAlexandra Point\net le magasin\n\'La roulotte aux pelotes\'.\n\n
     C\'est un projet open source, vous pouvez le trouvez sur Github à l\'adresse:\n..\nNous vous invitons à donnez votre avis sur le Play store ou de collaborer sur Github.</string>
+
+    <!-- for the help fragment-->
+    <string name="HelpTitle">Aide</string>
+    <string name="drop">Boutton drop</string>
+    <string name="help_general_title">Aide générale</string>
+    <string name="help_general">hey blablabla</string>
+    <string name="help_counter_title">Compteur</string>
+    <string name="help_counter">...</string>
+    <string name="help_comment_title">Commentaire</string>
+    <string name="help_comment">...</string>
+    <string name="help_rule_title">Règle</string>
+    <string name="help_rule">...</string>
 </resources>
