@@ -1,5 +1,7 @@
 package lufra.lecompteurdelaroulotte
 
+import android.content.Context
+import android.database.sqlite.SQLiteDatabase
 import android.os.Bundle
 import android.support.design.widget.NavigationView
 import android.support.v4.app.Fragment
@@ -9,6 +11,7 @@ import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
+import android.util.Log
 import android.view.*
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
@@ -20,6 +23,8 @@ import library.*
 import java.util.*
 import com.crashlytics.android.Crashlytics
 import io.fabric.sdk.android.Fabric
+import kotlinx.android.synthetic.main.simple_text_and_box_input.view.*
+import kotlinx.android.synthetic.main.simple_text_input.view.input_text
 
 class MainActivity: AppCompatActivity() {
     private val TAG = "==== MAINACTIVITY ===="
@@ -41,6 +46,7 @@ class MainActivity: AppCompatActivity() {
         Fabric.with(this, Crashlytics())
         setContentView(R.layout.activity_main)
 
+        //this.deleteDatabase("database.sqlite")
         // Database
         db = MyDatabase(this)
         projectsList = db.getAllProjects(this)
@@ -191,6 +197,35 @@ class MainActivity: AppCompatActivity() {
                         true
                     }
                 }
+                navView.menu.add(R.string.clone_proj).apply{
+                    setOnMenuItemClickListener {
+                        val viewInflated = LayoutInflater.from(context).inflate(R.layout.simple_text_and_box_input, context.navView as ViewGroup, false)
+                        viewInflated.tv.text = getString(R.string.with_data)
+                        viewInflated.input_text.hint = getString(R.string.project_name)
+                        val addCounter = AlertDialog.Builder(context)
+                        addCounter.setView(viewInflated)
+                                .setTitle(R.string.clone_proj)
+                                .setPositiveButton(R.string.ok) { dialog, _ ->
+                                    val projectName = viewInflated.input_text.text.toString()
+                                    val data: Boolean = viewInflated.input_check_box.isChecked
+                                    if(context.projectsList.find { it.name == projectName } == null){
+                                        context.actualProject!!.clone(projectName, data)
+                                        dialog.dismiss()
+                                        context.openFragment(HomeFragment())
+                                        drawerLayout.closeDrawers()
+                                    }else {
+                                        Toast.makeText(context,R.string.project_already, Toast.LENGTH_SHORT).show()
+                                    }
+                                }
+                                .setNegativeButton(R.string.cancel) { dialog, _ ->
+                                    dialog.dismiss()
+                                }
+                                .setCancelable(false)
+                                .create()
+                                .show()
+                        true
+                    }
+                }
             }
         }
 
@@ -213,16 +248,16 @@ class MainActivity: AppCompatActivity() {
     /***********************************************************************************************
      *  Fucntions to manage a project and his features
      */
-    fun createProject(projectName: String){
+    fun createProject(projectName: String): Project{
+        val p = Project(this, projectName)
         db.addProjectDB(projectName, " ")
-        projectsList.add(Project(this, projectName))
-        setMenu("home")
+        projectsList.add(p)
+        return p
     }
 
     fun deleteProject(proj: Project){
         db.deleteProjectDB(proj.toString())
         projectsList.remove(proj)
-        setMenu("home")
     }
 
     private fun createCounter(counterName: String){

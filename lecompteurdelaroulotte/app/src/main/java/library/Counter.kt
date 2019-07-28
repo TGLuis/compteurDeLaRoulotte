@@ -17,4 +17,12 @@ class Counter(var name: String, var max: Int, var order: Int, var attachedMain: 
 
     fun attach(c: Counter){this.counterAttached=c}
     fun detach(){this.counterAttached=null}
+
+    fun clone(data: Boolean): Counter {
+        val c = Counter(this.name, this.max, this.order, this.attachedMain, this.counterAttached)// todo: risque de problème avec counterAttached :'(
+        if(data){
+            c.etat = this.etat
+        }
+        return c
+    }
 }

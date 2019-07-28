@@ -17,8 +17,8 @@
     <string name="counter_tours_id">Tours du compteur:</string>
     <string name="counter_attach_main">Lié au projet</string>
     <string name="counter_attach_main_id">Lié au projet:</string>
-    <string name="counter_attached">Lié un autre compteur</string>
-    <string name="counter_attached_id">Lié un autre compteur:</string>
+    <string name="counter_attached">Lié à un autre compteur</string>
+    <string name="counter_attached_id">Lié à un autre compteur:</string>
     <string name="counter_position">Position du compteur</string>
     <string name="counter_position_id">Position du compteur:</string>
     <string name="notes_image">Image de notes</string>
@@ -80,14 +80,13 @@
     <string name="linked_image">Image lien</string>
     <string name="delete_image">Supprimer</string>
     <string name="info_image">Info</string>
-    <string name="button_minus">-</string>
-    <string name="button_plus">+</string>
     <string name="cancel">Annuler</string>
     <string name="delete">Supprimer</string>
     <string name="save">Sauver</string>
     <string name="none">Aucun</string>
     <string name="yes">Oui</string>
     <string name="ok">OK</string>
+    <string name="nothing_changed">Rien n\'a changé</string>
 
 
     <string name="navigation_drawer_open">Ouvrir</string>
@@ -109,6 +108,8 @@
     <string name="to_row">jusqu\'au rang</string>
     <string name="delete_comment">Vous êtes sûr de vouloir supprimer ce commentaire ?</string>
     <string name="comment">Commentaire</string>
+    <string name="clone_proj">Cloner le projet</string>
+    <string name="with_data">Copier aussi l\'état des compteurs?</string>
 
     <string name="AboutTitle">A propos</string>
     <string name="AboutText">Cette application a été développée par\nLuis Tascon Gutierrez\navec les conseils de\nAlexandra Point\net le magasin\n\'La roulotte aux pelotes\'.\n\n
@@ -118,11 +119,11 @@
     <string name="HelpTitle">Aide</string>
     <string name="drop">Boutton drop</string>
     <string name="help_general_title">Aide générale</string>
-    <string name="help_general">hey blablabla</string>
+    <string name="help_general">Cette application a pour but the simplifier un projet de tricot. Vous pouvez créer un projet sur l\'écran d\'acceuil. Une fois que vous avez un projet, vous pouvez y ajouter des compteurs, des règles et des commentaires qui vont vous aider à gérer votre projet.</string>
     <string name="help_counter_title">Compteur</string>
-    <string name="help_counter">...</string>
+    <string name="help_counter">Chaque compteur a un nom unique par projet. Il a également un état qui représente le nombre de rangs que vous avez fait avec ce compteur.\n Vous pouvez indiquer un maximum au compteur afin que le compteur recommence à 1 une fois qu\'il a atteint ce maximum.\nIl y a également le nombre "tours" pour chaque compteur qui indique le nombre de fois que celui-ci a atteint le maximum.\nVous pouvez aussi modifier la position de votre compteur dans la liste des compteurs.\nPour chaque compteur, vous pouvez cocher la case "Lié au projet". Celà va avoir pour effet de ajouter (ou enlever) 1 au compteur chaque fois que vous ajoutez (ou enlevez) 1 au projet.\nMaintenant, il reste encore un choix possible, vous pouvez attacher un compteur à un autre compteur. Faites attention, celà n\'a pas le même effet que d\'attacher un compteur au projet. Dans ce cas ci, si le compteur1 est attaché au compteur2, chaque fois que le compteur2 atteint son maximum et recommence à 1, le compteur 1 va augmenter de 1. C\'est donc une manière pour compteur le nombre de tours que va faire un compteur.</string>
     <string name="help_comment_title">Commentaire</string>
-    <string name="help_comment">...</string>
+    <string name="help_comment">Pour votre projet, vous pouvez également avoir des commentaires. Ces commentaires ont comme caractéristiques, un compteur (ou le projet), un rang de début et de fin et un texte. Une fois que le compteur indiqué a comme état un rang qui est compris dans l\'intervalle du commentaire, le texte va apparaitre dans votre projet en dessous du compteur concerné (ou du projet).</string>
     <string name="help_rule_title">Règle</string>
-    <string name="help_rule">...</string>
+    <string name="help_rule">La règle est une manière d\'automatiser certains commentaires. Dans quelques projets, vous allez devoir faire des autmentations et diminutions. Vous pouvez les encoder en tant que rêgle pour avoir une pop up chaque fois que le rang est atteint. Pour celà, vous devrez choisir le compteur sur lequel la règle va s\'appliquer. Vous choisissez le rang de départ, qui peut être le rang actuel du compteur choisi. Et vous pouvez éventuellement ajouter un commentaire à la règle. Ensuite, vous pouvez ajouter autant d\'étapes que vous le souhaitez. Une étape a le format "X fois chaque Y rangs Z mailles". Ce qui veut dire que vous verrez un message qui vous informera que vous devrez augmenter (ou diminuer si vous n\'avez pas coché la case) Z mailles tous les Y rangs et ça pendant X fois. L\'ordre des étapes est important car elles se suivent une après l\'autre.</string>
 </resources>

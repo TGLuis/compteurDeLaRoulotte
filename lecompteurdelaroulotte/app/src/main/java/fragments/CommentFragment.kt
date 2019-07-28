@@ -94,7 +94,7 @@ class CommentFragment: Fragment() {
 
         B_cancel = context.findViewById(R.id.button_cancel)
         B_cancel.setOnClickListener {
-            context.openFragment(context.frags.pop())
+            context.onBackPressed()
         }
 
         B_save = context.findViewById(R.id.button_save)
@@ -122,7 +122,7 @@ class CommentFragment: Fragment() {
                             context.updateComment(context.actualComment!!, comment!!)
                             context.actualProject!!.constructRappel()
                         }
-                        context.openFragment(context.frags.pop())
+                        context.onBackPressed()
                         dialog.dismiss()
                     }
                     .setNegativeButton(R.string.cancel) { dialog, _ ->

@@ -204,7 +204,7 @@ class RuleFragment: Fragment(){
 
         B_cancel = context.findViewById(R.id.button_cancel)
         B_cancel.setOnClickListener {
-            context.openFragment(context.frags.pop())
+            context.onBackPressed()
         }
 
         B_add_step = context.findViewById(R.id.button_add_step)
@@ -231,9 +231,8 @@ class RuleFragment: Fragment(){
                             context.addRuleToProject(rule!!)
                         }else{
                             context.updateRule(context.actualRule!!, rule!!)
-                            context.actualProject!!.constructRappel()
                         }
-                        context.openFragment(context.frags.pop())
+                        context.onBackPressed()
                         dialog.dismiss()
                     }
                     .setNegativeButton(R.string.cancel) { dialog, _ ->

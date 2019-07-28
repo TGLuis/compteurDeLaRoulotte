@@ -79,14 +79,15 @@
     <string name="linked_image">Linked image</string>
     <string name="delete_image">Delete</string>
     <string name="info_image">Info</string>
-    <string name="button_minus">-</string>
-    <string name="button_plus">+</string>
+    <string name="button_minus" translatable="false">-</string>
+    <string name="button_plus" translatable="false">+</string>
     <string name="cancel">Cancel</string>
     <string name="delete">Delete</string>
     <string name="save">Save</string>
     <string name="none">None</string>
     <string name="yes">Yes</string>
     <string name="ok">OK</string>
+    <string name="nothing_changed">Nothing has changed</string>
 
 
     <string name="navigation_drawer_open">Open</string>
@@ -108,6 +109,8 @@
     <string name="comment">Comment</string>
     <string name="on_main">Bound to the project</string>
     <string name="on_counter">Bound to the counter: </string>
+    <string name="clone_proj">Clone the project</string>
+    <string name="with_data">Copy also states of counters?</string>
 
     <string name="AboutTitle">About</string>
     <string name="AboutText">This application was developed by\nLuis Tascon Gutierrez\nwith the advice of\nAlexandra Point\nand the shop\n\'La roulotte aux pelotes\'.\n\n
@@ -117,11 +120,11 @@
     <string name="HelpTitle">Help</string>
     <string name="drop">Drop button</string>
     <string name="help_general_title">General help</string>
-    <string name="help_general">hey blablabla</string>
+    <string name="help_general">This application aim to simplify a knit project. You can create a project in the home screen. Once you are in a project, you can add counters, rules and comments that will help you manage your project.</string>
     <string name="help_counter_title">Counter</string>
-    <string name="help_counter">...</string>
+    <string name="help_counter">Each counter has a name which is unique per project. It has a state, which represents the number of rows you have currently made with this counter.\nYou can set a maximum to your counter, after reaching this maximum, the counter will loop again and will come back to one.\nThere is the "round" number of the counter which is the number of times it reached the maximum.\nYou can also modify the position of the counter in the list of your counter by setting the position in the counter.\nFor each counter, you can check the box "Attached to project" which will link the project and the counter together. It means that each time you increment (decrement) the project or the counter, the other will also be incremented (decremented).\nNow there is a tricky part, you can attach a counter to another counter, be careful, it is not the same as attaching a counter to the project. In this case, if counter1 is attached to counter2, each time counter2 reach its maximum and restart to 1, counter1 will increment of 1. So this is a manner to count the number of loop a counter has done.</string>
     <string name="help_comment_title">Comment</string>
-    <string name="help_comment">...</string>
+    <string name="help_comment">For your project you can also have comments. These comments are described by a counter (or the project), a starting and an ending row, with a text. Once the counter indicated has as state a row which is in the interval described before, the text of the comment will appear in your project below your counter (or the project).</string>
     <string name="help_rule_title">Rule</string>
-    <string name="help_rule">...</string>
+    <string name="help_rule">The rule is a manner to automatise some comments. In some project, you will have to do incrementation and decrementation. You can encode this to have a pop up every time a row is reached. For this, you will have to choose the counter on which you bind the rule. You choose the starting row, it can be the current row of the counter you chose. And you can optionally add a comment. Then you can add as many steps as you want. A step is in the format "X times each Y rows Z tiches" it means that it will warn you to increment (or decrement if you did not check the box) Z tiches each Y rows and all this X times. The steps have an order and follows one after another.</string>
 </resources>

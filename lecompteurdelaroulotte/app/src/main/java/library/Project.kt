@@ -1,11 +1,13 @@
 package library
 
-import android.content.Context
 import android.util.Log
+import lufra.lecompteurdelaroulotte.MainActivity
 import lufra.lecompteurdelaroulotte.R
+import java.lang.StringBuilder
 import java.util.*
 
-class Project(var context: Context, var name: String) {
+class Project(var context: MainActivity, var name: String) {
+    val TAG = "=== PROJECT ==="
     var etat: Int = 0
     private var bindCounters: ArrayList<Counter>? = null
     var notes: String = " "
@@ -220,5 +222,28 @@ class Project(var context: Context, var name: String) {
     /***********************************************************************************************
      * Other functions
      */
+    fun clone(newName: String, data: Boolean) {
+        val p = context.createProject(newName)
+        p.notes = this.notes
+        for(c in this.myCounters)
+            p.addCounter(c.clone(data))
+        for(c in this.myComments)
+            p.addComment(c.clone())
+        for(r in this.myRules)
+            p.addRule(r.clone())
+        if(data){
+            p.etat = this.etat
+        }
+    }
+
+    fun allRapel(): String {
+        val s = StringBuilder()
+        for(r in lesRappels){
+            s.append(r.toString())
+            s.append("\n")
+        }
+        return s.toString()
+    }
+
     override fun toString(): String {return this.name}
 }

@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- General -->
+    <string name="app_name"></string>
+    <string name="banderole"></string>
+    <string name="project"></string>
+    <string name="project_image"></string>
+    <string name="project_name"></string>
+    <string name="project_name_id"></string>
+    <string name="counter_name"></string>
+    <string name="counter_name_id"></string>
+    <string name="counter_state"></string>
+    <string name="counter_state_id"></string>
+    <string name="counter_max"></string>
+    <string name="counter_max_id"></string>
+    <string name="counter_tours"></string>
+    <string name="counter_tours_id"></string>
+    <string name="counter_attach_main"></string>
+    <string name="counter_attach_main_id"></string>
+    <string name="counter_attached"></string>
+    <string name="counter_attached_id"></string>
+    <string name="counter_position"></string>
+    <string name="counter_position_id"></string>
+    <string name="notes_image"></string>
+    <string name="counter_image"></string>
+    <string name="main_counter_image"></string>
+    <string name="count_of_counter"></string>
+    <string name="delete_project"></string>
+    <string name="delete_counter"></string>
+    <string name="problem_etat_nul"></string>
+    <string name="counter_already"></string>
+    <string name="project_already"></string>
+    <string name="modif"></string>
+    <string name="sure_to_modif"></string>
+    <string name="confirm"></string>
+    <string name="max_condition"></string>
+    <string name="warning"></string>
+    <string name="my_rules"></string>
+    <string name="my_comments"></string>
+    <string name="start_now"></string>
+    <string name="start_other"></string>
+
+    <!-- rule -->
+    <string name="rule"></string>
+    <string name="augmentation"></string>
+    <string name="diminution"></string>
+    <string name="rule_text1"></string>
+    <string name="rows"></string>
+    <string name="stitch"></string>
+    <string name="add_step"></string>
+    <string name="andthen"></string>
+    <string name="from_row"></string>
+    <string name="pre_rule"></string>
+    <string name="pre_rule_modif"></string>
+    <string name="delete_rule"></string>
+    <string name="delete_step"></string>
+
+
+    <!-- help -->
+    <string name="info"></string>
+    <string name="more_info_step"></string>
+    <string name="help_max"></string>
+    <string name="help_tours"></string>
+    <string name="help_position"></string>
+    <string name="help_attach"></string>
+    <string name="help_attached"></string>
+    <string name="help_start"></string>
+    <string name="help_step"></string>
+    <string name="help_which_counter"></string>
+    <string name="help_comment_rule"></string>
+
+    <!-- Boutons -->
+    <string name="add_project"></string>
+    <string name="add_counter"></string>
+    <string name="add_rule"></string>
+    <string name="add_comment"></string>
+    <string name="edit_notes"></string>
+    <string name="edit_rules"></string>
+    <string name="parameter_image"></string>
+    <string name="linked_image"></string>
+    <string name="delete_image"></string>
+    <string name="info_image"></string>
+    <string name="cancel"></string>
+    <string name="delete"></string>
+    <string name="save"></string>
+    <string name="none"></string>
+    <string name="yes"></string>
+    <string name="ok"></string>
+    <string name="nothing_changed"></string>
+
+
+    <string name="navigation_drawer_open"></string>
+    <string name="navigation_drawer_close"></string>
+    <string name="home"></string>
+    <string name="my_counters"></string>
+    <string name="counter"></string>
+    <string name="which_counter_rule"></string>
+    <string name="which_counter_comment"></string>
+    <string name="the_project"></string>
+    <string name="of"></string>
+    <string name="stitches"></string>
+    <string name="comment_this"></string>
+    <string name="a_comment"></string>
+    <string name="counter_comment"></string>
+    <string name="on_main"></string>
+    <string name="on_counter"></string>
+    <string name="open_a_counter"></string>
+    <string name="to_row"></string>
+    <string name="delete_comment"></string>
+    <string name="comment"></string>
+    <string name="clone_proj"></string>
+    <string name="with_data"></string>
+
+    <string name="AboutTitle"></string>
+    <string name="AboutText"></string>
+
+    <!-- for the help fragment-->
+    <string name="HelpTitle"></string>
+    <string name="drop"></string>
+    <string name="help_general_title"></string>
+    <string name="help_general"></string>
+    <string name="help_counter_title"></string>
+    <string name="help_counter"></string>
+    <string name="help_comment_title"></string>
+    <string name="help_comment"></string>
+    <string name="help_rule_title"></string>
+    <string name="help_rule"></string>
+</resources>

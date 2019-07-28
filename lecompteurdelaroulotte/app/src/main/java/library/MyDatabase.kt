@@ -4,6 +4,7 @@ import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 import android.util.Log
+import lufra.lecompteurdelaroulotte.MainActivity
 
 class MyDatabase (context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
     inner class Tuple(a: Counter, b: String) {
@@ -63,7 +64,7 @@ class MyDatabase (context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, n
         db.execSQL("DROP TABLE IF EXISTS '$DATABASE_NAME';")
     }
 
-    fun getAllProjects(context: Context): ArrayList<Project>{
+    fun getAllProjects(context: MainActivity): ArrayList<Project>{
         val db = this.writableDatabase
         val query = "SELECT $PROJECT_NAME, $ETAT, $NOTES FROM $PROJECT_TABLE;"
         val cursor = db.rawQuery(query, null)
@@ -83,13 +84,13 @@ class MyDatabase (context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, n
                 if(cursorC.moveToFirst()){
                     do {
                         val counterName = cursorC.getString(0).replace('\r','\'')
-                        val etat = cursorC.getInt(1)
+                        val etatC = cursorC.getInt(1)
                         val max = cursorC.getInt(2)
                         val order = cursorC.getInt(3)
                         val attachedMain = cursorC.getInt(4)==1
                         val counterAttached = cursorC.getString(5)
                         val count = Counter(counterName, max, order, attachedMain, null)
-                        count.etat = etat
+                        count.etat = etatC
                         if(counterAttached != NO_ATTACHED) {
                             tab.add(Tuple(count, counterAttached))
                         }
@@ -110,7 +111,7 @@ class MyDatabase (context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, n
                     do {
                         val start = cursorR.getInt(0)
                         val num = cursorR.getInt(1)
-                        val myRule = Rule(start, num)
+                        val myRule = Rule(num, start)
                         myRule.counter = cursorR.getString(2).replace('\r','\'')
                         myRule.comment = cursorR.getString(3).replace('\r','\'')
 

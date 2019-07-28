@@ -1,8 +1,6 @@
 package library
 
-class Rule(//depart
-        var start: Int, identifiant: Int) {
-    var num: Int = identifiant // identifiant
+class Rule(var num: Int, var start: Int) {
     var steps: java.util.ArrayList<Step> = java.util.ArrayList()
     var comment: String = ""
     var counter: String = ""

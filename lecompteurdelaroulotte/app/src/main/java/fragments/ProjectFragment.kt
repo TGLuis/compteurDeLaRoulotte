@@ -1,34 +1,40 @@
 package fragments
 
-import android.content.Context
 import android.os.Bundle
+import android.support.constraint.ConstraintLayout
 import android.support.v4.app.Fragment
 import android.support.v7.app.AlertDialog
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.ViewTreeObserver
 import android.widget.*
 import library.Counter
 import library.Project
 import lufra.lecompteurdelaroulotte.MainActivity
 import lufra.lecompteurdelaroulotte.R
-import java.lang.Exception
 import java.util.*
+import android.util.DisplayMetrics
+import android.support.constraint.ConstraintLayout.LayoutParams as LayoutParams1
+import android.widget.RelativeLayout
+
+
+
 
 class ProjectFragment: Fragment() {
-    private val TAG = "===== PROJECTFRAGMENT ====="
+    private val TAG = "== PROJECTFRAGMENT =="
     private lateinit var context: MainActivity
     private lateinit var project: Project
 
+    private lateinit var mCounter: ConstraintLayout
     private lateinit var listViewCounters: ListView
-    private lateinit var buttonEditNotes: Button
     private lateinit var buttonPlus: Button
     private lateinit var buttonMinus: Button
     private lateinit var counters: ArrayList<Counter>
     private lateinit var nombre: TextView
     private lateinit var addCounter: AlertDialog.Builder
     private lateinit var nombres: ArrayList<Tuple>
-
     private lateinit var warning: AlertDialog.Builder
     private lateinit var comment: TextView
     private lateinit var names: ArrayList<Tuple>
@@ -38,14 +44,13 @@ class ProjectFragment: Fragment() {
     inner class Tuple(t: TextView, c: Counter) {
         var t: TextView? = t
         var c: Counter? = c
-
     }
 
-    inner class CounterAdapter(context: Context, list: ArrayList<Counter>) : ArrayAdapter<Counter>(context, 0, list) {
+    inner class CounterAdapter(context: MainActivity, list: ArrayList<Counter>) : ArrayAdapter<Counter>(context, 0, list) {
         private inner class ProjectViewHolder(var msg: TextView?= null)
 
         override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
-            val count = super.getItem(position)
+            val count = super.getItem(position)!!
             val projectView: View
             val viewHolder: ProjectViewHolder
             if (convertView == null){
@@ -119,52 +124,66 @@ class ProjectFragment: Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+        if (context.actualProject == null) {
+            context.openFragment(HomeFragment())
+        }
+        else {
+            mCounter = context.findViewById(R.id.MCounter)
+            /**
+             * We have to put a listerner on the layout to wait the rendering of the screen to get the
+             * height of each element
+             */
+            context.findViewById<ConstraintLayout>(R.id.id_fragment_project)
+                    .viewTreeObserver
+                    .addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
+                        override fun onGlobalLayout() {
+                            mCounter.viewTreeObserver.removeOnGlobalLayoutListener(this)
+                            getAndSetHeight()
+                        }
+                    })
 
-        project = context.actualProject!!
+            project = context.actualProject!!
 
-        nombres = ArrayList()
-        names = ArrayList()
+            nombres = ArrayList()
+            names = ArrayList()
 
-        warning = AlertDialog.Builder(context)
-        warning.setTitle(R.string.warning)
-                .setPositiveButton(R.string.ok){ dialog, _ ->
-                    dialog.dismiss()
+            warning = AlertDialog.Builder(context)
+            warning.setTitle(R.string.warning)
+                    .setPositiveButton(R.string.ok) { dialog, _ ->
+                        dialog.dismiss()
+                    }
+                    .setCancelable(false)
+            comment = context.findViewById(R.id.message)
+
+            counters = project.getCounters()
+            addCounter = AlertDialog.Builder(context)
+
+            nombre = context.findViewById(R.id.count)
+            nombre.text = context.actualProject!!.etat.toString()
+
+            buttonMinus = context.findViewById(R.id.button_minus)
+            buttonMinus.setOnClickListener {
+                if (project.etat > 0) {
+                    up(false)
                 }
-                .setCancelable(false)
-        comment = context.findViewById(R.id.message)
-
-        counters = project.getCounters()
-        addCounter = AlertDialog.Builder(context)
-
-        nombre = context.findViewById(R.id.count)
-        nombre.text = context.actualProject!!.etat.toString()
-
-        buttonMinus = context.findViewById(R.id.button_minus)
-        buttonMinus.setOnClickListener{
-            if (project.etat > 0){
-                up(false)
             }
+
+            buttonPlus = context.findViewById(R.id.button_plus)
+            buttonPlus.setOnClickListener {
+                up(true)
+            }
+
+            counters.sortWith(Comparator { a, b -> a.order - b.order })
+            listViewCounters = context.findViewById(R.id.listCounters)
+            adapteur = this.CounterAdapter(context, counters)
+            listViewCounters.adapter = adapteur
+
+            //Log.e(TAG, project.allRapel())
+
+            affiche(true)
+            context.setMenu("project")
+            context.title = project.toString()
         }
-
-        buttonPlus = context.findViewById(R.id.button_plus)
-        buttonPlus.setOnClickListener{
-            up(true)
-        }
-
-        counters.sortWith(Comparator { a, b -> a.order - b.order})
-        listViewCounters = context.findViewById(R.id.listCounters)
-        adapteur = this.CounterAdapter(context, counters)
-        listViewCounters.adapter = adapteur
-
-        buttonEditNotes = context.findViewById(R.id.button_notes)
-        buttonEditNotes.setOnClickListener{
-            context.frags.push(ProjectFragment())
-            context.openFragment(NotesFragment())
-        }
-
-        affiche(true)
-        context.setMenu("project")
-        context.title = project.toString()
     }
 
     /**
@@ -217,6 +236,7 @@ class ProjectFragment: Fragment() {
             comment.text = ""
         }
         previous_message = mess
+        getAndSetHeight()
     }
 
     /**
@@ -226,5 +246,17 @@ class ProjectFragment: Fragment() {
         warning.setMessage(mess)
                 .create()
                 .show()
+    }
+
+    private fun getAndSetHeight(){
+        // todo bug here doesn't load the good height with mCounter.height -> 1 temps en retard :/
+        mCounter.requestLayout()
+        val view = context.findViewById<ListView>(R.id.listCounters)
+        val params = view.layoutParams
+        if(params is ViewGroup.MarginLayoutParams){
+            val p: ViewGroup.MarginLayoutParams = params as ViewGroup.MarginLayoutParams
+            p.setMargins(5, mCounter.height+2, 5, 5)
+        }
+        view.requestLayout()
     }
 }

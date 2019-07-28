@@ -39,7 +39,6 @@ class CounterFragment: Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         super.onCreateView(inflater, container, savedInstanceState)
         context = activity as MainActivity
-
         return inflater.inflate(R.layout.fragment_counter, container, false)
     }
 
@@ -180,23 +179,24 @@ class CounterFragment: Fragment() {
                                         counter.attach(context.actualProject!!.getCounter(temp_attached)!!)
                                     }
                                 }
-                                context.openFragment(context.frags.pop())
+                                context.onBackPressed()
                                 dialog.dismiss()
                             }
                             .setNegativeButton(R.string.cancel) { dialog, _ ->
-                                context.openFragment(context.frags.pop())
                                 dialog.dismiss()
                             }
                             .setCancelable(false)
                             .create()
                             .show()
+                } else {
+                    Toast.makeText(context,R.string.nothing_changed, Toast.LENGTH_SHORT).show()
                 }
             }
         }
 
         B_cancel = context.findViewById(R.id.cancel)
         B_cancel.setOnClickListener {
-            context.openFragment(context.frags.pop())
+            context.onBackPressed()
         }
 
         B_delete = context.findViewById(R.id.delete)
@@ -206,7 +206,7 @@ class CounterFragment: Fragment() {
                     .setMessage(R.string.delete_counter)
                     .setPositiveButton(R.string.yes){ dialog, _ ->
                         context.deleteCounter(context.actualCounter!!)
-                        context.openFragment(context.frags.pop())
+                        context.onBackPressed()
                         dialog.dismiss()
                     }
                     .setNegativeButton(R.string.cancel){ dialog, _ ->
