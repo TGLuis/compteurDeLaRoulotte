@@ -44,6 +44,10 @@ class CounterFragment: Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+        if (context.actualProject == null) {
+            context.openFragment(HomeFragment())
+            return
+        }
 
         counter = context.actualCounter!!
 

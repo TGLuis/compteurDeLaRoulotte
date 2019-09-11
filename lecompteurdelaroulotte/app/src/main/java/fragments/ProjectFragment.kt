@@ -18,8 +18,8 @@ import java.util.*
 import android.util.DisplayMetrics
 import android.support.constraint.ConstraintLayout.LayoutParams as LayoutParams1
 import android.widget.RelativeLayout
-
-
+import kotlin.concurrent.timer
+import android.media.MediaPlayer
 
 
 class ProjectFragment: Fragment() {
@@ -38,6 +38,8 @@ class ProjectFragment: Fragment() {
     private lateinit var warning: AlertDialog.Builder
     private lateinit var comment: TextView
     private lateinit var names: ArrayList<Tuple>
+    private lateinit var mpPlus: MediaPlayer
+    private lateinit var mpMoins: MediaPlayer
     lateinit var adapteur: CounterAdapter
     var previous_message: String? = null
 
@@ -76,11 +78,13 @@ class ProjectFragment: Fragment() {
 
             val buttonM = projectView.findViewById<Button>(R.id.button_minus)
             buttonM.setOnClickListener{
+                mpMoins.start()
                 up(false, count)
             }
 
             val buttonP = projectView.findViewById<Button>(R.id.button_plus)
             buttonP.setOnClickListener{
+                mpPlus.start()
                 up(true, count)
             }
 
@@ -126,64 +130,58 @@ class ProjectFragment: Fragment() {
         super.onActivityCreated(savedInstanceState)
         if (context.actualProject == null) {
             context.openFragment(HomeFragment())
+            return
         }
-        else {
-            mCounter = context.findViewById(R.id.MCounter)
-            /**
-             * We have to put a listerner on the layout to wait the rendering of the screen to get the
-             * height of each element
-             */
-            context.findViewById<ConstraintLayout>(R.id.id_fragment_project)
-                    .viewTreeObserver
-                    .addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
-                        override fun onGlobalLayout() {
-                            mCounter.viewTreeObserver.removeOnGlobalLayoutListener(this)
-                            getAndSetHeight()
-                        }
-                    })
+        mCounter = context.findViewById(R.id.MCounter)
+        mCounter.viewTreeObserver
+                .addOnGlobalLayoutListener { getAndSetHeight() }
 
-            project = context.actualProject!!
+        mpPlus = MediaPlayer.create(context, R.raw.plus)
+        mpMoins = MediaPlayer.create(context, R.raw.minus)
 
-            nombres = ArrayList()
-            names = ArrayList()
+        project = context.actualProject!!
 
-            warning = AlertDialog.Builder(context)
-            warning.setTitle(R.string.warning)
-                    .setPositiveButton(R.string.ok) { dialog, _ ->
-                        dialog.dismiss()
-                    }
-                    .setCancelable(false)
-            comment = context.findViewById(R.id.message)
+        nombres = ArrayList()
+        names = ArrayList()
 
-            counters = project.getCounters()
-            addCounter = AlertDialog.Builder(context)
-
-            nombre = context.findViewById(R.id.count)
-            nombre.text = context.actualProject!!.etat.toString()
-
-            buttonMinus = context.findViewById(R.id.button_minus)
-            buttonMinus.setOnClickListener {
-                if (project.etat > 0) {
-                    up(false)
+        warning = AlertDialog.Builder(context)
+        warning.setTitle(R.string.warning)
+                .setPositiveButton(R.string.ok) { dialog, _ ->
+                    dialog.dismiss()
                 }
+                .setCancelable(false)
+        comment = context.findViewById(R.id.message)
+
+        counters = project.getCounters()
+        addCounter = AlertDialog.Builder(context)
+
+        nombre = context.findViewById(R.id.count)
+        nombre.text = context.actualProject!!.etat.toString()
+
+        buttonMinus = context.findViewById(R.id.button_minus)
+        buttonMinus.setOnClickListener {
+            mpMoins.start()
+            if (project.etat > 0) {
+                up(false)
             }
-
-            buttonPlus = context.findViewById(R.id.button_plus)
-            buttonPlus.setOnClickListener {
-                up(true)
-            }
-
-            counters.sortWith(Comparator { a, b -> a.order - b.order })
-            listViewCounters = context.findViewById(R.id.listCounters)
-            adapteur = this.CounterAdapter(context, counters)
-            listViewCounters.adapter = adapteur
-
-            //Log.e(TAG, project.allRapel())
-
-            affiche(true)
-            context.setMenu("project")
-            context.title = project.toString()
         }
+
+        buttonPlus = context.findViewById(R.id.button_plus)
+        buttonPlus.setOnClickListener {
+            mpPlus.start()
+            up(true)
+        }
+
+        counters.sortWith(Comparator { a, b -> a.order - b.order })
+        listViewCounters = context.findViewById(R.id.listCounters)
+        adapteur = this.CounterAdapter(context, counters)
+        listViewCounters.adapter = adapteur
+
+        //Log.e(TAG, project.allRapel())
+
+        affiche(true)
+        context.setMenu("project")
+        context.title = project.toString()
     }
 
     /**
@@ -236,7 +234,6 @@ class ProjectFragment: Fragment() {
             comment.text = ""
         }
         previous_message = mess
-        getAndSetHeight()
     }
 
     /**
@@ -249,14 +246,14 @@ class ProjectFragment: Fragment() {
     }
 
     private fun getAndSetHeight(){
-        // todo bug here doesn't load the good height with mCounter.height -> 1 temps en retard :/
-        mCounter.requestLayout()
-        val view = context.findViewById<ListView>(R.id.listCounters)
-        val params = view.layoutParams
-        if(params is ViewGroup.MarginLayoutParams){
-            val p: ViewGroup.MarginLayoutParams = params as ViewGroup.MarginLayoutParams
-            p.setMargins(5, mCounter.height+2, 5, 5)
+        if (context.frags.peek() is ProjectFragment) { // todo find a better way to only execute this on project fragment
+            val view = context.findViewById<ListView>(R.id.listCounters)
+            val params = view.layoutParams
+            if (params is ViewGroup.MarginLayoutParams) {
+                val p: ViewGroup.MarginLayoutParams = params as ViewGroup.MarginLayoutParams
+                p.setMargins(5, mCounter.height + 2, 5, 5)
+            }
+            view.requestLayout()
         }
-        view.requestLayout()
     }
 }

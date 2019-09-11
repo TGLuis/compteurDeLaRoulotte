@@ -120,6 +120,10 @@ class RuleFragment: Fragment(){
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+        if (context.actualProject == null) {
+            context.openFragment(HomeFragment())
+            return
+        }
 
         rule = context.actualRule
         add = rule == null

@@ -37,6 +37,10 @@ class NotesFragment: Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+        if (context.actualProject == null) {
+            context.openFragment(HomeFragment())
+            return
+        }
 
         project = context.actualProject!!
         val notes = project.notes

@@ -130,6 +130,11 @@ class SeeFragment: Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+        if (context.actualProject == null) {
+            context.openFragment(HomeFragment())
+            return
+        }
+
         B_add = context.findViewById(R.id.button_add)
         LV = context.findViewById(R.id.list)
 

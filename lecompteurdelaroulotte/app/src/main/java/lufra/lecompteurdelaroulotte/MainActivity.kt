@@ -1,7 +1,12 @@
 package lufra.lecompteurdelaroulotte
 
+import android.app.Activity
 import android.content.Context
+import android.content.Intent
 import android.database.sqlite.SQLiteDatabase
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.graphics.pdf.PdfRenderer
 import android.os.Bundle
 import android.support.design.widget.NavigationView
 import android.support.v4.app.Fragment
@@ -40,6 +45,7 @@ class MainActivity: AppCompatActivity() {
     private lateinit var drawerLayout: DrawerLayout
     private lateinit var db: MyDatabase
     private lateinit var editCounter: AlertDialog.Builder
+    private val READ_REQUEST_CODE = 42
 
     override fun onCreate(savedInstanceState: Bundle?){
         super.onCreate(savedInstanceState)
@@ -85,7 +91,32 @@ class MainActivity: AppCompatActivity() {
         navView.menu.clear()
         when(which){
             "home" -> {
-                // todo add a button to add a project
+                navView.menu.add(R.string.add_project).apply {
+                    setOnMenuItemClickListener {
+                        val addProj = AlertDialog.Builder(context)
+                        val viewInflated = LayoutInflater.from(context).inflate(R.layout.simple_text_input, navView as ViewGroup, false)
+                        viewInflated.input_text.hint = context.getString(R.string.project_name)
+                        addProj.setView(viewInflated)
+                                .setTitle(R.string.project_name_id)
+                                .setPositiveButton(R.string.ok) { dialog, _ ->
+                                    val projectName = viewInflated.input_text.text.toString()
+                                    if(context.projectsList.find { it.name == projectName } == null){
+                                        context.createProject(projectName)
+                                        openFragment(HomeFragment())
+                                        dialog.dismiss()
+                                    }else {
+                                        Toast.makeText(context,R.string.project_already, Toast.LENGTH_SHORT).show()
+                                    }
+                                }
+                                .setNegativeButton(R.string.cancel) { dialog, _ ->
+                                    dialog.dismiss()
+                                }
+                                .setCancelable(false)
+                                .create()
+                                .show()
+                        true
+                    }
+                }
                 projectsList.forEach {
                     val proj = it
                     navView.menu.add(it.name).apply {
@@ -243,7 +274,40 @@ class MainActivity: AppCompatActivity() {
                 true
             }
         }
+        navView.menu.add("Test find file").apply{
+            setOnMenuItemClickListener {
+                drawerLayout.closeDrawers()
+                val intent = Intent(Intent.ACTION_OPEN_DOCUMENT).apply {
+                    addCategory(Intent.CATEGORY_OPENABLE)
+                    type = "application/pdf"
+                }
+                startActivityForResult(intent, READ_REQUEST_CODE)
+                true
+            }
+        }
     }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, resultData: Intent?) {
+        if (requestCode == READ_REQUEST_CODE && resultCode == Activity.RESULT_OK){
+            resultData?.data?.also { uri ->
+                Log.i(TAG, "Uri: $uri")
+                val pfd = this.contentResolver.openFileDescriptor(uri, "r")
+                val renderer = PdfRenderer(pfd)
+                var i = 0
+                while (i < renderer.pageCount){
+                    val page = renderer.openPage(i)
+                    page.render(mBitmap, null, null, PdfRenderer.Page.RENDER_MODE_FOR_DISPLAY)
+                    // mBitmap is the bitmap destination !! suivre le github :
+                    // https://github.com/googlesamples/android-PdfRendererBasic/blob/master/kotlinApp/Application/src/main/java/com/example/android/pdfrendererbasic/PdfRendererBasicFragment.kt
+                    page.close()
+                    i++
+                }
+                renderer.close()
+            }
+
+        }
+    }
+
 
     /***********************************************************************************************
      *  Fucntions to manage a project and his features
