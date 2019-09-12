@@ -123,7 +123,6 @@ class RuleFragment: MyFragment(){
             context.openFragment(HomeFragment())
             return
         }
-        TAG = "===== ADDRULESFRAGMENT ====="
 
         rule = context.actualRule
         add = rule == null
@@ -248,5 +247,9 @@ class RuleFragment: MyFragment(){
                     .show()
         }
         context.title = context.getString(R.string.add_rule)
+    }
+
+    override fun TAG(): String {
+        return "===== ADDRULESFRAGMENT ====="
     }
 }

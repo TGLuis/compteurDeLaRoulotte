@@ -42,7 +42,6 @@ class CommentFragment: MyFragment() {
             context.openFragment(HomeFragment())
             return
         }
-        TAG = "===== ADDCOMMENTFRAGMENT ====="
 
         comment = context.actualComment
         add = comment == null
@@ -139,5 +138,9 @@ class CommentFragment: MyFragment() {
         }
 
         context.title = context.getString(R.string.add_comment)
+    }
+
+    override fun TAG(): String {
+        return "===== ADDCOMMENTFRAGMENT ====="
     }
 }

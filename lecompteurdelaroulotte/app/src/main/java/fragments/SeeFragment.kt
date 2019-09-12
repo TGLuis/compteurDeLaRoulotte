@@ -28,7 +28,7 @@ class SeeFragment: MyFragment() {
         private inner class ProjectViewHolder(var msg: TextView?= null)
 
         override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
-            val comment = super.getItem(position)
+            val comment = super.getItem(position)!!
             val projectView: View
             val viewHolder: ProjectViewHolder
             if (convertView == null){
@@ -133,7 +133,6 @@ class SeeFragment: MyFragment() {
             context.openFragment(HomeFragment())
             return
         }
-        TAG = "===== SEECOMMENTSFRAGMENT ====="
 
         B_add = context.findViewById(R.id.button_add)
         LV = context.findViewById(R.id.list)
@@ -164,5 +163,9 @@ class SeeFragment: MyFragment() {
                 context.title = "${context.actualProject.toString()} -> ${context.getString(R.string.my_rules)}"
             }
         }
+    }
+
+    override fun TAG(): String {
+        return "===== SEEFRAGMENT ====="
     }
 }

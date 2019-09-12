@@ -47,7 +47,6 @@ class CounterFragment: MyFragment() {
             context.openFragment(HomeFragment())
             return
         }
-        TAG = "===== COUNTERFRAGMENT ====="
 
         counter = context.actualCounter!!
 
@@ -254,5 +253,9 @@ class CounterFragment: MyFragment() {
         }
 
         context.title = "${context.actualProject.toString()} -> ${counter.name}"
+    }
+
+    override fun TAG(): String {
+        return "===== COUNTERFRAGMENT ====="
     }
 }

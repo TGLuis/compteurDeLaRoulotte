@@ -35,7 +35,6 @@ class HelpFragment: MyFragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        TAG = "==== HELPFRAGMENT ===="
         var gen_drop = false
         var con_drop = false
         var com_drop = false
@@ -79,8 +78,8 @@ class HelpFragment: MyFragment() {
 
         IB_general = context.findViewById(R.id.help_general_drop)
         IB_general.setOnClickListener {
-            Log.e(TAG, "\nlayout height = ${TV_general.layoutParams.height}")
-            Log.e(TAG, "height = ${TV_general.height}")
+            Log.e(TAG(), "\nlayout height = ${TV_general.layoutParams.height}")
+            Log.e(TAG(), "height = ${TV_general.height}")
             if(gen_drop){
                 TV_general.text = ""
                 TV_general.height = 0
@@ -136,5 +135,9 @@ class HelpFragment: MyFragment() {
         }
 
         context.title = context.getString(R.string.HelpTitle)
+    }
+
+    override fun TAG(): String {
+        return "==== HELPFRAGMENT ===="
     }
 }

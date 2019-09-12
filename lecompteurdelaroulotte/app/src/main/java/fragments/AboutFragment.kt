@@ -19,7 +19,10 @@ class AboutFragment: MyFragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        TAG = "===== ABOUTFRAGMENT ====="
         context.title = context.getString(R.string.AboutTitle)
+    }
+
+    override fun TAG(): String {
+        return "===== ABOUTFRAGMENT ====="
     }
 }

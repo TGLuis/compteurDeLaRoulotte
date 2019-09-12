@@ -87,7 +87,6 @@ class HomeFragment: MyFragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        TAG = "===== MAINFRAGMENT ====="
 
         projects = context.projectsList
         addProj = AlertDialog.Builder(context)
@@ -122,5 +121,9 @@ class HomeFragment: MyFragment() {
 
         context.setMenu("home")
         context.title = context.getString(R.string.app_name)
+    }
+
+    override fun TAG(): String {
+        return "===== MAINFRAGMENT ====="
     }
 }

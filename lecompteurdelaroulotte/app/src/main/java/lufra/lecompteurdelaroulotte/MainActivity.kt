@@ -402,7 +402,7 @@ class MainActivity: AppCompatActivity() {
         if(!pop && (frags.empty() || frag::class != this.frags.peek()::class)){
             frags.push(frag)
         }
-        supportFragmentManager.beginTransaction().replace(R.id.frame, frag, frag.TAG).commit()
+        supportFragmentManager.beginTransaction().replace(R.id.frame, frag, frag.TAG()).commit()
     }
 
     /***********************************************************************************************

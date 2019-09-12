@@ -28,7 +28,6 @@ class ParametersFragment: MyFragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        TAG = "= PARAMETERSFRAGMENT ="
 
         CB_screen_on = context.findViewById(R.id.check_box_screen_on)
         CB_volume_on = context.findViewById(R.id.check_box_volume_buttons)
@@ -55,5 +54,9 @@ class ParametersFragment: MyFragment() {
                 context.onBackPressed()
             }
         }
+    }
+
+    override fun TAG(): String {
+        return "= PARAMETERSFRAGMENT ="
     }
 }

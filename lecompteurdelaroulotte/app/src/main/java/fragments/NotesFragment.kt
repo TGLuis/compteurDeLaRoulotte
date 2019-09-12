@@ -40,7 +40,6 @@ class NotesFragment: MyFragment() {
             context.openFragment(HomeFragment())
             return
         }
-        TAG = "===== MAINFRAGMENT ====="
 
         project = context.actualProject!!
         val notes = project.notes
@@ -51,5 +50,9 @@ class NotesFragment: MyFragment() {
             addTextChangedListener(CustomWatcher())
         }
         context.title = context.getString(R.string.edit_notes)
+    }
+
+    override fun TAG(): String {
+        return "===== MAINFRAGMENT ====="
     }
 }

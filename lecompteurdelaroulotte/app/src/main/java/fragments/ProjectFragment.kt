@@ -131,8 +131,9 @@ class ProjectFragment: MyFragment() {
             context.openFragment(HomeFragment())
             return
         }
-        TAG = "== PROJECTFRAGMENT =="
+
         mCounter = context.findViewById(R.id.MCounter)
+        Log.e(TAG(), "heyeheye")
         mCounter.viewTreeObserver
                 .addOnGlobalLayoutListener { getAndSetHeight() }
 
@@ -176,8 +177,6 @@ class ProjectFragment: MyFragment() {
         listViewCounters = context.findViewById(R.id.listCounters)
         adapteur = this.CounterAdapter(context, counters)
         listViewCounters.adapter = adapteur
-
-        //Log.e(TAG, project.allRapel())
 
         affiche(true)
         context.setMenu("project")
@@ -246,10 +245,13 @@ class ProjectFragment: MyFragment() {
     }
 
     private fun getAndSetHeight(){
+        Log.e(TAG(), "getAndSetHeight")
         if (fragmentManager != null) {
-            val currentfrag = fragmentManager!!.findFragmentByTag(ProjectFragment().TAG)
+            Log.e(TAG(), fragmentManager!!.fragments.toString())
+            Log.e(TAG(), TAG())
+            val currentfrag = fragmentManager!!.findFragmentByTag(TAG())
+            Log.e(TAG(), currentfrag.toString())
             if (currentfrag != null && currentfrag.isVisible) {
-                Log.e(TAG, "height")
                 val view = context.findViewById<ListView>(R.id.listCounters)
                 val params = view.layoutParams
                 if (params is ViewGroup.MarginLayoutParams) {
@@ -259,5 +261,9 @@ class ProjectFragment: MyFragment() {
                 view.requestLayout()
             }
         }
+    }
+
+    override fun TAG(): String {
+        return "== PROJECTFRAGMENT =="
     }
 }
