@@ -127,4 +127,8 @@
     <string name="help_comment">For your project you can also have comments. These comments are described by a counter (or the project), a starting and an ending row, with a text. Once the counter indicated has as state a row which is in the interval described before, the text of the comment will appear in your project below your counter (or the project).</string>
     <string name="help_rule_title">Rule</string>
     <string name="help_rule">The rule is a manner to automatise some comments. In some project, you will have to do incrementation and decrementation. You can encode this to have a pop up every time a row is reached. For this, you will have to choose the counter on which you bind the rule. You choose the starting row, it can be the current row of the counter you chose. And you can optionally add a comment. Then you can add as many steps as you want. A step is in the format "X times each Y rows Z tiches" it means that it will warn you to increment (or decrement if you did not check the box) Z tiches each Y rows and all this X times. The steps have an order and follows one after another.</string>
+
+    <string name="parameters">Settings</string>
+    <string name="screen_on">Keep screen on</string>
+    <string name="volume_on">Sound when + and - buttons pressed</string>
 </resources>

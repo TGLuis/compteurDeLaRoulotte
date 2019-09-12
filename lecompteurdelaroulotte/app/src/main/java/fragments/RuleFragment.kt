@@ -17,8 +17,7 @@ import lufra.lecompteurdelaroulotte.R
 import java.lang.Exception
 import java.util.ArrayList
 
-class RuleFragment: Fragment(){
-    private val TAG = "===== ADDRULESFRAGMENT ====="
+class RuleFragment: MyFragment(){
     private lateinit var context: MainActivity
     private var rule: Rule? = null
     private var add: Boolean = true
@@ -124,6 +123,7 @@ class RuleFragment: Fragment(){
             context.openFragment(HomeFragment())
             return
         }
+        TAG = "===== ADDRULESFRAGMENT ====="
 
         rule = context.actualRule
         add = rule == null

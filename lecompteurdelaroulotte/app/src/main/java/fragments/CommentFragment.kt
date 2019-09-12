@@ -15,8 +15,7 @@ import lufra.lecompteurdelaroulotte.R
 import java.lang.Exception
 import java.util.ArrayList
 
-class CommentFragment: Fragment() {
-    private val TAG = "===== ADDCOMMENTFRAGMENT ====="
+class CommentFragment: MyFragment() {
     private lateinit var context: MainActivity
     private var comment: Comment? = null
     private var add: Boolean = true
@@ -43,6 +42,7 @@ class CommentFragment: Fragment() {
             context.openFragment(HomeFragment())
             return
         }
+        TAG = "===== ADDCOMMENTFRAGMENT ====="
 
         comment = context.actualComment
         add = comment == null

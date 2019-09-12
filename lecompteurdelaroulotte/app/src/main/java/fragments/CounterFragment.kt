@@ -12,8 +12,7 @@ import lufra.lecompteurdelaroulotte.MainActivity
 import lufra.lecompteurdelaroulotte.R
 import java.lang.Exception
 
-class CounterFragment: Fragment() {
-    private val TAG = "===== COUNTERFRAGMENT ====="
+class CounterFragment: MyFragment() {
     private lateinit var context: MainActivity
     private lateinit var counter: Counter
 
@@ -48,6 +47,7 @@ class CounterFragment: Fragment() {
             context.openFragment(HomeFragment())
             return
         }
+        TAG = "===== COUNTERFRAGMENT ====="
 
         counter = context.actualCounter!!
 

@@ -30,16 +30,22 @@ import com.crashlytics.android.Crashlytics
 import io.fabric.sdk.android.Fabric
 import kotlinx.android.synthetic.main.simple_text_and_box_input.view.*
 import kotlinx.android.synthetic.main.simple_text_input.view.input_text
+import java.util.jar.Manifest
 
 class MainActivity: AppCompatActivity() {
     private val TAG = "==== MAINACTIVITY ===="
+
     lateinit var projectsList: ArrayList<Project>
     var actualProject: Project? = null
     var actualCounter: Counter? = null
     var actualRule: Rule? = null
     var actualComment: Comment? = null
     var seeWhat: String = "Comments"
-    lateinit var frags: Stack<Fragment>
+
+    var screen_on: Boolean = false
+    var volume_on: Boolean = true
+
+    lateinit var frags: Stack<MyFragment>
     private lateinit var toolbar: Toolbar
     private lateinit var navView: NavigationView
     private lateinit var drawerLayout: DrawerLayout
@@ -57,6 +63,17 @@ class MainActivity: AppCompatActivity() {
         db = MyDatabase(this)
         projectsList = db.getAllProjects(this)
 
+        // properties
+        Helper.init(this)
+        screen_on = Helper.getConfigValue("screen_on") == "true"
+        volume_on = Helper.getConfigValue("volume_on") == "true"
+        if(screen_on) {
+            // maintain screen open during activity
+            window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+        } else {
+            window.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+        }
+
         // Fragments
         frags = Stack()
         openFragment(HomeFragment())
@@ -65,8 +82,7 @@ class MainActivity: AppCompatActivity() {
         toolbar = this.findViewById(R.id.my_toolbar)
         setSupportActionBar(toolbar)
         drawerLayout = this.findViewById(R.id.drawer_layout)
-        val toggle = ActionBarDrawerToggle(
-                this, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close)
+        val toggle = ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close)
         drawerLayout.addDrawerListener(toggle)
         toggle.syncState()
 
@@ -89,6 +105,13 @@ class MainActivity: AppCompatActivity() {
     fun setMenu(which: String){
         val context = this
         navView.menu.clear()
+        navView.menu.add(R.string.home).apply{
+            setOnMenuItemClickListener {
+                context.openFragment(HomeFragment())
+                drawerLayout.closeDrawers()
+                true
+            }
+        }
         when(which){
             "home" -> {
                 navView.menu.add(R.string.add_project).apply {
@@ -117,26 +140,8 @@ class MainActivity: AppCompatActivity() {
                         true
                     }
                 }
-                projectsList.forEach {
-                    val proj = it
-                    navView.menu.add(it.name).apply {
-                        setOnMenuItemClickListener {
-                            context.actualProject = proj
-                            drawerLayout.closeDrawers()
-                            context.openFragment(ProjectFragment())
-                            true
-                        }
-                    }
-                }
             }
             "project" -> {
-                navView.menu.add(R.string.home).apply{
-                    setOnMenuItemClickListener {
-                        context.openFragment(HomeFragment())
-                        drawerLayout.closeDrawers()
-                        true
-                    }
-                }
                 navView.menu.add(actualProject!!.name).apply {
                     setOnMenuItemClickListener {
                         drawerLayout.closeDrawers()
@@ -260,6 +265,13 @@ class MainActivity: AppCompatActivity() {
             }
         }
 
+        navView.menu.add(R.string.parameters).apply{
+            setOnMenuItemClickListener {
+                drawerLayout.closeDrawers()
+                context.openFragment(ParametersFragment())
+                true
+            }
+        }
         navView.menu.add(R.string.HelpTitle).apply{
             setOnMenuItemClickListener {
                 drawerLayout.closeDrawers()
@@ -291,7 +303,7 @@ class MainActivity: AppCompatActivity() {
         if (requestCode == READ_REQUEST_CODE && resultCode == Activity.RESULT_OK){
             resultData?.data?.also { uri ->
                 Log.i(TAG, "Uri: $uri")
-                val pfd = this.contentResolver.openFileDescriptor(uri, "r")
+                /*val pfd = this.contentResolver.openFileDescriptor(uri, "r")
                 val renderer = PdfRenderer(pfd)
                 var i = 0
                 while (i < renderer.pageCount){
@@ -302,7 +314,7 @@ class MainActivity: AppCompatActivity() {
                     page.close()
                     i++
                 }
-                renderer.close()
+                renderer.close()*/
             }
 
         }
@@ -386,11 +398,11 @@ class MainActivity: AppCompatActivity() {
         actualProject!!.deleteStepOfRule(r, s)
     }
 
-    fun openFragment(frag: Fragment, pop: Boolean = false){
+    fun openFragment(frag: MyFragment, pop: Boolean = false){
         if(!pop && (frags.empty() || frag::class != this.frags.peek()::class)){
             frags.push(frag)
         }
-        supportFragmentManager.beginTransaction().replace(R.id.frame, frag).commit()
+        supportFragmentManager.beginTransaction().replace(R.id.frame, frag, frag.TAG).commit()
     }
 
     /***********************************************************************************************

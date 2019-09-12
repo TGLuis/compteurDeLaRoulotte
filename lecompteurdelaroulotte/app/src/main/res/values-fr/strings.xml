@@ -126,4 +126,10 @@
     <string name="help_comment">Pour votre projet, vous pouvez également avoir des commentaires. Ces commentaires ont comme caractéristiques, un compteur (ou le projet), un rang de début et de fin et un texte. Une fois que le compteur indiqué a comme état un rang qui est compris dans l\'intervalle du commentaire, le texte va apparaitre dans votre projet en dessous du compteur concerné (ou du projet).</string>
     <string name="help_rule_title">Règle</string>
     <string name="help_rule">La règle est une manière d\'automatiser certains commentaires. Dans quelques projets, vous allez devoir faire des autmentations et diminutions. Vous pouvez les encoder en tant que rêgle pour avoir une pop up chaque fois que le rang est atteint. Pour celà, vous devrez choisir le compteur sur lequel la règle va s\'appliquer. Vous choisissez le rang de départ, qui peut être le rang actuel du compteur choisi. Et vous pouvez éventuellement ajouter un commentaire à la règle. Ensuite, vous pouvez ajouter autant d\'étapes que vous le souhaitez. Une étape a le format "X fois chaque Y rangs Z mailles". Ce qui veut dire que vous verrez un message qui vous informera que vous devrez augmenter (ou diminuer si vous n\'avez pas coché la case) Z mailles tous les Y rangs et ça pendant X fois. L\'ordre des étapes est important car elles se suivent une après l\'autre.</string>
+
+
+    <string name="parameters">Paramètres</string>
+    <string name="screen_on">Garder l\'écran allumé</string>
+    <string name="volume_on">Son lorsqu\'on appuie sur les bouttons + et -</string>
+
 </resources>

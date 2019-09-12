@@ -12,8 +12,7 @@ import library.Project
 import lufra.lecompteurdelaroulotte.MainActivity
 import lufra.lecompteurdelaroulotte.R
 
-class NotesFragment: Fragment() {
-    private val TAG = "===== MAINFRAGMENT ====="
+class NotesFragment: MyFragment() {
     private lateinit var context: MainActivity
 
     private lateinit var project: Project
@@ -41,6 +40,7 @@ class NotesFragment: Fragment() {
             context.openFragment(HomeFragment())
             return
         }
+        TAG = "===== MAINFRAGMENT ====="
 
         project = context.actualProject!!
         val notes = project.notes

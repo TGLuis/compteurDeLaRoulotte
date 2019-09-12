@@ -18,8 +18,7 @@ import lufra.lecompteurdelaroulotte.R
 import library.Project
 import java.lang.Exception
 
-class HomeFragment: Fragment() {
-    private val TAG = "===== MAINFRAGMENT ====="
+class HomeFragment: MyFragment() {
     private lateinit var context: MainActivity
     lateinit var adapteur:ProjectAdapter
 
@@ -88,6 +87,7 @@ class HomeFragment: Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+        TAG = "===== MAINFRAGMENT ====="
 
         projects = context.projectsList
         addProj = AlertDialog.Builder(context)

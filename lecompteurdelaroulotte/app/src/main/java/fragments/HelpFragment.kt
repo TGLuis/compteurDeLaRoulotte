@@ -15,8 +15,7 @@ import lufra.lecompteurdelaroulotte.R
 
 
 
-class HelpFragment: Fragment() {
-    private val TAG = "==== HELPFRAGMENT ===="
+class HelpFragment: MyFragment() {
     private lateinit var context: MainActivity
 
     private lateinit var IB_general: ImageButton
@@ -36,6 +35,7 @@ class HelpFragment: Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+        TAG = "==== HELPFRAGMENT ===="
         var gen_drop = false
         var con_drop = false
         var com_drop = false

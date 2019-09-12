@@ -22,8 +22,7 @@ import kotlin.concurrent.timer
 import android.media.MediaPlayer
 
 
-class ProjectFragment: Fragment() {
-    private val TAG = "== PROJECTFRAGMENT =="
+class ProjectFragment: MyFragment() {
     private lateinit var context: MainActivity
     private lateinit var project: Project
 
@@ -132,6 +131,7 @@ class ProjectFragment: Fragment() {
             context.openFragment(HomeFragment())
             return
         }
+        TAG = "== PROJECTFRAGMENT =="
         mCounter = context.findViewById(R.id.MCounter)
         mCounter.viewTreeObserver
                 .addOnGlobalLayoutListener { getAndSetHeight() }
@@ -146,9 +146,7 @@ class ProjectFragment: Fragment() {
 
         warning = AlertDialog.Builder(context)
         warning.setTitle(R.string.warning)
-                .setPositiveButton(R.string.ok) { dialog, _ ->
-                    dialog.dismiss()
-                }
+                .setPositiveButton(R.string.ok) { dialog, _ -> dialog.dismiss() }
                 .setCancelable(false)
         comment = context.findViewById(R.id.message)
 
@@ -160,15 +158,17 @@ class ProjectFragment: Fragment() {
 
         buttonMinus = context.findViewById(R.id.button_minus)
         buttonMinus.setOnClickListener {
-            mpMoins.start()
             if (project.etat > 0) {
+                if (context.volume_on)
+                    mpMoins.start()
                 up(false)
             }
         }
 
         buttonPlus = context.findViewById(R.id.button_plus)
         buttonPlus.setOnClickListener {
-            mpPlus.start()
+            if (context.volume_on)
+                mpPlus.start()
             up(true)
         }
 
@@ -246,14 +246,18 @@ class ProjectFragment: Fragment() {
     }
 
     private fun getAndSetHeight(){
-        if (context.frags.peek() is ProjectFragment) { // todo find a better way to only execute this on project fragment
-            val view = context.findViewById<ListView>(R.id.listCounters)
-            val params = view.layoutParams
-            if (params is ViewGroup.MarginLayoutParams) {
-                val p: ViewGroup.MarginLayoutParams = params as ViewGroup.MarginLayoutParams
-                p.setMargins(5, mCounter.height + 2, 5, 5)
+        if (fragmentManager != null) {
+            val currentfrag = fragmentManager!!.findFragmentByTag(ProjectFragment().TAG)
+            if (currentfrag != null && currentfrag.isVisible) {
+                Log.e(TAG, "height")
+                val view = context.findViewById<ListView>(R.id.listCounters)
+                val params = view.layoutParams
+                if (params is ViewGroup.MarginLayoutParams) {
+                    val p: ViewGroup.MarginLayoutParams = params as ViewGroup.MarginLayoutParams
+                    p.setMargins(5, mCounter.height + 2, 5, 5)
+                }
+                view.requestLayout()
             }
-            view.requestLayout()
         }
     }
 }

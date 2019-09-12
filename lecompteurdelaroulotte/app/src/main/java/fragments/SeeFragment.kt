@@ -14,8 +14,7 @@ import lufra.lecompteurdelaroulotte.MainActivity
 import lufra.lecompteurdelaroulotte.R
 import java.util.ArrayList
 
-class SeeFragment: Fragment() {
-    private val TAG = "===== SEECOMMENTSFRAGMENT ====="
+class SeeFragment: MyFragment() {
     private lateinit var context: MainActivity
 
     private lateinit var LV: ListView
@@ -134,6 +133,7 @@ class SeeFragment: Fragment() {
             context.openFragment(HomeFragment())
             return
         }
+        TAG = "===== SEECOMMENTSFRAGMENT ====="
 
         B_add = context.findViewById(R.id.button_add)
         LV = context.findViewById(R.id.list)
