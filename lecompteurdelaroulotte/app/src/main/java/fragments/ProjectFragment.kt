@@ -245,12 +245,8 @@ class ProjectFragment: MyFragment() {
     }
 
     private fun getAndSetHeight(){
-        Log.e(TAG(), "getAndSetHeight")
         if (fragmentManager != null) {
-            Log.e(TAG(), fragmentManager!!.fragments.toString())
-            Log.e(TAG(), TAG())
             val currentfrag = fragmentManager!!.findFragmentByTag(TAG())
-            Log.e(TAG(), currentfrag.toString())
             if (currentfrag != null && currentfrag.isVisible) {
                 val view = context.findViewById<ListView>(R.id.listCounters)
                 val params = view.layoutParams
