@@ -69,7 +69,9 @@ class ProjectFragment: MyFragment() {
 
             val nb = projectView.findViewById<TextView>(R.id.count)
             nombres.add(Tuple(nb,count))
-            val state = if(count.max == 0) count.etat else count.etat%count.max+1
+            val state = if(count.max == 0) count.etat else {
+                if(count.etat != 0 && count.etat%count.max == 0) count.max else count.etat%count.max
+            }
             nb.text = state.toString()
 
             val linked = projectView.findViewById<ImageView>(R.id.linked)
@@ -77,13 +79,15 @@ class ProjectFragment: MyFragment() {
 
             val buttonM = projectView.findViewById<Button>(R.id.button_minus)
             buttonM.setOnClickListener{
-                mpMoins.start()
+                if ((context as MainActivity).volume_on)
+                    mpMoins.start()
                 up(false, count)
             }
 
             val buttonP = projectView.findViewById<Button>(R.id.button_plus)
             buttonP.setOnClickListener{
-                mpPlus.start()
+                if ((context as MainActivity).volume_on)
+                    mpPlus.start()
                 up(true, count)
             }
 
@@ -133,7 +137,6 @@ class ProjectFragment: MyFragment() {
         }
 
         mCounter = context.findViewById(R.id.MCounter)
-        Log.e(TAG(), "heyeheye")
         mCounter.viewTreeObserver
                 .addOnGlobalLayoutListener { getAndSetHeight() }
 

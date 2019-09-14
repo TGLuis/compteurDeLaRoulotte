@@ -10,6 +10,7 @@ class Project(var context: MainActivity, var name: String) {
     val TAG = "=== PROJECT ==="
     var etat: Int = 0
     private var bindCounters: ArrayList<Counter>? = null
+    var archived: Boolean = false
     var notes: String = " "
     var myRules: ArrayList<Rule>
     var myCounters: ArrayList<Counter>
@@ -29,7 +30,13 @@ class Project(var context: MainActivity, var name: String) {
         }
 
         fun is_ok_counter(c: Counter): Boolean{
-            return c == this.c && c.etat == x
+            if (c != this.c)
+                return false
+            if (c.max == 0)
+                return c.etat == x
+            if (x == c.max)
+                return c.etat % c.max == 0
+            return c.etat % c.max == x
         }
 
         override fun toString(): String{

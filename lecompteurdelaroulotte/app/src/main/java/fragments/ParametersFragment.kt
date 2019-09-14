@@ -54,6 +54,7 @@ class ParametersFragment: MyFragment() {
                 context.onBackPressed()
             }
         }
+        context.title = context.getString(R.string.parameters)
     }
 
     override fun TAG(): String {

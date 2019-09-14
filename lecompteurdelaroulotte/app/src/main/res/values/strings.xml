@@ -131,4 +131,6 @@
     <string name="parameters">Settings</string>
     <string name="screen_on">Keep screen on</string>
     <string name="volume_on">Sound when + and - buttons pressed</string>
+    <string name="archived">Archived</string>
+    <string name="archives">Archives</string>
 </resources>

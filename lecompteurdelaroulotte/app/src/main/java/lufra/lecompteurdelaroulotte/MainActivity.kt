@@ -140,6 +140,13 @@ class MainActivity: AppCompatActivity() {
                         true
                     }
                 }
+                navView.menu.add(R.string.archives).apply {
+                    setOnMenuItemClickListener {
+                        drawerLayout.closeDrawers()
+                        context.openFragment(ArchiveFragment())
+                        true
+                    }
+                }
             }
             "project" -> {
                 navView.menu.add(actualProject!!.name).apply {
@@ -286,6 +293,7 @@ class MainActivity: AppCompatActivity() {
                 true
             }
         }
+        /*
         navView.menu.add("Test find file").apply{
             setOnMenuItemClickListener {
                 drawerLayout.closeDrawers()
@@ -297,6 +305,7 @@ class MainActivity: AppCompatActivity() {
                 true
             }
         }
+        */
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, resultData: Intent?) {
@@ -442,7 +451,7 @@ class MainActivity: AppCompatActivity() {
         if(!projectsList.isEmpty()){
             projectsList.forEach{ thisit ->
                 val proj = thisit
-                db.updateProjectDB(proj.toString(), proj.etat, proj.notes)
+                db.updateProjectDB(proj.toString(), proj.etat, proj.archived, proj.notes)
                 val coun = proj.getCounters()
                 if(! coun.isEmpty()){
                     coun.forEach{

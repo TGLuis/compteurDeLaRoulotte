@@ -18,6 +18,7 @@ class MyDatabase (context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, n
         db.execSQL("CREATE TABLE '" + PROJECT_TABLE + "' ('" +
                 PROJECT_NAME + "' TEXT NOT NULL PRIMARY KEY, '" +
                 ETAT + "' INTEGER NOT NULL, '" +
+                ARCHIVED + "' INTEGER NOT NULL, '" +
                 NOTES + "' TEXT NOT NULL);")
         db.execSQL("CREATE TABLE '" + COUNTER_TABLE + "' ('" +
                 PROJECT_NAME + "' TEXT NOT NULL REFERENCES $PROJECT_TABLE, '" +
@@ -66,16 +67,18 @@ class MyDatabase (context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, n
 
     fun getAllProjects(context: MainActivity): ArrayList<Project>{
         val db = this.writableDatabase
-        val query = "SELECT $PROJECT_NAME, $ETAT, $NOTES FROM $PROJECT_TABLE;"
+        val query = "SELECT $PROJECT_NAME, $ETAT, $ARCHIVED, $NOTES FROM $PROJECT_TABLE;"
         val cursor = db.rawQuery(query, null)
         val myProjects = ArrayList<Project>()
         if (cursor.moveToFirst()) {
             do {
                 val projectName = cursor.getString(0)
                 val etat = cursor.getInt(1)
-                val notes = cursor.getString(2)
+                val archived = cursor.getInt(2) == 1
+                val notes = cursor.getString(3)
                 val proj = Project(context, projectName.replace('\r','\''))//astuce pour les guillemets
                 proj.etat = etat
+                proj.archived = archived
                 proj.notes = notes.replace('\r','\'')
                 
                 val queryC = "SELECT $COUNTER_NAME, $ETAT, $MAX, $ORDER, $ATTACHED_MAIN, $COUNTER_ATTACHED FROM $COUNTER_TABLE WHERE $PROJECT_NAME='$projectName'"
@@ -161,17 +164,19 @@ class MyDatabase (context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, n
     fun addProjectDB(projectName: String, notes: String): Boolean{
         val db = this.writableDatabase
         val name = projectName.replace('\'','\r')
-        db.execSQL("INSERT INTO $PROJECT_TABLE ($PROJECT_NAME, $ETAT, $NOTES) " +
-                "VALUES ('$name', 0,'$notes');")
+        val notes = notes.replace('\'','\r')
+        db.execSQL("INSERT INTO $PROJECT_TABLE ($PROJECT_NAME, $ETAT, $ARCHIVED, $NOTES) " +
+                "VALUES ('$name', 0, 0, '$notes');")
         return true
     }
 
-    fun updateProjectDB(projectName: String, etat: Int, notes: String): Boolean{
+    fun updateProjectDB(projectName: String, etat: Int, archived:Boolean, notes: String): Boolean{
         val db = this.writableDatabase
         val name = projectName.replace('\'','\r')
         val newnote = notes.replace('\'','\r')
+        val arch = if(archived) 1 else 0
         db.execSQL("UPDATE $PROJECT_TABLE " +
-                " SET $NOTES='$newnote', $ETAT=$etat" +
+                " SET $NOTES='$newnote', $ETAT=$etat, $ARCHIVED=${arch}" +
                 " WHERE $PROJECT_NAME='$name';")
         return true
     }
@@ -277,6 +282,7 @@ class MyDatabase (context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, n
         private const val PROJECT_TABLE = "project"
         private const val PROJECT_NAME = "projectName"
         private const val NOTES = "notes"
+        private const val ARCHIVED = "archived"
         private const val COUNTER_TABLE = "counter"
         private const val COUNTER_NAME = "counterName"
         private const val ETAT = "etat"
