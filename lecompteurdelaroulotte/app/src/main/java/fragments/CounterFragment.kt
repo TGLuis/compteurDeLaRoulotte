@@ -11,6 +11,7 @@ import library.Counter
 import lufra.lecompteurdelaroulotte.MainActivity
 import lufra.lecompteurdelaroulotte.R
 import java.lang.Exception
+import java.lang.NumberFormatException
 
 class CounterFragment: MyFragment() {
     private lateinit var context: MainActivity
@@ -94,9 +95,27 @@ class CounterFragment: MyFragment() {
         B_save = context.findViewById(R.id.save)
         B_save.setOnClickListener {
             val temp_name = ET_name.text.toString()
-            val temp_etat = ET_state.text.toString().toInt()
-            val temp_max = ET_max.text.toString().toInt()
-            var temp_pos = ET_position.text.toString().toInt()-1
+            var temp_etat = 0
+            var temp_max = 0
+            var temp_pos = 0
+            try {
+                temp_etat = ET_state.text.toString().toInt()
+            } catch (e: NumberFormatException) {
+                Toast.makeText(context,R.string.state_not_valid, Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+            try {
+                temp_max = ET_max.text.toString().toInt()
+            } catch (e: NumberFormatException) {
+                Toast.makeText(context,R.string.max_not_valid, Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+            try {
+                temp_pos = ET_position.text.toString().toInt()-1
+            } catch (e: NumberFormatException) {
+                Toast.makeText(context,R.string.position_not_valid, Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
             val temp_attach = CB_attach.isChecked
             val temp_attached = selectedItem
 

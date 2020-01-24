@@ -21,9 +21,10 @@ class ArchiveFragment: MyFragment() {
     private lateinit var listViewProj: ListView
     private lateinit var addProj: AlertDialog.Builder
     private lateinit var archivedProjects: ArrayList<Project>
+    private lateinit var that: ArchiveFragment
 
     inner class ProjectAdapter(context: Context, list: ArrayList<Project>) : ArrayAdapter<Project>(context, 0, list) {
-        private inner class ProjectViewHolder(var msg: TextView?= null) // todo modify this screen
+        private inner class ProjectViewHolder(var msg: TextView?= null)
 
         override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
             val proj = super.getItem(position)!!
@@ -31,7 +32,7 @@ class ArchiveFragment: MyFragment() {
             val viewHolder: ProjectViewHolder
             if (convertView == null){
                 viewHolder = ProjectViewHolder()
-                projectView = LayoutInflater.from(context).inflate(R.layout.list_project_item, parent, false)
+                projectView = LayoutInflater.from(context).inflate(R.layout.list_project_archived_item, parent, false)
                 viewHolder.msg = projectView.findViewById(R.id.project_text)
                 projectView.tag = viewHolder
             } else {
@@ -39,13 +40,14 @@ class ArchiveFragment: MyFragment() {
                 projectView = convertView
             }
 
-            val cancelButton = projectView.findViewById<ImageButton>(R.id.delete_image)
-            cancelButton.setOnClickListener{
+            val deleteButton = projectView.findViewById<ImageButton>(R.id.delete_image)
+            deleteButton.setOnClickListener{
                 val cancelDialog = AlertDialog.Builder(context)
                 cancelDialog.setTitle(R.string.delete_project)
                         .setPositiveButton(R.string.ok) { dialog, _ ->
                             (context as MainActivity).deleteProject(proj)
-                            adapteur.notifyDataSetChanged()
+                            archivedProjects = ArrayList((context as MainActivity).projectsList.filter{ proj -> proj.archived })
+                            listViewProj.adapter = that.ProjectAdapter(context, archivedProjects)
                             dialog.dismiss()
                         }
                         .setNegativeButton(R.string.cancel) { dialog, _ ->
@@ -54,7 +56,24 @@ class ArchiveFragment: MyFragment() {
                 try{
                     cancelDialog.create()
                 }catch (e: Exception){} finally { cancelDialog.show() }
+            }
 
+            val unarchiveButton = projectView.findViewById<ImageButton>(R.id.unarchive_image)
+            unarchiveButton.setOnClickListener{
+                val cancelDialog = AlertDialog.Builder(context)
+                cancelDialog.setTitle(R.string.unarchive_project)
+                        .setPositiveButton(R.string.ok) { dialog, _ ->
+                            proj.archived = false
+                            archivedProjects = ArrayList((context as MainActivity).projectsList.filter{ proj -> proj.archived })
+                            listViewProj.adapter = that.ProjectAdapter(context, archivedProjects)
+                            dialog.dismiss()
+                        }
+                        .setNegativeButton(R.string.cancel) { dialog, _ ->
+                            dialog.dismiss()
+                        }
+                try{
+                    cancelDialog.create()
+                }catch (e: Exception){} finally { cancelDialog.show() }
             }
 
             val constr = projectView.findViewById<ConstraintLayout>(R.id.content)
@@ -81,12 +100,13 @@ class ArchiveFragment: MyFragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+        that = this
 
         archivedProjects = ArrayList(context.projectsList.filter{ proj -> proj.archived })
         addProj = AlertDialog.Builder(context)
 
         listViewProj = context.findViewById(R.id.listProject)
-        adapteur = this.ProjectAdapter(context, archivedProjects)
+        adapteur = that.ProjectAdapter(context, archivedProjects)
         listViewProj.adapter = adapteur
 
         context.setMenu("home")
@@ -94,6 +114,6 @@ class ArchiveFragment: MyFragment() {
     }
 
     override fun TAG(): String {
-        return "===== ARCHIVEDFRAGMENT ====="
+        return "===== ARCHIVEFRAGMENT ====="
     }
 }

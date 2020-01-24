@@ -6,6 +6,7 @@ import android.content.Intent
 import android.database.sqlite.SQLiteDatabase
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.graphics.drawable.Drawable
 import android.graphics.pdf.PdfRenderer
 import android.os.Bundle
 import android.support.design.widget.NavigationView
@@ -15,7 +16,11 @@ import android.support.v4.widget.DrawerLayout
 import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
+import android.support.v7.view.menu.MenuBuilder
 import android.support.v7.widget.Toolbar
+import android.text.Spannable
+import android.text.SpannableString
+import android.text.style.ImageSpan
 import android.util.Log
 import android.view.*
 import android.widget.AdapterView
@@ -51,6 +56,7 @@ class MainActivity: AppCompatActivity() {
     private lateinit var drawerLayout: DrawerLayout
     private lateinit var db: MyDatabase
     private lateinit var editCounter: AlertDialog.Builder
+    private var lastMenu: String? = null
     private val READ_REQUEST_CODE = 42
 
     override fun onCreate(savedInstanceState: Bundle?){
@@ -74,10 +80,6 @@ class MainActivity: AppCompatActivity() {
             window.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
         }
 
-        // Fragments
-        frags = Stack()
-        openFragment(HomeFragment())
-
         // Toolbar
         toolbar = this.findViewById(R.id.my_toolbar)
         setSupportActionBar(toolbar)
@@ -89,6 +91,11 @@ class MainActivity: AppCompatActivity() {
         //NavigationView
         navView = this.findViewById(R.id.nav_view)
         editCounter = AlertDialog.Builder(this)
+        setDrawer()
+
+        // Fragments
+        frags = Stack()
+        openFragment(HomeFragment())
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -102,68 +109,28 @@ class MainActivity: AppCompatActivity() {
      * If 'which' is "home" then it will create the menu for the home.
      * If 'which' is "project" it will create the menu for every screen with a project.
      */
-    fun setMenu(which: String){
+    fun setMenu(which: String, force: Boolean=false){
         val context = this
-        navView.menu.clear()
-        navView.menu.add(R.string.home).apply{
-            setOnMenuItemClickListener {
-                context.openFragment(HomeFragment())
-                drawerLayout.closeDrawers()
-                true
-            }
-        }
+        val myMenu = toolbar.menu
+        if (!force && lastMenu!=null && lastMenu == which)
+            return
+        if (force)
+            myMenu.clear()
+        lastMenu = which
         when(which){
             "home" -> {
-                navView.menu.add(R.string.add_project).apply {
-                    setOnMenuItemClickListener {
-                        val addProj = AlertDialog.Builder(context)
-                        val viewInflated = LayoutInflater.from(context).inflate(R.layout.simple_text_input, navView as ViewGroup, false)
-                        viewInflated.input_text.hint = context.getString(R.string.project_name)
-                        addProj.setView(viewInflated)
-                                .setTitle(R.string.project_name_id)
-                                .setPositiveButton(R.string.ok) { dialog, _ ->
-                                    val projectName = viewInflated.input_text.text.toString()
-                                    if(context.projectsList.find { it.name == projectName } == null){
-                                        context.createProject(projectName)
-                                        openFragment(HomeFragment())
-                                        dialog.dismiss()
-                                    }else {
-                                        Toast.makeText(context,R.string.project_already, Toast.LENGTH_SHORT).show()
-                                    }
-                                }
-                                .setNegativeButton(R.string.cancel) { dialog, _ ->
-                                    dialog.dismiss()
-                                }
-                                .setCancelable(false)
-                                .create()
-                                .show()
-                        true
-                    }
-                }
-                navView.menu.add(R.string.archives).apply {
-                    setOnMenuItemClickListener {
-                        drawerLayout.closeDrawers()
-                        context.openFragment(ArchiveFragment())
-                        true
-                    }
-                }
+                myMenu.clear()
             }
             "project" -> {
-                navView.menu.add(actualProject!!.name).apply {
+                myMenu.add(R.string.edit_notes).apply{
+                    icon = context.getDrawable(R.drawable.icon_notes)
+                    setShowAsAction(1)
                     setOnMenuItemClickListener {
-                        drawerLayout.closeDrawers()
-                        context.openFragment(ProjectFragment())
-                        true
-                    }
-                }
-                navView.menu.add(R.string.edit_notes).apply{
-                    setOnMenuItemClickListener {
-                        drawerLayout.closeDrawers()
                         context.openFragment(NotesFragment())
                         true
                     }
                 }
-                navView.menu.add(R.string.add_counter).apply {
+                myMenu.add(R.string.add_counter).apply {
                     setOnMenuItemClickListener {
                         val viewInflated = LayoutInflater.from(context).inflate(R.layout.simple_text_input, context.navView as ViewGroup, false)
                         val addCounter = AlertDialog.Builder(context)
@@ -175,7 +142,6 @@ class MainActivity: AppCompatActivity() {
                                         Toast.makeText(context,R.string.counter_already, Toast.LENGTH_SHORT).show()
                                     }else{
                                         context.createCounter(counterName)
-                                        drawerLayout.closeDrawers()
                                         context.setMenu("project")
                                     }
                                     dialog.dismiss()
@@ -190,13 +156,13 @@ class MainActivity: AppCompatActivity() {
                     }
                 }
                 if(context.actualProject!!.myCounters.size > 0){
-                    navView.menu.add(R.string.open_a_counter).apply{
+                    myMenu.add(R.string.open_a_counter).apply{
                         setOnMenuItemClickListener {
                             val viewInflated = LayoutInflater.from(context).inflate(R.layout.simple_spinner_input, context.navView as ViewGroup, false)
                             val the_spinner = viewInflated.findViewById<Spinner>(R.id.input_spinner)
                             val arr = ArrayList<String>(context.actualProject!!.getCounters().size)
                             context.actualProject!!.getCounters().forEach {arr.add(it.name)}
-                            val adapteur = ArrayAdapter(context, R.layout.support_simple_spinner_dropdown_item, arr.toArray())
+                            val adapteur = ArrayAdapter(context, R.layout.support_simple_spinner_dropdown_item, arr.toArray()!!)
                             var selectedItem = arr[0]
                             adapteur.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item)
                             the_spinner.adapter = adapteur
@@ -211,7 +177,6 @@ class MainActivity: AppCompatActivity() {
                                     .setPositiveButton(R.string.ok) { dialog, _ ->
                                         actualCounter = actualProject!!.myCounters.find { it.name == selectedItem }
                                         context.openFragment(CounterFragment())
-                                        drawerLayout.closeDrawers()
                                         dialog.dismiss()
                                     }
                                     .setNegativeButton(R.string.cancel) { dialog, _ ->
@@ -224,23 +189,21 @@ class MainActivity: AppCompatActivity() {
                         }
                     }
                 }
-                navView.menu.add(R.string.my_rules).apply{
+                myMenu.add(R.string.my_rules).apply{
                     setOnMenuItemClickListener {
-                        drawerLayout.closeDrawers()
                         context.seeWhat = "Rules"
                         context.openFragment(SeeFragment())
                         true
                     }
                 }
-                navView.menu.add(R.string.my_comments).apply{
+                myMenu.add(R.string.my_comments).apply{
                     setOnMenuItemClickListener {
-                        drawerLayout.closeDrawers()
                         context.seeWhat = "Comments"
                         context.openFragment(SeeFragment())
                         true
                     }
                 }
-                navView.menu.add(R.string.clone_proj).apply{
+                myMenu.add(R.string.clone_proj).apply{
                     setOnMenuItemClickListener {
                         val viewInflated = LayoutInflater.from(context).inflate(R.layout.simple_text_and_box_input, context.navView as ViewGroup, false)
                         viewInflated.tv.text = getString(R.string.with_data)
@@ -255,7 +218,6 @@ class MainActivity: AppCompatActivity() {
                                         context.actualProject!!.clone(projectName, data)
                                         dialog.dismiss()
                                         context.openFragment(HomeFragment())
-                                        drawerLayout.closeDrawers()
                                     }else {
                                         Toast.makeText(context,R.string.project_already, Toast.LENGTH_SHORT).show()
                                     }
@@ -271,11 +233,56 @@ class MainActivity: AppCompatActivity() {
                 }
             }
         }
+    }
 
+    private fun setDrawer(){
+        val context = this
+        navView.menu.clear()
+        navView.menu.add(R.string.home).apply{
+            setOnMenuItemClickListener {
+                drawerLayout.closeDrawers()
+                context.openFragment(HomeFragment())
+                true
+            }
+        }
+        navView.menu.add(R.string.add_project).apply {
+            setOnMenuItemClickListener {
+                val addProj = AlertDialog.Builder(context)
+                val viewInflated = LayoutInflater.from(context).inflate(R.layout.simple_text_input, navView as ViewGroup, false)
+                viewInflated.input_text.hint = context.getString(R.string.project_name)
+                addProj.setView(viewInflated)
+                        .setTitle(R.string.project_name_id)
+                        .setPositiveButton(R.string.ok) { dialog, _ ->
+                            val projectName = viewInflated.input_text.text.toString()
+                            if(context.projectsList.find { it.name == projectName } == null){
+                                context.createProject(projectName)
+                                drawerLayout.closeDrawers()
+                                openFragment(HomeFragment())
+                                dialog.dismiss()
+                            }else {
+                                Toast.makeText(context,R.string.project_already, Toast.LENGTH_SHORT).show()
+                            }
+                        }
+                        .setNegativeButton(R.string.cancel) { dialog, _ ->
+                            dialog.dismiss()
+                        }
+                        .setCancelable(false)
+                        .create()
+                        .show()
+                true
+            }
+        }
         navView.menu.add(R.string.parameters).apply{
             setOnMenuItemClickListener {
                 drawerLayout.closeDrawers()
                 context.openFragment(ParametersFragment())
+                true
+            }
+        }
+        navView.menu.add(R.string.archives).apply {
+            setOnMenuItemClickListener {
+                drawerLayout.closeDrawers()
+                context.openFragment(ArchiveFragment())
                 true
             }
         }
@@ -349,6 +356,9 @@ class MainActivity: AppCompatActivity() {
         val order = actualProject!!.getCounters().size
         db.addCounterDB(actualProject.toString(), counterName, 0, 0, order, false, null)
         actualProject!!.addCounter(Counter(counterName, 0, order, false, null))
+
+        if(actualProject!!.getCounters().size == 1)
+            setMenu("project", true) // maybe change this instruction of place (todo)
     }
 
     fun deleteCounter(counter: Counter){
@@ -361,6 +371,10 @@ class MainActivity: AppCompatActivity() {
         }
         db.deleteCounterDB(actualProject.toString(), counter.name)
         actualProject!!.deleteCounter(counter)
+
+
+        if(actualProject!!.getCounters().size == 0)
+            setMenu("project", true) // maybe change this instruction of place (todo)
     }
 
     fun updateCounterName(c: Counter, new_name: String){

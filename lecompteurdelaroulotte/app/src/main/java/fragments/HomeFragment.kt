@@ -44,12 +44,12 @@ class HomeFragment: MyFragment() {
                 projectView = convertView
             }
 
-            val cancelButton = projectView.findViewById<ImageButton>(R.id.delete_image)
-            cancelButton.setOnClickListener{ // todo modify to archive project
+            val cancelButton = projectView.findViewById<ImageButton>(R.id.archive_image)
+            cancelButton.setOnClickListener{
                 val cancelDialog = AlertDialog.Builder(context)
-                cancelDialog.setTitle(R.string.delete_project)
+                cancelDialog.setTitle(R.string.archive_project)
                         .setPositiveButton(R.string.ok) { dialog, _ ->
-                            (context as MainActivity).deleteProject(proj)
+                            proj.archived = true
                             projects = ArrayList((context as MainActivity).projectsList.filter{ proj -> !proj.archived })
                             listViewProj.adapter = that.ProjectAdapter(context, projects)
                             dialog.dismiss()

@@ -75,7 +75,7 @@ class ProjectFragment: MyFragment() {
             nb.text = state.toString()
 
             val linked = projectView.findViewById<ImageView>(R.id.linked)
-            if(count.attachedMain) linked.setImageDrawable(context.getDrawable(R.drawable.gear_color))
+            if(count.attachedMain) linked.setImageDrawable(context.getDrawable(R.drawable.image_link_on))
 
             val buttonM = projectView.findViewById<Button>(R.id.button_minus)
             buttonM.setOnClickListener{

@@ -38,13 +38,14 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toRightOf="@id/project_image"
-            app:layout_constraintRight_toLeftOf="@id/delete_image"/>
+            app:layout_constraintRight_toLeftOf="@id/archive_image"/>
+        <!-- todo modify image -->
         <ImageButton
-            android:id="@+id/delete_image"
-            android:layout_width="64dp"
-            android:layout_height="64dp"
-            app:srcCompat="@drawable/cross"
-            android:contentDescription="@string/delete_image"
+            android:id="@+id/archive_image"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            app:srcCompat="@drawable/image_archive"
+            android:contentDescription="@string/archive_image"
             android:layout_marginEnd="10dp"
             android:background="#00000000"
             app:layout_constraintTop_toTopOf="parent"

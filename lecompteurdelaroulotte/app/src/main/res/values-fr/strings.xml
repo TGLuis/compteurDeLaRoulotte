@@ -4,7 +4,6 @@
     <string name="app_name">Le compteur de la Roulotte</string>
     <string name="banderole">Banderole</string>
     <string name="project">Projet</string>
-    <string name="project_image">Image d\'un projet</string>
     <string name="project_name">Nom du projet</string>
     <string name="project_name_id">Nom du projet:</string>
     <string name="counter_name">Nom du compteur</string>
@@ -22,7 +21,6 @@
     <string name="counter_position">Position du compteur</string>
     <string name="counter_position_id">Position du compteur:</string>
     <string name="notes_image">Image de notes</string>
-    <string name="counter_image">Image de compteur</string>
     <string name="main_counter_image">Image du compteur principal</string>
     <string name="count_of_counter">Compte du compteur</string>
     <string name="delete_project">Supprimer le projet?</string>
@@ -77,20 +75,13 @@
     <string name="edit_notes">Editer ses notes</string>
     <string name="edit_rules">Editer les règles</string>
     <string name="parameter_image">Paramètres</string>
-    <string name="linked_image">Image lien</string>
-    <string name="delete_image">Supprimer</string>
-    <string name="info_image">Info</string>
     <string name="cancel">Annuler</string>
     <string name="delete">Supprimer</string>
     <string name="save">Sauver</string>
-    <string name="none">Aucun</string>
     <string name="yes">Oui</string>
-    <string name="ok">OK</string>
     <string name="nothing_changed">Rien n\'a changé</string>
 
 
-    <string name="navigation_drawer_open">Ouvrir</string>
-    <string name="navigation_drawer_close">Fermer</string>
     <string name="home">Acceuil</string>
     <string name="my_counters">Mes compteurs</string>
     <string name="counter">Compteur: </string>
@@ -133,4 +124,9 @@
     <string name="volume_on">Son lorsqu\'on appuie sur les bouttons + et -</string>
     <string name="archived">Archivé</string>
     <string name="archives">Archives</string>
+    <string name="archive_project">Archiver le projet?</string>
+    <string name="unarchive_project">Restaurer le projet?</string>
+    <string name="state_not_valid">L\'état du compteur n\'es pas valide</string>
+    <string name="max_not_valid">Le maximum n\'est pas valide</string>
+    <string name="position_not_valid">La position du compteur n\'es pas valide</string>
 </resources>

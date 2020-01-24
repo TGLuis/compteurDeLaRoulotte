@@ -3,7 +3,7 @@
     <string name="app_name">The counter of \'La Roulotte\'</string>
     <string name="banderole">Bande</string>
     <string name="project">Project</string>
-    <string name="project_image">Picture of a project</string>
+    <string name="project_image" translatable="false">Picture of a project</string>
     <string name="project_name">Name of the project</string>
     <string name="project_name_id">Name of the project:</string>
     <string name="counter_name">Name of the counter</string>
@@ -21,7 +21,7 @@
     <string name="counter_position">Position of the counter</string>
     <string name="counter_position_id">Position of the counter:</string>
     <string name="notes_image">Picture of notes</string>
-    <string name="counter_image">Picture of a counter</string>
+    <string name="counter_image" translatable="false">Picture of a counter</string>
     <string name="main_counter_image">Picture of the main counter</string>
     <string name="count_of_counter">Count of the counter</string>
     <string name="delete_project">Delete the project?</string>
@@ -76,22 +76,22 @@
     <string name="edit_notes">Edit notes</string>
     <string name="edit_rules">Edit rules</string>
     <string name="parameter_image">Parameters</string>
-    <string name="linked_image">Linked image</string>
-    <string name="delete_image">Delete</string>
-    <string name="info_image">Info</string>
+    <string name="linked_image" translatable="false">Linked image</string>
+    <string name="delete_image" translatable="false">Delete</string>
+    <string name="info_image" translatable="false">Info</string>
     <string name="button_minus" translatable="false">-</string>
     <string name="button_plus" translatable="false">+</string>
     <string name="cancel">Cancel</string>
     <string name="delete">Delete</string>
     <string name="save">Save</string>
-    <string name="none">None</string>
+    <string name="none" translatable="false">None</string>
     <string name="yes">Yes</string>
-    <string name="ok">OK</string>
+    <string name="ok" translatable="false">OK</string>
     <string name="nothing_changed">Nothing has changed</string>
 
 
-    <string name="navigation_drawer_open">Open</string>
-    <string name="navigation_drawer_close">Close</string>
+    <string name="navigation_drawer_open" translatable="false">Open</string>
+    <string name="navigation_drawer_close" translatable="false">Close</string>
     <string name="home">Home</string>
     <string name="my_counters">My counters</string>
     <string name="counter">Counter: </string>
@@ -133,4 +133,11 @@
     <string name="volume_on">Sound when + and - buttons pressed</string>
     <string name="archived">Archived</string>
     <string name="archives">Archives</string>
+    <string name="archive_image" translatable="false">Image archive</string>
+    <string name="unarchive_image" translatable="false">Image unarchive</string>
+    <string name="archive_project">Archive the project?</string>
+    <string name="unarchive_project">Restore project?</string>
+    <string name="state_not_valid">The state of the counter is not valid</string>
+    <string name="max_not_valid">Maximum of the counter is not valid</string>
+    <string name="position_not_valid">Position of the counter is not valid</string>
 </resources>

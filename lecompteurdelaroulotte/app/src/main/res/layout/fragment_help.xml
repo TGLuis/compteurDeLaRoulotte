@@ -39,8 +39,8 @@
 
             <ImageButton
                 android:id="@+id/help_general_drop"
-                android:layout_width="64dp"
-                android:layout_height="64dp"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
                 android:contentDescription="@string/drop"
                 android:layout_marginEnd="10dp"
                 android:layout_marginRight="10dp"
@@ -92,8 +92,8 @@
 
             <ImageButton
                 android:id="@+id/help_counter_drop"
-                android:layout_width="64dp"
-                android:layout_height="64dp"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
                 android:contentDescription="@string/drop"
                 android:layout_marginEnd="10dp"
                 android:layout_marginRight="10dp"
@@ -145,8 +145,8 @@
 
             <ImageButton
                 android:id="@+id/help_comment_drop"
-                android:layout_width="64dp"
-                android:layout_height="64dp"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
                 android:contentDescription="@string/drop"
                 android:layout_marginEnd="10dp"
                 android:layout_marginRight="10dp"
@@ -198,8 +198,8 @@
 
             <ImageButton
                 android:id="@+id/help_rule_drop"
-                android:layout_width="64dp"
-                android:layout_height="64dp"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
                 android:contentDescription="@string/drop"
                 android:layout_marginEnd="10dp"
                 android:layout_marginRight="10dp"
