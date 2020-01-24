@@ -142,7 +142,6 @@ class MainActivity: AppCompatActivity() {
                                         Toast.makeText(context,R.string.counter_already, Toast.LENGTH_SHORT).show()
                                     }else{
                                         context.createCounter(counterName)
-                                        context.setMenu("project")
                                     }
                                     dialog.dismiss()
                                 }
@@ -358,7 +357,7 @@ class MainActivity: AppCompatActivity() {
         actualProject!!.addCounter(Counter(counterName, 0, order, false, null))
 
         if(actualProject!!.getCounters().size == 1)
-            setMenu("project", true) // maybe change this instruction of place (todo)
+            setMenu("project", true) // case where there was no counter then you add one => must make the menu again to add "opencounter"
     }
 
     fun deleteCounter(counter: Counter){
@@ -374,7 +373,7 @@ class MainActivity: AppCompatActivity() {
 
 
         if(actualProject!!.getCounters().size == 0)
-            setMenu("project", true) // maybe change this instruction of place (todo)
+            setMenu("project", true) // case where there was 1 counter then you remove it => must remove "opencounter" from the menu
     }
 
     fun updateCounterName(c: Counter, new_name: String){
