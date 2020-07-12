@@ -31,6 +31,7 @@
 
         <ImageButton
             android:id="@+id/delete_image"
+            android:scaleType="fitXY"
             android:layout_width="48dp"
             android:layout_height="48dp"
             app:srcCompat="@drawable/image_trash"

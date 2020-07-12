@@ -15,6 +15,12 @@ class Counter(var name: String, var max: Int, var order: Int, var attachedMain: 
         }
     }
 
+    fun toDisplay(): String{
+        if (this.max == 0) return this.etat.toString()
+        if (this.etat != 0 && this.etat % this.max == 0) return this.max.toString()
+        return (this.etat % this.max).toString()
+    }
+
     fun attach(c: Counter){this.counterAttached=c}
     fun detach(){this.counterAttached=null}
 

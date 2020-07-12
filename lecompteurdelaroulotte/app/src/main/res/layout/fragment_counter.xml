@@ -106,6 +106,7 @@
 
         <ImageButton
             android:id="@+id/info_max"
+            android:scaleType="fitXY"
             android:layout_width="40dp"
             android:layout_height="40dp"
             app:srcCompat="@drawable/info"
@@ -148,6 +149,7 @@
 
         <ImageButton
             android:id="@+id/info_tours"
+            android:scaleType="fitXY"
             android:layout_width="40dp"
             android:layout_height="40dp"
             app:srcCompat="@drawable/info"
@@ -191,6 +193,7 @@
 
         <ImageButton
             android:id="@+id/info_position"
+            android:scaleType="fitXY"
             android:layout_width="40dp"
             android:layout_height="40dp"
             app:srcCompat="@drawable/info"
@@ -229,6 +232,7 @@
 
         <ImageButton
             android:id="@+id/info_attach"
+            android:scaleType="fitXY"
             android:layout_width="40dp"
             android:layout_height="40dp"
             app:srcCompat="@drawable/info"
@@ -269,6 +273,7 @@
 
         <ImageButton
             android:id="@+id/info_attached"
+            android:scaleType="fitXY"
             android:layout_width="40dp"
             android:layout_height="40dp"
             app:srcCompat="@drawable/info"

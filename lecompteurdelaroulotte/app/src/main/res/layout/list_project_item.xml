@@ -17,6 +17,7 @@
         app:layout_constraintRight_toRightOf="parent">
         <ImageView
             android:id="@+id/project_image"
+            android:scaleType="fitXY"
             android:layout_width="64dp"
             android:layout_height="64dp"
             app:srcCompat="@drawable/icon_project"
@@ -41,6 +42,7 @@
             app:layout_constraintRight_toLeftOf="@id/archive_image"/>
         <ImageButton
             android:id="@+id/archive_image"
+            android:scaleType="fitXY"
             android:layout_width="48dp"
             android:layout_height="48dp"
             app:srcCompat="@drawable/image_archive"

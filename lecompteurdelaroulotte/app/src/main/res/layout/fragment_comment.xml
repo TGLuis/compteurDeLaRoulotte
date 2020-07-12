@@ -36,6 +36,7 @@
 
         <ImageButton
             android:id="@+id/info_which_counter"
+            android:scaleType="fitXY"
             android:layout_width="40dp"
             android:layout_height="40dp"
             app:srcCompat="@drawable/info"

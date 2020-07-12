@@ -140,4 +140,6 @@
     <string name="state_not_valid">The state of the counter is not valid</string>
     <string name="max_not_valid">Maximum of the counter is not valid</string>
     <string name="position_not_valid">Position of the counter is not valid</string>
+    <string name="next">next</string>
+    <string name="previous">previous</string>
 </resources>

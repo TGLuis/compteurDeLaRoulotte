@@ -57,7 +57,7 @@
     <!-- help -->
     <string name="info">Info</string>
     <string name="more_info_step">Cliquez sur l\'image pour plus d\'informations</string>
-    <string name="help_max">Si vous voulez que le compteur boucle, vous pouvez définir un maximum. Après avoir atteint ce maximum, Le compteur va revenir à 1. Si vous ne voulez pas de maximum, vous devez écrier 0.</string>
+    <string name="help_max">Si vous voulez que le compteur boucle, vous pouvez définir un maximum. Après avoir atteint ce maximum, Le compteur va revenir à 1. Si vous ne voulez pas de maximum, vous devez écrire 0.</string>
     <string name="help_tours">Le nombre "tours" est le nombre de fois que le compteur est revenu à 1 si vous avez défini un maximum au dessus.</string>
     <string name="help_position">La position du compteur ne sert que à l\'affichage dans votre projet. 1 pour être le premier compteur et x pour être le xieme compteur.</string>
     <string name="help_attach">Si vous cochez cette case, le compteur va être lié au projet. Chaque fois que vous augmentez/diminuez ce compteur ou le projet, les deux changerons ensemble.</string>
@@ -68,7 +68,7 @@
     <string name="help_comment_rule">Le commentaire va êtra ajouté aux texte montré lorsque la règle va montrer un rappel.</string>
 
     <!-- Boutons -->
-    <string name="add_project">Ajouter un project</string>
+    <string name="add_project">Ajouter un projet</string>
     <string name="add_counter">Ajouter un compteur</string>
     <string name="add_rule">Ajouter une règle</string>
     <string name="add_comment">Ajouter un commentaire</string>
@@ -129,4 +129,6 @@
     <string name="state_not_valid">L\'état du compteur n\'es pas valide</string>
     <string name="max_not_valid">Le maximum n\'est pas valide</string>
     <string name="position_not_valid">La position du compteur n\'es pas valide</string>
+    <string name="previous" translatable="false">précédent</string>
+    <string name="next">suivant</string>
 </resources>

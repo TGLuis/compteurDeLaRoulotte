@@ -299,7 +299,6 @@ class MainActivity: AppCompatActivity() {
                 true
             }
         }
-        /*
         navView.menu.add("Test find file").apply{
             setOnMenuItemClickListener {
                 drawerLayout.closeDrawers()
@@ -311,23 +310,21 @@ class MainActivity: AppCompatActivity() {
                 true
             }
         }
-        */
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, resultData: Intent?) {
         if (requestCode == READ_REQUEST_CODE && resultCode == Activity.RESULT_OK){
             resultData?.data?.also { uri ->
                 Log.i(TAG, "Uri: $uri")
-                /*val pfd = this.contentResolver.openFileDescriptor(uri, "r")
-                val renderer = PdfRenderer(pfd)
-                var i = 0
-                while (i < renderer.pageCount){
-                    val page = renderer.openPage(i)
+                /*val renderer: PdfRenderer = PdfRenderer(getSeekableFileDescriptor())
+                val pageCount = renderer.pageCount
+                for (i in 0 until pageCount) {
+                    val page: PdfRenderer.Page = renderer.openPage(i)
                     page.render(mBitmap, null, null, PdfRenderer.Page.RENDER_MODE_FOR_DISPLAY)
-                    // mBitmap is the bitmap destination !! suivre le github :
-                    // https://github.com/googlesamples/android-PdfRendererBasic/blob/master/kotlinApp/Application/src/main/java/com/example/android/pdfrendererbasic/PdfRendererBasicFragment.kt
+                    // do stuff with the bitmap
+
+                    //close the page
                     page.close()
-                    i++
                 }
                 renderer.close()*/
             }
