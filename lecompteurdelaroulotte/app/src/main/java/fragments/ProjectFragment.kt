@@ -20,6 +20,8 @@ import android.support.constraint.ConstraintLayout.LayoutParams as LayoutParams1
 import android.widget.RelativeLayout
 import kotlin.concurrent.timer
 import android.media.MediaPlayer
+import com.github.barteksc.pdfviewer.PDFView
+import kotlinx.android.synthetic.main.fragment_see.*
 
 
 class ProjectFragment : MyFragment() {
@@ -39,6 +41,7 @@ class ProjectFragment : MyFragment() {
     private lateinit var names: ArrayList<Tuple>
     private lateinit var mpPlus: MediaPlayer
     private lateinit var mpMoins: MediaPlayer
+    private lateinit var pdfView: PDFView
     lateinit var adapteur: CounterAdapter
     var previous_message: String? = null
 
@@ -177,6 +180,21 @@ class ProjectFragment : MyFragment() {
         listViewCounters = context.findViewById(R.id.listCounters)
         adapteur = this.CounterAdapter(context, counters)
         listViewCounters.adapter = adapteur
+
+        pdfView = context.findViewById(R.id.pdfView)
+        if (context.pdf != null) {
+            val listAdapt = listViewCounters.adapter
+            if (listAdapt != null) {
+                val params = listViewCounters.layoutParams
+                params.height = listViewCounters.height - 400
+                listViewCounters.layoutParams = params
+            }
+            pdfView.visibility = View.VISIBLE
+            pdfView.fromUri(context.pdf)
+                    .defaultPage(0)
+                    .spacing(10)
+                    .load()
+        }
 
         affiche(true)
         context.setMenu("project")

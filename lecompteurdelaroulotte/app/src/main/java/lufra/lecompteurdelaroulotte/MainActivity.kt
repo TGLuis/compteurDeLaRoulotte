@@ -8,6 +8,7 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.drawable.Drawable
 import android.graphics.pdf.PdfRenderer
+import android.net.Uri
 import android.os.Bundle
 import android.support.design.widget.NavigationView
 import android.support.v4.app.Fragment
@@ -46,6 +47,7 @@ class MainActivity: AppCompatActivity() {
     var actualRule: Rule? = null
     var actualComment: Comment? = null
     var seeWhat: String = "Comments"
+    var pdf: Uri? = null
 
     var screen_on: Boolean = false
     var volume_on: Boolean = true
@@ -57,7 +59,7 @@ class MainActivity: AppCompatActivity() {
     private lateinit var db: MyDatabase
     private lateinit var editCounter: AlertDialog.Builder
     private var lastMenu: String? = null
-    private val READ_REQUEST_CODE = 42
+    private val PDF_SELECTION_CODE = 99
 
     override fun onCreate(savedInstanceState: Bundle?){
         super.onCreate(savedInstanceState)
@@ -299,36 +301,34 @@ class MainActivity: AppCompatActivity() {
                 true
             }
         }
-        navView.menu.add("Test find file").apply{
+        navView.menu.add("Open PDF").apply{
             setOnMenuItemClickListener {
                 drawerLayout.closeDrawers()
                 val intent = Intent(Intent.ACTION_OPEN_DOCUMENT).apply {
                     addCategory(Intent.CATEGORY_OPENABLE)
                     type = "application/pdf"
                 }
-                startActivityForResult(intent, READ_REQUEST_CODE)
+                startActivityForResult(Intent.createChooser(intent, "Select PDF"), PDF_SELECTION_CODE)
+                // The function "onActivityResult" will be called when the activity to select a pdf has finished
+                true
+            }
+        }
+        navView.menu.add("close PDF").apply{
+            setOnMenuItemClickListener {
+                drawerLayout.closeDrawers()
+                pdf = null
+                openFragment(HomeFragment())
                 true
             }
         }
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, resultData: Intent?) {
-        if (requestCode == READ_REQUEST_CODE && resultCode == Activity.RESULT_OK){
-            resultData?.data?.also { uri ->
-                Log.i(TAG, "Uri: $uri")
-                /*val renderer: PdfRenderer = PdfRenderer(getSeekableFileDescriptor())
-                val pageCount = renderer.pageCount
-                for (i in 0 until pageCount) {
-                    val page: PdfRenderer.Page = renderer.openPage(i)
-                    page.render(mBitmap, null, null, PdfRenderer.Page.RENDER_MODE_FOR_DISPLAY)
-                    // do stuff with the bitmap
-
-                    //close the page
-                    page.close()
-                }
-                renderer.close()*/
-            }
-
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == PDF_SELECTION_CODE && resultCode == Activity.RESULT_OK && data != null) {
+            val selectedPdf = data.data
+            pdf = selectedPdf
+            openFragment(ProjectFragment())
         }
     }
 
@@ -473,6 +473,7 @@ class MainActivity: AppCompatActivity() {
     }
 
     fun createTextFromRule(r: Rule): String{
+        // todo move this in Rule
         var s = getString(R.string.rule)
         s += ": " + r.comment + "\n"
         s += if(r.counter == "") getString(R.string.on_main) else getString(R.string.on_counter) + " " + r.counter
@@ -491,6 +492,7 @@ class MainActivity: AppCompatActivity() {
     }
 
     fun createTextFromComment(c: Comment): String{
+        // todo move this in Comment
         var s = getString(R.string.comment)
         s += ":\n"
         s += if(c.counter == "") getString(R.string.on_main) else getString(R.string.on_counter) + " " + c.counter
