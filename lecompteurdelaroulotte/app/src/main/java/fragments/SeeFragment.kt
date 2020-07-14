@@ -1,7 +1,6 @@
 package fragments
 
 import android.content.Context
-import android.support.v4.app.Fragment
 import android.os.Bundle
 import android.support.v7.app.AlertDialog
 import android.view.LayoutInflater
@@ -43,7 +42,7 @@ class SeeFragment: MyFragment() {
             viewHolder.msg!!.text = comment.toString()
 
             val TV_comment = projectView.findViewById<TextView>(R.id.text_comment)
-            val comment_text = (activity as MainActivity).createTextFromComment(comment)
+            val comment_text = comment.getString(activity as MainActivity)
             TV_comment.text = comment_text
             TV_comment.setOnClickListener {
                 (context as MainActivity).actualComment = comment
@@ -91,7 +90,7 @@ class SeeFragment: MyFragment() {
             viewHolder.msg!!.text = rule.toString()
 
             val TV_rule = projectView.findViewById<TextView>(R.id.text_rule)
-            val rule_text = (context as MainActivity).createTextFromRule(rule)
+            val rule_text = rule!!.getString(context as MainActivity)
             TV_rule.text = rule_text
             TV_rule.setOnClickListener {
                 (context as MainActivity).actualRule = rule

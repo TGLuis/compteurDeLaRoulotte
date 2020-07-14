@@ -1,12 +1,9 @@
 package library
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.content.res.Resources
-import android.os.Environment
 import android.util.Log
 import lufra.lecompteurdelaroulotte.MainActivity
-import lufra.lecompteurdelaroulotte.R
 import java.io.File
 import java.io.FileOutputStream
 import java.io.FileReader
@@ -35,13 +32,13 @@ object Helper {
                 f.createNewFile()
                 setConfigValue("screen_on", false.toString())
                 setConfigValue("volume_on", true.toString())
-                Log.e(TAG, properties.toString())
+                Log.v(TAG, properties.toString())
             }
-        } catch(e: Resources.NotFoundException) {
+        } catch (e: Resources.NotFoundException) {
             Log.e(TAG, "Unable to find the config file: " + e.message)
         } catch (e: IOException) {
-            Log.e(TAG, "Failed to open config file.")
-            e.printStackTrace()
+            Log.e(TAG, "Failed to open config file. " + e.message)
+            //e.printStackTrace()
         }
     }
 

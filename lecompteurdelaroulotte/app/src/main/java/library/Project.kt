@@ -1,9 +1,8 @@
 package library
 
-import android.util.Log
+import android.net.Uri
 import lufra.lecompteurdelaroulotte.MainActivity
 import lufra.lecompteurdelaroulotte.R
-import java.lang.StringBuilder
 import java.util.*
 
 class Project(var context: MainActivity, var name: String) {
@@ -15,6 +14,7 @@ class Project(var context: MainActivity, var name: String) {
     var myRules: ArrayList<Rule>
     var myCounters: ArrayList<Counter>
     var myComments: ArrayList<Comment>
+    var pdf: Uri? = null
     private var lesRappels: ArrayList<Rappel>
 
     /**
@@ -25,128 +25,146 @@ class Project(var context: MainActivity, var name: String) {
         private var x: Int = n
         var s: String = message
 
-        fun is_ok_main(): Boolean{
+        fun isOkMain(): Boolean {
             return c == null && x == etat
         }
 
-        fun is_ok_counter(c: Counter): Boolean{
+        fun isOkCounter(c: Counter): Boolean {
             if (c != this.c)
                 return false
-            if (c.max == 0)
-                return c.etat == x
-            if (x == c.max)
-                return c.etat % c.max == 0
-            return c.etat % c.max == x
+            return c.realState() == x
         }
 
-        override fun toString(): String{
+        override fun toString(): String {
             var s = ""
-            if(c == null)
-                s += " ON main counter "
+            if (c == null)
+                s += " " + context.getString(R.string.on_main) + " "
             else
-                s += " ON counter="+ c!!.name
-            s += " ROW number " + x.toString() + " MESSAGE: " + this.s
+                s += " " + context.getString(R.string.on_counter) + " = " + c!!.name
+            s += " " + context.getString(R.string.row_number) + "  " + x.toString() + " " + context.getString(R.string.message) + " " + this.s
             return s
         }
     }
 
     init {
-        this.notes = " "
+        notes = " "
         myCounters = ArrayList()
         myRules = ArrayList()
         myComments = ArrayList()
         lesRappels = ArrayList()
+        pdf = null
+    }
+
+    fun setPdfFromString(s: String) {
+        pdf = Uri.parse(s)
     }
 
     /***********************************************************************************************
      * Functions to manage the counters
      */
-    fun has_counter(s: String): Boolean{
+    fun hasCounter(s: String): Boolean {
         myCounters.forEach {
-            if(s == it.name)
+            if (s == it.name)
                 return true
         }
         return false
     }
 
-    fun getCounters(): ArrayList<Counter>{return myCounters}
+    fun getCounters(): ArrayList<Counter> {
+        return myCounters
+    }
 
-    fun getCounter(s: String): Counter?{
+    fun getCounter(s: String): Counter? {
         myCounters.forEach {
-            if(it.name == s)
+            if (it.name == s)
                 return it
         }
         return null
     }
 
-    fun addCounter(c: Counter){
+    fun addCounter(c: Counter) {
         if (c !in myCounters)
             myCounters.add(c)
     }
 
-    fun deleteCounter(c: Counter){
+    fun deleteCounter(c: Counter) {
         myCounters.remove(c)
-        myCounters.forEach{
+        myCounters.forEach {
             if (it.counterAttached != null && it.counterAttached!!.name == c.name)
                 it.detach()
         }
-        if(bindCounters != null)
+        if (bindCounters != null && c in bindCounters!!)
             bindCounters!!.remove(c)
     }
 
     /***********************************************************************************************
      * Functions to manage the rules
      */
-    fun addRule(r: Rule){
-        myRules.add(r)
-        addRuleInRappel(r)
+    fun addRule(r: Rule) {
+        if (r !in myRules) {
+            myRules.add(r)
+            addRuleInRappel(r)
+        }
     }
 
-    fun deleteRule(r: Rule){
-        myRules.remove(r)
-        constructRappel()
+    fun deleteRule(r: Rule) {
+        if (r in myRules) {
+            myRules.remove(r)
+            constructRappel()
+        }
     }
 
-    fun deleteStepOfRule(r: Rule, s: Step){
-        r.steps.remove(s)
-        constructRappel()
+    fun deleteStepOfRule(r: Rule, s: Step) {
+        if (r in myRules) {
+            r.steps.remove(s)
+            constructRappel()
+        }
     }
 
     /***********************************************************************************************
      * Functions to manage the comments
      */
-    fun addComment(c: Comment){
-        myComments.add(c)
-        addCommentInRappel(c)
+    fun addComment(c: Comment) {
+        if (c !in myComments) {
+            myComments.add(c)
+            addCommentInRappel(c)
+        }
     }
 
-    fun deleteComment(c: Comment){
-        myComments.remove(c)
-        constructRappel()
+    fun deleteComment(c: Comment) {
+        if (c in myComments) {
+            myComments.remove(c)
+            constructRappel()
+        }
     }
 
     /***********************************************************************************************
      * Functions to update manage the project
      */
-    fun update(b: Boolean){
-        if(b){etat++}else{etat--}
+    fun update(b: Boolean) {
+        if (b) {
+            etat++
+        } else {
+            etat--
+        }
         notify(b)
     }
 
-    fun attach(c: Counter){
+    fun attach(c: Counter) {
         if (bindCounters == null)
             bindCounters = ArrayList()
-        bindCounters!!.add(c)
+        if (c !in bindCounters!!)
+            bindCounters!!.add(c)
     }
 
-    fun detach(c: Counter){
-        if (bindCounters != null)
+    fun detach(c: Counter) {
+        if (bindCounters != null && c in bindCounters!!)
             bindCounters!!.remove(c)
     }
 
-    private fun notify(b: Boolean){
-        if(bindCounters != null){
-            bindCounters!!.forEach{
+    private fun notify(b: Boolean) {
+        if (bindCounters != null) {
+            bindCounters!!.forEach {
                 it.update(b)
             }
         }
@@ -155,7 +173,7 @@ class Project(var context: MainActivity, var name: String) {
     /***********************************************************************************************
      * Functions to manage the Rappel, the messages which appears when a rule aply
      */
-    fun constructRappel(){
+    fun constructRappel() {
         lesRappels = ArrayList()
         for (r in myRules)
             addRuleInRappel(r)
@@ -163,22 +181,22 @@ class Project(var context: MainActivity, var name: String) {
             addCommentInRappel(c)
     }
 
-    private fun addCommentInRappel(c: Comment){
+    private fun addCommentInRappel(c: Comment) {
         val theCounter = myCounters.find { it.name == c.counter }
         for (i in c.start..c.end) {
-            lesRappels.add(Rappel(i,c.comment,theCounter))
+            lesRappels.add(Rappel(i, c.comment, theCounter))
         }
     }
 
-    private fun addRuleInRappel(r: Rule){
-        var x = r.start-r.steps[0].two
+    private fun addRuleInRappel(r: Rule) {
+        var x = r.start - r.steps[0].two
         val theCounter = myCounters.find { it.name == r.counter }
-        for (elem in r.steps){
-            val aug = if(elem.augm) R.string.augmentation else R.string.diminution
-            for (i in 1..elem.one){
+        for (elem in r.steps) {
+            val aug = if (elem.augm) R.string.augmentation else R.string.diminution
+            for (i in 1..elem.one) {
                 x += elem.two
                 var theMessage = context.getString(aug) + " " + context.getString(R.string.of) + " " + elem.three + " " + context.getString(R.string.stitches)
-                if(r.comment != ""){
+                if (r.comment != "") {
                     theMessage = r.comment + ": " + theMessage
                 }
                 lesRappels.add(Rappel(x, theMessage, theCounter))
@@ -186,42 +204,42 @@ class Project(var context: MainActivity, var name: String) {
         }
     }
 
-    fun getMessageAll(): String?{
+    fun getMessageAll(): String? {
         var s = ""
         val mainText = getMessageForMain()
-        if(mainText != null)
+        if (mainText != null)
             s += mainText
         myCounters.forEach {
             val counterText = getMessageForCounter(it, true)
-            if(counterText != null)
+            if (counterText != null)
                 s += counterText
         }
-        if(s == "")
+        if (s == "")
             return null
         return s
     }
 
-    fun getMessageForMain(): String?{
+    fun getMessageForMain(): String? {
         var s = ""
         lesRappels.forEach {
-            if(it.is_ok_main())
+            if (it.isOkMain())
                 s += it.s + "\n"
         }
-        if(s == "")
+        if (s == "")
             return null
         return s
     }
 
-    fun getMessageForCounter(c: Counter, withName: Boolean): String?{
+    fun getMessageForCounter(c: Counter, withName: Boolean): String? {
         var s = ""
         lesRappels.forEach {
-            if(it.is_ok_counter(c)) {
+            if (it.isOkCounter(c)) {
                 if (withName)
                     s += c.name + ": "
                 s += it.s + "\n"
             }
         }
-        if(s == "")
+        if (s == "")
             return null
         return s
     }
@@ -232,25 +250,22 @@ class Project(var context: MainActivity, var name: String) {
     fun clone(newName: String, data: Boolean) {
         val p = context.createProject(newName)
         p.notes = this.notes
-        for(c in this.myCounters)
-            p.addCounter(c.clone(data))
-        for(c in this.myComments)
+        for (c in this.myCounters) {
+            val newC = c.clone(data)
+            p.addCounter(newC)
+            if (this.bindCounters != null && c in this.bindCounters!!)
+                p.attach(newC)
+        }
+        for (c in this.myComments)
             p.addComment(c.clone())
-        for(r in this.myRules)
+        for (r in this.myRules)
             p.addRule(r.clone())
-        if(data){
+        if (data) {
             p.etat = this.etat
         }
     }
 
-    fun allRapel(): String {
-        val s = StringBuilder()
-        for(r in lesRappels){
-            s.append(r.toString())
-            s.append("\n")
-        }
-        return s.toString()
+    override fun toString(): String {
+        return this.name
     }
-
-    override fun toString(): String {return this.name}
 }

@@ -83,7 +83,7 @@
         android:background="@color/jaune"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/listCounters" />
+        app:layout_constraintBottom_toBottomOf="@id/MCounter" />
 
     <!-- for the list of counters -->
     <ListView
@@ -92,13 +92,13 @@
         android:layout_height="match_parent"
         tools:listitem="@layout/list_counter_item"
         app:layout_constraintTop_toBottomOf="@id/separetor"
-        android:layout_marginTop="150dp"/>
+        android:layout_marginTop="100dp"/>
 
     <!-- to render pdf -->
     <com.github.barteksc.pdfviewer.PDFView
         android:id="@+id/pdfView"
         android:layout_width="match_parent"
-        android:layout_height="400dp"
+        android:layout_height="0dp"
         android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
         />

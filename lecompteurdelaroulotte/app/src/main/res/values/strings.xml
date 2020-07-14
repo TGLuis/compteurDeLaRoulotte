@@ -1,6 +1,6 @@
 <resources>
     <!-- General -->
-    <string name="app_name">The counter of \'La Roulotte\'</string>
+    <string name="app_name">The counter of la Roulotte</string>
     <string name="banderole">Bande</string>
     <string name="project">Project</string>
     <string name="project_image" translatable="false">Picture of a project</string>
@@ -142,4 +142,10 @@
     <string name="position_not_valid">Position of the counter is not valid</string>
     <string name="next">next</string>
     <string name="previous">previous</string>
+    <string name="open_pdf">Open a PDF</string>
+    <string name="close_pdf">Close the PDF</string>
+    <string name="save_pdf">Save the PDF in the project</string>
+    <string name="row_number">ROW number</string>
+    <string name="message">MESSAGE:</string>
+    <string name="problem_with_pdf">There was a problem while trying to open the pdf</string>
 </resources>

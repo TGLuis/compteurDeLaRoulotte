@@ -1,34 +1,26 @@
 package fragments
 
+import android.media.MediaPlayer
 import android.os.Bundle
 import android.support.constraint.ConstraintLayout
-import android.support.v4.app.Fragment
 import android.support.v7.app.AlertDialog
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.ViewTreeObserver
 import android.widget.*
+import com.github.barteksc.pdfviewer.PDFView
 import library.Counter
 import library.Project
 import lufra.lecompteurdelaroulotte.MainActivity
 import lufra.lecompteurdelaroulotte.R
 import java.util.*
-import android.util.DisplayMetrics
-import android.support.constraint.ConstraintLayout.LayoutParams as LayoutParams1
-import android.widget.RelativeLayout
-import kotlin.concurrent.timer
-import android.media.MediaPlayer
-import com.github.barteksc.pdfviewer.PDFView
-import kotlinx.android.synthetic.main.fragment_see.*
 
 
 class ProjectFragment : MyFragment() {
     private lateinit var context: MainActivity
     private lateinit var project: Project
 
-    private lateinit var mCounter: ConstraintLayout
+    private lateinit var wholeLayout: ConstraintLayout
     private lateinit var listViewCounters: ListView
     private lateinit var buttonPlus: Button
     private lateinit var buttonMinus: Button
@@ -136,8 +128,8 @@ class ProjectFragment : MyFragment() {
             return
         }
 
-        mCounter = context.findViewById(R.id.MCounter)
-        mCounter.viewTreeObserver
+        wholeLayout = context.findViewById(R.id.id_fragment_project)
+        wholeLayout.viewTreeObserver
                 .addOnGlobalLayoutListener { getAndSetHeight() }
 
         mpPlus = MediaPlayer.create(context, R.raw.plus)
@@ -182,18 +174,17 @@ class ProjectFragment : MyFragment() {
         listViewCounters.adapter = adapteur
 
         pdfView = context.findViewById(R.id.pdfView)
-        if (context.pdf != null) {
-            val listAdapt = listViewCounters.adapter
-            if (listAdapt != null) {
-                val params = listViewCounters.layoutParams
-                params.height = listViewCounters.height - 400
-                listViewCounters.layoutParams = params
-            }
+        if (context.pdfIsOpen && project.pdf != null) {
             pdfView.visibility = View.VISIBLE
-            pdfView.fromUri(context.pdf)
-                    .defaultPage(0)
-                    .spacing(10)
-                    .load()
+            try {
+                pdfView.fromUri(project.pdf)
+                        .defaultPage(0)
+                        .spacing(10)
+                        .load()
+            } catch (e: Exception) {
+                Toast.makeText(context, R.string.problem_with_pdf, Toast.LENGTH_LONG).show()
+                project.pdf = null
+            }
         }
 
         affiche(true)
@@ -261,14 +252,24 @@ class ProjectFragment : MyFragment() {
     }
 
     private fun getAndSetHeight() {
+        val mainCounterLayout = context.findViewById<ConstraintLayout>(R.id.MCounter)
         if (fragmentManager != null) {
             val currentfrag = fragmentManager!!.findFragmentByTag(TAG())
             if (currentfrag != null && currentfrag.isVisible) {
                 val view = context.findViewById<ListView>(R.id.listCounters)
                 val params = view.layoutParams
                 if (params is ViewGroup.MarginLayoutParams) {
-                    val p: ViewGroup.MarginLayoutParams = params as ViewGroup.MarginLayoutParams
-                    p.setMargins(5, mCounter.height + 2, 5, 5)
+                    val p: ViewGroup.MarginLayoutParams = params
+                    if (project.pdf == null || !context.pdfIsOpen) {
+                        p.setMargins(5, mainCounterLayout.height + 2, 5, 5)
+                        pdfView.visibility = View.INVISIBLE
+                        pdfView.layoutParams.height = 0
+                    } else {
+                        pdfView.visibility = View.VISIBLE
+                        pdfView.layoutParams.height = (view.height + pdfView.height)*2/3
+                        p.setMargins(5, mainCounterLayout.height + 2, 5, pdfView.height)
+                    }
+                    view.layoutParams = p
                 }
                 view.requestLayout()
             }

@@ -15,10 +15,14 @@ class Counter(var name: String, var max: Int, var order: Int, var attachedMain: 
         }
     }
 
-    fun toDisplay(): String{
-        if (this.max == 0) return this.etat.toString()
-        if (this.etat != 0 && this.etat % this.max == 0) return this.max.toString()
-        return (this.etat % this.max).toString()
+    fun realState(): Int {
+        if (this.max == 0) return this.etat
+        if (this.etat != 0 && this.etat % this.max == 0) return this.max
+        return this.etat % this.max
+    }
+
+    fun toDisplay(): String {
+        return this.realState().toString()
     }
 
     fun attach(c: Counter){this.counterAttached=c}

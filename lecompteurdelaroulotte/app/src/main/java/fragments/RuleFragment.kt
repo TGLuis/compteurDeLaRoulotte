@@ -226,7 +226,7 @@ class RuleFragment: MyFragment(){
             rule!!.start = start
             rule!!.comment = ET_comment.text.toString()
             val prem = if(add) context.getString(R.string.pre_rule) else context.getString(R.string.pre_rule_modif)
-            val mess = context.createTextFromRule(rule!!)
+            val mess = rule!!.getString(context)
             val dial = AlertDialog.Builder(context)
             dial.setTitle(R.string.confirm)
                     .setPositiveButton(R.string.save) { dialog, _ ->

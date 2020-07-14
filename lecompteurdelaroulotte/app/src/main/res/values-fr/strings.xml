@@ -25,13 +25,13 @@
     <string name="count_of_counter">Compte du compteur</string>
     <string name="delete_project">Supprimer le projet?</string>
     <string name="delete_counter">Vous êtes sûr de vouloir supprimer le compteur?</string>
-    <string name="problem_etat_nul">Delier le compteur du compteur principal pour diminuer</string>
+    <string name="problem_etat_nul">Délier le compteur du compteur principal pour continuer</string>
     <string name="counter_already">Vous avez déjà un compteur avec ce nom</string>
     <string name="project_already">Vous avez déjà un projet avec ce nom</string>
     <string name="modif">Vous avez modifié:</string>
     <string name="sure_to_modif">Voulez-vous enregistrer les modifications?</string>
     <string name="confirm">Confirmation</string>
-    <string name="max_condition">Le maximum doit être -1 ou plus que 1!</string>
+    <string name="max_condition">Le maximum doit être 0 ou plus!</string>
     <string name="warning">Attention</string>
     <string name="my_rules">Mes règles</string>
     <string name="my_comments">Mes commentaires</string>
@@ -82,7 +82,7 @@
     <string name="nothing_changed">Rien n\'a changé</string>
 
 
-    <string name="home">Acceuil</string>
+    <string name="home">Accueil</string>
     <string name="my_counters">Mes compteurs</string>
     <string name="counter">Compteur: </string>
     <string name="which_counter_rule">Lier cette règle avec le compteur</string>
@@ -108,7 +108,7 @@
 
     <!-- for the help fragment-->
     <string name="HelpTitle">Aide</string>
-    <string name="drop">Boutton drop</string>
+    <string name="drop">Bouton drop</string>
     <string name="help_general_title">Aide générale</string>
     <string name="help_general">Cette application a pour but the simplifier un projet de tricot. Vous pouvez créer un projet sur l\'écran d\'acceuil. Une fois que vous avez un projet, vous pouvez y ajouter des compteurs, des règles et des commentaires qui vont vous aider à gérer votre projet.</string>
     <string name="help_counter_title">Compteur</string>
@@ -126,9 +126,15 @@
     <string name="archives">Archives</string>
     <string name="archive_project">Archiver le projet?</string>
     <string name="unarchive_project">Restaurer le projet?</string>
-    <string name="state_not_valid">L\'état du compteur n\'es pas valide</string>
+    <string name="state_not_valid">L\'état du compteur n\'est pas valide</string>
     <string name="max_not_valid">Le maximum n\'est pas valide</string>
-    <string name="position_not_valid">La position du compteur n\'es pas valide</string>
-    <string name="previous" translatable="false">précédent</string>
+    <string name="position_not_valid">La position du compteur n\'est pas valide</string>
     <string name="next">suivant</string>
+    <string name="open_pdf">Ouvrir un PDF</string>
+    <string name="close_pdf">Fermer le PDF</string>
+    <string name="save_pdf">Sauver le PDF dans le projet</string>
+    <string name="row_number">RANG numéro</string>
+    <string name="message">MESSAGE:</string>
+    <string name="previous">précédent</string>
+    <string name="problem_with_pdf">Il y a eu un problème en essayant d\'ouvrir le pdf</string>
 </resources>
