@@ -62,10 +62,10 @@
     <string name="help_position">La position du compteur ne sert que à l\'affichage dans votre projet. 1 pour être le premier compteur et x pour être le xieme compteur.</string>
     <string name="help_attach">Si vous cochez cette case, le compteur va être lié au projet. Chaque fois que vous augmentez/diminuez ce compteur ou le projet, les deux changerons ensemble.</string>
     <string name="help_attached">Si vous choisissez un autre compteur ici, le compteur sélectionné va augmenter de 1 chaque fois que ce compteur ci, va boucler et revenir à 1.</string>
-    <string name="help_start">Si vous cochez cette case, la règle commencera à l\'état actuel du projet. Si vous ne la cochez pas, vous devez entrer un nombre juste en dessous pour dire à quel rand la règle doit commencer.</string>
+    <string name="help_start">Si vous cochez cette case, la règle commencera à l\'état actuel du projet. Si vous ne la cochez pas, vous devez entrer un nombre juste en dessous pour dire à quel rang la règle doit commencer.</string>
     <string name="help_step">Si vous cochez la case de l\'étape, elle sera une augmentation, sinon ce sera une diminution.</string>
     <string name="help_which_counter">La règle va être appliquée sur le compteur que vous indiquez ici. Si vous sélectionner "Le projet", la règle va porter sur le compteur principal.</string>
-    <string name="help_comment_rule">Le commentaire va êtra ajouté aux texte montré lorsque la règle va montrer un rappel.</string>
+    <string name="help_comment_rule">Le commentaire va êtra ajouté au texte qui s\'affiche lors du rappel.</string>
 
     <!-- Boutons -->
     <string name="add_project">Ajouter un projet</string>
@@ -110,7 +110,7 @@
     <string name="HelpTitle">Aide</string>
     <string name="drop">Bouton drop</string>
     <string name="help_general_title">Aide générale</string>
-    <string name="help_general">Cette application a pour but the simplifier un projet de tricot. Vous pouvez créer un projet sur l\'écran d\'acceuil. Une fois que vous avez un projet, vous pouvez y ajouter des compteurs, des règles et des commentaires qui vont vous aider à gérer votre projet.</string>
+    <string name="help_general">Cette application a pour but de simplifier un projet de tricot. Vous pouvez créer un projet sur l\'écran d\'acceuil. Une fois que vous avez un projet, vous pouvez y ajouter des compteurs, des règles et des commentaires qui vont vous aider à gérer votre projet.</string>
     <string name="help_counter_title">Compteur</string>
     <string name="help_counter">Chaque compteur a un nom unique par projet. Il a également un état qui représente le nombre de rangs que vous avez fait avec ce compteur.\n Vous pouvez indiquer un maximum au compteur afin que le compteur recommence à 1 une fois qu\'il a atteint ce maximum.\nIl y a également le nombre "tours" pour chaque compteur qui indique le nombre de fois que celui-ci a atteint le maximum.\nVous pouvez aussi modifier la position de votre compteur dans la liste des compteurs.\nPour chaque compteur, vous pouvez cocher la case "Lié au projet". Celà va avoir pour effet de ajouter (ou enlever) 1 au compteur chaque fois que vous ajoutez (ou enlevez) 1 au projet.\nMaintenant, il reste encore un choix possible, vous pouvez attacher un compteur à un autre compteur. Faites attention, celà n\'a pas le même effet que d\'attacher un compteur au projet. Dans ce cas ci, si le compteur1 est attaché au compteur2, chaque fois que le compteur2 atteint son maximum et recommence à 1, le compteur 1 va augmenter de 1. C\'est donc une manière pour compteur le nombre de tours que va faire un compteur.</string>
     <string name="help_comment_title">Commentaire</string>

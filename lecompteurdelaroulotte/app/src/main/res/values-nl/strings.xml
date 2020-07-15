@@ -56,16 +56,16 @@
 
     <!-- help -->
     <string name="info">Info</string>
-    <string name="more_info_step"></string>
-    <string name="help_max"></string>
-    <string name="help_tours"></string>
-    <string name="help_position"></string>
-    <string name="help_attach"></string>
-    <string name="help_attached"></string>
-    <string name="help_start"></string>
-    <string name="help_step"></string>
-    <string name="help_which_counter"></string>
-    <string name="help_comment_rule"></string>
+    <string name="more_info_step">Klik op de beeld voor meer informatie</string>
+    <string name="help_max">Als u de teller wil inlichten dan kan u een maximaal zetten. Na het bereiken van het maximaal zal de teller terug naar 1 komen. Als u geen maximaal wil, moet u 0 schrijven.</string>
+    <string name="help_tours">"Het aantal omwentelingen is het aantal keren dat de teller terug naar 1 is gekomen als u bovenaan een maximaal heeft bepaald. "</string>
+    <string name="help_position">"De positie van de teller wordt alleen gebruikt voor de beeldschem in uw project. Klik 1 om in de eerste teller te zijn en klik x om in de xste teller te zijn.  "</string>
+    <string name="help_attach">Als u deze doos aanvinkt, zal de teller aan het project verbonden zijn. Elke keer dat u deze teller of het project verhoogt of vermindert, veranderen beiden samen.</string>
+    <string name="help_attached">"Als u een andere teller hier kiezen, zal de geselecteerd teller van 1 verhogen elke keer dat deze teller zal afronden en naar 1 zal terugkomen. "</string>
+    <string name="help_start">"Als u deze doos aanvinkt, zal de regel met de huidige staat van het project beginnen. Als u het niet aanvinkt, moet u een nummer inschrijven onderaan om te melden met welke nld de regel moet beginnen.  "</string>
+    <string name="help_step">Als u de doos van de stap aanvinkt, zal de stap een verhoging, anders zal het een vermindering zijn.</string>
+    <string name="help_which_counter">"De regem zal worden toegepast op de teller dat u hier aangeven. "</string>
+    <string name="help_comment_rule">"De commentaar zal worden toegevoegd aan de tekst die tijdens de herinnering wordt weergegeven "</string>
 
     <!-- Boutons -->
     <string name="add_project">Een project toevoegen</string>
@@ -109,7 +109,7 @@
     <string name="HelpTitle">Hulp</string>
     <string name="drop">Drop knop</string>
     <string name="help_general_title">Algemene hulp</string>
-    <string name="help_general"></string>
+    <string name="help_general">Deze applicatie heeft als doel een breiproject te vergemakkelijken. U kan een project scheppen op het centrascherm. Eens het project begonnen, kan u er tellers, regels en commentaren aan toevoegen die u zullen helpen om uw project te beheren.</string>
     <string name="help_counter_title">Teller</string>
     <string name="help_counter"></string>
     <string name="help_comment_title">Opmerking</string>
