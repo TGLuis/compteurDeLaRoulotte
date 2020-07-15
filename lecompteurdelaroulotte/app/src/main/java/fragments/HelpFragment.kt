@@ -1,9 +1,7 @@
 package fragments
 
-import android.support.constraint.ConstraintLayout
 import android.os.Bundle
-import android.support.v4.app.Fragment
-import android.util.Log
+import android.support.constraint.ConstraintLayout
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,8 +12,7 @@ import lufra.lecompteurdelaroulotte.MainActivity
 import lufra.lecompteurdelaroulotte.R
 
 
-
-class HelpFragment: MyFragment() {
+class HelpFragment : MyFragment() {
     private lateinit var context: MainActivity
 
     private lateinit var IB_general: ImageButton
@@ -51,25 +48,25 @@ class HelpFragment: MyFragment() {
         context.findViewById<ConstraintLayout>(R.id.help_general)
                 .viewTreeObserver
                 .addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
-            override fun onGlobalLayout() {
-                TV_general.viewTreeObserver.removeOnGlobalLayoutListener(this)
-                TV_counter.viewTreeObserver.removeOnGlobalLayoutListener(this)
-                TV_comment.viewTreeObserver.removeOnGlobalLayoutListener(this)
-                TV_rule.viewTreeObserver.removeOnGlobalLayoutListener(this)
-                height_general = TV_general.height
-                height_counter = TV_counter.height
-                height_comment = TV_comment.height
-                height_rule = TV_rule.height
-                TV_general.height = 0
-                TV_counter.height = 0
-                TV_comment.height = 0
-                TV_rule.height = 0
-                TV_general.text = ""
-                TV_counter.text = ""
-                TV_comment.text = ""
-                TV_rule.text = ""
-            }
-        })
+                    override fun onGlobalLayout() {
+                        TV_general.viewTreeObserver.removeOnGlobalLayoutListener(this)
+                        TV_counter.viewTreeObserver.removeOnGlobalLayoutListener(this)
+                        TV_comment.viewTreeObserver.removeOnGlobalLayoutListener(this)
+                        TV_rule.viewTreeObserver.removeOnGlobalLayoutListener(this)
+                        height_general = TV_general.height
+                        height_counter = TV_counter.height
+                        height_comment = TV_comment.height
+                        height_rule = TV_rule.height
+                        TV_general.height = 0
+                        TV_counter.height = 0
+                        TV_comment.height = 0
+                        TV_rule.height = 0
+                        TV_general.text = ""
+                        TV_counter.text = ""
+                        TV_comment.text = ""
+                        TV_rule.text = ""
+                    }
+                })
 
         TV_general = context.findViewById(R.id.help_general_text)
         TV_counter = context.findViewById(R.id.help_counter_text)
@@ -78,7 +75,7 @@ class HelpFragment: MyFragment() {
 
         IB_general = context.findViewById(R.id.help_general_drop)
         IB_general.setOnClickListener {
-            if(gen_drop){
+            if (gen_drop) {
                 TV_general.text = ""
                 TV_general.height = 0
                 IB_general.setImageResource(R.drawable.drop_down)
@@ -92,7 +89,7 @@ class HelpFragment: MyFragment() {
 
         IB_counter = context.findViewById(R.id.help_counter_drop)
         IB_counter.setOnClickListener {
-            if(con_drop){
+            if (con_drop) {
                 TV_counter.height = 0
                 TV_counter.text = ""
                 IB_counter.setImageResource(R.drawable.drop_down)
@@ -106,7 +103,7 @@ class HelpFragment: MyFragment() {
 
         IB_comment = context.findViewById(R.id.help_comment_drop)
         IB_comment.setOnClickListener {
-            if(com_drop){
+            if (com_drop) {
                 TV_comment.height = 0
                 TV_comment.text = ""
                 IB_comment.setImageResource(R.drawable.drop_down)
@@ -118,9 +115,9 @@ class HelpFragment: MyFragment() {
             com_drop = !com_drop
         }
 
-        IB_rule    = context.findViewById(R.id.help_rule_drop)
+        IB_rule = context.findViewById(R.id.help_rule_drop)
         IB_rule.setOnClickListener {
-            if(rul_drop){
+            if (rul_drop) {
                 TV_rule.height = 0
                 TV_rule.text = ""
                 IB_rule.setImageResource(R.drawable.drop_down)

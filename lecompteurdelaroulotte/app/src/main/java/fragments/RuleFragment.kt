@@ -1,7 +1,6 @@
 package fragments
 
 import android.content.Context
-import android.support.v4.app.Fragment
 import android.os.Bundle
 import android.support.v7.app.AlertDialog
 import android.text.Editable
@@ -14,10 +13,9 @@ import library.Rule
 import library.Step
 import lufra.lecompteurdelaroulotte.MainActivity
 import lufra.lecompteurdelaroulotte.R
-import java.lang.Exception
-import java.util.ArrayList
+import java.util.*
 
-class RuleFragment: MyFragment(){
+class RuleFragment : MyFragment() {
     private lateinit var context: MainActivity
     private var rule: Rule? = null
     private var add: Boolean = true
@@ -41,15 +39,24 @@ class RuleFragment: MyFragment(){
 
     private lateinit var adapteur: StepsAdapter
 
-    inner class CustomWatcher(private var st: Step, private var i: Int) : TextWatcher{
+    inner class CustomWatcher(private var st: Step, private var i: Int) : TextWatcher {
 
         override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
         override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
         override fun afterTextChanged(s: Editable?) {
-            when(i){
-                1 -> try {st.one =   s.toString().toInt()} catch(e: NumberFormatException){}
-                2 -> try {st.two =   s.toString().toInt()} catch(e: NumberFormatException){}
-                3 -> try {st.three = s.toString().toInt()} catch(e: NumberFormatException){}
+            when (i) {
+                1 -> try {
+                    st.one = s.toString().toInt()
+                } catch (e: NumberFormatException) {
+                }
+                2 -> try {
+                    st.two = s.toString().toInt()
+                } catch (e: NumberFormatException) {
+                }
+                3 -> try {
+                    st.three = s.toString().toInt()
+                } catch (e: NumberFormatException) {
+                }
             }
         }
     }
@@ -57,40 +64,41 @@ class RuleFragment: MyFragment(){
     inner class StepsAdapter(context: Context, list: ArrayList<Step>) : ArrayAdapter<Step>(context, 0, list) {
         override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
             val step = super.getItem(position)
-            val projectView: View = convertView ?: LayoutInflater.from(context).inflate(R.layout.list_step_item, parent, false)
+            val projectView: View = convertView
+                    ?: LayoutInflater.from(context).inflate(R.layout.list_step_item, parent, false)
 
             val a = projectView.findViewById<EditText>(R.id.enter_fois)
-            a.hint = step.one.toString()
-            a.addTextChangedListener(CustomWatcher(step,1))
+            a.hint = step!!.one.toString()
+            a.addTextChangedListener(CustomWatcher(step, 1))
             val b = projectView.findViewById<EditText>(R.id.enter_rows)
             b.hint = step.two.toString()
-            b.addTextChangedListener(CustomWatcher(step,2))
+            b.addTextChangedListener(CustomWatcher(step, 2))
             val c = projectView.findViewById<EditText>(R.id.enter_stitches)
             c.hint = step.three.toString()
-            c.addTextChangedListener(CustomWatcher(step,3))
+            c.addTextChangedListener(CustomWatcher(step, 3))
 
             val augment = projectView.findViewById<CheckBox>(R.id.augm_check)
             augment.isChecked = step.augm
-            augment.setOnCheckedChangeListener{ _: CompoundButton, b: Boolean ->
-                step.augm = b
+            augment.setOnCheckedChangeListener { _: CompoundButton, aug: Boolean ->
+                step.augm = aug
             }
 
             val IB_del = projectView.findViewById<ImageButton>(R.id.delete_image)
 
-            if(step == steps[0]){
+            if (step == steps[0]) {
                 val tv = projectView.findViewById<TextView>(R.id.andthen)
                 tv.text = ""
 
                 IB_del.alpha = 0F
-            }else{
+            } else {
                 IB_del.setOnClickListener {
                     val dial = AlertDialog.Builder(context)
                     dial.setTitle(R.string.confirm)
                             .setMessage(R.string.delete_step)
                             .setPositiveButton(R.string.yes) { dialog, _ ->
-                                if (add){
+                                if (add) {
                                     rule!!.steps.remove(step)
-                                }else{
+                                } else {
                                     (context as MainActivity).deleteStepOfRule(rule!!, step)
                                 }
                                 adapteur = StepsAdapter(context, steps)
@@ -100,9 +108,12 @@ class RuleFragment: MyFragment(){
                             .setNegativeButton(R.string.cancel) { dialog, _ ->
                                 dialog.dismiss()
                             }
-                    try{
+                    try {
                         dial.create()
-                    }catch (e: Exception){} finally { dial.show() }
+                    } catch (e: Exception) {
+                    } finally {
+                        dial.show()
+                    }
                 }
             }
 
@@ -141,15 +152,15 @@ class RuleFragment: MyFragment(){
         }
 
         S_counters = context.findViewById(R.id.the_counter)
-        val arr = ArrayList<String>(context.actualProject!!.getCounters().size+1)
+        val arr = ArrayList<String>(context.actualProject!!.getCounters().size + 1)
         val the_proj = context.getString(R.string.the_project)
         arr.add(the_proj)
-        context.actualProject!!.getCounters().forEach {arr.add(it.name)}
+        context.actualProject!!.getCounters().forEach { arr.add(it.name) }
         selectedItem = the_proj
         if (!add) {
             selectedItem = rule!!.counter
         }
-        val adaptor = ArrayAdapter(context, R.layout.support_simple_spinner_dropdown_item, arr.toArray())
+        val adaptor = ArrayAdapter(context, R.layout.support_simple_spinner_dropdown_item, arr.toArray()!!)
         adaptor.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item)
         S_counters.adapter = adaptor
         S_counters.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
@@ -162,12 +173,12 @@ class RuleFragment: MyFragment(){
             }
         }
         if (!add) {
-            val temp_selected = if(rule!!.counter == "") the_proj else rule!!.counter
+            val temp_selected = if (rule!!.counter == "") the_proj else rule!!.counter
             S_counters.setSelection(adaptor.getPosition(temp_selected))
         }
 
         ET_comment = context.findViewById(R.id.the_comment)
-        if(!add){
+        if (!add) {
             ET_comment.setText(rule!!.comment)
         }
 
@@ -192,11 +203,11 @@ class RuleFragment: MyFragment(){
         }
 
         steps = if (add) {
-                    ArrayList()
-                } else {
-                    rule!!.steps
-                }
-        if(add){
+            ArrayList()
+        } else {
+            rule!!.steps
+        }
+        if (add) {
             steps.add(Step(true, 1, 1, 1))
         }
         rule!!.steps = steps
@@ -225,14 +236,14 @@ class RuleFragment: MyFragment(){
             }
             rule!!.start = start
             rule!!.comment = ET_comment.text.toString()
-            val prem = if(add) context.getString(R.string.pre_rule) else context.getString(R.string.pre_rule_modif)
+            val prem = if (add) context.getString(R.string.pre_rule) else context.getString(R.string.pre_rule_modif)
             val mess = rule!!.getString(context)
             val dial = AlertDialog.Builder(context)
             dial.setTitle(R.string.confirm)
                     .setPositiveButton(R.string.save) { dialog, _ ->
-                        if (add){
+                        if (add) {
                             context.addRuleToProject(rule!!)
-                        }else{
+                        } else {
                             context.updateRule(context.actualRule!!, rule!!)
                         }
                         context.onBackPressed()

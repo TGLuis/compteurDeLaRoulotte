@@ -1,7 +1,6 @@
 package fragments
 
 import android.os.Bundle
-import android.support.v4.app.Fragment
 import android.support.v7.app.AlertDialog
 import android.view.LayoutInflater
 import android.view.View
@@ -10,10 +9,8 @@ import android.widget.*
 import library.Counter
 import lufra.lecompteurdelaroulotte.MainActivity
 import lufra.lecompteurdelaroulotte.R
-import java.lang.Exception
-import java.lang.NumberFormatException
 
-class CounterFragment: MyFragment() {
+class CounterFragment : MyFragment() {
     private lateinit var context: MainActivity
     private lateinit var counter: Counter
 
@@ -62,11 +59,11 @@ class CounterFragment: MyFragment() {
         ET_state.setText(counter.etat.toString())
 
         TV_tours = context.findViewById(R.id.counter_tours)
-        val tours= if(max==0) 0 else counter.etat/max
+        val tours = if (max == 0) 0 else counter.etat / max
         TV_tours.text = tours.toString()
 
         ET_position = context.findViewById(R.id.counter_position)
-        ET_position.setText((counter.order+1).toString())
+        ET_position.setText((counter.order + 1).toString())
 
         CB_attach = context.findViewById(R.id.counter_attach)
         CB_attach.isChecked = counter.attachedMain
@@ -76,10 +73,10 @@ class CounterFragment: MyFragment() {
         val arr = ArrayList<String>(context.actualProject!!.getCounters().size)
         arr.add(context.getString(R.string.none))
         context.actualProject!!.getCounters().forEach {
-            if(it != counter)
+            if (it != counter)
                 arr.add(it.name)
         }
-        val adapteur = ArrayAdapter(context, R.layout.support_simple_spinner_dropdown_item, arr.toArray())
+        val adapteur = ArrayAdapter(context, R.layout.support_simple_spinner_dropdown_item, arr.toArray()!!)
         adapteur.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item)
         S_attached.adapter = adapteur
         S_attached.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
@@ -88,32 +85,32 @@ class CounterFragment: MyFragment() {
                 selectedItem = arr[p2]
             }
         }
-        if(counter.counterAttached != null){
+        if (counter.counterAttached != null) {
             S_attached.setSelection(adapteur.getPosition(counter.counterAttached!!.name))
         }
 
         B_save = context.findViewById(R.id.save)
         B_save.setOnClickListener {
             val temp_name = ET_name.text.toString()
-            var temp_etat = 0
-            var temp_max = 0
-            var temp_pos = 0
+            val temp_etat: Int
+            val temp_max: Int
+            var temp_pos: Int
             try {
                 temp_etat = ET_state.text.toString().toInt()
             } catch (e: NumberFormatException) {
-                Toast.makeText(context,R.string.state_not_valid, Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, R.string.state_not_valid, Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
             try {
                 temp_max = ET_max.text.toString().toInt()
             } catch (e: NumberFormatException) {
-                Toast.makeText(context,R.string.max_not_valid, Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, R.string.max_not_valid, Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
             try {
-                temp_pos = ET_position.text.toString().toInt()-1
+                temp_pos = ET_position.text.toString().toInt() - 1
             } catch (e: NumberFormatException) {
-                Toast.makeText(context,R.string.position_not_valid, Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, R.string.position_not_valid, Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
             val temp_attach = CB_attach.isChecked
@@ -142,7 +139,7 @@ class CounterFragment: MyFragment() {
                 str += "- " + context.getString(R.string.counter_attach_main) + "\n"
             }
             val order_changed = temp_pos != counter.order
-            if(order_changed){
+            if (order_changed) {
                 changes++
                 str += "- " + context.getString(R.string.counter_position)
             }
@@ -156,10 +153,10 @@ class CounterFragment: MyFragment() {
             str += "\n" + context.getString(R.string.sure_to_modif)
             if (name_changed && context.actualProject!!.getCounter(temp_name) != null) {
                 ET_name.error = context.getString(R.string.counter_already)
-            } else if (temp_max<0){
+            } else if (temp_max < 0) {
                 ET_max.error = context.getString(R.string.max_condition)
-            }else{
-                if(changes > 0) {
+            } else {
+                if (changes > 0) {
                     val confirm = AlertDialog.Builder(context)
                     confirm.setTitle(context.getString(R.string.confirm))
                             .setMessage(str)
@@ -172,23 +169,23 @@ class CounterFragment: MyFragment() {
                                 if (max_changed) counter.max = temp_max
                                 if (attach_changed) {
                                     counter.attachedMain = temp_attach
-                                    if (counter.attachedMain){
+                                    if (counter.attachedMain) {
                                         context.actualProject!!.attach(counter)
-                                    }else {
+                                    } else {
                                         context.actualProject!!.detach(counter)
                                     }
                                 }
                                 if (order_changed) {
-                                    if (temp_pos < counter.order){
+                                    if (temp_pos < counter.order) {
                                         if (temp_pos < 0) temp_pos = 0
-                                        for(i in temp_pos until counter.order){
+                                        for (i in temp_pos until counter.order) {
                                             context.actualProject!!.myCounters[i].order++
                                         }
-                                    }else{
+                                    } else {
                                         if (temp_pos >= context.actualProject!!.myCounters.size) {
-                                            temp_pos = context.actualProject!!.myCounters.size-1
+                                            temp_pos = context.actualProject!!.myCounters.size - 1
                                         }
-                                        for(i in counter.order+1..temp_pos){
+                                        for (i in counter.order + 1..temp_pos) {
                                             context.actualProject!!.myCounters[i].order--
                                         }
                                     }
@@ -211,7 +208,7 @@ class CounterFragment: MyFragment() {
                             .create()
                             .show()
                 } else {
-                    Toast.makeText(context,R.string.nothing_changed, Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, R.string.nothing_changed, Toast.LENGTH_SHORT).show()
                 }
             }
         }
@@ -226,12 +223,12 @@ class CounterFragment: MyFragment() {
             val confirm = AlertDialog.Builder(context)
             confirm.setTitle(R.string.confirm)
                     .setMessage(R.string.delete_counter)
-                    .setPositiveButton(R.string.yes){ dialog, _ ->
+                    .setPositiveButton(R.string.yes) { dialog, _ ->
                         context.deleteCounter(context.actualCounter!!)
                         context.onBackPressed()
                         dialog.dismiss()
                     }
-                    .setNegativeButton(R.string.cancel){ dialog, _ ->
+                    .setNegativeButton(R.string.cancel) { dialog, _ ->
                         dialog.dismiss()
                     }
                     .setCancelable(false)

@@ -35,7 +35,7 @@ class ProjectFragment : MyFragment() {
     private lateinit var mpMoins: MediaPlayer
     private lateinit var pdfView: PDFView
     lateinit var adapteur: CounterAdapter
-    var previous_message: String? = null
+    private var previousMessage: String? = null
 
     inner class Tuple(t: TextView, c: Counter) {
         var t: TextView? = t
@@ -71,14 +71,14 @@ class ProjectFragment : MyFragment() {
 
             val buttonM = projectView.findViewById<Button>(R.id.button_minus)
             buttonM.setOnClickListener {
-                if ((context as MainActivity).volume_on)
+                if ((context as MainActivity).volumeOn)
                     mpMoins.start()
                 up(false, count)
             }
 
             val buttonP = projectView.findViewById<Button>(R.id.button_plus)
             buttonP.setOnClickListener {
-                if ((context as MainActivity).volume_on)
+                if ((context as MainActivity).volumeOn)
                     mpPlus.start()
                 up(true, count)
             }
@@ -155,7 +155,7 @@ class ProjectFragment : MyFragment() {
         buttonMinus = context.findViewById(R.id.button_minus)
         buttonMinus.setOnClickListener {
             if (project.etat > 0) {
-                if (context.volume_on)
+                if (context.volumeOn)
                     mpMoins.start()
                 up(false)
             }
@@ -163,7 +163,7 @@ class ProjectFragment : MyFragment() {
 
         buttonPlus = context.findViewById(R.id.button_plus)
         buttonPlus.setOnClickListener {
-            if (context.volume_on)
+            if (context.volumeOn)
                 mpPlus.start()
             up(true)
         }
@@ -218,18 +218,18 @@ class ProjectFragment : MyFragment() {
             warn(mess)
             comment.text = mess
         } else if (mess != null) {
-            if (previous_message == null) {
+            if (previousMessage == null) {
                 warn(mess)
             } else {
                 /* Find what's different from last message to only warn the new part */
                 var completeMess = ""
                 val otherMess = project.getMessageForMain()
-                if (otherMess != null && !previous_message!!.contains(otherMess)) {
+                if (otherMess != null && !previousMessage!!.contains(otherMess)) {
                     completeMess += otherMess
                 }
                 counters.forEach {
                     val messC = project.getMessageForCounter(it, true)
-                    if (messC != null && !previous_message!!.contains(messC)) {
+                    if (messC != null && !previousMessage!!.contains(messC)) {
                         completeMess += messC
                     }
                 }
@@ -239,7 +239,7 @@ class ProjectFragment : MyFragment() {
         } else {
             comment.text = ""
         }
-        previous_message = mess
+        previousMessage = mess
     }
 
     /**

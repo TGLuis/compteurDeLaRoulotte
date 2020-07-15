@@ -16,7 +16,6 @@ import android.widget.ArrayAdapter
 import android.widget.Spinner
 import android.widget.Toast
 import fragments.*
-import io.fabric.sdk.android.Fabric
 import kotlinx.android.synthetic.main.simple_text_and_box_input.view.*
 import kotlinx.android.synthetic.main.simple_text_input.view.input_text
 import library.*
@@ -33,10 +32,10 @@ class MainActivity : AppCompatActivity() {
     var seeWhat: String = "Comments"
     var pdfIsOpen: Boolean = true
 
-    var screen_on: Boolean = false
-    var volume_on: Boolean = true
+    var screenOn: Boolean = false
+    var volumeOn: Boolean = true
 
-    lateinit var frags: Stack<MyFragment>
+    private lateinit var frags: Stack<MyFragment>
     private lateinit var toolbar: Toolbar
     private lateinit var navView: NavigationView
     private lateinit var drawerLayout: DrawerLayout
@@ -55,9 +54,9 @@ class MainActivity : AppCompatActivity() {
 
         // properties
         Helper.init(this)
-        screen_on = Helper.getConfigValue("screen_on") == true.toString()
-        volume_on = Helper.getConfigValue("volume_on") == true.toString()
-        if (screen_on) {
+        screenOn = Helper.getConfigValue("screen_on") == true.toString()
+        volumeOn = Helper.getConfigValue("volume_on") == true.toString()
+        if (screenOn) {
             // maintain screen open during activity
             window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
         } else {
@@ -408,14 +407,18 @@ class MainActivity : AppCompatActivity() {
      * override of the activity functions
      */
     override fun onBackPressed() {
-        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
-            drawerLayout.closeDrawer(GravityCompat.START)
-        } else if (frags.size >= 2) {
-            frags.pop()
-            openFragment(frags.peek(), true)
-        } else {
-            saveState()
-            super.onBackPressed()
+        when {
+            drawerLayout.isDrawerOpen(GravityCompat.START) -> {
+                drawerLayout.closeDrawer(GravityCompat.START)
+            }
+            frags.size >= 2 -> {
+                frags.pop()
+                openFragment(frags.peek(), true)
+            }
+            else -> {
+                saveState()
+                super.onBackPressed()
+            }
         }
     }
 
@@ -438,29 +441,28 @@ class MainActivity : AppCompatActivity() {
      * Some more functions
      */
     private fun saveState() {
-        if (!projectsList.isEmpty()) {
+        if (projectsList.isNotEmpty()) {
             projectsList.forEach { thisit ->
-                val proj = thisit
-                db.updateProjectDB(proj)
-                val counters = proj.getCounters()
-                if (!counters.isEmpty()) {
+                db.updateProjectDB(thisit)
+                val counters = thisit.getCounters()
+                if (counters.isNotEmpty()) {
                     counters.forEach {
-                        db.updateCounterDB(proj, it.name, it.etat, it.max, it.order, it.attachedMain, it.counterAttached)
+                        db.updateCounterDB(thisit, it.name, it.etat, it.max, it.order, it.attachedMain, it.counterAttached)
                     }
                 }
                 // fix disparition of some rules and comments by force save..
-                val rules = proj.myRules
-                if (!rules.isEmpty()) {
+                val rules = thisit.myRules
+                if (rules.isNotEmpty()) {
                     rules.forEach {
-                        if (!db.isRuleInDB(proj, it))
-                            db.addRuleDB(proj, it)
+                        if (!db.isRuleInDB(thisit, it))
+                            db.addRuleDB(thisit, it)
                     }
                 }
-                val comments = proj.myComments
-                if (!comments.isEmpty()) {
+                val comments = thisit.myComments
+                if (comments.isNotEmpty()) {
                     comments.forEach {
-                        if (!db.isCommentInDB(proj, it))
-                            db.addCommentDB(proj, it)
+                        if (!db.isCommentInDB(thisit, it))
+                            db.addCommentDB(thisit, it)
                     }
                 }
             }

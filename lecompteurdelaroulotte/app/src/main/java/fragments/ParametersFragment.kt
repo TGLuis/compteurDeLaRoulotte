@@ -1,7 +1,6 @@
 package fragments
 
 import android.os.Bundle
-import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,7 +11,7 @@ import lufra.lecompteurdelaroulotte.MainActivity
 import lufra.lecompteurdelaroulotte.R
 
 
-class ParametersFragment: MyFragment() {
+class ParametersFragment : MyFragment() {
     private lateinit var context: MainActivity
 
     private lateinit var CB_screen_on: CheckBox
@@ -34,21 +33,21 @@ class ParametersFragment: MyFragment() {
         B_save = context.findViewById(R.id.button_save)
         B_cancel = context.findViewById(R.id.button_cancel)
 
-        CB_volume_on.isChecked = context.volume_on
-        CB_screen_on.isChecked = context.screen_on
+        CB_volume_on.isChecked = context.volumeOn
+        CB_screen_on.isChecked = context.screenOn
 
         B_cancel.setOnClickListener {
             context.onBackPressed()
         }
         B_save.setOnClickListener {
             var restart = false
-            if(context.screen_on != CB_screen_on.isChecked  ||
-                    CB_volume_on.isChecked != context.volume_on)
+            if (context.screenOn != CB_screen_on.isChecked ||
+                    CB_volume_on.isChecked != context.volumeOn)
                 restart = true
-            context.volume_on = CB_volume_on.isChecked
-            context.screen_on = CB_screen_on.isChecked
+            context.volumeOn = CB_volume_on.isChecked
+            context.screenOn = CB_screen_on.isChecked
             Helper.saveProperties()
-            if (restart){
+            if (restart) {
                 context.recreate()
             } else {
                 context.onBackPressed()

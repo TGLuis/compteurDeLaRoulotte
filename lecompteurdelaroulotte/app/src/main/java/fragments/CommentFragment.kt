@@ -1,10 +1,7 @@
 package fragments
 
 import android.os.Bundle
-import android.support.v4.app.Fragment
 import android.support.v7.app.AlertDialog
-import android.text.Editable
-import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,10 +9,9 @@ import android.widget.*
 import library.Comment
 import lufra.lecompteurdelaroulotte.MainActivity
 import lufra.lecompteurdelaroulotte.R
-import java.lang.Exception
-import java.util.ArrayList
+import java.util.*
 
-class CommentFragment: MyFragment() {
+class CommentFragment : MyFragment() {
     private lateinit var context: MainActivity
     private var comment: Comment? = null
     private var add: Boolean = true
@@ -59,21 +55,21 @@ class CommentFragment: MyFragment() {
 
         ET_end_line = context.findViewById(R.id.line_end)
         //ET_end_line.addTextChangedListener(CustomWatcher())
-        if(!add){
+        if (!add) {
             ET_end_line.setText(comment!!.end.toString())
             ET_start_line.setText(comment!!.start.toString())
         }
 
         S_counters = context.findViewById(R.id.the_counter)
-        val arr = ArrayList<String>(context.actualProject!!.getCounters().size+1)
+        val arr = ArrayList<String>(context.actualProject!!.getCounters().size + 1)
         val the_proj = context.getString(R.string.the_project)
         arr.add(the_proj)
-        context.actualProject!!.getCounters().forEach {arr.add(it.name)}
+        context.actualProject!!.getCounters().forEach { arr.add(it.name) }
         selectedItem = the_proj
         if (!add) {
             selectedItem = comment!!.counter
         }
-        val adaptor = ArrayAdapter(context, R.layout.support_simple_spinner_dropdown_item, arr.toArray())
+        val adaptor = ArrayAdapter(context, R.layout.support_simple_spinner_dropdown_item, arr.toArray()!!)
         adaptor.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item)
         S_counters.adapter = adaptor
         S_counters.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
@@ -86,7 +82,7 @@ class CommentFragment: MyFragment() {
             }
         }
         if (!add) {
-            val temp_selected = if(comment!!.counter == "") the_proj else comment!!.counter
+            val temp_selected = if (comment!!.counter == "") the_proj else comment!!.counter
             S_counters.setSelection(adaptor.getPosition(temp_selected))
         }
 
@@ -102,8 +98,16 @@ class CommentFragment: MyFragment() {
 
         B_save = context.findViewById(R.id.button_save)
         B_save.setOnClickListener {
-            val start = try { ET_start_line.text.toString().toInt() } catch (e: NumberFormatException) { 0 }
-            val end = try { ET_end_line.text.toString().toInt() } catch (e: NumberFormatException) { 0 }
+            val start = try {
+                ET_start_line.text.toString().toInt()
+            } catch (e: NumberFormatException) {
+                0
+            }
+            val end = try {
+                ET_end_line.text.toString().toInt()
+            } catch (e: NumberFormatException) {
+                0
+            }
             comment!!.start = start
             if (start > end) {
                 comment!!.end = start
@@ -112,16 +116,16 @@ class CommentFragment: MyFragment() {
                 comment!!.end = end
             }
             comment!!.comment = ET_mess.text.toString()
-            val prem = if(add) context.getString(R.string.pre_rule) else context.getString(R.string.pre_rule_modif)
+            val prem = if (add) context.getString(R.string.pre_rule) else context.getString(R.string.pre_rule_modif)
             val mess = ET_mess.text.toString()
             val to_display = prem + "\n" + context.getString(R.string.from_row) + " " + start.toString() + " " +
                     context.getString(R.string.to_row) + " " + end.toString() + "\n" + mess
             val dial = AlertDialog.Builder(context)
             dial.setTitle(R.string.confirm)
                     .setPositiveButton(R.string.save) { dialog, _ ->
-                        if (add){
+                        if (add) {
                             context.addCommentToProject(comment!!)
-                        }else{
+                        } else {
                             context.updateComment(context.actualComment!!, comment!!)
                             context.actualProject!!.constructRappel()
                         }

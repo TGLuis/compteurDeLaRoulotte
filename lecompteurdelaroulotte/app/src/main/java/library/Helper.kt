@@ -11,11 +11,11 @@ import java.io.IOException
 import java.util.Properties
 
 object Helper {
-    private val TAG = "==== HELPER ===="
+    private const val TAG = "==== HELPER ===="
     lateinit var context: MainActivity
-    lateinit var resources: Resources
-    lateinit var properties: Properties
-    lateinit var f: File
+    private lateinit var resources: Resources
+    private lateinit var properties: Properties
+    private lateinit var f: File
 
     fun init(c: Context) {
         context = c as MainActivity
@@ -52,7 +52,7 @@ object Helper {
     }
 
     fun saveProperties() {
-        setConfigValue("screen_on", context.screen_on.toString())
-        setConfigValue("volume_on", context.volume_on.toString())
+        setConfigValue("screen_on", context.screenOn.toString())
+        setConfigValue("volume_on", context.volumeOn.toString())
     }
 }

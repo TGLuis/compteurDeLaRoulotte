@@ -37,10 +37,8 @@ class Project(var context: MainActivity, var name: String) {
 
         override fun toString(): String {
             var s = ""
-            if (c == null)
-                s += " " + context.getString(R.string.on_main) + " "
-            else
-                s += " " + context.getString(R.string.on_counter) + " = " + c!!.name
+            s += if (c == null) " " + context.getString(R.string.on_main) + " "
+                 else           " " + context.getString(R.string.on_counter) + " = " + c!!.name
             s += " " + context.getString(R.string.row_number) + "  " + x.toString() + " " + context.getString(R.string.message) + " " + this.s
             return s
         }

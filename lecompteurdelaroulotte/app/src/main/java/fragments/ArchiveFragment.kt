@@ -16,7 +16,7 @@ import java.lang.Exception
 
 class ArchiveFragment: MyFragment() {
     private lateinit var context: MainActivity
-    lateinit var adapteur:ProjectAdapter
+    private lateinit var adapteur:ProjectAdapter
 
     private lateinit var listViewProj: ListView
     private lateinit var addProj: AlertDialog.Builder
