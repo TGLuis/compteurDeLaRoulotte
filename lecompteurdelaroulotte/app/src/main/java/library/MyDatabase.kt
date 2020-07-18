@@ -61,7 +61,7 @@ class MyDatabase(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, nu
         this.onCreate(db)
     }
 
-    private fun deleteDb(db: SQLiteDatabase) {
+    fun deleteDb(db: SQLiteDatabase) {
         db.execSQL("DROP TABLE IF EXISTS '$DATABASE_NAME';")
     }
 

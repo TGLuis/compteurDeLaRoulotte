@@ -148,4 +148,7 @@
     <string name="row_number">ROW number</string>
     <string name="message">MESSAGE:</string>
     <string name="problem_with_pdf">There was a problem while trying to open the pdf</string>
+    <string name="open_new_pdf">Open a new PDF</string>
+    <string name="hide_pdf">Hide PDF</string>
+    <string name="show_pdf">Show PDF</string>
 </resources>

@@ -13,6 +13,7 @@ import library.Counter
 import library.Project
 import lufra.lecompteurdelaroulotte.MainActivity
 import lufra.lecompteurdelaroulotte.R
+import java.lang.Math.abs
 import java.util.*
 
 
@@ -36,6 +37,7 @@ class ProjectFragment : MyFragment() {
     private lateinit var pdfView: PDFView
     lateinit var adapteur: CounterAdapter
     private var previousMessage: String? = null
+    private var PDFHeight: Int = 0
 
     inner class Tuple(t: TextView, c: Counter) {
         var t: TextView? = t
@@ -266,7 +268,12 @@ class ProjectFragment : MyFragment() {
                         pdfView.layoutParams.height = 0
                     } else {
                         pdfView.visibility = View.VISIBLE
-                        pdfView.layoutParams.height = (view.height + pdfView.height)*2/3
+                        if (PDFHeight == 0) {
+                            if (abs(pdfView.layoutParams.height - (view.height + pdfView.height) * 2 / 3) < 2) {
+                                PDFHeight = pdfView.layoutParams.height
+                            }
+                            pdfView.layoutParams.height = (view.height + pdfView.height) * 2 / 3
+                        }
                         p.setMargins(5, mainCounterLayout.height + 2, 5, pdfView.height)
                     }
                     view.layoutParams = p

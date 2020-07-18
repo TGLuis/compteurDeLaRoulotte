@@ -137,4 +137,7 @@
     <string name="message">MESSAGE:</string>
     <string name="previous">précédent</string>
     <string name="problem_with_pdf">Il y a eu un problème en essayant d\'ouvrir le pdf</string>
+    <string name="open_new_pdf">Ouvrir un nouveau PDF</string>
+    <string name="hide_pdf">Cacher le PDF</string>
+    <string name="show_pdf">Montrer le PDF</string>
 </resources>

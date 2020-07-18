@@ -137,7 +137,7 @@ class RuleFragment : MyFragment() {
 
         rule = context.actualRule
         add = rule == null
-        rule = if (add) Rule(0, context.actualProject!!.myRules.size) else rule!!.clone()
+        rule = if (add) Rule(context.getNextRuleIdentifiant(), context.actualProject!!.myRules.size) else rule!!.clone()
 
         expl = AlertDialog.Builder(context)
         expl.setTitle(R.string.info)

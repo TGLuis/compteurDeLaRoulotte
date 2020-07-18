@@ -20,6 +20,7 @@ class CommentFragment : MyFragment() {
     private lateinit var ET_start_line: EditText
     private lateinit var ET_end_line: EditText
     private lateinit var expl: AlertDialog.Builder
+    private lateinit var IB_which_counter: ImageButton
     private lateinit var selectedItem: String
     private lateinit var ET_mess: EditText
     private lateinit var B_cancel: Button
@@ -41,7 +42,7 @@ class CommentFragment : MyFragment() {
 
         comment = context.actualComment
         add = comment == null
-        comment = if (add) Comment(0, 0, 0) else comment!!.clone()
+        comment = if (add) Comment(context.getNextCommentIdentifiant(), 0, 0) else comment!!.clone()
 
         expl = AlertDialog.Builder(context)
         expl.setTitle(R.string.info)
@@ -49,6 +50,11 @@ class CommentFragment : MyFragment() {
                     dialog.dismiss()
                 }
                 .setCancelable(false)
+
+        IB_which_counter = context.findViewById(R.id.info_which_counter)
+        IB_which_counter.setOnClickListener {
+            expl.setMessage(context.getString(R.string.help_which_counter)).create().show()
+        }
 
         ET_start_line = context.findViewById(R.id.line_start)
         //ET_start_line.addTextChangedListener(CustomWatcher())

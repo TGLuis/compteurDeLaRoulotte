@@ -2,6 +2,7 @@ package lufra.lecompteurdelaroulotte
 
 import android.app.Activity
 import android.content.Intent
+import android.database.sqlite.SQLiteDatabase
 import android.os.Bundle
 import android.support.design.widget.NavigationView
 import android.support.v4.view.GravityCompat
@@ -213,26 +214,37 @@ class MainActivity : AppCompatActivity() {
                         true
                     }
                 }
-                if (pdfIsOpen && actualProject!!.pdf != null) {
-                    myMenu.add(R.string.close_pdf).apply {
-                        setOnMenuItemClickListener {
-                            pdfIsOpen = false
-                            context.setMenu("project", true)
-                            openFragment(frags.peek())
-                            true
-                        }
-                    }
-                } else {
-                    myMenu.add(R.string.open_pdf).apply {
-                        setOnMenuItemClickListener {
-                            val intent = Intent(Intent.ACTION_OPEN_DOCUMENT).apply {
-                                addCategory(Intent.CATEGORY_OPENABLE)
-                                type = "application/pdf"
+                if (actualProject!!.pdf != null) {
+                    if (pdfIsOpen) {
+                        myMenu.add(R.string.hide_pdf).apply {
+                            setOnMenuItemClickListener {
+                                pdfIsOpen = false
+                                openFragment(frags.pop())
+                                context.setMenu("project", true)
+                                true
                             }
-                            startActivityForResult(Intent.createChooser(intent, "Select PDF"), PDF_SELECTION_CODE)
-                            // The function "onActivityResult" will be called when the activity to select a pdf has finished
-                            true
                         }
+                    } else {
+                        myMenu.add(R.string.show_pdf).apply {
+                            setOnMenuItemClickListener {
+                                pdfIsOpen = true
+                                openFragment(frags.pop().javaClass.newInstance())
+                                true
+                            }
+                        }
+
+                    }
+                }
+                // open new pdf
+                myMenu.add(R.string.open_new_pdf).apply {
+                    setOnMenuItemClickListener {
+                        val intent = Intent(Intent.ACTION_OPEN_DOCUMENT).apply {
+                            addCategory(Intent.CATEGORY_OPENABLE)
+                            type = "application/pdf"
+                        }
+                        startActivityForResult(Intent.createChooser(intent, "Select PDF"), PDF_SELECTION_CODE)
+                        // The function "onActivityResult" will be called when the activity to select a pdf has finished
+                        true
                     }
                 }
             }
@@ -403,6 +415,29 @@ class MainActivity : AppCompatActivity() {
         supportFragmentManager.beginTransaction().replace(R.id.frame, frag, frag.TAG()).commit()
     }
 
+    fun getNextCommentIdentifiant(): Int {
+        val comments = actualProject!!.myComments
+        if (comments.isEmpty()) {
+            return 0
+        }
+        var max = 0
+        comments.forEach { comment ->
+            max = if (comment.num > max) comment.num else max
+        }
+        return max + 1
+    }
+
+    fun getNextRuleIdentifiant(): Int {
+        val rules = actualProject!!.myRules
+        if (rules.isEmpty()) {
+            return 0
+        }
+        var max = 0
+        rules.forEach { rule ->
+            max = if (rule.num > max) rule.num else max
+        }
+        return max + 1
+    }
     /***********************************************************************************************
      * override of the activity functions
      */
