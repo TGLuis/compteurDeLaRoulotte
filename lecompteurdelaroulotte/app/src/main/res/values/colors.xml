@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#994CE5</color>
-    <color name="colorPrimaryDark">#59169c</color>
+    <color name="colorPrimary">#8035bf</color>
+    <color name="colorPrimaryDark">#3c0a6c</color>
     <color name="colorAccent">#FF4081</color>
     <color name="black">#000000</color>
     <color name="white">#FFFFFF</color>
@@ -10,6 +10,6 @@
 
     <!-- theme de la roulotte aux pelotes-->
     <color name="vert">#B5FC29</color>
-    <color name="mauve">#994CE5</color>
+    <color name="mauve">#8035bf</color>
     <color name="jaune">#F5F224</color>
 </resources>
