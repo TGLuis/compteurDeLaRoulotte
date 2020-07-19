@@ -11,8 +11,8 @@ import android.widget.*
 import com.github.barteksc.pdfviewer.PDFView
 import library.Counter
 import library.Project
-import lufra.lecompteurdelaroulotte.MainActivity
-import lufra.lecompteurdelaroulotte.R
+import tgl.lecompteurdelaroulotte.MainActivity
+import tgl.lecompteurdelaroulotte.R
 import java.lang.Math.abs
 import java.util.*
 

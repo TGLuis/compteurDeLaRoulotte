@@ -7,8 +7,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import library.Comment
-import lufra.lecompteurdelaroulotte.MainActivity
-import lufra.lecompteurdelaroulotte.R
+import tgl.lecompteurdelaroulotte.MainActivity
+import tgl.lecompteurdelaroulotte.R
 import java.util.*
 
 class CommentFragment : MyFragment() {

@@ -10,8 +10,8 @@ import android.view.ViewGroup
 import android.widget.*
 import kotlinx.android.synthetic.main.simple_text_input.view.*
 import library.Project
-import lufra.lecompteurdelaroulotte.MainActivity
-import lufra.lecompteurdelaroulotte.R
+import tgl.lecompteurdelaroulotte.MainActivity
+import tgl.lecompteurdelaroulotte.R
 
 class HomeFragment : MyFragment() {
     private lateinit var context: MainActivity

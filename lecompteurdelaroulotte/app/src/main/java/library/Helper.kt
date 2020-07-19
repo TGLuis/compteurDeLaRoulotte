@@ -3,7 +3,7 @@ package library
 import android.content.Context
 import android.content.res.Resources
 import android.util.Log
-import lufra.lecompteurdelaroulotte.MainActivity
+import tgl.lecompteurdelaroulotte.MainActivity
 import java.io.File
 import java.io.FileOutputStream
 import java.io.FileReader

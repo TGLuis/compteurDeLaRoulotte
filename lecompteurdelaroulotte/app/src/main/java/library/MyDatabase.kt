@@ -3,7 +3,7 @@ package library
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
-import lufra.lecompteurdelaroulotte.MainActivity
+import tgl.lecompteurdelaroulotte.MainActivity
 
 class MyDatabase(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
     inner class Tuple(a: Counter, b: String) {

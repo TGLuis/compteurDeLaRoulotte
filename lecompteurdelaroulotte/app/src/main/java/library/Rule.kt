@@ -1,7 +1,7 @@
 package library
 
-import lufra.lecompteurdelaroulotte.MainActivity
-import lufra.lecompteurdelaroulotte.R
+import tgl.lecompteurdelaroulotte.MainActivity
+import tgl.lecompteurdelaroulotte.R
 
 class Rule(var num: Int, var start: Int) {
     var steps: java.util.ArrayList<Step> = java.util.ArrayList()

@@ -1,4 +1,4 @@
-package lufra.lecompteurdelaroulotte
+package tgl.lecompteurdelaroulotte
 
 import org.junit.Test
 

@@ -9,8 +9,8 @@ import android.view.ViewGroup
 import android.widget.*
 import library.Comment
 import library.Rule
-import lufra.lecompteurdelaroulotte.MainActivity
-import lufra.lecompteurdelaroulotte.R
+import tgl.lecompteurdelaroulotte.MainActivity
+import tgl.lecompteurdelaroulotte.R
 import java.util.ArrayList
 
 class SeeFragment: MyFragment() {

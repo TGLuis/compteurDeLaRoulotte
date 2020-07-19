@@ -8,8 +8,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
 import library.Project
-import lufra.lecompteurdelaroulotte.MainActivity
-import lufra.lecompteurdelaroulotte.R
+import tgl.lecompteurdelaroulotte.MainActivity
+import tgl.lecompteurdelaroulotte.R
 
 class NotesFragment : MyFragment() {
     private lateinit var context: MainActivity

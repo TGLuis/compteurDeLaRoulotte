@@ -1,7 +1,7 @@
 package library
 
-import lufra.lecompteurdelaroulotte.R
-import lufra.lecompteurdelaroulotte.MainActivity
+import tgl.lecompteurdelaroulotte.R
+import tgl.lecompteurdelaroulotte.MainActivity
 
 class Comment(identifiant: Int, var start: Int, var end: Int) {
     var num: Int = identifiant

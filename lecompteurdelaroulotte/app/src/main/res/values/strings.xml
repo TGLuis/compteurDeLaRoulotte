@@ -113,8 +113,7 @@
     <string name="with_data">Copy also states of counters?</string>
 
     <string name="AboutTitle">About</string>
-    <string name="AboutText">This application was developed by\nLuis Tascon Gutierrez\nwith the advice of\nAlexandra Point\nand the shop\n\'La roulotte aux pelotes\'.\n\n
-    This is an open source project, you can find it on Github at this address:\n..\nFeel free to give your opinion on the PlayStore or to collaborate on Github.</string>
+    <string name="AboutText">This application was developed by\nLuis Tascon Gutierrez\nwith the advice of\nAlexandra Point\nand the shop \'La roulotte aux pelotes\'. \n\nThis is an open source project, you can find it on Github at this address:\nhttps://github.com/TGLuis/compteurDeLaRoulotte\n Feel free to give your opinion on the PlayStore or to collaborate on Github.</string>
 
     <!-- for the help fragment-->
     <string name="HelpTitle">Help</string>

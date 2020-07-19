@@ -1,8 +1,8 @@
 package library
 
 import android.net.Uri
-import lufra.lecompteurdelaroulotte.MainActivity
-import lufra.lecompteurdelaroulotte.R
+import tgl.lecompteurdelaroulotte.MainActivity
+import tgl.lecompteurdelaroulotte.R
 import java.util.*
 
 class Project(var context: MainActivity, var name: String) {

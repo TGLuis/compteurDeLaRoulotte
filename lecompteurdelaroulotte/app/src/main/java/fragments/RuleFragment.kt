@@ -11,8 +11,8 @@ import android.view.ViewGroup
 import android.widget.*
 import library.Rule
 import library.Step
-import lufra.lecompteurdelaroulotte.MainActivity
-import lufra.lecompteurdelaroulotte.R
+import tgl.lecompteurdelaroulotte.MainActivity
+import tgl.lecompteurdelaroulotte.R
 import java.util.*
 
 class RuleFragment : MyFragment() {

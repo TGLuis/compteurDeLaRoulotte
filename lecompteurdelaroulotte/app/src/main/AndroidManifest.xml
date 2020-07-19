@@ -1,6 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="lufra.lecompteurdelaroulotte">
+    package="tgl.lecompteurdelaroulotte">
 
     <application
         android:allowBackup="true"
@@ -12,7 +12,7 @@
         tools:ignore="AllowBackup,GoogleAppIndexingWarning">
 
         <activity
-            android:name=".MainActivity"
+            android:name="tgl.lecompteurdelaroulotte.MainActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan"
             android:theme="@style/AppTheme">

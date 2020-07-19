@@ -8,8 +8,8 @@ import android.view.ViewGroup
 import android.view.ViewTreeObserver
 import android.widget.ImageButton
 import android.widget.TextView
-import lufra.lecompteurdelaroulotte.MainActivity
-import lufra.lecompteurdelaroulotte.R
+import tgl.lecompteurdelaroulotte.MainActivity
+import tgl.lecompteurdelaroulotte.R
 
 
 class HelpFragment : MyFragment() {

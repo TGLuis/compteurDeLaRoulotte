@@ -7,8 +7,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import library.Counter
-import lufra.lecompteurdelaroulotte.MainActivity
-import lufra.lecompteurdelaroulotte.R
+import tgl.lecompteurdelaroulotte.MainActivity
+import tgl.lecompteurdelaroulotte.R
 
 class CounterFragment : MyFragment() {
     private lateinit var context: MainActivity
