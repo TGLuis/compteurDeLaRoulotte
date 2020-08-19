@@ -1,8 +1,12 @@
 package tgl.lecompteurdelaroulotte
 
 import android.app.Activity
+import android.content.Context
+import android.content.ContextWrapper
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
+import android.os.LocaleList
 import android.support.design.widget.NavigationView
 import android.support.v4.view.GravityCompat
 import android.support.v4.widget.DrawerLayout
@@ -10,6 +14,7 @@ import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
+import android.util.Log
 import android.view.*
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
@@ -20,6 +25,7 @@ import kotlinx.android.synthetic.main.simple_text_and_box_input.view.*
 import kotlinx.android.synthetic.main.simple_text_input.view.input_text
 import library.*
 import java.util.*
+
 
 class MainActivity : AppCompatActivity() {
     private val TAG = "==== MAINACTIVITY ===="
@@ -34,6 +40,7 @@ class MainActivity : AppCompatActivity() {
 
     var screenOn: Boolean = false
     var volumeOn: Boolean = true
+    var language: String = "en"
 
     private lateinit var frags: Stack<MyFragment>
     private lateinit var toolbar: Toolbar
@@ -62,6 +69,31 @@ class MainActivity : AppCompatActivity() {
         } else {
             window.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
         }
+        language = Helper.getConfigValue("language").toString()
+        Log.e(TAG, language)
+        Log.e(TAG, this.resources.configuration.locales.toString())
+        if (Build.VERSION.SDK_INT >= 24) {
+            var restart = false
+            if (language != this.resources.configuration.locales[0].language)
+                restart = true
+            if (language == "-" || language == null.toString()) {
+                language = this.resources.configuration.locales[0].language
+                if (! Helper.isLanguageAvailable(language)) {
+                    language = "en"
+                }
+            }
+            if (language != this.resources.configuration.locales[0].language) {
+                LocaleHelper.setLocale(this, language)
+                recreate()
+            }
+            /*Helper.setLocale()
+            if (restart) {
+                Log.e(TAG, "restarting")
+                startActivity(Intent(this, MainActivity::class.java))
+                finish()
+            }*/
+        }
+
 
         // Toolbar
         toolbar = this.findViewById(R.id.my_toolbar)
@@ -475,6 +507,7 @@ class MainActivity : AppCompatActivity() {
      * Some more functions
      */
     private fun saveState() {
+        Helper.saveProperties()
         if (projectsList.isNotEmpty()) {
             projectsList.forEach { thisit ->
                 db.updateProjectDB(thisit)

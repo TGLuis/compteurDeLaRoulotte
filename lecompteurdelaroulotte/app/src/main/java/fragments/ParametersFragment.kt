@@ -4,11 +4,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.CheckBox
+import android.widget.*
 import library.Helper
 import tgl.lecompteurdelaroulotte.MainActivity
 import tgl.lecompteurdelaroulotte.R
+import java.util.ArrayList
 
 
 class ParametersFragment : MyFragment() {
@@ -16,6 +16,7 @@ class ParametersFragment : MyFragment() {
 
     private lateinit var CB_screen_on: CheckBox
     private lateinit var CB_volume_on: CheckBox
+    private lateinit var S_language: Spinner
     private lateinit var B_save: Button
     private lateinit var B_cancel: Button
 
@@ -36,16 +37,31 @@ class ParametersFragment : MyFragment() {
         CB_volume_on.isChecked = context.volumeOn
         CB_screen_on.isChecked = context.screenOn
 
+        S_language = context.findViewById(R.id.spinner_language)
+        val arr = ArrayList<String>(Helper.languagesAvailable())
+        val adapteur = ArrayAdapter(context, R.layout.support_simple_spinner_dropdown_item, arr.toArray())
+        var selectedLanguage = arr[0]
+        adapteur.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item)
+        S_language.adapter = adapteur
+        S_language.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onNothingSelected(parent: AdapterView<*>?) {}
+            override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
+                selectedLanguage = arr[p2]
+            }
+        }
+
         B_cancel.setOnClickListener {
             context.onBackPressed()
         }
         B_save.setOnClickListener {
             var restart = false
             if (context.screenOn != CB_screen_on.isChecked ||
-                    CB_volume_on.isChecked != context.volumeOn)
+                    context.volumeOn != CB_volume_on.isChecked ||
+                    context.language != selectedLanguage)
                 restart = true
             context.volumeOn = CB_volume_on.isChecked
             context.screenOn = CB_screen_on.isChecked
+            context.language = selectedLanguage
             Helper.saveProperties()
             if (restart) {
                 context.recreate()

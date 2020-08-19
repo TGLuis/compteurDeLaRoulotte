@@ -121,7 +121,7 @@
     <string name="help_general_title">General help</string>
     <string name="help_general">This application aim to simplify a knit project. You can create a project in the home screen. Once you are in a project, you can add counters, rules and comments that will help you manage your project.</string>
     <string name="help_counter_title">Counter</string>
-    <string name="help_counter">Each counter has a name which is unique per project. It has a state, which represents the number of rows you have currently made with this counter.\nYou can set a maximum to your counter, after reaching this maximum, the counter will loop again and will come back to one.\nThere is the "round" number of the counter which is the number of times it reached the maximum.\nYou can also modify the position of the counter in the list of your counter by setting the position in the counter.\nFor each counter, you can check the box "Attached to project" which will link the project and the counter together. It means that each time you increment (decrement) the project or the counter, the other will also be incremented (decremented).\nNow there is a tricky part, you can attach a counter to another counter, be careful, it is not the same as attaching a counter to the project. In this case, if counter1 is attached to counter2, each time counter2 reach its maximum and restart to 1, counter1 will increment of 1. So this is a manner to count the number of loop a counter has done.</string>
+    <string name="help_counter">Each counter has a name which is unique per project. It has a state, which represents the number of rows you have currently made with this counter.</string>
     <string name="help_comment_title">Comment</string>
     <string name="help_comment">For your project you can also have comments. These comments are described by a counter (or the project), a starting and an ending row, with a text. Once the counter indicated has as state a row which is in the interval described before, the text of the comment will appear in your project below your counter (or the project).</string>
     <string name="help_rule_title">Rule</string>
@@ -150,4 +150,5 @@
     <string name="open_new_pdf">Open a new PDF</string>
     <string name="hide_pdf">Hide PDF</string>
     <string name="show_pdf">Show PDF</string>
+    <string name="language">Language</string>
 </resources>

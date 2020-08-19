@@ -103,7 +103,16 @@
     <string name="with_data">De stand van de tellers ook kopiëren?</string>
 
     <string name="AboutTitle">Over</string>
-    <string name="AboutText"></string>
+    <string name="AboutText">Deze app werd ontwikkeld door
+Luis Tascon Gutierrez
+met de advies van
+Alexandra Point
+en de winkel
+\'La Roulotte aux pelotes\'.
+
+Het is een open source project, u kan deze vinden op Github op dit adres:
+https://github.com/TGLuis/compteurDeLaRoulotte
+Voel u vrij uw mening te geven op de PlayStore of op Github te samenwerken.</string>
 
     <!-- for the help fragment-->
     <string name="HelpTitle">Hulp</string>
@@ -111,11 +120,21 @@
     <string name="help_general_title">Algemene hulp</string>
     <string name="help_general">Deze applicatie heeft als doel een breiproject te vergemakkelijken. U kan een project scheppen op het centrascherm. Eens het project begonnen, kan u er tellers, regels en commentaren aan toevoegen die u zullen helpen om uw project te beheren.</string>
     <string name="help_counter_title">Teller</string>
-    <string name="help_counter"></string>
+    <string name="help_counter">Elke teller heeft een naam die uniek is per project. Het is een staat die de nummer of naald gedaan met deze teller voorstelt.
+
+U kan een maximum bepalen voor uw teller. Na het bereiken van deze maximaal, zal de teller terug op 1 komen.
+
+Er is de rond getal van de teller die de nummer of keren het de maximaal heeft bereikt is.
+
+Het is ook mogelijk de positie van de teller in de lijst van uw teller te veranderen door de positie in de teller vast te stellen.
+
+Voor elke teller, kan u de doos verbonden met uw project checken die de project en de teller samenbrengt. Dat betekent dat elk keer u de project of de teller verhoogt (vermindert), zal de andere ook verhoogd (verminderd) worden.
+
+Nu is er een lastig deel, kan u een teller met een andere teller hechten maar pas op, het is niet dezelfde als een teller met de project hechten. Als teller 1 met teller 2 wordt gehecht, dan elke keer teller 2 bereikt zijn maximum and terug op 1 komt, zal teller 1 verhoogd worden van 1. Dus is het een manier om de nummer van loops te tellen dat een teller heeft gedaan.</string>
     <string name="help_comment_title">Opmerking</string>
-    <string name="help_comment"></string>
+    <string name="help_comment">U kan ook opmerkingen hebben voor uw project. Die opmerkingen worden door een teller (of de project), een begin en een afsluiting naald en een tekst. Als de teller aangegeven heeft als staat een naald die in de interval beschreven, zal de tekst van de opmerking verschijnen in uw project onder uw teller (of de project).</string>
     <string name="help_rule_title">Regel</string>
-    <string name="help_rule"></string>
+    <string name="help_rule">De regel is een manier om enkele opmerkingen te automatiseren. In enekel projecten, zal u de verhoging en vermindering moeten doen. U kan dat coderen om een pop up te krijgen elk keer een naald is bereikt. Daarvoor moet u de teller kiezen waarop u de regel verbondt. U kiest de beginnende naald, het kan de huidige naald van de teller. En u kan eventueel een opmerking toevoegen. Na kan u toevoegen zoveel stappen als u wil. Een stap is in de x keer format elk y naald Z tich, dat bedoelt dat het u waarschuwt te verhogen (of verminderen als u de doos niet heeft checken) z tiches elke Y naald en dit elk X keer. De stappen hebben een order en volgen een na de andere.</string>
     <string name="parameters">Parameters</string>
     <string name="screen_on">Houd uw scherm aangezet</string>
     <string name="volume_on">Geluid als u op de knoppen + of - drukt</string>
@@ -133,4 +152,9 @@
     <string name="row_number">NLD nummer</string>
     <string name="message">BOODSCHAP:</string>
     <string name="previous">vorig</string>
+    <string name="problem_with_pdf">Er was een probleem toen u de pdf probeert te openen</string>
+    <string name="open_new_pdf">Een niewe PDF openen</string>
+    <string name="hide_pdf">De PDF verbergen</string>
+    <string name="show_pdf">De PDF tonen</string>
+    <string name="language">Taal</string>
 </resources>
