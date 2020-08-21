@@ -2,12 +2,12 @@ package fragments
 
 import android.media.MediaPlayer
 import android.os.Bundle
-import android.support.constraint.ConstraintLayout
-import android.support.v7.app.AlertDialog
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.appcompat.app.AlertDialog
+import androidx.constraintlayout.widget.ConstraintLayout
 import com.github.barteksc.pdfviewer.PDFView
 import library.Counter
 import library.Project

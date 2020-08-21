@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
+<androidx.constraintlayout.widget.ConstraintLayout
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
@@ -9,7 +9,7 @@
     android:layout_height="match_parent">
 
     <!-- Nom du compteur -->
-    <android.support.constraint.ConstraintLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/name_of_counter"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -39,10 +39,10 @@
             android:maxLines="1"
             android:layout_marginStart="10dp"
             app:layout_constraintLeft_toRightOf="@id/count_name"/>
-    </android.support.constraint.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <!-- Etat du compteur -->
-    <android.support.constraint.ConstraintLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/state_of_counter"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -71,10 +71,10 @@
             android:maxLines="1"
             android:layout_marginStart="10dp"
             app:layout_constraintLeft_toRightOf="@id/count_state"/>
-    </android.support.constraint.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <!-- Max du compteur -->
-    <android.support.constraint.ConstraintLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/max_of_counter"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -115,10 +115,10 @@
             android:background="#00000000"
             app:layout_constraintRight_toRightOf="parent"
             tools:ignore="MissingConstraints" />
-    </android.support.constraint.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <!-- Tours du compteur -->
-    <android.support.constraint.ConstraintLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/tours_of_counter"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -158,10 +158,10 @@
             android:background="#00000000"
             app:layout_constraintRight_toRightOf="parent"
             tools:ignore="MissingConstraints" />
-    </android.support.constraint.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <!-- Place du compteur -->
-    <android.support.constraint.ConstraintLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/position_of_counter"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -202,10 +202,10 @@
             android:background="#00000000"
             app:layout_constraintRight_toRightOf="parent"
             tools:ignore="MissingConstraints" />
-    </android.support.constraint.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <!-- Attacher le compteur au main -->
-    <android.support.constraint.ConstraintLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/attach_of_counter"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -241,10 +241,10 @@
             android:background="#00000000"
             app:layout_constraintRight_toRightOf="parent"
             tools:ignore="MissingConstraints" />
-    </android.support.constraint.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <!-- attacher le compteur à un autre -->
-    <android.support.constraint.ConstraintLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/attached_of_counter"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -281,10 +281,10 @@
             android:layout_marginEnd="10dp"
             android:background="#00000000"
             app:layout_constraintRight_toRightOf="parent" />
-    </android.support.constraint.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <!-- boutons -->
-    <android.support.constraint.ConstraintLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/buttons"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -325,6 +325,6 @@
             app:layout_constraintLeft_toRightOf="@id/cancel"
             app:layout_constraintRight_toRightOf="parent"/>
 
-    </android.support.constraint.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
-</android.support.constraint.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
