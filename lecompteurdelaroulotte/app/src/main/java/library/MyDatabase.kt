@@ -59,6 +59,7 @@ class MyDatabase(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, nu
         val db = this.writableDatabase
         this.deleteDb(db)
         this.onCreate(db)
+        db.close()
     }
 
     fun deleteDb(db: SQLiteDatabase) {
@@ -93,6 +94,7 @@ class MyDatabase(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, nu
             } while (cursor.moveToNext())
         }
         cursor.close()
+        db.close()
         return myProjects
     }
 
@@ -182,6 +184,7 @@ class MyDatabase(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, nu
         if (pdfString == null) pdfString = NONE
         db.execSQL("INSERT INTO $PROJECT_TABLE ($PROJECT_NAME, $ETAT, $ARCHIVED, $NOTES, $PDF) " +
                 "VALUES ('$name', 0, 0, '$notes', '$pdfString');")
+        db.close()
         return true
     }
 
@@ -195,6 +198,7 @@ class MyDatabase(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, nu
         db.execSQL("UPDATE $PROJECT_TABLE " +
                 " SET $NOTES='$newnote', $ETAT=${project.etat}, $ARCHIVED=${arch}, $PDF='${pdfString}'" +
                 " WHERE $PROJECT_NAME='$name';")
+        db.close()
         return true
     }
 
@@ -205,6 +209,7 @@ class MyDatabase(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, nu
         db.execSQL("DELETE FROM $RULE_TABLE WHERE $PROJECT_NAME='$name';")
         db.execSQL("DELETE FROM $COUNTER_TABLE WHERE $PROJECT_NAME='$name';")
         db.execSQL("DELETE FROM $STEP_TABLE WHERE $PROJECT_NAME='$name';")
+        db.close()
         return true
     }
 
@@ -218,6 +223,7 @@ class MyDatabase(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, nu
             ok = true
         }
         cursor.close()
+        db.close()
         return ok
     }
 
@@ -231,6 +237,7 @@ class MyDatabase(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, nu
             ok = true
         }
         cursor.close()
+        db.close()
         return ok
     }
 
@@ -246,6 +253,7 @@ class MyDatabase(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, nu
             db.execSQL("INSERT INTO $STEP_TABLE ($PROJECT_NAME, $NUM, $ORDER, $AUGMENTATION, $FIRST, $SECOND, $THIRD) " +
                     "VALUES ('$name', ${r.num}, $s, $augm, ${r.steps[s].one}, ${r.steps[s].two}, ${r.steps[s].three});")
         }
+        db.close()
         return true
     }
 
@@ -256,6 +264,7 @@ class MyDatabase(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, nu
         for (s in 0 until r.steps.size) {
             db.execSQL("DELETE FROM $STEP_TABLE WHERE $PROJECT_NAME='$name' AND $NUM=${r.num};")
         }
+        db.close()
         return true
     }
 
@@ -266,6 +275,7 @@ class MyDatabase(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, nu
         val augm = if (s.augm) 1 else 0
         db.execSQL("DELETE FROM $STEP_TABLE WHERE $PROJECT_NAME='$name' AND $NUM=${r.num} AND $AUGMENTATION=$augm " +
                 "AND $ORDER=$order AND $FIRST=${s.one} AND $SECOND=${s.two} AND $THIRD=${s.three};")
+        db.close()
         return true
     }
 
@@ -276,12 +286,14 @@ class MyDatabase(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, nu
         val counter = c.counter.replace('\'', '\r')
         db.execSQL("INSERT INTO $COMMENT_TABLE($PROJECT_NAME, $NUM, $START, $END, $COUNTER_ATTACHED, $COMMENT) " +
                 "VALUES ('$name', ${c.num}, ${c.start}, ${c.end}, '${counter}', '${comment}');")
+        db.close()
     }
 
     fun deleteCommentDB(project: Project, c: Comment) {
         val db = this.writableDatabase
         val name = project.name.replace('\'', '\r')
         db.execSQL("DELETE FROM $COMMENT_TABLE WHERE $PROJECT_NAME='$name' AND $NUM=${c.num};")
+        db.close()
     }
 
     fun addCounterDB(project: Project, counterName: String, etat: Int, max: Int, order: Int, attached_main: Boolean, attachedCounter: Counter?): Boolean {
@@ -292,6 +304,7 @@ class MyDatabase(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, nu
         val counterAtt = attachedCounter?.name ?: NONE
         db.execSQL("INSERT INTO $COUNTER_TABLE ( $PROJECT_NAME, $COUNTER_NAME, $ETAT, $MAX, $ORDER, $ATTACHED_MAIN, $COUNTER_ATTACHED ) " +
                 "VALUES ( '$name', '$nameC', $etat, $max, $order, $att, '$counterAtt' );")
+        db.close()
         return true
     }
 
@@ -304,6 +317,7 @@ class MyDatabase(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, nu
         db.execSQL("UPDATE $COUNTER_TABLE " +
                 " SET $ETAT=$etat, $MAX=$max, $ORDER=$order, $ATTACHED_MAIN=$att, $COUNTER_ATTACHED='$counterAtt'" +
                 " WHERE $PROJECT_NAME='$name' AND $COUNTER_NAME='$nameC';")
+        db.close()
         return true
     }
 
@@ -313,6 +327,7 @@ class MyDatabase(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, nu
         val nameC = counterName.replace('\'', '\r')
         db.execSQL("DELETE FROM $COUNTER_TABLE " +
                 " WHERE $PROJECT_NAME='$name' AND $COUNTER_NAME='$nameC';")
+        db.close()
         return true
     }
 

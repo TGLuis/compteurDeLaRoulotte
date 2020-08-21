@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Context
 import android.content.ContextWrapper
 import android.content.Intent
+import android.content.res.Configuration
 import android.os.Build
 import android.os.Bundle
 import android.os.LocaleList
@@ -21,14 +22,16 @@ import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import com.google.android.material.navigation.NavigationView
+import com.ninenox.kotlinlocalemanager.AppCompatActivityBase
+import com.ninenox.kotlinlocalemanager.ApplicationLocale
+import com.ninenox.kotlinlocalemanager.LocaleManager
 import fragments.*
 import kotlinx.android.synthetic.main.simple_text_and_box_input.view.*
 import kotlinx.android.synthetic.main.simple_text_input.view.input_text
 import library.*
 import java.util.*
 
-
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivityBase() {
     private val TAG = "==== MAINACTIVITY ===="
 
     lateinit var projectsList: ArrayList<Project>
@@ -71,31 +74,9 @@ class MainActivity : AppCompatActivity() {
             window.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
         }
         language = Helper.getConfigValue("language").toString()
-        if (Build.VERSION.SDK_INT >= 24) {
-            Log.e(TAG, language)
-            Log.e(TAG, this.resources.configuration.locales.toString())
-            var restart = false
-            if (language != this.resources.configuration.locales[0].language)
-                restart = true
-            if (language == "-" || language == null.toString()) {
-                language = this.resources.configuration.locales[0].language
-                if (! Helper.isLanguageAvailable(language)) {
-                    language = "en"
-                }
-            }
-            if (language != this.resources.configuration.locales[0].language) {
-                LocaleHelper.setLocale(this, language)
-                finish()
-                startActivity(this.intent)
-            }
-            /*Helper.setLocale()
-            if (restart) {
-                Log.e(TAG, "restarting")
-                startActivity(Intent(this, MainActivity::class.java))
-                finish()
-            }*/
+        if (LocaleManager(this).language.toString() != "FR") {
+            setNewLocale("FR")
         }
-        //this.applyOverrideConfiguration(this.resources.configuration)
 
 
         // Toolbar
@@ -115,6 +96,7 @@ class MainActivity : AppCompatActivity() {
         frags = Stack()
         openFragment(HomeFragment())
     }
+
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         // Inflate the menu; this adds items to the action bar if it is present.
