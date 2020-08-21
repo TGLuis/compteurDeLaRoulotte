@@ -44,7 +44,7 @@ class MainActivity : AppCompatActivityBase() {
 
     var screenOn: Boolean = false
     var volumeOn: Boolean = true
-    var language: String = "en"
+    lateinit var language: String
 
     private lateinit var frags: Stack<MyFragment>
     private lateinit var toolbar: Toolbar
@@ -74,8 +74,8 @@ class MainActivity : AppCompatActivityBase() {
             window.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
         }
         language = Helper.getConfigValue("language").toString()
-        if (LocaleManager(this).language.toString() != "FR") {
-            setNewLocale("FR")
+        if (language != "-" && Helper.getLanguage() != language) {
+            setNewLocale(language)
         }
 
 

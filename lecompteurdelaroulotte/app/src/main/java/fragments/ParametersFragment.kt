@@ -40,9 +40,10 @@ class ParametersFragment : MyFragment() {
         S_language = context.findViewById(R.id.spinner_language)
         val arr = ArrayList<String>(Helper.languagesAvailable())
         val adapteur = ArrayAdapter(context, R.layout.support_simple_spinner_dropdown_item, arr.toArray())
-        var selectedLanguage = arr[0]
+        var selectedLanguage = context.language
         adapteur.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item)
         S_language.adapter = adapteur
+        S_language.setSelection(arr.indexOf(context.language))
         S_language.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onNothingSelected(parent: AdapterView<*>?) {}
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
@@ -55,19 +56,19 @@ class ParametersFragment : MyFragment() {
         }
         B_save.setOnClickListener {
             var restart = false
+            val languageDifferent = context.language != selectedLanguage
             if (context.screenOn != CB_screen_on.isChecked ||
-                    context.volumeOn != CB_volume_on.isChecked ||
-                    context.language != selectedLanguage)
+                    context.volumeOn != CB_volume_on.isChecked)
                 restart = true
             context.volumeOn = CB_volume_on.isChecked
             context.screenOn = CB_screen_on.isChecked
             context.language = selectedLanguage
             Helper.saveProperties()
-            if (restart) {
+
+            if (restart)
                 context.recreate()
-            } else {
-                context.onBackPressed()
-            }
+            else if (languageDifferent)
+                context.setNewLocale(context.language)
         }
         context.title = context.getString(R.string.parameters)
     }

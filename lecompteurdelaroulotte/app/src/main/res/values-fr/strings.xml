@@ -121,7 +121,7 @@
 
     <string name="parameters">Paramètres</string>
     <string name="screen_on">Garder l\'écran allumé</string>
-    <string name="volume_on">Son lorsqu\'on appuie sur les bouttons + et -</string>
+    <string name="volume_on">Son lorsqu\'on appuie sur les boutons + et -</string>
     <string name="archived">Archivé</string>
     <string name="archives">Archives</string>
     <string name="archive_project">Archiver le projet?</string>

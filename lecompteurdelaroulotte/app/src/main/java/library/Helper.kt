@@ -3,6 +3,7 @@ package library
 import android.content.Context
 import android.content.res.Resources
 import android.util.Log
+import com.ninenox.kotlinlocalemanager.LocaleManager
 import tgl.lecompteurdelaroulotte.MainActivity
 import java.io.File
 import java.io.FileOutputStream
@@ -61,16 +62,19 @@ object Helper {
     }
 
     fun setLocale() {
-        val config = context.resources.configuration
         when (context.language) {
-            "nl" -> config.setLocale(Locale("nl", "NL"))
-            "fr" -> config.setLocale(Locale("fr", "FR"))
-            else -> config.setLocale(Locale("en", "GB"))
+            "NL" -> context.setNewLocale("NL")
+            "FR" -> context.setNewLocale("FR")
+            else -> context.setNewLocale("EN")
         }
     }
 
+    fun getLanguage(): String {
+        return LocaleManager(context).language.toString()
+    }
+
     fun languagesAvailable(): List<String> {
-        return listOf("fr", "nl", "en")
+        return listOf("FR", "NL", "EN")
     }
 
     fun saveProperties() {
