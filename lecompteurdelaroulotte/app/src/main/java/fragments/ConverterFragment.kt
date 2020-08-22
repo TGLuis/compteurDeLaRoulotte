@@ -23,6 +23,8 @@ class ConverterFragment : MyFragment() {
     private var convLengthVal1 = 1f
     private var convLengthVal2 = 1f
     private var computeText = true // Pour éviter une boucle infinie
+    private var firstEnter1 = true
+    private var firstEnter2 = true
 
     // Spinners
     private val lengthMagnitudes = ArrayList<String>(listOf("m", "dm", "cm", "mm", "inch"))
@@ -54,7 +56,10 @@ class ConverterFragment : MyFragment() {
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
                 selectedLengthMagnitude1 = p2
 //                computeText = true
-                computeLenConverter(false)
+                if (firstEnter1)
+                    firstEnter1 = false
+                else
+                    computeLenConverter(false)
             }
 
             override fun onNothingSelected(p0: AdapterView<*>?) {}
@@ -65,7 +70,10 @@ class ConverterFragment : MyFragment() {
         convLengthVal2Spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
                 selectedLengthMagnitude2 = p2
-                computeLenConverter(true)
+                if (firstEnter2)
+                    firstEnter2 = false
+                else
+                    computeLenConverter(true)
             }
 
             override fun onNothingSelected(p0: AdapterView<*>?) {}
@@ -76,6 +84,7 @@ class ConverterFragment : MyFragment() {
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
 
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                Log.e(TAG(), "ET1 | " + p0 + " | " + computeText)
                 if (computeText) {
                     val str = p0.toString()
                     convLengthVal1 = if (str != "") {
@@ -114,9 +123,10 @@ class ConverterFragment : MyFragment() {
         }
         convLengthVal1EditText.addTextChangedListener(convLengthVal1EditTextWatcher)
         convLengthVal2EditText.addTextChangedListener(convLengthVal2EditTextWatcher)
-        convLengthVal1EditText.setText("0")
-        convLengthVal2EditText.setText("0")
-
+        computeText = false
+        convLengthVal1EditText.setText("1")
+        computeLenConverter(true)
+        computeText = true
         context.title = context.getString(R.string.ConverterTitle)
     }
 
