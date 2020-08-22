@@ -307,6 +307,7 @@ class MainActivity : AppCompatActivityBase() {
         navView.menu.add(R.string.tools).apply {
             setOnMenuItemClickListener {
                 drawerLayout.closeDrawers()
+                context.openFragment(ToolsFragment())
                 true
             }
         }

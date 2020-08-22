@@ -28,7 +28,7 @@ class ToolsFragment : MyFragment() {
 
         converterBtn = context.findViewById(R.id.tools_converter_btn)
         converterBtn.setOnClickListener {
-            context.openFragment(ToolsFragment())
+            context.openFragment(ConverterFragment())
         }
 
         context.title = context.getString(R.string.ToolsTitle)
