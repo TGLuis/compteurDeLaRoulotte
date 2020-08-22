@@ -74,7 +74,7 @@
     <string name="add_rule">Add a rule</string>
     <string name="add_comment">Add a comment</string>
     <string name="edit_notes">Edit notes</string>
-    <string name="edit_rules">Edit rules</string>
+    <string name="edit_rules" translatable="false">Edit rules</string>
     <string name="parameter_image">Parameters</string>
     <string name="linked_image" translatable="false">Linked image</string>
     <string name="delete_image" translatable="false">Delete</string>
@@ -151,4 +151,14 @@
     <string name="hide_pdf">Hide PDF</string>
     <string name="show_pdf">Show PDF</string>
     <string name="language">Language</string>
+    <string name="tools">Tools</string>
+    <string name="ToolsTitle">Available tools</string>
+    <string name="ToolsConvertorBtn">Converter</string>
+    <string name="ConverterTitle">Magnitude Converter</string>
+    <string name="conv_length_value_1_autofill_hint">0 cm</string>
+    <string name="converter_length_value_1_descr">First length value to convert from</string>
+    <string name="converter_length_value_2_descr">Second length value to convert from</string>
+    <string name="converter_length_value_1_hint">First value</string>
+    <string name="converter_length_value_2_hint">Second value</string>
+    <string name="converter_arrow_descr">Conversion direction</string>
 </resources>
