@@ -25,7 +25,7 @@ class ConverterFragment : MyFragment() {
     private var computeText = true // Pour éviter une boucle infinie
 
     // Spinners
-    private val lengthMagnitudes = ArrayList<String>(listOf("mm", "cm"))
+    private val lengthMagnitudes = ArrayList<String>(listOf("m", "dm", "cm", "mm", "inch"))
     private var selectedLengthMagnitude1 = 0
     private var selectedLengthMagnitude2 = 0
 
@@ -54,7 +54,7 @@ class ConverterFragment : MyFragment() {
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
                 selectedLengthMagnitude1 = p2
 //                computeText = true
-                computeLenConverter(true)
+                computeLenConverter(false)
             }
 
             override fun onNothingSelected(p0: AdapterView<*>?) {}
@@ -65,7 +65,7 @@ class ConverterFragment : MyFragment() {
         convLengthVal2Spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
                 selectedLengthMagnitude2 = p2
-                computeLenConverter(false)
+                computeLenConverter(true)
             }
 
             override fun onNothingSelected(p0: AdapterView<*>?) {}
@@ -114,6 +114,8 @@ class ConverterFragment : MyFragment() {
         }
         convLengthVal1EditText.addTextChangedListener(convLengthVal1EditTextWatcher)
         convLengthVal2EditText.addTextChangedListener(convLengthVal2EditTextWatcher)
+        convLengthVal1EditText.setText("0")
+        convLengthVal2EditText.setText("0")
 
         context.title = context.getString(R.string.ConverterTitle)
     }
@@ -140,13 +142,13 @@ class ConverterFragment : MyFragment() {
      */
     private fun computeLenConverter(val1IsFirst: Boolean): Float {
         return if (val1IsFirst) {
-            val res = __computeLenConverter(convLengthVal1, selectedLengthMagnitude1, selectedLengthMagnitude2)
+            val res = computeLenConverter(convLengthVal1, selectedLengthMagnitude1, selectedLengthMagnitude2)
             convLengthVal2 = res
             computeText = false
             convLengthVal2EditText.setText(res.toString())
             res
         } else {
-            val res = __computeLenConverter(convLengthVal2, selectedLengthMagnitude2, selectedLengthMagnitude1)
+            val res = computeLenConverter(convLengthVal2, selectedLengthMagnitude2, selectedLengthMagnitude1)
             convLengthVal1 = res
             computeText = false
             convLengthVal1EditText.setText(res.toString())
@@ -160,18 +162,44 @@ class ConverterFragment : MyFragment() {
      * @param magn2: Second magnitude
      * @return val2
      */
-    private fun __computeLenConverter(val1: Float, magn1: Int, magn2: Int) : Float {
+    private fun computeLenConverter(val1: Float, magn1: Int, magn2: Int) : Float {
         if (magn1 == magn2) return val1
-        if (magn1 == lengthMagnitudes.indexOf("cm")) {
-            if (magn2 == lengthMagnitudes.indexOf("mm")) { // cm -> mm
-                return val1 * 10
+        if (magn1 > lengthMagnitudes.indexOf("mm") || magn2 > lengthMagnitudes.indexOf("mm")) { // Weird units w/o metrics
+            if (magn1 == lengthMagnitudes.indexOf("inch")) {
+                if (magn2 == lengthMagnitudes.indexOf("mm")) { // inch -> mm
+                    return val1 * 25.4f
+                } else if (magn2 == lengthMagnitudes.indexOf("cm")) { // inch -> cm
+                    return val1 * 2.54f
+                } else if (magn2 == lengthMagnitudes.indexOf("dm")) { // inch -> dm
+                    return val1 * 0.254f
+                } else if (magn2 == lengthMagnitudes.indexOf("m")) { // inch -> m
+                    return val1 * 0.0254f
+                }
             }
-        } else if (magn1 == lengthMagnitudes.indexOf("mm")) {
-            if (magn2 == lengthMagnitudes.indexOf("cm")) { // mm -> cm
-                return val1 * 0.1f
+            if (magn2 == lengthMagnitudes.indexOf("inch")) {
+                if (magn1 == lengthMagnitudes.indexOf("mm")) { // inch -> mm
+                    return val1 * 0.03937007874f
+                } else if (magn1 == lengthMagnitudes.indexOf("cm")) { // inch -> cm
+                    return val1 * 0.3937007874f
+                } else if (magn1 == lengthMagnitudes.indexOf("dm")) { // inch -> dm
+                    return val1 * 3.937007874f
+                } else if (magn1 == lengthMagnitudes.indexOf("m")) { // inch -> m
+                    return val1 * 39.37007874f
+                }
             }
+        } else {    // Only metrics not weird units, we can use recursion
+            return computeMetrics(val1, magn1, magn2)
         }
-        return 0f
+        return 0f   // because java
+    }
+
+    private fun computeMetrics(val1: Float, magn1: Int, magn2: Int) : Float {
+        return when {
+            magn1 == magn2 -> val1
+            magn1 > magn2 -> computeMetrics(val1 * 10, magn1-1, magn2)
+            magn1 < magn2 -> computeMetrics(val1 * 0.1f, magn1+1, magn2)
+            else -> 0f
+        }
     }
 
     override fun TAG(): String {
