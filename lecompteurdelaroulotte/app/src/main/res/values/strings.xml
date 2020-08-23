@@ -161,5 +161,5 @@
     <string name="converter_length_value_1_hint">First value</string>
     <string name="converter_length_value_2_hint">Second value</string>
     <string name="converter_arrow_descr">Conversion direction</string>
-    <string name="ConverterDefaultValue">1</string>
+    <string name="NumberDefaultValue">0</string>
 </resources>
