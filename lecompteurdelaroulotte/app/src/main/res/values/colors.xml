@@ -6,6 +6,8 @@
     <color name="black">#000000</color>
     <color name="white">#FFFFFF</color>
     <color name="trans">#000000</color>
+    <color name="lightGrey">#DCDCDC</color>
+    <color name="darkylightGrey">#CDCDCD</color>
 
 
     <!-- theme de la roulotte aux pelotes-->

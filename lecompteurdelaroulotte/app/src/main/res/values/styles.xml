@@ -30,4 +30,12 @@
         <item name="android:textColor">@color/mauve</item>
     </style>
 
+    <style name="ButtonStyleOutlinedFilled">
+<!--        <item name="strokeColor">@color/mauve</item>-->
+        <item name="android:background">@drawable/selector_round_outlined_grey_filled</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/mauve</item>
+        <item name="android:textSize">18sp</item>
+    </style>
+
 </resources>
