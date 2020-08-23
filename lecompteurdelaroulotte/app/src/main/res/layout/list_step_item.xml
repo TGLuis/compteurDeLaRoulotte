@@ -2,6 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
@@ -10,36 +11,40 @@
         android:id="@+id/left"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="78dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/delete_image"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent">
+        app:layout_constraintTop_toTopOf="parent">
 
 
         <LinearLayout
             android:id="@+id/first_line"
-            android:orientation="horizontal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent">
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toTopOf="@+id/enter"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
             <TextView
                 android:id="@+id/andthen"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="16sp"
-                android:textColor="@color/black"
+                android:layout_marginStart="8dp"
                 android:text="@string/andthen"
-                android:layout_marginStart="8dp"/>
+                android:textColor="@color/black"
+                android:textSize="@dimen/text_normal" />
 
             <TextView
                 android:id="@+id/text_augm_or_dim"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="30dp"
-                android:textSize="16sp"
+                android:text="@string/augmentation"
                 android:textColor="@color/black"
-                android:text="@string/augmentation"/>
+                android:textSize="@dimen/text_normal" />
 
             <CheckBox
                 android:id="@+id/augm_check"
@@ -51,61 +56,71 @@
 
         <LinearLayout
             android:id="@+id/enter"
-            android:orientation="horizontal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            app:layout_constraintTop_toBottomOf="@id/first_line"
-            app:layout_constraintLeft_toLeftOf="parent">
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/first_line">
 
             <EditText
                 android:id="@+id/enter_fois"
-                android:minWidth="30dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="16sp"
-                android:textColor="@color/mauve"
+                android:hint="@string/NumberDefaultValue"
+                android:importantForAutofill="no"
                 android:inputType="number"
-                android:hint="0"/>
+                android:minWidth="30dp"
+                android:textColor="@color/mauve"
+                android:textSize="@dimen/text_normal" />
+
             <TextView
                 android:id="@+id/rule_text1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="16sp"
+                android:text="@string/rule_text1"
                 android:textColor="@color/black"
-                android:text="@string/rule_text1"/>
+                android:textSize="@dimen/text_normal" />
+
             <EditText
                 android:id="@+id/enter_rows"
-                android:minWidth="30dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="16sp"
-                android:textColor="@color/mauve"
+                android:hint="@string/NumberDefaultValue"
+                android:importantForAutofill="no"
                 android:inputType="number"
-                android:hint="0" />
+                android:minWidth="30dp"
+                android:textColor="@color/mauve"
+                android:textSize="@dimen/text_normal" />
+
             <TextView
                 android:id="@+id/text_rows"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="16sp"
+                android:text="@string/rows"
                 android:textColor="@color/black"
-                android:text="@string/rows" />
+                android:textSize="@dimen/text_normal" />
+
             <EditText
                 android:id="@+id/enter_stitches"
-                android:minWidth="30dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="16sp"
-                android:textColor="@color/mauve"
+                android:hint="@string/NumberDefaultValue"
+                android:importantForAutofill="no"
                 android:inputType="number"
-                android:hint="0" />
+                android:minWidth="30dp"
+                android:textColor="@color/mauve"
+                android:textSize="@dimen/text_normal" />
+
             <TextView
                 android:id="@+id/text_stitches"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="16sp"
+                android:text="@string/stitch"
                 android:textColor="@color/black"
-                android:text="@string/stitch" />
+                android:textSize="@dimen/text_normal" />
 
         </LinearLayout>
 
@@ -113,15 +128,17 @@
 
     <ImageButton
         android:id="@+id/delete_image"
-        android:scaleType="fitXY"
         android:layout_width="48dp"
         android:layout_height="48dp"
-        app:srcCompat="@drawable/image_trash"
+        android:layout_marginStart="68dp"
+        android:background="@null"
         android:contentDescription="@string/delete_image"
-        android:layout_marginEnd="10dp"
-        android:background="#00000000"
+        android:scaleType="fitXY"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/left"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"/>
+        app:layout_constraintVertical_bias="0.488"
+        app:srcCompat="@drawable/ic_baseline_delete_24" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

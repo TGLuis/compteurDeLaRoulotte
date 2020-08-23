@@ -36,7 +36,7 @@
     <string name="warning">Warning</string>
     <string name="my_rules">My rules</string>
     <string name="my_comments">My comments</string>
-    <string name="start_now">Begin from actual row?</string>
+    <string name="start_now">Begin from actual row ?</string>
     <string name="start_other">Or from row number:</string>
 
     <!-- rule -->
@@ -46,7 +46,7 @@
     <string name="rule_text1"> times each </string>
     <string name="rows"> rows </string>
     <string name="stitch"> stitches</string>
-    <string name="add_step">Add a step</string>
+    <string name="add_step">Step</string>
     <string name="andthen">And then</string>
     <string name="from_row">from row</string>
     <string name="pre_rule">Do you want to add this rule in the project?</string>

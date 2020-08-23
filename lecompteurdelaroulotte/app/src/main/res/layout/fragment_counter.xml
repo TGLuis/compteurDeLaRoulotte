@@ -303,45 +303,48 @@
 
         <!-- Setting up app:backgroundTint="@null" is important because else material design theme will override custom shapes      -->
         <Button
-            android:id="@+id/delete"
-            style="@style/ButtonStyleOutlinedFilled"
-            android:paddingHorizontal="@dimen/min_btn_padding"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:text="@string/delete"
-            app:backgroundTint="@null"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/cancel"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <Button
             android:id="@+id/cancel"
-            style="@style/ButtonStyleOutlinedFilled"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
             android:paddingHorizontal="@dimen/min_btn_padding"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:gravity="center"
             android:text="@string/cancel"
-            app:backgroundTint="@null"
+            android:textSize="@dimen/text_btn_normal"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@id/delete"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toStartOf="@id/save"
             app:layout_constraintTop_toTopOf="parent" />
 
         <Button
             android:id="@+id/save"
-            style="@style/ButtonStyleOutlinedFilled"
+            style="@style/Widget.MaterialComponents.Button"
+            app:icon="@drawable/ic_baseline_save_24"
             android:paddingHorizontal="@dimen/min_btn_padding"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:gravity="center"
             android:text="@string/save"
-            app:backgroundTint="@null"
+            android:textSize="@dimen/text_btn_large"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@id/cancel"
+            app:layout_constraintEnd_toStartOf="@id/delete"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/delete"
+            style="@style/Widget.MaterialComponents.Button"
+            app:backgroundTint="@color/colorAccent"
+            app:icon="@drawable/ic_baseline_delete_24"
+            android:paddingHorizontal="@dimen/min_btn_padding"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="@string/delete"
+            android:textSize="@dimen/text_btn_normal"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/save"
             app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

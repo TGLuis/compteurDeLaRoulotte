@@ -35,7 +35,7 @@
     <string name="warning">Pas op</string>
     <string name="my_rules">Mijn regels</string>
     <string name="my_comments">Mijn opmerkingen</string>
-    <string name="start_now">Vanaf de huidige nld beginnen?</string>
+    <string name="start_now">Vanaf de huidige nld beginnen ?</string>
     <string name="start_other">Of vanaf nld:</string>
 
     <!-- rule -->
@@ -45,7 +45,7 @@
     <string name="rule_text1">" per "</string>
     <string name="rows">" nld "</string>
     <string name="stitch">" steken "</string>
-    <string name="add_step">Een stap toevoegen</string>
+    <string name="add_step">Stap</string>
     <string name="andthen">Daarna</string>
     <string name="from_row">vanaf de nld</string>
     <string name="pre_rule">Wil u deze regel aan het project toevoegen?</string>

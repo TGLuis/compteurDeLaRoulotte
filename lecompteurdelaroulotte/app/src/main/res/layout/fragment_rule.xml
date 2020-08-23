@@ -7,103 +7,95 @@
     android:layout_height="match_parent"
     android:background="@drawable/background_test">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/more_info"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent">
+        android:layout_height="match_parent">
 
-        <TextView
-            android:id="@+id/want_more_info"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:textColor="@color/black"
-            android:textSize="16sp"
-            android:text="@string/more_info_step"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"/>
-
-        <ImageButton
-            android:id="@+id/info_step"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            app:srcCompat="@drawable/info"
-            android:contentDescription="@string/info_image"
-            android:layout_marginEnd="10dp"
-            android:background="#00000000"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintRight_toRightOf="parent"/>
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            android:orientation="vertical" />
+    </ScrollView>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/start"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/more_info">
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-        <TextView
-            android:id="@+id/text_start"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:layout_marginStart="8dp"
-            android:textColor="@color/black"
-            android:textSize="16sp"
-            android:text="@string/start_now"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"/>
+        <TableLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-        <CheckBox
-            android:id="@+id/begin_now"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            app:layout_constraintBaseline_toBaselineOf="@id/text_start"
-            app:layout_constraintLeft_toRightOf="@id/text_start"/>
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
-        <TextView
-            android:id="@+id/other_start"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:layout_marginStart="8dp"
-            android:textColor="@color/black"
-            android:textSize="16sp"
-            android:text="@string/start_other"
-            app:layout_constraintTop_toBottomOf="@id/text_start"
-            app:layout_constraintLeft_toLeftOf="parent" />
+                <TextView
+                    android:id="@+id/text_start"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/min_margin_hor"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginBottom="2dp"
+                    android:text="@string/start_now"
+                    android:textColor="@color/black"
+                    android:textSize="16sp" />
 
-        <EditText
-            android:id="@+id/begin_other"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/mauve"
-            android:minWidth="40dp"
-            android:textSize="16sp"
-            android:inputType="number"
-            android:textStyle="bold"
-            android:maxLines="1"
-            android:hint="0"
-            android:layout_marginStart="10dp"
-            app:layout_constraintLeft_toRightOf="@id/other_start"
-            app:layout_constraintBaseline_toBaselineOf="@id/other_start"/>
+                <CheckBox
+                    android:id="@+id/begin_now"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp" />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/other_start"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/min_margin_hor"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginBottom="11dp"
+                    android:text="@string/start_other"
+                    android:textColor="@color/black"
+                    android:textSize="16sp" />
+
+                <EditText
+                    android:id="@+id/begin_other"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:hint="0"
+                    android:inputType="number"
+                    android:maxLines="1"
+                    android:minWidth="40dp"
+                    android:textColor="@color/mauve"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+            </TableRow>
+
+        </TableLayout>
 
 
         <ImageButton
             android:id="@+id/info_start"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            app:srcCompat="@drawable/info"
-            android:contentDescription="@string/info_image"
             android:layout_marginEnd="10dp"
             android:background="#00000000"
-            app:layout_constraintTop_toTopOf="parent"
+            android:contentDescription="@string/info_image"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintRight_toRightOf="parent"/>
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_baseline_info_24" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -111,38 +103,44 @@
         android:id="@+id/counter_of_rule"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/start">
 
-        <TextView
-            android:id="@+id/which_counter"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:layout_marginStart="8dp"
-            android:textColor="@color/black"
-            android:textSize="16sp"
-            android:text="@string/which_counter_rule"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
 
-        <Spinner
-            android:id="@+id/the_counter"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintLeft_toRightOf="@id/which_counter"
-            app:layout_constraintBaseline_toBaselineOf="@id/which_counter" />
+            <TextView
+                android:id="@+id/which_counter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/min_margin_hor"
+                android:layout_marginTop="8dp"
+                android:text="@string/which_counter_rule"
+                android:textColor="@color/black"
+                android:textSize="16sp" />
+
+            <Spinner
+                android:id="@+id/the_counter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"/>
+        </LinearLayout>
 
         <ImageButton
             android:id="@+id/info_which_counter"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            app:srcCompat="@drawable/info"
-            android:contentDescription="@string/info_image"
+            android:layout_marginTop="8dp"
             android:layout_marginEnd="10dp"
             android:background="#00000000"
-            app:layout_constraintTop_toTopOf="parent"
+            android:contentDescription="@string/info_image"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintRight_toRightOf="parent"/>
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_baseline_info_24" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -150,45 +148,49 @@
         android:id="@+id/a_comment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/counter_of_rule">
 
-        <TextView
-            android:id="@+id/comment_this"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:layout_marginStart="8dp"
-            android:textColor="@color/black"
-            android:textSize="16sp"
-            android:text="@string/comment_this"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-        <EditText
-            android:id="@+id/the_comment"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/mauve"
-            android:minWidth="80dp"
-            android:textSize="16sp"
-            android:maxLines="1"
-            android:hint="@string/a_comment"
-            android:layout_marginStart="10dp"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/comment_this"/>
+            <TextView
+                android:id="@+id/comment_this"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/min_margin_hor"
+                android:layout_marginTop="8dp"
+                android:text="@string/comment_this"
+                android:textColor="@color/black"
+                android:textSize="16sp" />
+
+            <EditText
+                android:id="@+id/the_comment"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/min_margin_hor"
+                android:hint="@string/a_comment"
+                android:maxLines="1"
+                android:minWidth="80dp"
+                android:textColor="@color/mauve"
+                android:textSize="16sp" />
+        </LinearLayout>
 
 
         <ImageButton
             android:id="@+id/info_comment"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            app:srcCompat="@drawable/info"
-            android:contentDescription="@string/info_image"
             android:layout_marginEnd="10dp"
             android:background="#00000000"
-            app:layout_constraintTop_toTopOf="parent"
+            android:contentDescription="@string/info_image"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintRight_toRightOf="parent"/>
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_baseline_info_24" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -215,37 +217,42 @@
             android:id="@+id/button_cancel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:theme="@style/ButtonStyleDark"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
             android:text="@string/cancel"
-            android:textSize="16sp"
+            android:textSize="@dimen/text_btn_normal"
+            android:paddingHorizontal="@dimen/min_btn_padding"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toLeftOf="@id/button_add_step"/>
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/button_save"/>
+
+        <Button
+            android:id="@+id/button_save"
+            style="@style/Widget.MaterialComponents.Button"
+            app:icon="@drawable/ic_baseline_save_24"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="@dimen/min_btn_padding"
+            android:text="@string/save"
+            android:textSize="@dimen/text_btn_large"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/button_add_step"
+            app:layout_constraintStart_toEndOf="@id/button_cancel"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <Button
             android:id="@+id/button_add_step"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:theme="@style/ButtonStyleDark"
+            style="@style/Widget.MaterialComponents.Button"
+            app:icon="@drawable/ic_baseline_add_24"
             android:text="@string/add_step"
-            android:textSize="16sp"
+            android:textSize="@dimen/text_btn_normal"
+            android:paddingHorizontal="@dimen/min_btn_padding"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toRightOf="@id/button_cancel"
-            app:layout_constraintRight_toLeftOf="@id/button_save"/>
-
-        <Button
-            android:id="@+id/button_save"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:theme="@style/ButtonStyleDark"
-            android:text="@string/save"
-            android:textSize="16sp"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toRightOf="@id/button_add_step"
-            app:layout_constraintRight_toRightOf="parent"/>
+            app:layout_constraintStart_toEndOf="@id/button_save"
+            app:layout_constraintEnd_toEndOf="parent"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
