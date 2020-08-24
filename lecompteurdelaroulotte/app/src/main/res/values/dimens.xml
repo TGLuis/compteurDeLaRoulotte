@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <dimen name="space_text_editext_hor">4dp</dimen>
     <dimen name="btn_elevation">1dp</dimen>
     <dimen name="min_btn_padding">4dp</dimen>
     <dimen name="converter_layout_height">128dp</dimen>
