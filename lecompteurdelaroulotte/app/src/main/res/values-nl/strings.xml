@@ -42,9 +42,9 @@
     <string name="rule">Regel</string>
     <string name="augmentation">Meerdering</string>
     <string name="diminution">Mindering</string>
-    <string name="rule_text1">" per "</string>
-    <string name="rows">" nld "</string>
-    <string name="stitch">" steken "</string>
+    <string name="rule_text1">"per "</string>
+    <string name="rows">"nld "</string>
+    <string name="stitch">"steken "</string>
     <string name="add_step">Stap</string>
     <string name="andthen">Daarna</string>
     <string name="from_row">vanaf de nld</string>
@@ -85,8 +85,8 @@
     <string name="home">Startpagina</string>
     <string name="my_counters">Mijn tellers</string>
     <string name="counter">Teller:</string>
-    <string name="which_counter_rule">Deze regel met de teller verbonden</string>
-    <string name="which_counter_comment">Dewe opmerking met de teller verbonden</string>
+    <string name="which_counter_rule">Verbind deze regel met</string>
+    <string name="which_counter_comment">Verbind deze opmerking met</string>
     <string name="the_project">het project</string>
     <string name="of">van</string>
     <string name="stitches">steken</string>

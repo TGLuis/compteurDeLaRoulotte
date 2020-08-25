@@ -42,9 +42,9 @@
     <string name="rule">Règle</string>
     <string name="augmentation">Augmentation</string>
     <string name="diminution">Diminution</string>
-    <string name="rule_text1"> fois tous les </string>
-    <string name="rows"> rangs </string>
-    <string name="stitch"> mailles</string>
+    <string name="rule_text1">"fois tous les "</string>
+    <string name="rows">"rangs "</string>
+    <string name="stitch">mailles</string>
     <string name="add_step">Étape</string>
     <string name="andthen">Ensuite</string>
     <string name="from_row">depuis le rang</string>
@@ -85,8 +85,8 @@
     <string name="home">Accueil</string>
     <string name="my_counters">Mes compteurs</string>
     <string name="counter">Compteur: </string>
-    <string name="which_counter_rule">Lier cette règle avec le compteur</string>
-    <string name="which_counter_comment">Lier ce commentaire avec le compteur</string>
+    <string name="which_counter_rule">Lier cette règle avec</string>
+    <string name="which_counter_comment">Lier ce commentaire avec</string>
     <string name="the_project">le projet</string>
     <string name="of">de</string>
     <string name="stitches">mailles</string>
