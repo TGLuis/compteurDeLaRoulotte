@@ -2,6 +2,7 @@ package fragments
 
 import android.media.MediaPlayer
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -267,6 +268,7 @@ class ProjectFragment : MyFragment() {
                         pdfView.visibility = View.INVISIBLE
                         pdfView.layoutParams.height = 0
                     } else {
+                        Log.e(TAG(), view.height.toString())
                         pdfView.visibility = View.VISIBLE
                         if (PDFHeight == 0) {
                             if (abs(pdfView.layoutParams.height - (view.height + pdfView.height) * 2 / 3) < 2) {

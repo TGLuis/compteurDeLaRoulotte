@@ -87,8 +87,10 @@ class RuleFragment : MyFragment() {
             if (step == steps[0]) {
                 val tv = projectView.findViewById<TextView>(R.id.andthen)
                 tv.text = ""
-
-                IB_del.alpha = 0F
+                IB_del.setImageResource(R.drawable.ic_baseline_info_24)
+                IB_del.setOnClickListener{
+                    expl.setMessage(R.string.help_step).create().show()
+                }
             } else {
                 IB_del.setOnClickListener {
                     val dial = AlertDialog.Builder(context)

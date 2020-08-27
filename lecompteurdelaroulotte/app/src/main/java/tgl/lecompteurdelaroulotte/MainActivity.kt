@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.ContextWrapper
 import android.content.Intent
 import android.content.res.Configuration
+import android.graphics.ColorFilter
 import android.os.Build
 import android.os.Bundle
 import android.os.LocaleList
@@ -18,6 +19,8 @@ import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import androidx.core.content.ContextCompat
+import androidx.core.graphics.drawable.DrawableCompat
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
@@ -123,8 +126,8 @@ class MainActivity : AppCompatActivityBase() {
             }
             "project" -> {
                 myMenu.add(R.string.edit_notes).apply {
-                    icon = context.getDrawable(R.drawable.icon_notes)
-                    setShowAsAction(1)
+                    icon = ContextCompat.getDrawable(context, R.drawable.icon_notes)
+                    setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM)
                     setOnMenuItemClickListener {
                         context.openFragment(NotesFragment())
                         true
@@ -161,7 +164,7 @@ class MainActivity : AppCompatActivityBase() {
                             val the_spinner = viewInflated.findViewById<Spinner>(R.id.input_spinner)
                             val arr = ArrayList<String>(context.actualProject!!.getCounters().size)
                             context.actualProject!!.getCounters().forEach { arr.add(it.name) }
-                            val adapteur = ArrayAdapter(context, R.layout.support_simple_spinner_dropdown_item, arr.toArray()!!)
+                            val adapteur = ArrayAdapter(context, R.layout.support_simple_spinner_dropdown_item, arr.toArray())
                             var selectedItem = arr[0]
                             adapteur.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item)
                             the_spinner.adapter = adapteur
@@ -233,6 +236,8 @@ class MainActivity : AppCompatActivityBase() {
                 if (actualProject!!.pdf != null) {
                     if (pdfIsOpen) {
                         myMenu.add(R.string.hide_pdf).apply {
+                            icon = ContextCompat.getDrawable(context, R.drawable.ic_baseline_visibility_off_24)
+                            setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM)
                             setOnMenuItemClickListener {
                                 pdfIsOpen = false
                                 openFragment(frags.pop())
@@ -242,9 +247,13 @@ class MainActivity : AppCompatActivityBase() {
                         }
                     } else {
                         myMenu.add(R.string.show_pdf).apply {
+                            icon = ContextCompat.getDrawable(context, R.drawable.ic_baseline_visibility_24)
+                            DrawableCompat.setTint(icon, ContextCompat.getColor(context, R.color.white))
+                            setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM)
                             setOnMenuItemClickListener {
                                 pdfIsOpen = true
                                 openFragment(frags.pop().javaClass.newInstance())
+                                context.setMenu("project", true)
                                 true
                             }
                         }
@@ -253,6 +262,9 @@ class MainActivity : AppCompatActivityBase() {
                 }
                 // open new pdf
                 myMenu.add(R.string.open_new_pdf).apply {
+                    icon = ContextCompat.getDrawable(context, R.drawable.ic_baseline_picture_as_pdf_24)
+                    DrawableCompat.setTint(icon, ContextCompat.getColor(context, R.color.white))
+                    setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM)
                     setOnMenuItemClickListener {
                         val intent = Intent(Intent.ACTION_OPEN_DOCUMENT).apply {
                             addCategory(Intent.CATEGORY_OPENABLE)

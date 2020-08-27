@@ -57,7 +57,7 @@
                 android:layout_marginEnd="@dimen/min_margin_hor"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/text_screen"
+                app:layout_constraintStart_toEndOf="@id/text_screen"
                 app:layout_constraintTop_toTopOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -73,13 +73,13 @@
 
             <TextView
                 android:id="@+id/text_volume"
-                android:layout_width="327dp"
-                android:layout_height="49dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_marginEnd="5dp"
-                android:minLines="2"
                 android:text="@string/volume_on"
                 android:textColor="@color/black"
                 android:textSize="20sp"
+                app:layout_constrainedWidth="true"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/check_box_volume_buttons"
                 app:layout_constraintStart_toStartOf="parent"
@@ -121,6 +121,7 @@
                 android:id="@+id/spinner_language"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
+                android:minWidth="80dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintTop_toTopOf="parent"/>

@@ -4,6 +4,7 @@
     <dimen name="btn_elevation">1dp</dimen>
     <dimen name="min_btn_padding">4dp</dimen>
     <dimen name="converter_layout_height">128dp</dimen>
+    <dimen name="info_btn_size">36dp</dimen>
     <!-- Margin -->
     <dimen name="min_btn_margin">5dp</dimen>
     <dimen name="min_margin_hor">10dp</dimen>
