@@ -1,13 +1,10 @@
 package tgl.lecompteurdelaroulotte
 
 import android.app.Activity
-import android.content.Context
-import android.content.ContextWrapper
 import android.content.Intent
-import android.content.res.Configuration
+import android.content.res.Resources
 import android.os.Build
 import android.os.Bundle
-import android.os.LocaleList
 import android.util.Log
 import android.view.*
 import android.widget.AdapterView
@@ -16,15 +13,11 @@ import android.widget.Spinner
 import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
-import androidx.fragment.app.Fragment
 import com.google.android.material.navigation.NavigationView
 import com.ninenox.kotlinlocalemanager.AppCompatActivityBase
-import com.ninenox.kotlinlocalemanager.ApplicationLocale
-import com.ninenox.kotlinlocalemanager.LocaleManager
 import fragments.*
 import kotlinx.android.synthetic.main.simple_text_and_box_input.view.*
 import kotlinx.android.synthetic.main.simple_text_input.view.input_text
@@ -58,6 +51,7 @@ class MainActivity : AppCompatActivityBase() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        Log.i(TAG, "i")
 
         // Database
         db = MyDatabase(this)
@@ -73,7 +67,27 @@ class MainActivity : AppCompatActivityBase() {
         } else {
             window.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
         }
+        // Language
         language = Helper.getConfigValue("language").toString()
+        if (Build.VERSION.SDK_INT >= 24) {
+            val locs = Resources.getSystem().configuration.locales
+            if (language == "-") {
+                for (x in 0 until locs.size()) {
+                    val thelangue = locs[x].language.toUpperCase()
+                    if (Helper.isLanguageAvailable(thelangue)) {
+                        if (Helper.getLanguage() != thelangue)
+                            setNewLocale(thelangue)
+                        break
+                    }
+                }
+            }
+        } else {
+            val thelangue = Resources.getSystem().configuration.locale.language.toUpperCase()
+            if (language == "-" && Helper.getLanguage() != thelangue) {
+                if (Helper.isLanguageAvailable(thelangue))
+                    setNewLocale(thelangue)
+            }
+        }
         if (language != "-" && Helper.getLanguage() != language) {
             setNewLocale(language)
         }
@@ -83,7 +97,13 @@ class MainActivity : AppCompatActivityBase() {
         toolbar = this.findViewById(R.id.my_toolbar)
         setSupportActionBar(toolbar)
         drawerLayout = this.findViewById(R.id.drawer_layout)
-        val toggle = ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close)
+        val toggle = ActionBarDrawerToggle(
+            this,
+            drawerLayout,
+            toolbar,
+            R.string.navigation_drawer_open,
+            R.string.navigation_drawer_close
+        )
         drawerLayout.addDrawerListener(toggle)
         toggle.syncState()
 
@@ -132,17 +152,73 @@ class MainActivity : AppCompatActivityBase() {
                 }
                 myMenu.add(R.string.add_counter).apply {
                     setOnMenuItemClickListener {
-                        val viewInflated = LayoutInflater.from(context).inflate(R.layout.simple_text_input, context.navView as ViewGroup, false)
+                        val viewInflated = LayoutInflater.from(context).inflate(
+                            R.layout.simple_text_input,
+                            context.navView as ViewGroup,
+                            false
+                        )
                         val addCounter = AlertDialog.Builder(context)
                         addCounter.setView(viewInflated)
-                                .setTitle(R.string.counter_name_id)
-                                .setPositiveButton(R.string.ok) { dialog, _ ->
-                                    val counterName = viewInflated.input_text.text.toString()
-                                    if (actualProject!!.hasCounter(counterName)) {
-                                        Toast.makeText(context, R.string.counter_already, Toast.LENGTH_SHORT).show()
-                                    } else {
-                                        context.createCounter(counterName)
+                            .setTitle(R.string.counter_name_id)
+                            .setPositiveButton(R.string.ok) { dialog, _ ->
+                                val counterName = viewInflated.input_text.text.toString()
+                                if (actualProject!!.hasCounter(counterName)) {
+                                    Toast.makeText(
+                                        context,
+                                        R.string.counter_already,
+                                        Toast.LENGTH_SHORT
+                                    ).show()
+                                } else {
+                                    context.createCounter(counterName)
+                                }
+                                dialog.dismiss()
+                            }
+                            .setNegativeButton(R.string.cancel) { dialog, _ ->
+                                dialog.dismiss()
+                            }
+                            .setCancelable(false)
+                            .create()
+                            .show()
+                        true
+                    }
+                }
+                if (context.actualProject!!.myCounters.size > 0) {
+                    myMenu.add(R.string.open_a_counter).apply {
+                        setOnMenuItemClickListener {
+                            val viewInflated = LayoutInflater.from(context).inflate(
+                                R.layout.simple_spinner_input,
+                                context.navView as ViewGroup,
+                                false
+                            )
+                            val the_spinner = viewInflated.findViewById<Spinner>(R.id.input_spinner)
+                            val arr = ArrayList<String>(context.actualProject!!.getCounters().size)
+                            context.actualProject!!.getCounters().forEach { arr.add(it.name) }
+                            val adapteur = ArrayAdapter(
+                                context,
+                                R.layout.support_simple_spinner_dropdown_item,
+                                arr.toArray()!!
+                            )
+                            var selectedItem = arr[0]
+                            adapteur.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item)
+                            the_spinner.adapter = adapteur
+                            the_spinner.onItemSelectedListener =
+                                object : AdapterView.OnItemSelectedListener {
+                                    override fun onNothingSelected(parent: AdapterView<*>?) {}
+                                    override fun onItemSelected(
+                                        p0: AdapterView<*>?,
+                                        p1: View?,
+                                        p2: Int,
+                                        p3: Long
+                                    ) {
+                                        selectedItem = arr[p2]
                                     }
+                                }
+                            editCounter.setView(viewInflated)
+                                .setTitle(R.string.project_name_id)
+                                .setPositiveButton(R.string.ok) { dialog, _ ->
+                                    actualCounter =
+                                        actualProject!!.myCounters.find { it.name == selectedItem }
+                                    context.openFragment(CounterFragment())
                                     dialog.dismiss()
                                 }
                                 .setNegativeButton(R.string.cancel) { dialog, _ ->
@@ -151,39 +227,6 @@ class MainActivity : AppCompatActivityBase() {
                                 .setCancelable(false)
                                 .create()
                                 .show()
-                        true
-                    }
-                }
-                if (context.actualProject!!.myCounters.size > 0) {
-                    myMenu.add(R.string.open_a_counter).apply {
-                        setOnMenuItemClickListener {
-                            val viewInflated = LayoutInflater.from(context).inflate(R.layout.simple_spinner_input, context.navView as ViewGroup, false)
-                            val the_spinner = viewInflated.findViewById<Spinner>(R.id.input_spinner)
-                            val arr = ArrayList<String>(context.actualProject!!.getCounters().size)
-                            context.actualProject!!.getCounters().forEach { arr.add(it.name) }
-                            val adapteur = ArrayAdapter(context, R.layout.support_simple_spinner_dropdown_item, arr.toArray()!!)
-                            var selectedItem = arr[0]
-                            adapteur.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item)
-                            the_spinner.adapter = adapteur
-                            the_spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-                                override fun onNothingSelected(parent: AdapterView<*>?) {}
-                                override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
-                                    selectedItem = arr[p2]
-                                }
-                            }
-                            editCounter.setView(viewInflated)
-                                    .setTitle(R.string.project_name_id)
-                                    .setPositiveButton(R.string.ok) { dialog, _ ->
-                                        actualCounter = actualProject!!.myCounters.find { it.name == selectedItem }
-                                        context.openFragment(CounterFragment())
-                                        dialog.dismiss()
-                                    }
-                                    .setNegativeButton(R.string.cancel) { dialog, _ ->
-                                        dialog.dismiss()
-                                    }
-                                    .setCancelable(false)
-                                    .create()
-                                    .show()
                             true
                         }
                     }
@@ -204,35 +247,44 @@ class MainActivity : AppCompatActivityBase() {
                 }
                 myMenu.add(R.string.clone_proj).apply {
                     setOnMenuItemClickListener {
-                        val viewInflated = LayoutInflater.from(context).inflate(R.layout.simple_text_and_box_input, context.navView as ViewGroup, false)
+                        val viewInflated = LayoutInflater.from(context).inflate(
+                            R.layout.simple_text_and_box_input,
+                            context.navView as ViewGroup,
+                            false
+                        )
                         viewInflated.tv.text = getString(R.string.with_data)
                         viewInflated.input_text.hint = getString(R.string.project_name)
                         val addCounter = AlertDialog.Builder(context)
                         addCounter.setView(viewInflated)
-                                .setTitle(R.string.clone_proj)
-                                .setPositiveButton(R.string.ok) { dialog, _ ->
-                                    val projectName = viewInflated.input_text.text.toString()
-                                    val data: Boolean = viewInflated.input_check_box.isChecked
-                                    if (context.projectsList.find { it.name == projectName } == null) {
-                                        context.actualProject!!.clone(projectName, data)
-                                        dialog.dismiss()
-                                        context.openFragment(HomeFragment())
-                                    } else {
-                                        Toast.makeText(context, R.string.project_already, Toast.LENGTH_SHORT).show()
-                                    }
-                                }
-                                .setNegativeButton(R.string.cancel) { dialog, _ ->
+                            .setTitle(R.string.clone_proj)
+                            .setPositiveButton(R.string.ok) { dialog, _ ->
+                                val projectName = viewInflated.input_text.text.toString()
+                                val data: Boolean = viewInflated.input_check_box.isChecked
+                                if (context.projectsList.find { it.name == projectName } == null) {
+                                    context.actualProject!!.clone(projectName, data)
                                     dialog.dismiss()
+                                    context.openFragment(HomeFragment())
+                                } else {
+                                    Toast.makeText(
+                                        context,
+                                        R.string.project_already,
+                                        Toast.LENGTH_SHORT
+                                    ).show()
                                 }
-                                .setCancelable(false)
-                                .create()
-                                .show()
+                            }
+                            .setNegativeButton(R.string.cancel) { dialog, _ ->
+                                dialog.dismiss()
+                            }
+                            .setCancelable(false)
+                            .create()
+                            .show()
                         true
                     }
                 }
                 if (actualProject!!.pdf != null) {
                     if (pdfIsOpen) {
                         myMenu.add(R.string.hide_pdf).apply {
+                            //TODO add icon (visibility)
                             setOnMenuItemClickListener {
                                 pdfIsOpen = false
                                 openFragment(frags.pop())
@@ -253,12 +305,16 @@ class MainActivity : AppCompatActivityBase() {
                 }
                 // open new pdf
                 myMenu.add(R.string.open_new_pdf).apply {
+                    //TODO add an icon
                     setOnMenuItemClickListener {
                         val intent = Intent(Intent.ACTION_OPEN_DOCUMENT).apply {
                             addCategory(Intent.CATEGORY_OPENABLE)
                             type = "application/pdf"
                         }
-                        startActivityForResult(Intent.createChooser(intent, "Select PDF"), PDF_SELECTION_CODE)
+                        startActivityForResult(
+                            Intent.createChooser(intent, "Select PDF"),
+                            PDF_SELECTION_CODE
+                        )
                         // The function "onActivityResult" will be called when the activity to select a pdf has finished
                         true
                     }
@@ -280,7 +336,11 @@ class MainActivity : AppCompatActivityBase() {
         navView.menu.add(R.string.add_project).apply {
             setOnMenuItemClickListener {
                 val addProj = AlertDialog.Builder(context)
-                val viewInflated = LayoutInflater.from(context).inflate(R.layout.simple_text_input, navView as ViewGroup, false)
+                val viewInflated = LayoutInflater.from(context).inflate(
+                    R.layout.simple_text_input,
+                    navView as ViewGroup,
+                    false
+                )
                 viewInflated.input_text.hint = context.getString(R.string.project_name)
                 addProj.setView(viewInflated)
                         .setTitle(R.string.project_name_id)
@@ -292,7 +352,11 @@ class MainActivity : AppCompatActivityBase() {
                                 openFragment(HomeFragment())
                                 dialog.dismiss()
                             } else {
-                                Toast.makeText(context, R.string.project_already, Toast.LENGTH_SHORT).show()
+                                Toast.makeText(
+                                    context,
+                                    R.string.project_already,
+                                    Toast.LENGTH_SHORT
+                                ).show()
                             }
                         }
                         .setNegativeButton(R.string.cancel) { dialog, _ ->
@@ -394,7 +458,15 @@ class MainActivity : AppCompatActivityBase() {
 
     fun updateCounterName(c: Counter, new_name: String) {
         db.deleteCounterDB(actualProject!!, c.name)
-        db.addCounterDB(actualProject!!, new_name, c.etat, c.max, c.order, c.attachedMain, c.counterAttached)
+        db.addCounterDB(
+            actualProject!!,
+            new_name,
+            c.etat,
+            c.max,
+            c.order,
+            c.attachedMain,
+            c.counterAttached
+        )
     }
 
     fun addRuleToProject(r: Rule) {
@@ -506,7 +578,15 @@ class MainActivity : AppCompatActivityBase() {
                 val counters = thisit.getCounters()
                 if (counters.isNotEmpty()) {
                     counters.forEach {
-                        db.updateCounterDB(thisit, it.name, it.etat, it.max, it.order, it.attachedMain, it.counterAttached)
+                        db.updateCounterDB(
+                            thisit,
+                            it.name,
+                            it.etat,
+                            it.max,
+                            it.order,
+                            it.attachedMain,
+                            it.counterAttached
+                        )
                     }
                 }
                 // fix disparition of some rules and comments by force save..
