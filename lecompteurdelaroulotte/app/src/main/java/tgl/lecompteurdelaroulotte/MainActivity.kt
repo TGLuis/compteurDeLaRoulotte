@@ -1,15 +1,8 @@
 package tgl.lecompteurdelaroulotte
 
 import android.app.Activity
-import android.content.Context
-import android.content.ContextWrapper
 import android.content.Intent
-import android.content.res.Configuration
-import android.graphics.ColorFilter
-import android.os.Build
 import android.os.Bundle
-import android.os.LocaleList
-import android.util.Log
 import android.view.*
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
@@ -17,17 +10,14 @@ import android.widget.Spinner
 import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.DrawableCompat
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
-import androidx.fragment.app.Fragment
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.navigation.NavigationView
 import com.ninenox.kotlinlocalemanager.AppCompatActivityBase
-import com.ninenox.kotlinlocalemanager.ApplicationLocale
-import com.ninenox.kotlinlocalemanager.LocaleManager
 import fragments.*
 import kotlinx.android.synthetic.main.simple_text_and_box_input.view.*
 import kotlinx.android.synthetic.main.simple_text_input.view.input_text
@@ -54,7 +44,6 @@ class MainActivity : AppCompatActivityBase() {
     private lateinit var navView: NavigationView
     private lateinit var drawerLayout: DrawerLayout
     private lateinit var db: MyDatabase
-    private lateinit var editCounter: AlertDialog.Builder
     private var lastMenu: String? = null
     private val PDF_SELECTION_CODE = 99
 
@@ -92,7 +81,6 @@ class MainActivity : AppCompatActivityBase() {
 
         //NavigationView
         navView = this.findViewById(R.id.nav_view)
-        editCounter = AlertDialog.Builder(this)
         setDrawer()
 
         // Fragments
@@ -136,7 +124,7 @@ class MainActivity : AppCompatActivityBase() {
                 myMenu.add(R.string.add_counter).apply {
                     setOnMenuItemClickListener {
                         val viewInflated = LayoutInflater.from(context).inflate(R.layout.simple_text_input, context.navView as ViewGroup, false)
-                        val addCounter = AlertDialog.Builder(context)
+                        val addCounter = MaterialAlertDialogBuilder(context, R.style.AlertDialogPositiveBtnFilled)
                         addCounter.setView(viewInflated)
                                 .setTitle(R.string.counter_name_id)
                                 .setPositiveButton(R.string.ok) { dialog, _ ->
@@ -174,6 +162,7 @@ class MainActivity : AppCompatActivityBase() {
                                     selectedItem = arr[p2]
                                 }
                             }
+                            val editCounter = MaterialAlertDialogBuilder(context, R.style.AlertDialogPositiveBtnFilled)
                             editCounter.setView(viewInflated)
                                     .setTitle(R.string.project_name_id)
                                     .setPositiveButton(R.string.ok) { dialog, _ ->
@@ -210,7 +199,7 @@ class MainActivity : AppCompatActivityBase() {
                         val viewInflated = LayoutInflater.from(context).inflate(R.layout.simple_text_and_box_input, context.navView as ViewGroup, false)
                         viewInflated.tv.text = getString(R.string.with_data)
                         viewInflated.input_text.hint = getString(R.string.project_name)
-                        val addCounter = AlertDialog.Builder(context)
+                        val addCounter = MaterialAlertDialogBuilder(context, R.style.AlertDialogPositiveBtnFilled)
                         addCounter.setView(viewInflated)
                                 .setTitle(R.string.clone_proj)
                                 .setPositiveButton(R.string.ok) { dialog, _ ->
@@ -291,7 +280,7 @@ class MainActivity : AppCompatActivityBase() {
         }
         navView.menu.add(R.string.add_project).apply {
             setOnMenuItemClickListener {
-                val addProj = AlertDialog.Builder(context)
+                val addProj = MaterialAlertDialogBuilder(context, R.style.AlertDialogPositiveBtnFilled)
                 val viewInflated = LayoutInflater.from(context).inflate(R.layout.simple_text_input, navView as ViewGroup, false)
                 viewInflated.input_text.hint = context.getString(R.string.project_name)
                 addProj.setView(viewInflated)

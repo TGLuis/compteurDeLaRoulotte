@@ -8,8 +8,7 @@
     <color name="trans">#000000</color>
     <color name="lightGrey">#DCDCDC</color>
     <color name="darkylightGrey">#CDCDCD</color>
-
-
+    <color name="linkOn">#2196F3</color>
     <!-- theme de la roulotte aux pelotes-->
     <color name="vert">#B5FC29</color>
     <color name="mauve">#8035bf</color>

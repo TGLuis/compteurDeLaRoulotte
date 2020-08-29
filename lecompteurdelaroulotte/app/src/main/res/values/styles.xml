@@ -38,4 +38,19 @@
         <item name="android:textSize">18sp</item>
     </style>
 
+    <!-- Dialogs   -->
+    <style name="MaterialAlertDialog.App" parent="MaterialAlertDialog.MaterialComponents">
+        <item name="shapeAppearance">@style/ShapeAppearance.MaterialComponents.MediumComponent</item>
+    </style>
+
+    <style name="AlertDialogPositiveBtnFilled" parent="@style/ThemeOverlay.MaterialComponents.MaterialAlertDialog">
+        <!-- Buttons -->
+        <item name="buttonBarPositiveButtonStyle">@style/PositiveButtonStyle</item>
+    </style>
+
+    <style name="PositiveButtonStyle" parent="@style/Widget.MaterialComponents.Button.TextButton.Dialog">
+        <item name="android:textColor">@color/white</item>
+        <item name="backgroundTint">@color/colorPrimary</item>
+    </style>
+
 </resources>

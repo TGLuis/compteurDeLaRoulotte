@@ -1,5 +1,6 @@
 package fragments
 
+import android.graphics.Color
 import android.media.MediaPlayer
 import android.os.Bundle
 import android.util.Log
@@ -9,6 +10,8 @@ import android.view.ViewGroup
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.content.ContextCompat
+import androidx.core.graphics.drawable.DrawableCompat
 import com.github.barteksc.pdfviewer.PDFView
 import library.Counter
 import library.Project
@@ -70,7 +73,9 @@ class ProjectFragment : MyFragment() {
             nb.text = count.toDisplay()
 
             val linked = projectView.findViewById<ImageView>(R.id.linked)
-            if (count.attachedMain) linked.setImageDrawable(context.getDrawable(R.drawable.image_link_on))
+            if (count.attachedMain) {
+                DrawableCompat.setTint(linked.drawable, ContextCompat.getColor(context, R.color.linkOn))
+            }
 
             val buttonM = projectView.findViewById<Button>(R.id.button_minus)
             buttonM.setOnClickListener {

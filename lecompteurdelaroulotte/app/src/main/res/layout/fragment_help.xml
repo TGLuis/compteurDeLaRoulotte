@@ -9,7 +9,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/help_general"
@@ -28,7 +28,6 @@
                 android:textSize="24sp"
                 android:maxWidth="280dp"
                 android:gravity="start"
-                android:layout_marginLeft="8dp"
                 android:layout_marginStart="8dp"
                 android:textColor="@color/black"
                 android:text="@string/help_general_title"
@@ -39,13 +38,13 @@
 
             <ImageButton
                 android:id="@+id/help_general_drop"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
+                android:layout_width="@dimen/drop_btn_size"
+                android:layout_height="@dimen/drop_btn_size"
                 android:contentDescription="@string/drop"
                 android:layout_marginEnd="10dp"
-                android:layout_marginRight="10dp"
                 android:background="#00000000"
-                app:srcCompat="@drawable/drop_down"
+                android:scaleType="fitXY"
+                app:srcCompat="@drawable/ic_baseline_arrow_drop_down_24"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toTopOf="@id/help_general_text"
                 app:layout_constraintRight_toRightOf="parent" />
@@ -55,7 +54,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="start"
-                android:layout_marginLeft="8dp"
                 android:layout_marginStart="8dp"
                 android:textSize="18sp"
                 android:textColor="@color/mauve"
@@ -81,7 +79,6 @@
                 android:textSize="24sp"
                 android:maxWidth="280dp"
                 android:gravity="start"
-                android:layout_marginLeft="8dp"
                 android:layout_marginStart="8dp"
                 android:textColor="@color/black"
                 android:text="@string/help_counter_title"
@@ -92,13 +89,13 @@
 
             <ImageButton
                 android:id="@+id/help_counter_drop"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
+                android:layout_width="@dimen/drop_btn_size"
+                android:layout_height="@dimen/drop_btn_size"
                 android:contentDescription="@string/drop"
                 android:layout_marginEnd="10dp"
-                android:layout_marginRight="10dp"
                 android:background="#00000000"
-                app:srcCompat="@drawable/drop_down"
+                android:scaleType="fitXY"
+                app:srcCompat="@drawable/ic_baseline_arrow_drop_down_24"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toTopOf="@id/help_counter_text"
                 app:layout_constraintRight_toRightOf="parent" />
@@ -108,7 +105,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="start"
-                android:layout_marginLeft="8dp"
                 android:layout_marginStart="8dp"
                 android:textSize="18sp"
                 android:textColor="@color/mauve"
@@ -134,7 +130,6 @@
                 android:textSize="24sp"
                 android:maxWidth="280dp"
                 android:gravity="start"
-                android:layout_marginLeft="8dp"
                 android:layout_marginStart="8dp"
                 android:textColor="@color/black"
                 android:text="@string/help_comment_title"
@@ -145,13 +140,13 @@
 
             <ImageButton
                 android:id="@+id/help_comment_drop"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
+                android:layout_width="@dimen/drop_btn_size"
+                android:layout_height="@dimen/drop_btn_size"
                 android:contentDescription="@string/drop"
                 android:layout_marginEnd="10dp"
-                android:layout_marginRight="10dp"
                 android:background="#00000000"
-                app:srcCompat="@drawable/drop_down"
+                android:scaleType="fitXY"
+                app:srcCompat="@drawable/ic_baseline_arrow_drop_down_24"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toTopOf="@id/help_comment_text"
                 app:layout_constraintRight_toRightOf="parent" />
@@ -161,7 +156,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="start"
-                android:layout_marginLeft="8dp"
                 android:layout_marginStart="8dp"
                 android:textSize="18sp"
                 android:textColor="@color/mauve"
@@ -187,7 +181,6 @@
                 android:textSize="24sp"
                 android:maxWidth="280dp"
                 android:gravity="start"
-                android:layout_marginLeft="8dp"
                 android:layout_marginStart="8dp"
                 android:textColor="@color/black"
                 android:text="@string/help_rule_title"
@@ -198,13 +191,13 @@
 
             <ImageButton
                 android:id="@+id/help_rule_drop"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
+                android:layout_width="@dimen/drop_btn_size"
+                android:layout_height="@dimen/drop_btn_size"
                 android:contentDescription="@string/drop"
                 android:layout_marginEnd="10dp"
-                android:layout_marginRight="10dp"
                 android:background="#00000000"
-                app:srcCompat="@drawable/drop_down"
+                android:scaleType="fitXY"
+                app:srcCompat="@drawable/ic_baseline_arrow_drop_down_24"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toTopOf="@id/help_rule_text"
                 app:layout_constraintRight_toRightOf="parent" />
@@ -214,7 +207,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="start"
-                android:layout_marginLeft="8dp"
                 android:layout_marginStart="8dp"
                 android:textSize="18sp"
                 android:textColor="@color/mauve"

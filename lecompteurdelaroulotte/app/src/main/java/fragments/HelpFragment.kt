@@ -78,11 +78,11 @@ class HelpFragment : MyFragment() {
             if (gen_drop) {
                 TV_general.text = ""
                 TV_general.height = 0
-                IB_general.setImageResource(R.drawable.drop_down)
+                IB_general.setImageResource(R.drawable.ic_baseline_arrow_drop_down_24)
             } else {
                 TV_general.text = context.getString(R.string.help_general)
                 TV_general.height = height_general
-                IB_general.setImageResource(R.drawable.drop_up)
+                IB_general.setImageResource(R.drawable.ic_baseline_arrow_drop_up_24)
             }
             gen_drop = !gen_drop
         }
@@ -92,11 +92,11 @@ class HelpFragment : MyFragment() {
             if (con_drop) {
                 TV_counter.height = 0
                 TV_counter.text = ""
-                IB_counter.setImageResource(R.drawable.drop_down)
+                IB_counter.setImageResource(R.drawable.ic_baseline_arrow_drop_down_24)
             } else {
                 TV_counter.text = context.getString(R.string.help_counter)
                 TV_counter.height = height_counter
-                IB_counter.setImageResource(R.drawable.drop_up)
+                IB_counter.setImageResource(R.drawable.ic_baseline_arrow_drop_up_24)
             }
             con_drop = !con_drop
         }
@@ -106,11 +106,11 @@ class HelpFragment : MyFragment() {
             if (com_drop) {
                 TV_comment.height = 0
                 TV_comment.text = ""
-                IB_comment.setImageResource(R.drawable.drop_down)
+                IB_comment.setImageResource(R.drawable.ic_baseline_arrow_drop_down_24)
             } else {
                 TV_comment.text = context.getString(R.string.help_comment)
                 TV_comment.height = height_comment
-                IB_comment.setImageResource(R.drawable.drop_up)
+                IB_comment.setImageResource(R.drawable.ic_baseline_arrow_drop_up_24)
             }
             com_drop = !com_drop
         }
@@ -120,11 +120,11 @@ class HelpFragment : MyFragment() {
             if (rul_drop) {
                 TV_rule.height = 0
                 TV_rule.text = ""
-                IB_rule.setImageResource(R.drawable.drop_down)
+                IB_rule.setImageResource(R.drawable.ic_baseline_arrow_drop_down_24)
             } else {
                 TV_rule.text = context.getString(R.string.help_rule)
                 TV_rule.height = height_rule
-                IB_rule.setImageResource(R.drawable.drop_up)
+                IB_rule.setImageResource(R.drawable.ic_baseline_arrow_drop_up_24)
             }
             rul_drop = !rul_drop
         }
