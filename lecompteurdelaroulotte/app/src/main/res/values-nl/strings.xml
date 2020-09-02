@@ -45,7 +45,7 @@
     <string name="rule_text1">"per "</string>
     <string name="rows">"nld "</string>
     <string name="stitch">"steken "</string>
-    <string name="add_step">Stap</string>
+    <string name="step">Stap</string>
     <string name="andthen">Daarna</string>
     <string name="from_row">vanaf de nld</string>
     <string name="pre_rule">Wil u deze regel aan het project toevoegen?</string>
