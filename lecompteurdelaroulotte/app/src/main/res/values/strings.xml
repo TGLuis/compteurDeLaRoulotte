@@ -46,7 +46,7 @@
     <string name="rule_text1">"times each "</string>
     <string name="rows">"rows "</string>
     <string name="stitch">stitches</string>
-    <string name="add_step">Step</string>
+    <string name="step">Step</string>
     <string name="andthen">And then</string>
     <string name="from_row">from row</string>
     <string name="pre_rule">Do you want to add this rule in the project?</string>

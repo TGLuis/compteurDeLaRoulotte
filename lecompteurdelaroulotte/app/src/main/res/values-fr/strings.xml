@@ -45,7 +45,7 @@
     <string name="rule_text1">"fois tous les "</string>
     <string name="rows">"rangs "</string>
     <string name="stitch">mailles</string>
-    <string name="add_step">Étape</string>
+    <string name="step">Étape</string>
     <string name="andthen">Ensuite</string>
     <string name="from_row">depuis le rang</string>
     <string name="pre_rule">Voulez-vous ajouter cette règle au projet?</string>

@@ -336,11 +336,7 @@ class MainActivity : AppCompatActivityBase() {
         navView.menu.add(R.string.add_project).apply {
             setOnMenuItemClickListener {
                 val addProj = AlertDialog.Builder(context)
-                val viewInflated = LayoutInflater.from(context).inflate(
-                    R.layout.simple_text_input,
-                    navView as ViewGroup,
-                    false
-                )
+                val viewInflated = LayoutInflater.from(context).inflate(R.layout.simple_text_input, navView as ViewGroup, false)
                 viewInflated.input_text.hint = context.getString(R.string.project_name)
                 addProj.setView(viewInflated)
                         .setTitle(R.string.project_name_id)
@@ -352,11 +348,7 @@ class MainActivity : AppCompatActivityBase() {
                                 openFragment(HomeFragment())
                                 dialog.dismiss()
                             } else {
-                                Toast.makeText(
-                                    context,
-                                    R.string.project_already,
-                                    Toast.LENGTH_SHORT
-                                ).show()
+                                Toast.makeText(context, R.string.project_already, Toast.LENGTH_SHORT).show()
                             }
                         }
                         .setNegativeButton(R.string.cancel) { dialog, _ ->
