@@ -35,17 +35,17 @@
     <string name="warning">Attention</string>
     <string name="my_rules">Mes règles</string>
     <string name="my_comments">Mes commentaires</string>
-    <string name="start_now">Commencer à partir du rang actuel?</string>
+    <string name="start_now">Commencer à partir du rang actuel ?</string>
     <string name="start_other">Ou à partir du rang:</string>
 
     <!-- rule -->
     <string name="rule">Règle</string>
     <string name="augmentation">Augmentation</string>
     <string name="diminution">Diminution</string>
-    <string name="rule_text1"> fois tous les </string>
-    <string name="rows"> rangs </string>
-    <string name="stitch"> mailles</string>
-    <string name="add_step">Ajouter une étape</string>
+    <string name="rule_text1">"fois tous les "</string>
+    <string name="rows">"rangs "</string>
+    <string name="stitch">mailles</string>
+    <string name="step">Étape</string>
     <string name="andthen">Ensuite</string>
     <string name="from_row">depuis le rang</string>
     <string name="pre_rule">Voulez-vous ajouter cette règle au projet?</string>
@@ -85,8 +85,8 @@
     <string name="home">Accueil</string>
     <string name="my_counters">Mes compteurs</string>
     <string name="counter">Compteur: </string>
-    <string name="which_counter_rule">Lier cette règle avec le compteur</string>
-    <string name="which_counter_comment">Lier ce commentaire avec le compteur</string>
+    <string name="which_counter_rule">Lier cette règle avec</string>
+    <string name="which_counter_comment">Lier ce commentaire avec</string>
     <string name="the_project">le projet</string>
     <string name="of">de</string>
     <string name="stitches">mailles</string>
@@ -155,5 +155,5 @@
     <string name="converter_length_value_1_hint">Première valeur</string>
     <string name="converter_length_value_2_hint">Seconde valeur</string>
     <string name="converter_arrow_descr">Conversion direction</string>
-    <string name="ConverterDefaultValue">1</string>
+    <string name="NumberDefaultValue">0</string>
 </resources>

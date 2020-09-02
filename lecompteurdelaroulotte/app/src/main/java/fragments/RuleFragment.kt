@@ -27,7 +27,6 @@ class RuleFragment : MyFragment() {
     private lateinit var S_counters: Spinner
     private lateinit var ET_comment: EditText
     private lateinit var IB_infoStart: ImageButton
-    private lateinit var IB_infoStep: ImageButton
     private lateinit var IB_infoCounter: ImageButton
     private lateinit var IB_infoComment: ImageButton
     private lateinit var expl: AlertDialog.Builder
@@ -185,11 +184,6 @@ class RuleFragment : MyFragment() {
         IB_infoStart = context.findViewById(R.id.info_start)
         IB_infoStart.setOnClickListener {
             expl.setMessage(R.string.help_start).create().show()
-        }
-
-        IB_infoStep = context.findViewById(R.id.info_step)
-        IB_infoStep.setOnClickListener {
-            expl.setMessage(R.string.help_step).create().show()
         }
 
         IB_infoCounter = context.findViewById(R.id.info_which_counter)

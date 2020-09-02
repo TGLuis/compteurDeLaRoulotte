@@ -36,17 +36,17 @@
     <string name="warning">Warning</string>
     <string name="my_rules">My rules</string>
     <string name="my_comments">My comments</string>
-    <string name="start_now">Begin from actual row?</string>
+    <string name="start_now">Begin from actual row ?</string>
     <string name="start_other">Or from row number:</string>
 
     <!-- rule -->
     <string name="rule">Rule</string>
     <string name="augmentation">Incrementing</string>
     <string name="diminution">Decrementing</string>
-    <string name="rule_text1"> times each </string>
-    <string name="rows"> rows </string>
-    <string name="stitch"> stitches</string>
-    <string name="add_step">Add a step</string>
+    <string name="rule_text1">"times each "</string>
+    <string name="rows">"rows "</string>
+    <string name="stitch">stitches</string>
+    <string name="step">Step</string>
     <string name="andthen">And then</string>
     <string name="from_row">from row</string>
     <string name="pre_rule">Do you want to add this rule in the project?</string>
@@ -74,7 +74,7 @@
     <string name="add_rule">Add a rule</string>
     <string name="add_comment">Add a comment</string>
     <string name="edit_notes">Edit notes</string>
-    <string name="edit_rules" translatable="false">Edit rules</string>
+    <string name="edit_rules">Edit rules</string>
     <string name="parameter_image">Parameters</string>
     <string name="linked_image" translatable="false">Linked image</string>
     <string name="delete_image" translatable="false">Delete</string>
@@ -97,7 +97,7 @@
     <string name="counter">Counter: </string>
     <string name="which_counter_rule">Bind this rule to</string>
     <string name="which_counter_comment">Bind this comment to</string>
-    <string name="the_project">The project</string>
+    <string name="the_project">the project</string>
     <string name="of">of</string>
     <string name="stitches">stitches</string>
     <string name="comment_this">Comment this rule</string>
@@ -161,5 +161,5 @@
     <string name="converter_length_value_1_hint">First value</string>
     <string name="converter_length_value_2_hint">Second value</string>
     <string name="converter_arrow_descr">Conversion direction</string>
-    <string name="ConverterDefaultValue">1</string>
+    <string name="NumberDefaultValue">0</string>
 </resources>
