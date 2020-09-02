@@ -273,7 +273,6 @@ class ProjectFragment : MyFragment() {
                         pdfView.visibility = View.INVISIBLE
                         pdfView.layoutParams.height = 0
                     } else {
-                        Log.e(TAG(), view.height.toString())
                         pdfView.visibility = View.VISIBLE
                         if (PDFHeight == 0) {
                             if (abs(pdfView.layoutParams.height - (view.height + pdfView.height) * 2 / 3) < 2) {
