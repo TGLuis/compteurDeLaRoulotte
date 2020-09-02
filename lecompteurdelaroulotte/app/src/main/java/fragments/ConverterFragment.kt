@@ -27,7 +27,7 @@ class ConverterFragment : MyFragment() {
     private var firstEnter2 = true
 
     // Spinners
-    private val lengthMagnitudes = ArrayList<String>(listOf("m", "dm", "cm", "mm", "inch"))
+    private val lengthMagnitudes = ArrayList<String>(listOf("m", "dm", "cm", "mm", "inch", "feet"))
     private var selectedLengthMagnitude1 = 0
     private var selectedLengthMagnitude2 = 0
 
@@ -84,7 +84,6 @@ class ConverterFragment : MyFragment() {
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
 
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                Log.e(TAG(), "ET1 | " + p0 + " | " + computeText)
                 if (computeText) {
                     val str = p0.toString()
                     convLengthVal1 = if (str != "") {
@@ -175,26 +174,86 @@ class ConverterFragment : MyFragment() {
     private fun computeLenConverter(val1: Float, magn1: Int, magn2: Int) : Float {
         if (magn1 == magn2) return val1
         if (magn1 > lengthMagnitudes.indexOf("mm") || magn2 > lengthMagnitudes.indexOf("mm")) { // Weird units w/o metrics
-            if (magn1 == lengthMagnitudes.indexOf("inch")) {
-                if (magn2 == lengthMagnitudes.indexOf("mm")) { // inch -> mm
-                    return val1 * 25.4f
-                } else if (magn2 == lengthMagnitudes.indexOf("cm")) { // inch -> cm
-                    return val1 * 2.54f
-                } else if (magn2 == lengthMagnitudes.indexOf("dm")) { // inch -> dm
-                    return val1 * 0.254f
-                } else if (magn2 == lengthMagnitudes.indexOf("m")) { // inch -> m
-                    return val1 * 0.0254f
+            // First with magn1
+            when (magn1) {
+                lengthMagnitudes.indexOf("inch") -> {
+                    when (magn2) {
+                        lengthMagnitudes.indexOf("mm") -> { // mm -> inch
+                            return val1 * 25.4f
+                        }
+                        lengthMagnitudes.indexOf("cm") -> { // cm -> inch
+                            return val1 * 2.54f
+                        }
+                        lengthMagnitudes.indexOf("dm") -> { // dm -> inch
+                            return val1 * 0.254f
+                        }
+                        lengthMagnitudes.indexOf("m") -> {  // m -> inch
+                            return val1 * 0.0254f
+                        }
+                        lengthMagnitudes.indexOf("feet") -> {   // feet -> inch
+                            return val1 * 12
+                        }
+                    }
+                }
+                lengthMagnitudes.indexOf("feet") -> {
+                    when (magn2) {
+                        lengthMagnitudes.indexOf("mm") -> { // mm -> feet
+                            return val1 * 304.79999f
+                        }
+                        lengthMagnitudes.indexOf("cm") -> { // cm -> feet
+                            return val1 * 30.479999f
+                        }
+                        lengthMagnitudes.indexOf("dm") -> { // dm -> feet
+                            return val1 * 3.0479999f
+                        }
+                        lengthMagnitudes.indexOf("m") -> {  // m -> feet
+                            return val1 * 0.30479999f
+                        }
+                        lengthMagnitudes.indexOf("inch") -> {   // inch -> feet
+                            return val1 * 0.083333f
+                        }
+                    }
                 }
             }
-            if (magn2 == lengthMagnitudes.indexOf("inch")) {
-                if (magn1 == lengthMagnitudes.indexOf("mm")) { // inch -> mm
-                    return val1 * 0.03937007874f
-                } else if (magn1 == lengthMagnitudes.indexOf("cm")) { // inch -> cm
-                    return val1 * 0.3937007874f
-                } else if (magn1 == lengthMagnitudes.indexOf("dm")) { // inch -> dm
-                    return val1 * 3.937007874f
-                } else if (magn1 == lengthMagnitudes.indexOf("m")) { // inch -> m
-                    return val1 * 39.37007874f
+            // Second with magn2
+            when (magn2) {
+                lengthMagnitudes.indexOf("inch") -> {
+                    when (magn1) {
+                        lengthMagnitudes.indexOf("mm") -> { // inch -> mm
+                            return val1 * 0.03937007874f
+                        }
+                        lengthMagnitudes.indexOf("cm") -> { // inch -> cm
+                            return val1 * 0.3937007874f
+                        }
+                        lengthMagnitudes.indexOf("dm") -> { // inch -> dm
+                            return val1 * 3.937007874f
+                        }
+                        lengthMagnitudes.indexOf("m") -> {  // inch -> m
+                            return val1 * 39.37007874f
+                        }
+                        lengthMagnitudes.indexOf("feet") -> {   // inch -> feet
+                            return val1 * 0.083333f
+                        }
+                    }
+                }
+                lengthMagnitudes.indexOf("feet") -> {
+                    when (magn1) {
+                        lengthMagnitudes.indexOf("mm") -> { // feet -> mm
+                            return val1 * 0.00328084f
+                        }
+                        lengthMagnitudes.indexOf("cm") -> { // feet -> cm
+                            return val1 * 0.0328084f
+                        }
+                        lengthMagnitudes.indexOf("dm") -> { // feet -> dm
+                            return val1 * 0.328084f
+                        }
+                        lengthMagnitudes.indexOf("m") -> {  // feet -> m
+                            return val1 * 3.28084f
+                        }
+                        lengthMagnitudes.indexOf("inch") -> {   // feet -> inch
+                            return val1 * 12
+                        }
+                    }
                 }
             }
         } else {    // Only metrics not weird units, we can use recursion
