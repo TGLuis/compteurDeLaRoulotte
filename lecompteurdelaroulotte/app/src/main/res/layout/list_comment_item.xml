@@ -34,7 +34,7 @@
             android:scaleType="fitXY"
             android:layout_width="48dp"
             android:layout_height="48dp"
-            app:srcCompat="@drawable/image_trash"
+            app:srcCompat="@drawable/ic_baseline_delete_outline_24"
             android:contentDescription="@string/delete_image"
             android:layout_marginEnd="10dp"
             android:background="#00000000"

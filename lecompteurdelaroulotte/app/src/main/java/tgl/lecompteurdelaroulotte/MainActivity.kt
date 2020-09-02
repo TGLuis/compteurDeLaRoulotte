@@ -14,8 +14,11 @@ import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.Toolbar
+import androidx.core.content.ContextCompat
+import androidx.core.graphics.drawable.DrawableCompat
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.navigation.NavigationView
 import com.ninenox.kotlinlocalemanager.AppCompatActivityBase
 import fragments.*
@@ -44,7 +47,6 @@ class MainActivity : AppCompatActivityBase() {
     private lateinit var navView: NavigationView
     private lateinit var drawerLayout: DrawerLayout
     private lateinit var db: MyDatabase
-    private lateinit var editCounter: AlertDialog.Builder
     private var lastMenu: String? = null
     private val PDF_SELECTION_CODE = 99
 
@@ -109,7 +111,6 @@ class MainActivity : AppCompatActivityBase() {
 
         //NavigationView
         navView = this.findViewById(R.id.nav_view)
-        editCounter = AlertDialog.Builder(this)
         setDrawer()
 
         // Fragments
@@ -143,8 +144,8 @@ class MainActivity : AppCompatActivityBase() {
             }
             "project" -> {
                 myMenu.add(R.string.edit_notes).apply {
-                    icon = context.getDrawable(R.drawable.icon_notes)
-                    setShowAsAction(1)
+                    icon = ContextCompat.getDrawable(context, R.drawable.icon_notes)
+                    setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM)
                     setOnMenuItemClickListener {
                         context.openFragment(NotesFragment())
                         true
@@ -152,12 +153,8 @@ class MainActivity : AppCompatActivityBase() {
                 }
                 myMenu.add(R.string.add_counter).apply {
                     setOnMenuItemClickListener {
-                        val viewInflated = LayoutInflater.from(context).inflate(
-                            R.layout.simple_text_input,
-                            context.navView as ViewGroup,
-                            false
-                        )
-                        val addCounter = AlertDialog.Builder(context)
+                        val viewInflated = LayoutInflater.from(context).inflate(R.layout.simple_text_input, context.navView as ViewGroup, false)
+                        val addCounter = MaterialAlertDialogBuilder(context, R.style.AlertDialogPositiveBtnFilled)
                         addCounter.setView(viewInflated)
                             .setTitle(R.string.counter_name_id)
                             .setPositiveButton(R.string.ok) { dialog, _ ->
@@ -193,11 +190,7 @@ class MainActivity : AppCompatActivityBase() {
                             val the_spinner = viewInflated.findViewById<Spinner>(R.id.input_spinner)
                             val arr = ArrayList<String>(context.actualProject!!.getCounters().size)
                             context.actualProject!!.getCounters().forEach { arr.add(it.name) }
-                            val adapteur = ArrayAdapter(
-                                context,
-                                R.layout.support_simple_spinner_dropdown_item,
-                                arr.toArray()!!
-                            )
+                            val adapteur = ArrayAdapter(context, R.layout.support_simple_spinner_dropdown_item, arr.toArray())
                             var selectedItem = arr[0]
                             adapteur.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item)
                             the_spinner.adapter = adapteur
@@ -213,6 +206,8 @@ class MainActivity : AppCompatActivityBase() {
                                         selectedItem = arr[p2]
                                     }
                                 }
+                            }
+                            val editCounter = MaterialAlertDialogBuilder(context, R.style.AlertDialogPositiveBtnFilled)
                             editCounter.setView(viewInflated)
                                 .setTitle(R.string.project_name_id)
                                 .setPositiveButton(R.string.ok) { dialog, _ ->
@@ -254,7 +249,7 @@ class MainActivity : AppCompatActivityBase() {
                         )
                         viewInflated.tv.text = getString(R.string.with_data)
                         viewInflated.input_text.hint = getString(R.string.project_name)
-                        val addCounter = AlertDialog.Builder(context)
+                        val addCounter = MaterialAlertDialogBuilder(context, R.style.AlertDialogPositiveBtnFilled)
                         addCounter.setView(viewInflated)
                             .setTitle(R.string.clone_proj)
                             .setPositiveButton(R.string.ok) { dialog, _ ->
@@ -284,7 +279,8 @@ class MainActivity : AppCompatActivityBase() {
                 if (actualProject!!.pdf != null) {
                     if (pdfIsOpen) {
                         myMenu.add(R.string.hide_pdf).apply {
-                            //TODO add icon (visibility)
+                            icon = ContextCompat.getDrawable(context, R.drawable.ic_baseline_visibility_off_24)
+                            setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM)
                             setOnMenuItemClickListener {
                                 pdfIsOpen = false
                                 openFragment(frags.pop())
@@ -294,9 +290,13 @@ class MainActivity : AppCompatActivityBase() {
                         }
                     } else {
                         myMenu.add(R.string.show_pdf).apply {
+                            icon = ContextCompat.getDrawable(context, R.drawable.ic_baseline_visibility_24)
+                            DrawableCompat.setTint(icon, ContextCompat.getColor(context, R.color.white))
+                            setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM)
                             setOnMenuItemClickListener {
                                 pdfIsOpen = true
                                 openFragment(frags.pop().javaClass.newInstance())
+                                context.setMenu("project", true)
                                 true
                             }
                         }
@@ -305,7 +305,9 @@ class MainActivity : AppCompatActivityBase() {
                 }
                 // open new pdf
                 myMenu.add(R.string.open_new_pdf).apply {
-                    //TODO add an icon
+                    icon = ContextCompat.getDrawable(context, R.drawable.ic_baseline_picture_as_pdf_24)
+                    DrawableCompat.setTint(icon, ContextCompat.getColor(context, R.color.white))
+                    setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM)
                     setOnMenuItemClickListener {
                         val intent = Intent(Intent.ACTION_OPEN_DOCUMENT).apply {
                             addCategory(Intent.CATEGORY_OPENABLE)
@@ -335,7 +337,7 @@ class MainActivity : AppCompatActivityBase() {
         }
         navView.menu.add(R.string.add_project).apply {
             setOnMenuItemClickListener {
-                val addProj = AlertDialog.Builder(context)
+                val addProj = MaterialAlertDialogBuilder(context, R.style.AlertDialogPositiveBtnFilled)
                 val viewInflated = LayoutInflater.from(context).inflate(R.layout.simple_text_input, navView as ViewGroup, false)
                 viewInflated.input_text.hint = context.getString(R.string.project_name)
                 addProj.setView(viewInflated)

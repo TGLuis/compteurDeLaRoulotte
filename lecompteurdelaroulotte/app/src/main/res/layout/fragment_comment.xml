@@ -49,8 +49,8 @@
 
             <ImageButton
                 android:id="@+id/info_which_counter"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="@dimen/info_btn_size"
+                android:layout_height="@dimen/info_btn_size"
                 android:layout_marginStart="10dp"
                 android:background="#00000000"
                 android:contentDescription="@string/info_image"

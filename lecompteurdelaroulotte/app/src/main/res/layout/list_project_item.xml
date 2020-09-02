@@ -28,14 +28,15 @@
             app:layout_constraintLeft_toLeftOf="parent"/>
         <TextView
             android:id="@+id/project_text"
-            android:gravity="center_vertical"
+            android:gravity="center"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:textColor="@color/mauve"
             android:text="@string/project"
             android:textSize="20sp"
             android:clickable="true"
             android:focusable="true"
+            app:layout_constrainedWidth="true"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toRightOf="@id/project_image"
