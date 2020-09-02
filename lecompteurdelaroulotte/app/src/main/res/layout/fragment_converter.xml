@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background_test">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/layout_converter_general"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layout_converter_length"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/min_margin_top"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/layout_converter_length_linear_1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:layout_constraintBottom_toTopOf="@id/converter_arrow"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <EditText
+                    android:id="@+id/converter_length_value_1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="128dp"
+                    android:autofillHints="@string/conv_length_value_1_autofill_hint"
+                    android:contentDescription="@string/converter_length_value_1_descr"
+                    android:ems="4"
+                    android:fontFamily="serif"
+                    android:hint="@string/converter_length_value_1_hint"
+                    android:inputType="numberDecimal"
+                    android:textSize="@dimen/text_big"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@id/converter_spinner_length_1"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <Spinner
+                    android:id="@+id/converter_spinner_length_1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/converter_layout_height"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/converter_length_value_1"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <ImageView
+                android:id="@+id/converter_arrow"
+                android:layout_width="64dp"
+                android:layout_height="64dp"
+                android:layout_marginTop="@dimen/margin_picture"
+                android:layout_marginBottom="@dimen/margin_picture"
+                android:background="#000000"
+                android:contentDescription="@string/converter_arrow_descr"
+                android:rotation="270"
+                app:layout_constraintBottom_toTopOf="@id/layout_converter_length_linear_2"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/layout_converter_length_linear_1"
+                app:srcCompat="@drawable/abc_vector_test"
+                tools:srcCompat="@drawable/abc_vector_test" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/layout_converter_length_linear_2"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/converter_arrow">
+
+                <EditText
+                    android:id="@+id/converter_length_value_2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/converter_layout_height"
+                    android:autofillHints="@string/conv_length_value_1_autofill_hint"
+                    android:contentDescription="@string/converter_length_value_2_descr"
+                    android:ems="4"
+                    android:fontFamily="serif"
+                    android:hint="@string/converter_length_value_2_hint"
+                    android:inputType="numberDecimal"
+                    android:textSize="@dimen/text_big"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@id/converter_spinner_length_2"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <Spinner
+                    android:id="@+id/converter_spinner_length_2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/converter_layout_height"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/converter_length_value_2"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

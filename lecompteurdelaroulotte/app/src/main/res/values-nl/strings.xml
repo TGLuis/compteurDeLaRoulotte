@@ -157,4 +157,15 @@ Nu is er een lastig deel, kan u een teller met een andere teller hechten maar pa
     <string name="hide_pdf">De PDF verbergen</string>
     <string name="show_pdf">De PDF tonen</string>
     <string name="language">Taal</string>
+    <string name="tools">Gereedschap</string>
+    <string name="ToolsTitle">Beschikbaar gereedschap</string>
+    <string name="ToolsConvertorBtn">Omvormer</string>
+    <string name="ConverterTitle">Grootte-omvormer</string>
+    <string name="conv_length_value_1_autofill_hint">0 cm</string>
+    <string name="converter_length_value_1_descr">Eerste lengtewaarde om te zetten van</string>
+    <string name="converter_length_value_2_descr">Tweede lengtewaarde om te zetten van</string>
+    <string name="converter_length_value_1_hint">Eerste waarde</string>
+    <string name="converter_length_value_2_hint">Tweede waarde</string>
+    <string name="converter_arrow_descr">Conversion direction</string>
+    <string name="ConverterDefaultValue">1</string>
 </resources>

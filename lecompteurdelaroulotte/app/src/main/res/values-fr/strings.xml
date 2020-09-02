@@ -106,6 +106,12 @@
     <string name="AboutText">Cette application a été développée par\nLuis Tascon Gutierrez\navec les conseils de\nAlexandra Point\net le magasin\n\'La roulotte aux pelotes\'.\n\n
     C\'est un projet open source, vous pouvez le trouvez sur Github à l\'adresse:\nhttps://github.com/TGLuis/compteurDeLaRoulotte\nNous vous invitons à donnez votre avis sur le Play store ou de collaborer sur Github.</string>
 
+    <!-- Tools fragment -->
+    <string name="tools">Outils</string>
+
+    <!-- Converter fragment -->
+    <string name="conv_length_value_1_autofill_hint">0 cm</string>
+
     <!-- for the help fragment-->
     <string name="HelpTitle">Aide</string>
     <string name="drop">Bouton drop</string>
@@ -141,4 +147,13 @@
     <string name="hide_pdf">Cacher le PDF</string>
     <string name="show_pdf">Montrer le PDF</string>
     <string name="language">Langue</string>
+    <string name="ToolsTitle">Outils disponibles</string>
+    <string name="ToolsConvertorBtn">Convertisseur</string>
+    <string name="ConverterTitle">Convertisseur de Grandeurs</string>
+    <string name="converter_length_value_1_descr">Première valeur à convertir</string>
+    <string name="converter_length_value_2_descr">Seconde valeur à convertir</string>
+    <string name="converter_length_value_1_hint">Première valeur</string>
+    <string name="converter_length_value_2_hint">Seconde valeur</string>
+    <string name="converter_arrow_descr">Conversion direction</string>
+    <string name="ConverterDefaultValue">1</string>
 </resources>
