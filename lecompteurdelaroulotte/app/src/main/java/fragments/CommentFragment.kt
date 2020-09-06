@@ -76,7 +76,7 @@ class CommentFragment : MyFragment() {
         if (!add) {
             selectedItem = comment!!.counter
         }
-        val adaptor = ArrayAdapter(context, R.layout.support_simple_spinner_dropdown_item, arr.toArray()!!)
+        val adaptor = ArrayAdapter(context, R.layout.support_simple_spinner_dropdown_item, arr.toArray())
         adaptor.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item)
         spinner_counters.adapter = adaptor
         spinner_counters.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {

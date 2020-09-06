@@ -175,7 +175,7 @@ class ProjectFragment : MyFragment() {
             up(true)
         }
 
-        counters.sortWith(Comparator { a, b -> a.order - b.order })
+        counters.sortWith { a, b -> a.order - b.order }
         listViewCounters = context.findViewById(R.id.listCounters)
         adapteur = this.CounterAdapter(context, counters)
         listViewCounters.adapter = adapteur

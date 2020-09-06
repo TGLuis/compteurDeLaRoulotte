@@ -77,7 +77,7 @@ class CounterFragment : MyFragment() {
             if (it != counter)
                 arr.add(it.name)
         }
-        val adapteur = ArrayAdapter(context, R.layout.support_simple_spinner_dropdown_item, arr.toArray()!!)
+        val adapteur = ArrayAdapter(context, R.layout.support_simple_spinner_dropdown_item, arr.toArray())
         adapteur.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item)
         spinner_attached.adapter = adapteur
         spinner_attached.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {

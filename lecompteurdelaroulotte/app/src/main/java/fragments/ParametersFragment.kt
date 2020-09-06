@@ -39,7 +39,7 @@ class ParametersFragment : MyFragment() {
         checkBox_screenOn.isChecked = context.screenOn
 
         spinner_language = context.findViewById(R.id.spinner_language)
-        val arr = ArrayList<String>(Helper.languagesAvailable())
+        val arr = ArrayList(Helper.languagesAvailable())
         val adapteur = ArrayAdapter(context, R.layout.support_simple_spinner_dropdown_item, arr.toArray())
         var selectedLanguage = context.language
         adapteur.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item)
