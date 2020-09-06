@@ -15,9 +15,10 @@ import java.util.ArrayList
 
 class SeeFragment: MyFragment() {
     private lateinit var context: MainActivity
+    override var TAG: String = "===== SEEFRAGMENT ====="
 
-    private lateinit var LV: ListView
-    private lateinit var B_add: Button
+    private lateinit var listView: ListView
+    private lateinit var button_add: Button
     private lateinit var comments: ArrayList<Comment>
     private lateinit var rules: ArrayList<Rule>
     private lateinit var adapteurComments: CommentsAdapter
@@ -45,7 +46,7 @@ class SeeFragment: MyFragment() {
             val comment_text = comment.getString(activity as MainActivity)
             TV_comment.text = comment_text
             TV_comment.setOnClickListener {
-                (context as MainActivity).actualComment = comment
+                (context as MainActivity).currentComment = comment
                 (context as MainActivity).openFragment(CommentFragment())
             }
 
@@ -93,7 +94,7 @@ class SeeFragment: MyFragment() {
             val rule_text = rule!!.getString(context as MainActivity)
             TV_rule.text = rule_text
             TV_rule.setOnClickListener {
-                (context as MainActivity).actualRule = rule
+                (context as MainActivity).currentRule = rule
                 (context as MainActivity).openFragment(RuleFragment())
             }
 
@@ -128,43 +129,39 @@ class SeeFragment: MyFragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        if (context.actualProject == null) {
+        if (context.currentProject == null) {
             context.openFragment(HomeFragment())
             return
         }
 
-        B_add = context.findViewById(R.id.button_add)
-        LV = context.findViewById(R.id.list)
+        button_add = context.findViewById(R.id.button_add)
+        listView = context.findViewById(R.id.list)
 
         when(context.seeWhat){
             "Comments" -> {
-                comments = context.actualProject!!.myComments
-                B_add.text = getString(R.string.add_comment)
-                B_add.setOnClickListener {
-                    context.actualComment = null
+                comments = context.currentProject!!.myComments
+                button_add.text = getString(R.string.add_comment)
+                button_add.setOnClickListener {
+                    context.currentComment = null
                     context.openFragment(CommentFragment())
                 }
 
                 adapteurComments = this.CommentsAdapter(context, comments)
-                LV.adapter = adapteurComments
-                context.title = "${context.actualProject.toString()} -> ${context.getString(R.string.my_comments)}"
+                listView.adapter = adapteurComments
+                context.title = "${context.currentProject.toString()} -> ${context.getString(R.string.my_comments)}"
             }
             "Rules" -> {
-                rules = context.actualProject!!.myRules
-                B_add.text = getString(R.string.add_rule)
-                B_add.setOnClickListener {
-                    context.actualRule = null
+                rules = context.currentProject!!.myRules
+                button_add.text = getString(R.string.add_rule)
+                button_add.setOnClickListener {
+                    context.currentRule = null
                     context.openFragment(RuleFragment())
                 }
 
                 adapteurRules = this.RulesAdapter(context, rules)
-                LV.adapter = adapteurRules
-                context.title = "${context.actualProject.toString()} -> ${context.getString(R.string.my_rules)}"
+                listView.adapter = adapteurRules
+                context.title = "${context.currentProject.toString()} -> ${context.getString(R.string.my_rules)}"
             }
         }
-    }
-
-    override fun TAG(): String {
-        return "===== SEEFRAGMENT ====="
     }
 }

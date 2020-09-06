@@ -14,15 +14,16 @@ import tgl.lecompteurdelaroulotte.R
 
 class HelpFragment : MyFragment() {
     private lateinit var context: MainActivity
+    override var TAG: String = "==== HELPFRAGMENT ===="
 
-    private lateinit var IB_general: ImageButton
-    private lateinit var TV_general: TextView
-    private lateinit var IB_counter: ImageButton
-    private lateinit var TV_counter: TextView
-    private lateinit var IB_comment: ImageButton
-    private lateinit var TV_comment: TextView
-    private lateinit var IB_rule: ImageButton
-    private lateinit var TV_rule: TextView
+    private lateinit var imageButton_general: ImageButton
+    private lateinit var textView_general: TextView
+    private lateinit var imageButton_counter: ImageButton
+    private lateinit var textView_counter: TextView
+    private lateinit var imageButton_comment: ImageButton
+    private lateinit var textView_comment: TextView
+    private lateinit var imageButton_rule: ImageButton
+    private lateinit var textView_rule: TextView
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         super.onCreateView(inflater, container, savedInstanceState)
@@ -49,90 +50,86 @@ class HelpFragment : MyFragment() {
                 .viewTreeObserver
                 .addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
                     override fun onGlobalLayout() {
-                        TV_general.viewTreeObserver.removeOnGlobalLayoutListener(this)
-                        TV_counter.viewTreeObserver.removeOnGlobalLayoutListener(this)
-                        TV_comment.viewTreeObserver.removeOnGlobalLayoutListener(this)
-                        TV_rule.viewTreeObserver.removeOnGlobalLayoutListener(this)
-                        height_general = TV_general.height
-                        height_counter = TV_counter.height
-                        height_comment = TV_comment.height
-                        height_rule = TV_rule.height
-                        TV_general.height = 0
-                        TV_counter.height = 0
-                        TV_comment.height = 0
-                        TV_rule.height = 0
-                        TV_general.text = ""
-                        TV_counter.text = ""
-                        TV_comment.text = ""
-                        TV_rule.text = ""
+                        textView_general.viewTreeObserver.removeOnGlobalLayoutListener(this)
+                        textView_counter.viewTreeObserver.removeOnGlobalLayoutListener(this)
+                        textView_comment.viewTreeObserver.removeOnGlobalLayoutListener(this)
+                        textView_rule.viewTreeObserver.removeOnGlobalLayoutListener(this)
+                        height_general = textView_general.height
+                        height_counter = textView_counter.height
+                        height_comment = textView_comment.height
+                        height_rule = textView_rule.height
+                        textView_general.height = 0
+                        textView_counter.height = 0
+                        textView_comment.height = 0
+                        textView_rule.height = 0
+                        textView_general.text = ""
+                        textView_counter.text = ""
+                        textView_comment.text = ""
+                        textView_rule.text = ""
                     }
                 })
 
-        TV_general = context.findViewById(R.id.help_general_text)
-        TV_counter = context.findViewById(R.id.help_counter_text)
-        TV_comment = context.findViewById(R.id.help_comment_text)
-        TV_rule = context.findViewById(R.id.help_rule_text)
+        textView_general = context.findViewById(R.id.help_general_text)
+        textView_counter = context.findViewById(R.id.help_counter_text)
+        textView_comment = context.findViewById(R.id.help_comment_text)
+        textView_rule = context.findViewById(R.id.help_rule_text)
 
-        IB_general = context.findViewById(R.id.help_general_drop)
-        IB_general.setOnClickListener {
+        imageButton_general = context.findViewById(R.id.help_general_drop)
+        imageButton_general.setOnClickListener {
             if (gen_drop) {
-                TV_general.text = ""
-                TV_general.height = 0
-                IB_general.setImageResource(R.drawable.ic_baseline_arrow_drop_down_24)
+                textView_general.text = ""
+                textView_general.height = 0
+                imageButton_general.setImageResource(R.drawable.ic_baseline_arrow_drop_down_24)
             } else {
-                TV_general.text = context.getString(R.string.help_general)
-                TV_general.height = height_general
-                IB_general.setImageResource(R.drawable.ic_baseline_arrow_drop_up_24)
+                textView_general.text = context.getString(R.string.help_general)
+                textView_general.height = height_general
+                imageButton_general.setImageResource(R.drawable.ic_baseline_arrow_drop_up_24)
             }
             gen_drop = !gen_drop
         }
 
-        IB_counter = context.findViewById(R.id.help_counter_drop)
-        IB_counter.setOnClickListener {
+        imageButton_counter = context.findViewById(R.id.help_counter_drop)
+        imageButton_counter.setOnClickListener {
             if (con_drop) {
-                TV_counter.height = 0
-                TV_counter.text = ""
-                IB_counter.setImageResource(R.drawable.ic_baseline_arrow_drop_down_24)
+                textView_counter.height = 0
+                textView_counter.text = ""
+                imageButton_counter.setImageResource(R.drawable.ic_baseline_arrow_drop_down_24)
             } else {
-                TV_counter.text = context.getString(R.string.help_counter)
-                TV_counter.height = height_counter
-                IB_counter.setImageResource(R.drawable.ic_baseline_arrow_drop_up_24)
+                textView_counter.text = context.getString(R.string.help_counter)
+                textView_counter.height = height_counter
+                imageButton_counter.setImageResource(R.drawable.ic_baseline_arrow_drop_up_24)
             }
             con_drop = !con_drop
         }
 
-        IB_comment = context.findViewById(R.id.help_comment_drop)
-        IB_comment.setOnClickListener {
+        imageButton_comment = context.findViewById(R.id.help_comment_drop)
+        imageButton_comment.setOnClickListener {
             if (com_drop) {
-                TV_comment.height = 0
-                TV_comment.text = ""
-                IB_comment.setImageResource(R.drawable.ic_baseline_arrow_drop_down_24)
+                textView_comment.height = 0
+                textView_comment.text = ""
+                imageButton_comment.setImageResource(R.drawable.ic_baseline_arrow_drop_down_24)
             } else {
-                TV_comment.text = context.getString(R.string.help_comment)
-                TV_comment.height = height_comment
-                IB_comment.setImageResource(R.drawable.ic_baseline_arrow_drop_up_24)
+                textView_comment.text = context.getString(R.string.help_comment)
+                textView_comment.height = height_comment
+                imageButton_comment.setImageResource(R.drawable.ic_baseline_arrow_drop_up_24)
             }
             com_drop = !com_drop
         }
 
-        IB_rule = context.findViewById(R.id.help_rule_drop)
-        IB_rule.setOnClickListener {
+        imageButton_rule = context.findViewById(R.id.help_rule_drop)
+        imageButton_rule.setOnClickListener {
             if (rul_drop) {
-                TV_rule.height = 0
-                TV_rule.text = ""
-                IB_rule.setImageResource(R.drawable.ic_baseline_arrow_drop_down_24)
+                textView_rule.height = 0
+                textView_rule.text = ""
+                imageButton_rule.setImageResource(R.drawable.ic_baseline_arrow_drop_down_24)
             } else {
-                TV_rule.text = context.getString(R.string.help_rule)
-                TV_rule.height = height_rule
-                IB_rule.setImageResource(R.drawable.ic_baseline_arrow_drop_up_24)
+                textView_rule.text = context.getString(R.string.help_rule)
+                textView_rule.height = height_rule
+                imageButton_rule.setImageResource(R.drawable.ic_baseline_arrow_drop_up_24)
             }
             rul_drop = !rul_drop
         }
 
         context.title = context.getString(R.string.HelpTitle)
-    }
-
-    override fun TAG(): String {
-        return "==== HELPFRAGMENT ===="
     }
 }

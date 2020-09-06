@@ -1,9 +1,7 @@
 package fragments
 
-import android.graphics.Color
 import android.media.MediaPlayer
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -23,6 +21,7 @@ import java.util.*
 
 class ProjectFragment : MyFragment() {
     private lateinit var context: MainActivity
+    override var TAG: String = "== PROJECTFRAGMENT =="
     private lateinit var project: Project
 
     private lateinit var wholeLayout: ConstraintLayout
@@ -43,7 +42,7 @@ class ProjectFragment : MyFragment() {
     private var previousMessage: String? = null
     private var PDFHeight: Int = 0
 
-    inner class Tuple(t: TextView, c: Counter) {
+    class Tuple(t: TextView, c: Counter) {
         var t: TextView? = t
         var c: Counter? = c
     }
@@ -131,7 +130,7 @@ class ProjectFragment : MyFragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        if (context.actualProject == null) {
+        if (context.currentProject == null) {
             context.openFragment(HomeFragment())
             return
         }
@@ -143,7 +142,7 @@ class ProjectFragment : MyFragment() {
         mpPlus = MediaPlayer.create(context, R.raw.plus)
         mpMoins = MediaPlayer.create(context, R.raw.minus)
 
-        project = context.actualProject!!
+        project = context.currentProject!!
 
         nombres = ArrayList()
         names = ArrayList()
@@ -158,7 +157,7 @@ class ProjectFragment : MyFragment() {
         addCounter = AlertDialog.Builder(context)
 
         nombre = context.findViewById(R.id.count)
-        nombre.text = context.actualProject!!.etat.toString()
+        nombre.text = context.currentProject!!.etat.toString()
 
         buttonMinus = context.findViewById(R.id.button_minus)
         buttonMinus.setOnClickListener {
@@ -262,7 +261,7 @@ class ProjectFragment : MyFragment() {
     private fun getAndSetHeight() {
         val mainCounterLayout = context.findViewById<ConstraintLayout>(R.id.MCounter)
         if (fragmentManager != null) {
-            val currentfrag = fragmentManager!!.findFragmentByTag(TAG())
+            val currentfrag = fragmentManager!!.findFragmentByTag(TAG)
             if (currentfrag != null && currentfrag.isVisible) {
                 val view = context.findViewById<ListView>(R.id.listCounters)
                 val params = view.layoutParams
@@ -287,9 +286,5 @@ class ProjectFragment : MyFragment() {
                 view.requestLayout()
             }
         }
-    }
-
-    override fun TAG(): String {
-        return "== PROJECTFRAGMENT =="
     }
 }

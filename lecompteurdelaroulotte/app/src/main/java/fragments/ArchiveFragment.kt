@@ -16,10 +16,11 @@ import java.lang.Exception
 
 class ArchiveFragment: MyFragment() {
     private lateinit var context: MainActivity
+    override var TAG: String = "===== ARCHIVEFRAGMENT ====="
     private lateinit var adapteur:ProjectAdapter
 
-    private lateinit var listViewProj: ListView
-    private lateinit var addProj: AlertDialog.Builder
+    private lateinit var listView_projects: ListView
+    private lateinit var addProject: AlertDialog.Builder
     private lateinit var archivedProjects: ArrayList<Project>
     private lateinit var that: ArchiveFragment
 
@@ -47,7 +48,7 @@ class ArchiveFragment: MyFragment() {
                         .setPositiveButton(R.string.ok) { dialog, _ ->
                             (context as MainActivity).deleteProject(proj)
                             archivedProjects = ArrayList((context as MainActivity).projectsList.filter{ proj -> proj.archived })
-                            listViewProj.adapter = that.ProjectAdapter(context, archivedProjects)
+                            listView_projects.adapter = that.ProjectAdapter(context, archivedProjects)
                             dialog.dismiss()
                         }
                         .setNegativeButton(R.string.cancel) { dialog, _ ->
@@ -65,7 +66,7 @@ class ArchiveFragment: MyFragment() {
                         .setPositiveButton(R.string.ok) { dialog, _ ->
                             proj.archived = false
                             archivedProjects = ArrayList((context as MainActivity).projectsList.filter{ proj -> proj.archived })
-                            listViewProj.adapter = that.ProjectAdapter(context, archivedProjects)
+                            listView_projects.adapter = that.ProjectAdapter(context, archivedProjects)
                             dialog.dismiss()
                         }
                         .setNegativeButton(R.string.cancel) { dialog, _ ->
@@ -87,7 +88,7 @@ class ArchiveFragment: MyFragment() {
         }
 
         private fun openProj(proj: Project){
-            (context as MainActivity).actualProject = proj
+            (context as MainActivity).currentProject = proj
             (context as MainActivity).openFragment(ProjectFragment())
         }
     }
@@ -103,17 +104,13 @@ class ArchiveFragment: MyFragment() {
         that = this
 
         archivedProjects = ArrayList(context.projectsList.filter{ proj -> proj.archived })
-        addProj = AlertDialog.Builder(context)
+        addProject = AlertDialog.Builder(context)
 
-        listViewProj = context.findViewById(R.id.listProject)
+        listView_projects = context.findViewById(R.id.listProject)
         adapteur = that.ProjectAdapter(context, archivedProjects)
-        listViewProj.adapter = adapteur
+        listView_projects.adapter = adapteur
 
         context.setMenu("home")
         context.title = context.getString(R.string.archives)
-    }
-
-    override fun TAG(): String {
-        return "===== ARCHIVEFRAGMENT ====="
     }
 }
