@@ -13,12 +13,13 @@ import java.util.ArrayList
 
 class ParametersFragment : MyFragment() {
     private lateinit var context: MainActivity
+    override var TAG: String = "= PARAMETERSFRAGMENT ="
 
-    private lateinit var CB_screen_on: CheckBox
-    private lateinit var CB_volume_on: CheckBox
-    private lateinit var S_language: Spinner
-    private lateinit var B_save: Button
-    private lateinit var B_cancel: Button
+    private lateinit var checkBox_screenOn: CheckBox
+    private lateinit var checkBox_volumeOn: CheckBox
+    private lateinit var spinner_language: Spinner
+    private lateinit var button_save: Button
+    private lateinit var button_cancel: Button
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         super.onCreateView(inflater, container, savedInstanceState)
@@ -29,51 +30,44 @@ class ParametersFragment : MyFragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        CB_screen_on = context.findViewById(R.id.check_box_screen_on)
-        CB_volume_on = context.findViewById(R.id.check_box_volume_buttons)
-        B_save = context.findViewById(R.id.button_save)
-        B_cancel = context.findViewById(R.id.button_cancel)
+        checkBox_screenOn = context.findViewById(R.id.check_box_screen_on)
+        checkBox_volumeOn = context.findViewById(R.id.check_box_volume_buttons)
+        button_save = context.findViewById(R.id.button_save)
+        button_cancel = context.findViewById(R.id.button_cancel)
 
-        CB_volume_on.isChecked = context.volumeOn
-        CB_screen_on.isChecked = context.screenOn
+        checkBox_volumeOn.isChecked = context.volumeOn
+        checkBox_screenOn.isChecked = context.screenOn
 
-        S_language = context.findViewById(R.id.spinner_language)
-        val arr = ArrayList<String>(Helper.languagesAvailable())
+        spinner_language = context.findViewById(R.id.spinner_language)
+        val arr = ArrayList(Helper.languagesAvailable())
         val adapteur = ArrayAdapter(context, R.layout.support_simple_spinner_dropdown_item, arr.toArray())
         var selectedLanguage = context.language
         adapteur.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item)
-        S_language.adapter = adapteur
-        S_language.setSelection(arr.indexOf(context.language))
-        S_language.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+        spinner_language.adapter = adapteur
+        spinner_language.setSelection(arr.indexOf(context.language))
+        spinner_language.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onNothingSelected(parent: AdapterView<*>?) {}
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
                 selectedLanguage = arr[p2]
             }
         }
 
-        B_cancel.setOnClickListener {
+        button_cancel.setOnClickListener {
             context.onBackPressed()
         }
-        B_save.setOnClickListener {
+        button_save.setOnClickListener {
             var restart = false
             val languageDifferent = context.language != selectedLanguage
-            if (context.screenOn != CB_screen_on.isChecked ||
-                    context.volumeOn != CB_volume_on.isChecked)
+            if (context.screenOn != checkBox_screenOn.isChecked || context.volumeOn != checkBox_volumeOn.isChecked)
                 restart = true
-            context.volumeOn = CB_volume_on.isChecked
-            context.screenOn = CB_screen_on.isChecked
+            context.volumeOn = checkBox_volumeOn.isChecked
+            context.screenOn = checkBox_screenOn.isChecked
             context.language = selectedLanguage
             Helper.saveProperties()
 
-            if (restart)
-                context.recreate()
-            else if (languageDifferent)
-                context.setNewLocale(context.language)
+            if (restart) context.recreate()
+            else if (languageDifferent) context.setNewLocale(context.language)
         }
         context.title = context.getString(R.string.parameters)
-    }
-
-    override fun TAG(): String {
-        return "= PARAMETERSFRAGMENT ="
     }
 }

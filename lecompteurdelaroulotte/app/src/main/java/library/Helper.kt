@@ -31,7 +31,7 @@ object Helper {
                 f.setReadable(true)
                 f.setWritable(true)
                 f.createNewFile()
-                init_elements()
+                initElements()
                 Log.v(TAG, properties.toString())
             }
         } catch (e: Resources.NotFoundException) {
@@ -42,17 +42,23 @@ object Helper {
         }
     }
 
-    fun init_elements() {
+    private fun initElements() {
         setConfigValue("screen_on", false.toString())
         setConfigValue("volume_on", true.toString())
         setConfigValue("language", "-")
+    }
+
+    fun saveProperties() {
+        setConfigValue("screen_on", context.screenOn.toString())
+        setConfigValue("volume_on", context.volumeOn.toString())
+        setConfigValue("language", context.language)
     }
 
     fun getConfigValue(name: String): String? {
         return properties.getProperty(name)
     }
 
-    fun setConfigValue(name: String, value: String) {
+    private fun setConfigValue(name: String, value: String) {
         properties.setProperty(name, value)
         properties.store(FileOutputStream(f), "This is an optional comment.")
     }
@@ -61,25 +67,11 @@ object Helper {
         return languagesAvailable().contains(language)
     }
 
-    fun setLocale() {
-        when (context.language) {
-            "NL" -> context.setNewLocale("NL")
-            "FR" -> context.setNewLocale("FR")
-            else -> context.setNewLocale("EN")
-        }
-    }
-
     fun getLanguage(): String {
         return LocaleManager(context).language.toString()
     }
 
     fun languagesAvailable(): List<String> {
         return listOf("FR", "NL", "EN")
-    }
-
-    fun saveProperties() {
-        setConfigValue("screen_on", context.screenOn.toString())
-        setConfigValue("volume_on", context.volumeOn.toString())
-        setConfigValue("language", context.language)
     }
 }

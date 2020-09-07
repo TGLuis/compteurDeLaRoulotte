@@ -9,6 +9,7 @@ import tgl.lecompteurdelaroulotte.R
 
 class AboutFragment : MyFragment() {
     private lateinit var context: MainActivity
+    override var TAG: String = "===== ABOUTFRAGMENT ====="
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         super.onCreateView(inflater, container, savedInstanceState)
@@ -19,9 +20,5 @@ class AboutFragment : MyFragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         context.title = context.getString(R.string.AboutTitle)
-    }
-
-    override fun TAG(): String {
-        return "===== ABOUTFRAGMENT ====="
     }
 }

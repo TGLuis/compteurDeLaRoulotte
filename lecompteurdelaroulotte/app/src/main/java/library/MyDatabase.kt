@@ -6,7 +6,7 @@ import android.database.sqlite.SQLiteOpenHelper
 import tgl.lecompteurdelaroulotte.MainActivity
 
 class MyDatabase(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
-    inner class Tuple(a: Counter, b: String) {
+    class Tuple(a: Counter, b: String) {
         var c1: Counter = a
         var c2: String = b
 
@@ -62,7 +62,7 @@ class MyDatabase(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, nu
         db.close()
     }
 
-    fun deleteDb(db: SQLiteDatabase) {
+    private fun deleteDb(db: SQLiteDatabase) {
         db.execSQL("DROP TABLE IF EXISTS '$DATABASE_NAME';")
     }
 

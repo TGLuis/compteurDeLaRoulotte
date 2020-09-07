@@ -12,23 +12,24 @@ import tgl.lecompteurdelaroulotte.R
 
 class CounterFragment : MyFragment() {
     private lateinit var context: MainActivity
+    override var TAG: String = "===== COUNTERFRAGMENT ====="
     private lateinit var counter: Counter
 
-    private lateinit var ET_name: EditText
-    private lateinit var ET_state: EditText
-    private lateinit var ET_max: EditText
-    private lateinit var TV_tours: TextView
-    private lateinit var ET_position: EditText
-    private lateinit var CB_attach: CheckBox
-    private lateinit var S_attached: Spinner
-    private lateinit var B_cancel: Button
-    private lateinit var B_save: Button
-    private lateinit var B_delete: Button
-    private lateinit var IB_max: ImageButton
-    private lateinit var IB_tours: ImageButton
-    private lateinit var IB_position: ImageButton
-    private lateinit var IB_attach: ImageButton
-    private lateinit var IB_attached: ImageButton
+    private lateinit var editText_name: EditText
+    private lateinit var editText_state: EditText
+    private lateinit var editText_max: EditText
+    private lateinit var textView_tours: TextView
+    private lateinit var editText_position: EditText
+    private lateinit var checkBox_attach: CheckBox
+    private lateinit var spinner_attached: Spinner
+    private lateinit var button_cancel: Button
+    private lateinit var button_save: Button
+    private lateinit var button_delete: Button
+    private lateinit var imageButton_max: ImageButton
+    private lateinit var imageButton_tours: ImageButton
+    private lateinit var imageButton_position: ImageButton
+    private lateinit var imageButton_attach: ImageButton
+    private lateinit var imageButton_attached: ImageButton
     private lateinit var expl: AlertDialog.Builder
 
     private lateinit var selectedItem: String
@@ -41,79 +42,79 @@ class CounterFragment : MyFragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        if (context.actualProject == null) {
+        if (context.currentProject == null) {
             context.openFragment(HomeFragment())
             return
         }
 
-        counter = context.actualCounter!!
+        counter = context.currentCounter!!
 
-        ET_name = context.findViewById(R.id.counter_name)
-        ET_name.setText(counter.name)
+        editText_name = context.findViewById(R.id.counter_name)
+        editText_name.setText(counter.name)
 
-        ET_max = context.findViewById(R.id.counter_max)
+        editText_max = context.findViewById(R.id.counter_max)
         val max = counter.max
-        ET_max.setText(max.toString())
+        editText_max.setText(max.toString())
 
-        ET_state = context.findViewById(R.id.counter_state)
-        ET_state.setText(counter.etat.toString())
+        editText_state = context.findViewById(R.id.counter_state)
+        editText_state.setText(counter.etat.toString())
 
-        TV_tours = context.findViewById(R.id.counter_tours)
+        textView_tours = context.findViewById(R.id.counter_tours)
         val tours = if (max == 0) 0 else counter.etat / max
-        TV_tours.text = tours.toString()
+        textView_tours.text = tours.toString()
 
-        ET_position = context.findViewById(R.id.counter_position)
-        ET_position.setText((counter.order + 1).toString())
+        editText_position = context.findViewById(R.id.counter_position)
+        editText_position.setText((counter.order + 1).toString())
 
-        CB_attach = context.findViewById(R.id.counter_attach)
-        CB_attach.isChecked = counter.attachedMain
+        checkBox_attach = context.findViewById(R.id.counter_attach)
+        checkBox_attach.isChecked = counter.attachedMain
 
-        S_attached = context.findViewById(R.id.counter_attached)
+        spinner_attached = context.findViewById(R.id.counter_attached)
         selectedItem = context.getString(R.string.none)
-        val arr = ArrayList<String>(context.actualProject!!.getCounters().size)
+        val arr = ArrayList<String>(context.currentProject!!.getCounters().size)
         arr.add(context.getString(R.string.none))
-        context.actualProject!!.getCounters().forEach {
+        context.currentProject!!.getCounters().forEach {
             if (it != counter)
                 arr.add(it.name)
         }
-        val adapteur = ArrayAdapter(context, R.layout.support_simple_spinner_dropdown_item, arr.toArray()!!)
+        val adapteur = ArrayAdapter(context, R.layout.support_simple_spinner_dropdown_item, arr.toArray())
         adapteur.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item)
-        S_attached.adapter = adapteur
-        S_attached.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+        spinner_attached.adapter = adapteur
+        spinner_attached.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onNothingSelected(parent: AdapterView<*>?) {}
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
                 selectedItem = arr[p2]
             }
         }
         if (counter.counterAttached != null) {
-            S_attached.setSelection(adapteur.getPosition(counter.counterAttached!!.name))
+            spinner_attached.setSelection(adapteur.getPosition(counter.counterAttached!!.name))
         }
 
-        B_save = context.findViewById(R.id.save)
-        B_save.setOnClickListener {
-            val temp_name = ET_name.text.toString()
+        button_save = context.findViewById(R.id.save)
+        button_save.setOnClickListener {
+            val temp_name = editText_name.text.toString()
             val temp_etat: Int
             val temp_max: Int
             var temp_pos: Int
             try {
-                temp_etat = ET_state.text.toString().toInt()
+                temp_etat = editText_state.text.toString().toInt()
             } catch (e: NumberFormatException) {
                 Toast.makeText(context, R.string.state_not_valid, Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
             try {
-                temp_max = ET_max.text.toString().toInt()
+                temp_max = editText_max.text.toString().toInt()
             } catch (e: NumberFormatException) {
                 Toast.makeText(context, R.string.max_not_valid, Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
             try {
-                temp_pos = ET_position.text.toString().toInt() - 1
+                temp_pos = editText_position.text.toString().toInt() - 1
             } catch (e: NumberFormatException) {
                 Toast.makeText(context, R.string.position_not_valid, Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
-            val temp_attach = CB_attach.isChecked
+            val temp_attach = checkBox_attach.isChecked
             val temp_attached = selectedItem
 
             var changes = 0
@@ -151,10 +152,10 @@ class CounterFragment : MyFragment() {
                 str += "- " + context.getString(R.string.counter_attached_id) + "\n"
             }
             str += "\n" + context.getString(R.string.sure_to_modif)
-            if (name_changed && context.actualProject!!.getCounter(temp_name) != null) {
-                ET_name.error = context.getString(R.string.counter_already)
+            if (name_changed && context.currentProject!!.getCounter(temp_name) != null) {
+                editText_name.error = context.getString(R.string.counter_already)
             } else if (temp_max < 0) {
-                ET_max.error = context.getString(R.string.max_condition)
+                editText_max.error = context.getString(R.string.max_condition)
             } else {
                 if (changes > 0) {
                     val confirm = AlertDialog.Builder(context)
@@ -170,23 +171,23 @@ class CounterFragment : MyFragment() {
                                 if (attach_changed) {
                                     counter.attachedMain = temp_attach
                                     if (counter.attachedMain) {
-                                        context.actualProject!!.attach(counter)
+                                        context.currentProject!!.attach(counter)
                                     } else {
-                                        context.actualProject!!.detach(counter)
+                                        context.currentProject!!.detach(counter)
                                     }
                                 }
                                 if (order_changed) {
                                     if (temp_pos < counter.order) {
                                         if (temp_pos < 0) temp_pos = 0
                                         for (i in temp_pos until counter.order) {
-                                            context.actualProject!!.myCounters[i].order++
+                                            context.currentProject!!.myCounters[i].order++
                                         }
                                     } else {
-                                        if (temp_pos >= context.actualProject!!.myCounters.size) {
-                                            temp_pos = context.actualProject!!.myCounters.size - 1
+                                        if (temp_pos >= context.currentProject!!.myCounters.size) {
+                                            temp_pos = context.currentProject!!.myCounters.size - 1
                                         }
                                         for (i in counter.order + 1..temp_pos) {
-                                            context.actualProject!!.myCounters[i].order--
+                                            context.currentProject!!.myCounters[i].order--
                                         }
                                     }
                                     counter.order = temp_pos
@@ -195,7 +196,7 @@ class CounterFragment : MyFragment() {
                                     if (temp_attached == context.getString(R.string.none)) {
                                         counter.detach()
                                     } else {
-                                        counter.attach(context.actualProject!!.getCounter(temp_attached)!!)
+                                        counter.attach(context.currentProject!!.getCounter(temp_attached)!!)
                                     }
                                 }
                                 context.onBackPressed()
@@ -213,18 +214,18 @@ class CounterFragment : MyFragment() {
             }
         }
 
-        B_cancel = context.findViewById(R.id.cancel)
-        B_cancel.setOnClickListener {
+        button_cancel = context.findViewById(R.id.cancel)
+        button_cancel.setOnClickListener {
             context.onBackPressed()
         }
 
-        B_delete = context.findViewById(R.id.delete)
-        B_delete.setOnClickListener {
+        button_delete = context.findViewById(R.id.delete)
+        button_delete.setOnClickListener {
             val confirm = AlertDialog.Builder(context)
             confirm.setTitle(R.string.confirm)
                     .setMessage(R.string.delete_counter)
                     .setPositiveButton(R.string.yes) { dialog, _ ->
-                        context.deleteCounter(context.actualCounter!!)
+                        context.deleteCounter(context.currentCounter!!)
                         context.onBackPressed()
                         dialog.dismiss()
                     }
@@ -243,35 +244,31 @@ class CounterFragment : MyFragment() {
                 }
                 .setCancelable(false)
 
-        IB_max = context.findViewById(R.id.info_max)
-        IB_max.setOnClickListener {
+        imageButton_max = context.findViewById(R.id.info_max)
+        imageButton_max.setOnClickListener {
             expl.setMessage(R.string.help_max).create().show()
         }
 
-        IB_tours = context.findViewById(R.id.info_tours)
-        IB_tours.setOnClickListener {
+        imageButton_tours = context.findViewById(R.id.info_tours)
+        imageButton_tours.setOnClickListener {
             expl.setMessage(R.string.help_tours).create().show()
         }
 
-        IB_position = context.findViewById(R.id.info_position)
-        IB_position.setOnClickListener {
+        imageButton_position = context.findViewById(R.id.info_position)
+        imageButton_position.setOnClickListener {
             expl.setMessage(R.string.help_position).create().show()
         }
 
-        IB_attach = context.findViewById(R.id.info_attach)
-        IB_attach.setOnClickListener {
+        imageButton_attach = context.findViewById(R.id.info_attach)
+        imageButton_attach.setOnClickListener {
             expl.setMessage(R.string.help_attach).create().show()
         }
 
-        IB_attached = context.findViewById(R.id.info_attached)
-        IB_attached.setOnClickListener {
+        imageButton_attached = context.findViewById(R.id.info_attached)
+        imageButton_attached.setOnClickListener {
             expl.setMessage(R.string.help_attached).create().show()
         }
 
-        context.title = "${context.actualProject.toString()} -> ${counter.name}"
-    }
-
-    override fun TAG(): String {
-        return "===== COUNTERFRAGMENT ====="
+        context.title = "${context.currentProject.toString()} -> ${counter.name}"
     }
 }

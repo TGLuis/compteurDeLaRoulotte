@@ -5,14 +5,12 @@ import android.content.Intent
 import android.content.res.Resources
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.*
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Spinner
 import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.DrawableCompat
@@ -31,10 +29,10 @@ class MainActivity : AppCompatActivityBase() {
     private val TAG = "==== MAINACTIVITY ===="
 
     lateinit var projectsList: ArrayList<Project>
-    var actualProject: Project? = null
-    var actualCounter: Counter? = null
-    var actualRule: Rule? = null
-    var actualComment: Comment? = null
+    var currentProject: Project? = null
+    var currentCounter: Counter? = null
+    var currentRule: Rule? = null
+    var currentComment: Comment? = null
     var seeWhat: String = "Comments"
     var pdfIsOpen: Boolean = true
 
@@ -42,7 +40,7 @@ class MainActivity : AppCompatActivityBase() {
     var volumeOn: Boolean = true
     lateinit var language: String
 
-    private lateinit var frags: Stack<MyFragment>
+    private lateinit var fragmentStack: Stack<MyFragment>
     private lateinit var toolbar: Toolbar
     private lateinit var navView: NavigationView
     private lateinit var drawerLayout: DrawerLayout
@@ -53,13 +51,40 @@ class MainActivity : AppCompatActivityBase() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        Log.i(TAG, "i")
+
+        setProperties()
+        setLanguage()
+        setToolbar()
 
         // Database
         db = MyDatabase(this)
         projectsList = db.getAllProjects(this)
 
-        // properties
+        //NavigationView
+        navView = this.findViewById(R.id.nav_view)
+        setDrawer()
+
+        // Fragments
+        fragmentStack = Stack()
+        openFragment(HomeFragment())
+    }
+
+    private fun setToolbar() {
+        toolbar = this.findViewById(R.id.my_toolbar)
+        setSupportActionBar(toolbar)
+        drawerLayout = this.findViewById(R.id.drawer_layout)
+        val toggle = ActionBarDrawerToggle(
+            this,
+            drawerLayout,
+            toolbar,
+            R.string.navigation_drawer_open,
+            R.string.navigation_drawer_close
+        )
+        drawerLayout.addDrawerListener(toggle)
+        toggle.syncState()
+    }
+
+    private fun setProperties() {
         Helper.init(this)
         screenOn = Helper.getConfigValue("screen_on") == true.toString()
         volumeOn = Helper.getConfigValue("volume_on") == true.toString()
@@ -69,8 +94,14 @@ class MainActivity : AppCompatActivityBase() {
         } else {
             window.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
         }
-        // Language
+    }
+
+    private fun setLanguage() {
         language = Helper.getConfigValue("language").toString()
+        if (language != "-" && Helper.getLanguage() != language) {
+            // the following call restart the activity so it basically stops there
+            setNewLocale(language)
+        }
         if (Build.VERSION.SDK_INT >= 24) {
             val locs = Resources.getSystem().configuration.locales
             if (language == "-") {
@@ -90,34 +121,7 @@ class MainActivity : AppCompatActivityBase() {
                     setNewLocale(thelangue)
             }
         }
-        if (language != "-" && Helper.getLanguage() != language) {
-            setNewLocale(language)
-        }
-
-
-        // Toolbar
-        toolbar = this.findViewById(R.id.my_toolbar)
-        setSupportActionBar(toolbar)
-        drawerLayout = this.findViewById(R.id.drawer_layout)
-        val toggle = ActionBarDrawerToggle(
-            this,
-            drawerLayout,
-            toolbar,
-            R.string.navigation_drawer_open,
-            R.string.navigation_drawer_close
-        )
-        drawerLayout.addDrawerListener(toggle)
-        toggle.syncState()
-
-        //NavigationView
-        navView = this.findViewById(R.id.nav_view)
-        setDrawer()
-
-        // Fragments
-        frags = Stack()
-        openFragment(HomeFragment())
     }
-
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -133,10 +137,8 @@ class MainActivity : AppCompatActivityBase() {
     fun setMenu(which: String, force: Boolean = false) {
         val context = this
         val myMenu = toolbar.menu
-        if (!force && lastMenu != null && lastMenu == which)
-            return
-        if (force)
-            myMenu.clear()
+        if (!force && lastMenu != null && lastMenu == which) return
+        if (force) myMenu.clear()
         lastMenu = which
         when (which) {
             "home" -> {
@@ -159,7 +161,7 @@ class MainActivity : AppCompatActivityBase() {
                             .setTitle(R.string.counter_name_id)
                             .setPositiveButton(R.string.ok) { dialog, _ ->
                                 val counterName = viewInflated.input_text.text.toString()
-                                if (actualProject!!.hasCounter(counterName)) {
+                                if (currentProject!!.hasCounter(counterName)) {
                                     Toast.makeText(
                                         context,
                                         R.string.counter_already,
@@ -179,7 +181,7 @@ class MainActivity : AppCompatActivityBase() {
                         true
                     }
                 }
-                if (context.actualProject!!.myCounters.size > 0) {
+                if (context.currentProject!!.myCounters.size > 0) {
                     myMenu.add(R.string.open_a_counter).apply {
                         setOnMenuItemClickListener {
                             val viewInflated = LayoutInflater.from(context).inflate(
@@ -188,31 +190,24 @@ class MainActivity : AppCompatActivityBase() {
                                 false
                             )
                             val the_spinner = viewInflated.findViewById<Spinner>(R.id.input_spinner)
-                            val arr = ArrayList<String>(context.actualProject!!.getCounters().size)
-                            context.actualProject!!.getCounters().forEach { arr.add(it.name) }
+                            val arr = ArrayList<String>(context.currentProject!!.getCounters().size)
+                            context.currentProject!!.getCounters().forEach { arr.add(it.name) }
                             val adapteur = ArrayAdapter(context, R.layout.support_simple_spinner_dropdown_item, arr.toArray())
                             var selectedItem = arr[0]
                             adapteur.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item)
                             the_spinner.adapter = adapteur
-                            the_spinner.onItemSelectedListener =
-                                object : AdapterView.OnItemSelectedListener {
+                            the_spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
                                     override fun onNothingSelected(parent: AdapterView<*>?) {}
-                                    override fun onItemSelected(
-                                        p0: AdapterView<*>?,
-                                        p1: View?,
-                                        p2: Int,
-                                        p3: Long
-                                    ) {
+                                    override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
                                         selectedItem = arr[p2]
                                     }
                                 }
-                            }
                             val editCounter = MaterialAlertDialogBuilder(context, R.style.AlertDialogPositiveBtnFilled)
                             editCounter.setView(viewInflated)
                                 .setTitle(R.string.project_name_id)
                                 .setPositiveButton(R.string.ok) { dialog, _ ->
-                                    actualCounter =
-                                        actualProject!!.myCounters.find { it.name == selectedItem }
+                                    currentCounter =
+                                        currentProject!!.myCounters.find { it.name == selectedItem }
                                     context.openFragment(CounterFragment())
                                     dialog.dismiss()
                                 }
@@ -256,15 +251,11 @@ class MainActivity : AppCompatActivityBase() {
                                 val projectName = viewInflated.input_text.text.toString()
                                 val data: Boolean = viewInflated.input_check_box.isChecked
                                 if (context.projectsList.find { it.name == projectName } == null) {
-                                    context.actualProject!!.clone(projectName, data)
+                                    context.currentProject!!.clone(projectName, data)
                                     dialog.dismiss()
                                     context.openFragment(HomeFragment())
                                 } else {
-                                    Toast.makeText(
-                                        context,
-                                        R.string.project_already,
-                                        Toast.LENGTH_SHORT
-                                    ).show()
+                                    Toast.makeText(context, R.string.project_already, Toast.LENGTH_SHORT).show()
                                 }
                             }
                             .setNegativeButton(R.string.cancel) { dialog, _ ->
@@ -276,14 +267,14 @@ class MainActivity : AppCompatActivityBase() {
                         true
                     }
                 }
-                if (actualProject!!.pdf != null) {
+                if (currentProject!!.pdf != null) {
                     if (pdfIsOpen) {
                         myMenu.add(R.string.hide_pdf).apply {
                             icon = ContextCompat.getDrawable(context, R.drawable.ic_baseline_visibility_off_24)
                             setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM)
                             setOnMenuItemClickListener {
                                 pdfIsOpen = false
-                                openFragment(frags.pop())
+                                openFragment(fragmentStack.pop())
                                 context.setMenu("project", true)
                                 true
                             }
@@ -295,7 +286,7 @@ class MainActivity : AppCompatActivityBase() {
                             setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM)
                             setOnMenuItemClickListener {
                                 pdfIsOpen = true
-                                openFragment(frags.pop().javaClass.newInstance())
+                                openFragment(fragmentStack.pop().javaClass.newInstance())
                                 context.setMenu("project", true)
                                 true
                             }
@@ -404,7 +395,7 @@ class MainActivity : AppCompatActivityBase() {
         if (requestCode == PDF_SELECTION_CODE && resultCode == Activity.RESULT_OK && data != null) {
             val selectedPdf = data.data
             pdfIsOpen = true
-            actualProject!!.pdf = selectedPdf
+            currentProject!!.pdf = selectedPdf
             setMenu("project", true)
             openFragment(ProjectFragment())
         }
@@ -427,45 +418,37 @@ class MainActivity : AppCompatActivityBase() {
     }
 
     private fun createCounter(counterName: String) {
-        val order = actualProject!!.getCounters().size
-        db.addCounterDB(actualProject!!, counterName, 0, 0, order, false, null)
-        actualProject!!.addCounter(Counter(counterName, 0, order, false, null))
+        val order = currentProject!!.getCounters().size
+        db.addCounterDB(currentProject!!, counterName, 0, 0, order, false, null)
+        currentProject!!.addCounter(Counter(counterName, 0, order, false, null))
 
-        if (actualProject!!.getCounters().size == 1)
+        if (currentProject!!.getCounters().size == 1)
             setMenu("project", true) // case where there was no counter then you add one => must make the menu again to add "opencounter"
     }
 
     fun deleteCounter(counter: Counter) {
-        if (actualCounter == counter) {
-            actualCounter = null
+        if (currentCounter == counter) {
+            currentCounter = null
         }
-        actualProject!!.myRules.forEach {
+        currentProject!!.myRules.forEach {
             if (it.counter == counter.name)
                 deleteRuleOfProject(it)
         }
-        db.deleteCounterDB(actualProject!!, counter.name)
-        actualProject!!.deleteCounter(counter)
+        db.deleteCounterDB(currentProject!!, counter.name)
+        currentProject!!.deleteCounter(counter)
 
-        if (actualProject!!.getCounters().size == 0)
+        if (currentProject!!.getCounters().size == 0)
             setMenu("project", true) // case where there was 1 counter then you remove it => must remove "opencounter" from the menu
     }
 
     fun updateCounterName(c: Counter, new_name: String) {
-        db.deleteCounterDB(actualProject!!, c.name)
-        db.addCounterDB(
-            actualProject!!,
-            new_name,
-            c.etat,
-            c.max,
-            c.order,
-            c.attachedMain,
-            c.counterAttached
-        )
+        db.deleteCounterDB(currentProject!!, c.name)
+        db.addCounterDB(currentProject!!, new_name, c.etat, c.max, c.order, c.attachedMain, c.counterAttached)
     }
 
     fun addRuleToProject(r: Rule) {
-        actualProject!!.addRule(r)
-        db.addRuleDB(actualProject!!, r)
+        currentProject!!.addRule(r)
+        db.addRuleDB(currentProject!!, r)
     }
 
     fun updateRule(r: Rule, new_r: Rule) {
@@ -474,13 +457,13 @@ class MainActivity : AppCompatActivityBase() {
     }
 
     fun deleteRuleOfProject(r: Rule) {
-        actualProject!!.deleteRule(r)
-        db.deleteRuleDB(actualProject!!, r)
+        currentProject!!.deleteRule(r)
+        db.deleteRuleDB(currentProject!!, r)
     }
 
     fun addCommentToProject(c: Comment) {
-        actualProject!!.addComment(c)
-        db.addCommentDB(actualProject!!, c)
+        currentProject!!.addComment(c)
+        db.addCommentDB(currentProject!!, c)
     }
 
     fun updateComment(c: Comment, new_c: Comment) {
@@ -489,26 +472,24 @@ class MainActivity : AppCompatActivityBase() {
     }
 
     fun deleteCommentOfProject(c: Comment) {
-        actualProject!!.deleteComment(c)
-        db.deleteCommentDB(actualProject!!, c)
+        currentProject!!.deleteComment(c)
+        db.deleteCommentDB(currentProject!!, c)
     }
 
     fun deleteStepOfRule(r: Rule, s: Step) {
-        db.deleteStepDB(actualProject!!, r, s)
-        actualProject!!.deleteStepOfRule(r, s)
+        db.deleteStepDB(currentProject!!, r, s)
+        currentProject!!.deleteStepOfRule(r, s)
     }
 
     fun openFragment(frag: MyFragment, pop: Boolean = false) {
-        if (!pop && (frags.empty() || frag::class != this.frags.peek()::class))
-            frags.push(frag)
-        supportFragmentManager.beginTransaction().replace(R.id.frame, frag, frag.TAG()).commit()
+        if (!pop && (fragmentStack.empty() || frag::class != this.fragmentStack.peek()::class))
+            fragmentStack.push(frag)
+        supportFragmentManager.beginTransaction().replace(R.id.frame, frag, frag.TAG).commit()
     }
 
     fun getNextCommentIdentifiant(): Int {
-        val comments = actualProject!!.myComments
-        if (comments.isEmpty()) {
-            return 0
-        }
+        val comments = currentProject!!.myComments
+        if (comments.isEmpty()) return 0
         var max = 0
         comments.forEach { comment ->
             max = if (comment.num > max) comment.num else max
@@ -517,10 +498,8 @@ class MainActivity : AppCompatActivityBase() {
     }
 
     fun getNextRuleIdentifiant(): Int {
-        val rules = actualProject!!.myRules
-        if (rules.isEmpty()) {
-            return 0
-        }
+        val rules = currentProject!!.myRules
+        if (rules.isEmpty()) return 0
         var max = 0
         rules.forEach { rule ->
             max = if (rule.num > max) rule.num else max
@@ -535,9 +514,9 @@ class MainActivity : AppCompatActivityBase() {
             drawerLayout.isDrawerOpen(GravityCompat.START) -> {
                 drawerLayout.closeDrawer(GravityCompat.START)
             }
-            frags.size >= 2 -> {
-                frags.pop()
-                openFragment(frags.peek(), true)
+            fragmentStack.size >= 2 -> {
+                fragmentStack.pop()
+                openFragment(fragmentStack.peek(), true)
             }
             else -> {
                 saveState()
@@ -572,15 +551,7 @@ class MainActivity : AppCompatActivityBase() {
                 val counters = thisit.getCounters()
                 if (counters.isNotEmpty()) {
                     counters.forEach {
-                        db.updateCounterDB(
-                            thisit,
-                            it.name,
-                            it.etat,
-                            it.max,
-                            it.order,
-                            it.attachedMain,
-                            it.counterAttached
-                        )
+                        db.updateCounterDB(thisit, it.name, it.etat, it.max, it.order, it.attachedMain, it.counterAttached)
                     }
                 }
                 // fix disparition of some rules and comments by force save..

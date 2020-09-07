@@ -17,28 +17,29 @@ import java.util.*
 
 class RuleFragment : MyFragment() {
     private lateinit var context: MainActivity
+    override var TAG: String = "===== ADDRULESFRAGMENT ====="
     private var rule: Rule? = null
     private var add: Boolean = true
 
-    private lateinit var LV_steps: ListView
+    private lateinit var listView_steps: ListView
     private lateinit var steps: ArrayList<Step>
-    private lateinit var CB_startNow: CheckBox
-    private lateinit var ET_otherStart: EditText
-    private lateinit var S_counters: Spinner
-    private lateinit var ET_comment: EditText
-    private lateinit var IB_infoStart: ImageButton
-    private lateinit var IB_infoCounter: ImageButton
-    private lateinit var IB_infoComment: ImageButton
+    private lateinit var checkBox_startNow: CheckBox
+    private lateinit var editText_otherStart: EditText
+    private lateinit var spinner_counters: Spinner
+    private lateinit var editText_comment: EditText
+    private lateinit var imageButton_infoStart: ImageButton
+    private lateinit var imageButton_infoCounter: ImageButton
+    private lateinit var imageButton_infoComment: ImageButton
     private lateinit var expl: AlertDialog.Builder
     private lateinit var selectedItem: String
 
-    private lateinit var B_cancel: Button
-    private lateinit var B_add_step: Button
-    private lateinit var B_save: Button
+    private lateinit var button_cancel: Button
+    private lateinit var button_addStep: Button
+    private lateinit var button_save: Button
 
     private lateinit var adapteur: StepsAdapter
 
-    inner class CustomWatcher(private var st: Step, private var i: Int) : TextWatcher {
+    class CustomWatcher(private var st: Step, private var i: Int) : TextWatcher {
 
         override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
         override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
@@ -103,7 +104,7 @@ class RuleFragment : MyFragment() {
                                     (context as MainActivity).deleteStepOfRule(rule!!, step)
                                 }
                                 adapteur = StepsAdapter(context, steps)
-                                LV_steps.adapter = adapteur
+                                listView_steps.adapter = adapteur
                                 dialog.dismiss()
                             }
                             .setNegativeButton(R.string.cancel) { dialog, _ ->
@@ -131,14 +132,14 @@ class RuleFragment : MyFragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        if (context.actualProject == null) {
+        if (context.currentProject == null) {
             context.openFragment(HomeFragment())
             return
         }
 
-        rule = context.actualRule
+        rule = context.currentRule
         add = rule == null
-        rule = if (add) Rule(context.getNextRuleIdentifiant(), context.actualProject!!.myRules.size) else rule!!.clone()
+        rule = if (add) Rule(context.getNextRuleIdentifiant(), context.currentProject!!.myRules.size) else rule!!.clone()
 
         expl = AlertDialog.Builder(context)
         expl.setTitle(R.string.info)
@@ -146,25 +147,25 @@ class RuleFragment : MyFragment() {
                     dialog.dismiss()
                 }
 
-        CB_startNow = context.findViewById(R.id.begin_now)
-        ET_otherStart = context.findViewById(R.id.begin_other)
+        checkBox_startNow = context.findViewById(R.id.begin_now)
+        editText_otherStart = context.findViewById(R.id.begin_other)
         if (!add) {
-            ET_otherStart.setText(rule!!.start.toString())
+            editText_otherStart.setText(rule!!.start.toString())
         }
 
-        S_counters = context.findViewById(R.id.the_counter)
-        val arr = ArrayList<String>(context.actualProject!!.getCounters().size + 1)
+        spinner_counters = context.findViewById(R.id.the_counter)
+        val arr = ArrayList<String>(context.currentProject!!.getCounters().size + 1)
         val the_proj = context.getString(R.string.the_project)
         arr.add(the_proj)
-        context.actualProject!!.getCounters().forEach { arr.add(it.name) }
+        context.currentProject!!.getCounters().forEach { arr.add(it.name) }
         selectedItem = the_proj
         if (!add) {
             selectedItem = rule!!.counter
         }
-        val adaptor = ArrayAdapter(context, R.layout.support_simple_spinner_dropdown_item, arr.toArray()!!)
+        val adaptor = ArrayAdapter(context, R.layout.support_simple_spinner_dropdown_item, arr.toArray())
         adaptor.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item)
-        S_counters.adapter = adaptor
-        S_counters.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+        spinner_counters.adapter = adaptor
+        spinner_counters.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onNothingSelected(parent: AdapterView<*>?) {}
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
                 if (p2 != 0)
@@ -175,26 +176,26 @@ class RuleFragment : MyFragment() {
         }
         if (!add) {
             val temp_selected = if (rule!!.counter == "") the_proj else rule!!.counter
-            S_counters.setSelection(adaptor.getPosition(temp_selected))
+            spinner_counters.setSelection(adaptor.getPosition(temp_selected))
         }
 
-        ET_comment = context.findViewById(R.id.the_comment)
+        editText_comment = context.findViewById(R.id.the_comment)
         if (!add) {
-            ET_comment.setText(rule!!.comment)
+            editText_comment.setText(rule!!.comment)
         }
 
-        IB_infoStart = context.findViewById(R.id.info_start)
-        IB_infoStart.setOnClickListener {
+        imageButton_infoStart = context.findViewById(R.id.info_start)
+        imageButton_infoStart.setOnClickListener {
             expl.setMessage(R.string.help_start).create().show()
         }
 
-        IB_infoCounter = context.findViewById(R.id.info_which_counter)
-        IB_infoCounter.setOnClickListener {
+        imageButton_infoCounter = context.findViewById(R.id.info_which_counter)
+        imageButton_infoCounter.setOnClickListener {
             expl.setMessage(R.string.help_which_counter).create().show()
         }
 
-        IB_infoComment = context.findViewById(R.id.info_comment)
-        IB_infoComment.setOnClickListener {
+        imageButton_infoComment = context.findViewById(R.id.info_comment)
+        imageButton_infoComment.setOnClickListener {
             expl.setMessage(R.string.help_comment_rule).create().show()
         }
 
@@ -208,30 +209,30 @@ class RuleFragment : MyFragment() {
         }
         rule!!.steps = steps
 
-        LV_steps = context.findViewById(R.id.listSteps)
+        listView_steps = context.findViewById(R.id.listSteps)
         adapteur = this.StepsAdapter(context, steps)
-        LV_steps.adapter = adapteur
+        listView_steps.adapter = adapteur
 
-        B_cancel = context.findViewById(R.id.button_cancel)
-        B_cancel.setOnClickListener {
+        button_cancel = context.findViewById(R.id.button_cancel)
+        button_cancel.setOnClickListener {
             context.onBackPressed()
         }
 
-        B_add_step = context.findViewById(R.id.button_add_step)
-        B_add_step.setOnClickListener {
+        button_addStep = context.findViewById(R.id.button_add_step)
+        button_addStep.setOnClickListener {
             steps.add(Step(true, 1, 1, 1))
             adapteur.notifyDataSetChanged()
         }
 
-        B_save = context.findViewById(R.id.button_save)
-        B_save.setOnClickListener {
-            val start = if (CB_startNow.isChecked) context.actualProject!!.etat else try {
-                ET_otherStart.text.toString().toInt()
+        button_save = context.findViewById(R.id.button_save)
+        button_save.setOnClickListener {
+            val start = if (checkBox_startNow.isChecked) context.currentProject!!.etat else try {
+                editText_otherStart.text.toString().toInt()
             } catch (e: NumberFormatException) {
                 0
             }
             rule!!.start = start
-            rule!!.comment = ET_comment.text.toString()
+            rule!!.comment = editText_comment.text.toString()
             val prem = if (add) context.getString(R.string.pre_rule) else context.getString(R.string.pre_rule_modif)
             val mess = rule!!.getString(context)
             val dial = AlertDialog.Builder(context)
@@ -240,7 +241,7 @@ class RuleFragment : MyFragment() {
                         if (add) {
                             context.addRuleToProject(rule!!)
                         } else {
-                            context.updateRule(context.actualRule!!, rule!!)
+                            context.updateRule(context.currentRule!!, rule!!)
                         }
                         context.onBackPressed()
                         dialog.dismiss()
@@ -254,9 +255,5 @@ class RuleFragment : MyFragment() {
                     .show()
         }
         context.title = context.getString(R.string.add_rule)
-    }
-
-    override fun TAG(): String {
-        return "===== ADDRULESFRAGMENT ====="
     }
 }
