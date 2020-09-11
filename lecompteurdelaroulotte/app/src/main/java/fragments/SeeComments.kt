@@ -38,16 +38,16 @@ class SeeComments: SeeFragment() {
             }
             viewHolder.msg!!.text = comment.toString()
 
-            val TV_comment = projectView.findViewById<TextView>(R.id.text_comment)
+            val textView_comment = projectView.findViewById<TextView>(R.id.text_comment)
             val comment_text = comment.getString(activity as MainActivity)
-            TV_comment.text = comment_text
-            TV_comment.setOnClickListener {
+            textView_comment.text = comment_text
+            textView_comment.setOnClickListener {
                 (context as MainActivity).currentComment = comment
                 (context as MainActivity).openFragment(CommentFragment())
             }
 
-            val IB_del = projectView.findViewById<ImageButton>(R.id.delete_image)
-            IB_del.setOnClickListener{
+            val imageButton_delete = projectView.findViewById<ImageButton>(R.id.delete_image)
+            imageButton_delete.setOnClickListener{
                 val alert = AlertDialog.Builder(context)
                 alert.setTitle(R.string.confirm)
                     .setMessage(getString(R.string.delete_comment) + "\n" + comment_text)

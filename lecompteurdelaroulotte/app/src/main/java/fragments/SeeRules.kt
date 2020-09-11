@@ -38,16 +38,16 @@ class SeeRules: SeeFragment() {
             }
             viewHolder.msg!!.text = rule.toString()
 
-            val TV_rule = projectView.findViewById<TextView>(R.id.text_rule)
+            val textView_rule = projectView.findViewById<TextView>(R.id.text_rule)
             val rule_text = rule!!.getString(context as MainActivity)
-            TV_rule.text = rule_text
-            TV_rule.setOnClickListener {
+            textView_rule.text = rule_text
+            textView_rule.setOnClickListener {
                 (context as MainActivity).currentRule = rule
                 (context as MainActivity).openFragment(RuleFragment())
             }
 
-            val IB_del = projectView.findViewById<ImageButton>(R.id.delete_image)
-            IB_del.setOnClickListener{
+            val imageButton_delete = projectView.findViewById<ImageButton>(R.id.delete_image)
+            imageButton_delete.setOnClickListener{
                 val alert = AlertDialog.Builder(context)
                 alert.setTitle(R.string.confirm)
                     .setMessage(getString(R.string.delete_rule) + "\n" + rule_text)
