@@ -155,8 +155,15 @@ class MainActivity : AppCompatActivityBase() {
                 }
                 myMenu.add(R.string.add_counter).apply {
                     setOnMenuItemClickListener {
-                        val viewInflated = LayoutInflater.from(context).inflate(R.layout.simple_text_input, context.navView as ViewGroup, false)
-                        val addCounter = MaterialAlertDialogBuilder(context, R.style.AlertDialogPositiveBtnFilled)
+                        val viewInflated = LayoutInflater.from(context).inflate(
+                            R.layout.simple_text_input,
+                            context.navView as ViewGroup,
+                            false
+                        )
+                        val addCounter = MaterialAlertDialogBuilder(
+                            context,
+                            R.style.AlertDialogPositiveBtnFilled
+                        )
                         addCounter.setView(viewInflated)
                             .setTitle(R.string.counter_name_id)
                             .setPositiveButton(R.string.ok) { dialog, _ ->
@@ -192,17 +199,30 @@ class MainActivity : AppCompatActivityBase() {
                             val the_spinner = viewInflated.findViewById<Spinner>(R.id.input_spinner)
                             val arr = ArrayList<String>(context.currentProject!!.getCounters().size)
                             context.currentProject!!.getCounters().forEach { arr.add(it.name) }
-                            val adapteur = ArrayAdapter(context, R.layout.support_simple_spinner_dropdown_item, arr.toArray())
+                            val adapteur = ArrayAdapter(
+                                context,
+                                R.layout.support_simple_spinner_dropdown_item,
+                                arr.toArray()
+                            )
                             var selectedItem = arr[0]
                             adapteur.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item)
                             the_spinner.adapter = adapteur
-                            the_spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+                            the_spinner.onItemSelectedListener =
+                                object : AdapterView.OnItemSelectedListener {
                                     override fun onNothingSelected(parent: AdapterView<*>?) {}
-                                    override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
+                                    override fun onItemSelected(
+                                        p0: AdapterView<*>?,
+                                        p1: View?,
+                                        p2: Int,
+                                        p3: Long
+                                    ) {
                                         selectedItem = arr[p2]
                                     }
                                 }
-                            val editCounter = MaterialAlertDialogBuilder(context, R.style.AlertDialogPositiveBtnFilled)
+                            val editCounter = MaterialAlertDialogBuilder(
+                                context,
+                                R.style.AlertDialogPositiveBtnFilled
+                            )
                             editCounter.setView(viewInflated)
                                 .setTitle(R.string.project_name_id)
                                 .setPositiveButton(R.string.ok) { dialog, _ ->
@@ -224,14 +244,14 @@ class MainActivity : AppCompatActivityBase() {
                 myMenu.add(R.string.my_rules).apply {
                     setOnMenuItemClickListener {
                         context.seeWhat = "Rules"
-                        context.openFragment(SeeFragment())
+                        context.openFragment(SeeRules())
                         true
                     }
                 }
                 myMenu.add(R.string.my_comments).apply {
                     setOnMenuItemClickListener {
                         context.seeWhat = "Comments"
-                        context.openFragment(SeeFragment())
+                        context.openFragment(SeeComments())
                         true
                     }
                 }
@@ -244,7 +264,10 @@ class MainActivity : AppCompatActivityBase() {
                         )
                         viewInflated.tv.text = getString(R.string.with_data)
                         viewInflated.input_text.hint = getString(R.string.project_name)
-                        val addCounter = MaterialAlertDialogBuilder(context, R.style.AlertDialogPositiveBtnFilled)
+                        val addCounter = MaterialAlertDialogBuilder(
+                            context,
+                            R.style.AlertDialogPositiveBtnFilled
+                        )
                         addCounter.setView(viewInflated)
                             .setTitle(R.string.clone_proj)
                             .setPositiveButton(R.string.ok) { dialog, _ ->
@@ -255,7 +278,11 @@ class MainActivity : AppCompatActivityBase() {
                                     dialog.dismiss()
                                     context.openFragment(HomeFragment())
                                 } else {
-                                    Toast.makeText(context, R.string.project_already, Toast.LENGTH_SHORT).show()
+                                    Toast.makeText(
+                                        context,
+                                        R.string.project_already,
+                                        Toast.LENGTH_SHORT
+                                    ).show()
                                 }
                             }
                             .setNegativeButton(R.string.cancel) { dialog, _ ->
@@ -270,7 +297,10 @@ class MainActivity : AppCompatActivityBase() {
                 if (currentProject!!.pdf != null) {
                     if (pdfIsOpen) {
                         myMenu.add(R.string.hide_pdf).apply {
-                            icon = ContextCompat.getDrawable(context, R.drawable.ic_baseline_visibility_off_24)
+                            icon = ContextCompat.getDrawable(
+                                context,
+                                R.drawable.ic_baseline_visibility_off_24
+                            )
                             setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM)
                             setOnMenuItemClickListener {
                                 pdfIsOpen = false
@@ -281,8 +311,16 @@ class MainActivity : AppCompatActivityBase() {
                         }
                     } else {
                         myMenu.add(R.string.show_pdf).apply {
-                            icon = ContextCompat.getDrawable(context, R.drawable.ic_baseline_visibility_24)
-                            DrawableCompat.setTint(icon, ContextCompat.getColor(context, R.color.white))
+                            icon = ContextCompat.getDrawable(
+                                context,
+                                R.drawable.ic_baseline_visibility_24
+                            )
+                            DrawableCompat.setTint(
+                                icon, ContextCompat.getColor(
+                                    context,
+                                    R.color.white
+                                )
+                            )
                             setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM)
                             setOnMenuItemClickListener {
                                 pdfIsOpen = true
@@ -296,7 +334,10 @@ class MainActivity : AppCompatActivityBase() {
                 }
                 // open new pdf
                 myMenu.add(R.string.open_new_pdf).apply {
-                    icon = ContextCompat.getDrawable(context, R.drawable.ic_baseline_picture_as_pdf_24)
+                    icon = ContextCompat.getDrawable(
+                        context,
+                        R.drawable.ic_baseline_picture_as_pdf_24
+                    )
                     DrawableCompat.setTint(icon, ContextCompat.getColor(context, R.color.white))
                     setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM)
                     setOnMenuItemClickListener {
@@ -328,8 +369,15 @@ class MainActivity : AppCompatActivityBase() {
         }
         navView.menu.add(R.string.add_project).apply {
             setOnMenuItemClickListener {
-                val addProj = MaterialAlertDialogBuilder(context, R.style.AlertDialogPositiveBtnFilled)
-                val viewInflated = LayoutInflater.from(context).inflate(R.layout.simple_text_input, navView as ViewGroup, false)
+                val addProj = MaterialAlertDialogBuilder(
+                    context,
+                    R.style.AlertDialogPositiveBtnFilled
+                )
+                val viewInflated = LayoutInflater.from(context).inflate(
+                    R.layout.simple_text_input,
+                    navView as ViewGroup,
+                    false
+                )
                 viewInflated.input_text.hint = context.getString(R.string.project_name)
                 addProj.setView(viewInflated)
                         .setTitle(R.string.project_name_id)
@@ -341,7 +389,11 @@ class MainActivity : AppCompatActivityBase() {
                                 openFragment(HomeFragment())
                                 dialog.dismiss()
                             } else {
-                                Toast.makeText(context, R.string.project_already, Toast.LENGTH_SHORT).show()
+                                Toast.makeText(
+                                    context,
+                                    R.string.project_already,
+                                    Toast.LENGTH_SHORT
+                                ).show()
                             }
                         }
                         .setNegativeButton(R.string.cancel) { dialog, _ ->
@@ -443,7 +495,15 @@ class MainActivity : AppCompatActivityBase() {
 
     fun updateCounterName(c: Counter, new_name: String) {
         db.deleteCounterDB(currentProject!!, c.name)
-        db.addCounterDB(currentProject!!, new_name, c.etat, c.max, c.order, c.attachedMain, c.counterAttached)
+        db.addCounterDB(
+            currentProject!!,
+            new_name,
+            c.etat,
+            c.max,
+            c.order,
+            c.attachedMain,
+            c.counterAttached
+        )
     }
 
     fun addRuleToProject(r: Rule) {
@@ -481,12 +541,6 @@ class MainActivity : AppCompatActivityBase() {
         currentProject!!.deleteStepOfRule(r, s)
     }
 
-    fun openFragment(frag: MyFragment, pop: Boolean = false) {
-        if (!pop && (fragmentStack.empty() || frag::class != this.fragmentStack.peek()::class))
-            fragmentStack.push(frag)
-        supportFragmentManager.beginTransaction().replace(R.id.frame, frag, frag.TAG).commit()
-    }
-
     fun getNextCommentIdentifiant(): Int {
         val comments = currentProject!!.myComments
         if (comments.isEmpty()) return 0
@@ -506,6 +560,13 @@ class MainActivity : AppCompatActivityBase() {
         }
         return max + 1
     }
+
+    fun openFragment(frag: MyFragment, pop: Boolean = false) {
+        if (!pop && (fragmentStack.empty() || frag::class != this.fragmentStack.peek()::class))
+            fragmentStack.push(frag)
+        supportFragmentManager.beginTransaction().replace(R.id.frame, frag, frag.TAG).commit()
+    }
+
     /***********************************************************************************************
      * override of the activity functions
      */
@@ -516,7 +577,7 @@ class MainActivity : AppCompatActivityBase() {
             }
             fragmentStack.size >= 2 -> {
                 fragmentStack.pop()
-                openFragment(fragmentStack.peek(), true)
+                openFragment(fragmentStack.peek()::class.java.newInstance(), true)
             }
             else -> {
                 saveState()
@@ -551,7 +612,15 @@ class MainActivity : AppCompatActivityBase() {
                 val counters = thisit.getCounters()
                 if (counters.isNotEmpty()) {
                     counters.forEach {
-                        db.updateCounterDB(thisit, it.name, it.etat, it.max, it.order, it.attachedMain, it.counterAttached)
+                        db.updateCounterDB(
+                            thisit,
+                            it.name,
+                            it.etat,
+                            it.max,
+                            it.order,
+                            it.attachedMain,
+                            it.counterAttached
+                        )
                     }
                 }
                 // fix disparition of some rules and comments by force save..
