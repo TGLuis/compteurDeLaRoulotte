@@ -7,12 +7,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.*
-import androidx.appcompat.app.AlertDialog
 import androidx.constraintlayout.widget.ConstraintLayout
+import library.Dialogs
 import tgl.lecompteurdelaroulotte.MainActivity
 import tgl.lecompteurdelaroulotte.R
 import library.Project
-import java.lang.Exception
 
 class ArchiveFragment: MyFragment() {
     private lateinit var context: MainActivity
@@ -20,9 +19,9 @@ class ArchiveFragment: MyFragment() {
     private lateinit var adapteur:ProjectAdapter
 
     private lateinit var listView_projects: ListView
-    private lateinit var addProject: AlertDialog.Builder
     private lateinit var archivedProjects: ArrayList<Project>
     private lateinit var that: ArchiveFragment
+    private lateinit var clickedProject: Project
 
     inner class ProjectAdapter(context: Context, list: ArrayList<Project>) : ArrayAdapter<Project>(context, 0, list) {
         private inner class ProjectViewHolder(var msg: TextView?= null)
@@ -42,45 +41,21 @@ class ArchiveFragment: MyFragment() {
             }
 
             val deleteButton = projectView.findViewById<ImageButton>(R.id.delete_image)
-            deleteButton.setOnClickListener{
-                val cancelDialog = AlertDialog.Builder(context)
-                cancelDialog.setTitle(R.string.delete_project)
-                        .setPositiveButton(R.string.ok) { dialog, _ ->
-                            (context as MainActivity).deleteProject(proj)
-                            archivedProjects = ArrayList((context as MainActivity).projectsList.filter{ proj -> proj.archived })
-                            listView_projects.adapter = that.ProjectAdapter(context, archivedProjects)
-                            dialog.dismiss()
-                        }
-                        .setNegativeButton(R.string.cancel) { dialog, _ ->
-                            dialog.dismiss()
-                        }
-                try{
-                    cancelDialog.create()
-                }catch (e: Exception){} finally { cancelDialog.show() }
-            }
-
             val unarchiveButton = projectView.findViewById<ImageButton>(R.id.unarchive_image)
-            unarchiveButton.setOnClickListener{
-                val cancelDialog = AlertDialog.Builder(context)
-                cancelDialog.setTitle(R.string.unarchive_project)
-                        .setPositiveButton(R.string.ok) { dialog, _ ->
-                            proj.archived = false
-                            archivedProjects = ArrayList((context as MainActivity).projectsList.filter{ proj -> proj.archived })
-                            listView_projects.adapter = that.ProjectAdapter(context, archivedProjects)
-                            dialog.dismiss()
-                        }
-                        .setNegativeButton(R.string.cancel) { dialog, _ ->
-                            dialog.dismiss()
-                        }
-                try{
-                    cancelDialog.create()
-                }catch (e: Exception){} finally { cancelDialog.show() }
+            val constraintLayout = projectView.findViewById<ConstraintLayout>(R.id.content)
+            val enterText = projectView.findViewById<TextView>(R.id.project_text)
+
+            deleteButton.setOnClickListener{
+                clickedProject = proj
+                Dialogs.displaySimpleDialog(context,R.string.delete_project, ::deleteProject)
             }
 
-            val constr = projectView.findViewById<ConstraintLayout>(R.id.content)
-            constr.setOnClickListener {openProj(proj)}
+            unarchiveButton.setOnClickListener{
+                clickedProject = proj
+                Dialogs.displaySimpleDialog(context, R.string.unarchive_project, ::restoreProject)
+            }
 
-            val enterText = projectView.findViewById<TextView>(R.id.project_text)
+            constraintLayout.setOnClickListener {openProj(proj)}
             enterText.setOnClickListener {openProj(proj)}
 
             viewHolder.msg!!.text = proj.toString()
@@ -90,6 +65,18 @@ class ArchiveFragment: MyFragment() {
         private fun openProj(proj: Project){
             (context as MainActivity).currentProject = proj
             (context as MainActivity).openFragment(ProjectFragment())
+        }
+
+        private fun deleteProject() {
+            (context as MainActivity).deleteProject(clickedProject)
+            archivedProjects = ArrayList((context as MainActivity).projectsList.filter{ proj -> proj.archived })
+            listView_projects.adapter = that.ProjectAdapter(context, archivedProjects)
+        }
+
+        private fun restoreProject() {
+            clickedProject.archived = false
+            archivedProjects = ArrayList((context as MainActivity).projectsList.filter{ proj -> proj.archived })
+            listView_projects.adapter = that.ProjectAdapter(context, archivedProjects)
         }
     }
 
@@ -103,10 +90,9 @@ class ArchiveFragment: MyFragment() {
         super.onActivityCreated(savedInstanceState)
         that = this
 
-        archivedProjects = ArrayList(context.projectsList.filter{ proj -> proj.archived })
-        addProject = AlertDialog.Builder(context)
-
         listView_projects = context.findViewById(R.id.listProject)
+
+        archivedProjects = ArrayList(context.projectsList.filter{ proj -> proj.archived })
         adapteur = that.ProjectAdapter(context, archivedProjects)
         listView_projects.adapter = adapteur
 
