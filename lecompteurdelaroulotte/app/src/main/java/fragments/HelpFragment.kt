@@ -8,6 +8,7 @@ import android.view.ViewTreeObserver
 import android.widget.ImageButton
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
+import library.Listeners
 import tgl.lecompteurdelaroulotte.MainActivity
 import tgl.lecompteurdelaroulotte.R
 
@@ -72,31 +73,22 @@ class HelpFragment : MyFragment() {
 
 
         imageButton_general.setOnClickListener {
-            generalDrop = listener(generalDrop, textView_general, imageButton_general, R.string.help_general, heightGeneral)
+            generalDrop = Listeners.dropArrowButtonListener(context, generalDrop, textView_general, imageButton_general, R.string.help_general, heightGeneral)
         }
 
         imageButton_counter.setOnClickListener {
-            counterDrop = listener(counterDrop, textView_counter, imageButton_counter, R.string.help_counter, heightCounter)
+            counterDrop = Listeners.dropArrowButtonListener(context, counterDrop, textView_counter, imageButton_counter, R.string.help_counter, heightCounter)
         }
 
         imageButton_comment.setOnClickListener {
-            commentDrop = listener(commentDrop, textView_comment, imageButton_comment, R.string.help_comment, heightComment)
+            commentDrop = Listeners.dropArrowButtonListener(context, commentDrop, textView_comment, imageButton_comment, R.string.help_comment, heightComment)
         }
 
         imageButton_rule.setOnClickListener {
-            ruleDrop = listener(ruleDrop, textView_rule, imageButton_rule, R.string.help_rule, heightRule)
+            ruleDrop = Listeners.dropArrowButtonListener(context, ruleDrop, textView_rule, imageButton_rule, R.string.help_rule, heightRule)
         }
 
         context.title = context.getString(R.string.HelpTitle)
-    }
-
-    private fun listener(b: Boolean, tv: TextView, ib: ImageButton, text: Int, height: Int): Boolean {
-        if (b) {
-            dropUp(tv, ib)
-        } else {
-            dropDown(tv, ib, text, height)
-        }
-        return !b
     }
 
     private fun setAllView() {
@@ -108,17 +100,5 @@ class HelpFragment : MyFragment() {
         imageButton_counter = context.findViewById(R.id.help_counter_drop)
         imageButton_comment = context.findViewById(R.id.help_comment_drop)
         imageButton_rule = context.findViewById(R.id.help_rule_drop)
-    }
-
-    private fun dropUp(tv: TextView, ib: ImageButton) {
-        tv.height = 0
-        tv.text = ""
-        ib.setImageResource(R.drawable.ic_baseline_arrow_drop_down_24)
-    }
-
-    private fun dropDown(tv: TextView, ib: ImageButton, text: Int, height: Int) {
-        tv.height = height
-        tv.text = context.getString(text)
-        ib.setImageResource(R.drawable.ic_baseline_arrow_drop_up_24)
     }
 }

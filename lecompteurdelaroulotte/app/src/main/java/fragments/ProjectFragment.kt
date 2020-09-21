@@ -77,16 +77,12 @@ class ProjectFragment : MyFragment() {
 
             val buttonM = projectView.findViewById<Button>(R.id.button_minus)
             buttonM.setOnClickListener {
-                if ((context as MainActivity).volumeOn)
-                    mediaPlayerMoins.start()
-                up(false, count)
+                updateCounter(false, count)
             }
 
             val buttonP = projectView.findViewById<Button>(R.id.button_plus)
             buttonP.setOnClickListener {
-                if ((context as MainActivity).volumeOn)
-                    mediaPlayerPlus.start()
-                up(true, count)
+                updateCounter(true, count)
             }
 
             val comment = projectView.findViewById<TextView>(R.id.comment_of_the_counter)
@@ -107,7 +103,9 @@ class ProjectFragment : MyFragment() {
          * @param:b if it is true -> increment
          *          if it is false -> decrement
          */
-        private fun up(b: Boolean, count: Counter) {
+        private fun updateCounter(b: Boolean, count: Counter) {
+            playSoundIfNeeded(b)
+
             if (!b && count.attachedMain && project.etat == 0) {
                 Toast.makeText(context, R.string.problem_etat_nul, Toast.LENGTH_LONG).show()
             } else if (count.attachedMain && (b || (!b && count.etat > 0))) {
@@ -152,16 +150,12 @@ class ProjectFragment : MyFragment() {
 
         buttonMinus.setOnClickListener {
             if (project.etat > 0) {
-                if (context.volumeOn)
-                    mediaPlayerMoins.start()
-                up(false)
+                updateProject(false)
             }
         }
 
         buttonPlus.setOnClickListener {
-            if (context.volumeOn)
-                mediaPlayerPlus.start()
-            up(true)
+            updateProject(true)
         }
 
         counters.sortWith { a, b -> a.order - b.order }
@@ -206,7 +200,9 @@ class ProjectFragment : MyFragment() {
      * @param:b if it is true -> increment
      *          if it is false -> decrement
      */
-    private fun up(b: Boolean) {
+    private fun updateProject(b: Boolean) {
+        playSoundIfNeeded(b)
+
         project.update(b)
         textViewNombre.text = project.etat.toString()
         nombres.forEach { it.t!!.text = it.c!!.toDisplay() }
@@ -278,5 +274,13 @@ class ProjectFragment : MyFragment() {
                 view.requestLayout()
             }
         }
+    }
+
+    fun playSoundIfNeeded(b: Boolean) {
+        if (context.volumeOn)
+            if (b)
+                mediaPlayerPlus.start()
+            else
+                mediaPlayerMoins.start()
     }
 }
