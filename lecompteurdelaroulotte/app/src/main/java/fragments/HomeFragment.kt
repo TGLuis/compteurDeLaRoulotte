@@ -6,9 +6,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
-import androidx.appcompat.app.AlertDialog
 import androidx.constraintlayout.widget.ConstraintLayout
 import kotlinx.android.synthetic.main.simple_text_input.view.*
+import library.Dialogs
 import library.Project
 import tgl.lecompteurdelaroulotte.MainActivity
 import tgl.lecompteurdelaroulotte.R
@@ -18,10 +18,11 @@ class HomeFragment : MyFragment() {
     override var TAG: String = "===== MAINFRAGMENT ====="
 
     private lateinit var listView_projects: ListView
-    private lateinit var addProject: AlertDialog.Builder
     private lateinit var button_addProject: Button
     private lateinit var projects: ArrayList<Project>
     private lateinit var that: HomeFragment
+    private lateinit var clickedProject: Project
+    private lateinit var viewInflated: View
 
     inner class ProjectAdapter(context: Context, list: ArrayList<Project>) : ArrayAdapter<Project>(context, 0, list) {
         private inner class ProjectViewHolder(var msg: TextView? = null)
@@ -40,33 +41,16 @@ class HomeFragment : MyFragment() {
                 projectView = convertView
             }
 
-            val cancelButton = projectView.findViewById<ImageButton>(R.id.archive_image)
-            cancelButton.setOnClickListener {
-                val cancelDialog = AlertDialog.Builder(context)
-                cancelDialog.setTitle(R.string.archive_project)
-                        .setPositiveButton(R.string.ok) { dialog, _ ->
-                            proj.archived = true
-                            projects = ArrayList((context as MainActivity).projectsList.filter { proj -> !proj.archived })
-                            listView_projects.adapter = that.ProjectAdapter(context, projects)
-                            dialog.dismiss()
-                        }
-                        .setNegativeButton(R.string.cancel) { dialog, _ ->
-                            dialog.dismiss()
-                        }
-                try {
-                    cancelDialog.create()
-                } catch (e: Exception) {
-                } finally {
-                    cancelDialog.show()
-                }
+            val imageButton_cancel = projectView.findViewById<ImageButton>(R.id.archive_image)
+            val constraintLayout = projectView.findViewById<ConstraintLayout>(R.id.content)
+            val textView_projectName = projectView.findViewById<TextView>(R.id.project_text)
 
+            constraintLayout.setOnClickListener { openProj(proj) }
+            textView_projectName.setOnClickListener { openProj(proj) }
+            imageButton_cancel.setOnClickListener {
+                clickedProject = proj
+                Dialogs.displaySimpleDialog(context, R.string.archive_project, ::archiveProject)
             }
-
-            val constr = projectView.findViewById<ConstraintLayout>(R.id.content)
-            constr.setOnClickListener { openProj(proj) }
-
-            val enterText = projectView.findViewById<TextView>(R.id.project_text)
-            enterText.setOnClickListener { openProj(proj) }
 
             viewHolder.msg!!.text = proj.toString()
             return projectView
@@ -75,6 +59,12 @@ class HomeFragment : MyFragment() {
         private fun openProj(proj: Project) {
             (context as MainActivity).currentProject = proj
             (context as MainActivity).openFragment(ProjectFragment())
+        }
+
+        private fun archiveProject() {
+            clickedProject.archived = true
+            projects = ArrayList((context as MainActivity).projectsList.filter { proj -> !proj.archived })
+            listView_projects.adapter = that.ProjectAdapter(context, projects)
         }
     }
 
@@ -86,40 +76,33 @@ class HomeFragment : MyFragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+        that = this
 
         projects = ArrayList(context.projectsList.filter { proj -> !proj.archived })
-        addProject = AlertDialog.Builder(context)
-        that = this
 
         listView_projects = context.findViewById(R.id.listProject)
         listView_projects.adapter = that.ProjectAdapter(context, projects)
 
         button_addProject = context.findViewById(R.id.button_add_project)
         button_addProject.setOnClickListener {
-            val viewInflated = LayoutInflater.from(context).inflate(R.layout.simple_text_input, view as ViewGroup, false)
+            viewInflated = LayoutInflater.from(context).inflate(R.layout.simple_text_input, view as ViewGroup, false)
             viewInflated.input_text.hint = context.getString(R.string.project_name)
-            addProject.setView(viewInflated)
-                    .setTitle(R.string.project_name_id)
-                    .setPositiveButton(R.string.ok) { dialog, _ ->
-                        val projectName = viewInflated.input_text.text.toString()
-                        if (context.projectsList.find { it.name == projectName } == null) {
-                            context.createProject(projectName)
-                            projects = ArrayList(context.projectsList.filter { proj -> !proj.archived })
-                            listView_projects.adapter = that.ProjectAdapter(context, projects)
-                            dialog.dismiss()
-                        } else {
-                            Toast.makeText(context, R.string.project_already, Toast.LENGTH_SHORT).show()
-                        }
-                    }
-                    .setNegativeButton(R.string.cancel) { dialog, _ ->
-                        dialog.dismiss()
-                    }
-                    .setCancelable(false)
-                    .create()
-                    .show()
+            Dialogs.displayCustomDialog(context, viewInflated, R.string.project_name_id, ::registerProjectName)
         }
 
         context.setMenu("home")
         context.title = context.getString(R.string.app_name)
+    }
+
+    private fun registerProjectName(): Boolean {
+        val projectName = viewInflated.input_text.text.toString()
+        if (context.projectsList.find { it.name == projectName } == null) {
+            context.createProject(projectName)
+            projects = ArrayList(context.projectsList.filter { proj -> !proj.archived })
+            listView_projects.adapter = this.ProjectAdapter(context, projects)
+            return true
+        }
+        Toast.makeText(context, R.string.project_already, Toast.LENGTH_SHORT).show()
+        return false
     }
 }

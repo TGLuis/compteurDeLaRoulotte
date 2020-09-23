@@ -72,6 +72,6 @@ object Helper {
     }
 
     fun languagesAvailable(): List<String> {
-        return listOf("FR", "NL", "EN")
+        return listOf("-", "FR", "NL", "EN")
     }
 }

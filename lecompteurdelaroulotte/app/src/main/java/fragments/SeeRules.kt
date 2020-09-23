@@ -9,6 +9,7 @@ import android.widget.ArrayAdapter
 import android.widget.ImageButton
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
+import library.Dialogs
 import library.Rule
 import tgl.lecompteurdelaroulotte.MainActivity
 import tgl.lecompteurdelaroulotte.R
@@ -19,6 +20,7 @@ class SeeRules: SeeFragment() {
 
     private lateinit var rules: ArrayList<Rule>
     private lateinit var adapteurRules: RulesAdapter
+    private lateinit var selectedRule: Rule
 
     inner class RulesAdapter(context: Context, list: ArrayList<Rule>) : ArrayAdapter<Rule>(context, 0, list) {
         private inner class ProjectViewHolder(var msg: TextView?= null)
@@ -48,23 +50,16 @@ class SeeRules: SeeFragment() {
 
             val imageButton_delete = projectView.findViewById<ImageButton>(R.id.delete_image)
             imageButton_delete.setOnClickListener{
-                val alert = AlertDialog.Builder(context)
-                alert.setTitle(R.string.confirm)
-                    .setMessage(getString(R.string.delete_rule) + "\n" + rule_text)
-                    .setPositiveButton(R.string.yes){ dialog, _ ->
-                        (context as MainActivity).deleteRuleOfProject(rule)
-                        adapteurRules.notifyDataSetChanged()
-                        dialog.dismiss()
-                    }
-                    .setNegativeButton(R.string.cancel){ dialog, _ ->
-                        dialog.dismiss()
-                    }
-                    .setCancelable(false)
-                    .create()
-                    .show()
+                selectedRule = rule
+                Dialogs.displayConfirmationDialog(context, getString(R.string.delete_rule) + "\n" + rule_text, ::deleteRule)
             }
 
             return projectView
+        }
+
+        private fun deleteRule() {
+            (context as MainActivity).deleteRuleOfProject(selectedRule)
+            adapteurRules.notifyDataSetChanged()
         }
     }
 

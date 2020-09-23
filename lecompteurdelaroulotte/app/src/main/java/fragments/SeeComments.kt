@@ -8,8 +8,8 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.ImageButton
 import android.widget.TextView
-import androidx.appcompat.app.AlertDialog
 import library.Comment
+import library.Dialogs
 import tgl.lecompteurdelaroulotte.MainActivity
 import tgl.lecompteurdelaroulotte.R
 import java.util.ArrayList
@@ -19,6 +19,7 @@ class SeeComments: SeeFragment() {
 
     private lateinit var comments: ArrayList<Comment>
     private lateinit var adapteurComments: CommentsAdapter
+    private lateinit var selectedComment: Comment
 
     inner class CommentsAdapter(context: Context, list: ArrayList<Comment>) : ArrayAdapter<Comment>(context, 0, list) {
         private inner class ProjectViewHolder(var msg: TextView?= null)
@@ -48,23 +49,16 @@ class SeeComments: SeeFragment() {
 
             val imageButton_delete = projectView.findViewById<ImageButton>(R.id.delete_image)
             imageButton_delete.setOnClickListener{
-                val alert = AlertDialog.Builder(context)
-                alert.setTitle(R.string.confirm)
-                    .setMessage(getString(R.string.delete_comment) + "\n" + comment_text)
-                    .setPositiveButton(R.string.yes){ dialog, _ ->
-                        (context as MainActivity).deleteCommentOfProject(comment)
-                        adapteurComments.notifyDataSetChanged()
-                        dialog.dismiss()
-                    }
-                    .setNegativeButton(R.string.cancel){ dialog, _ ->
-                        dialog.dismiss()
-                    }
-                    .setCancelable(false)
-                    .create()
-                    .show()
+                selectedComment = comment
+                Dialogs.displayConfirmationDialog(context, getString(R.string.delete_comment) + "\n" + comment_text, ::deleteComment)
             }
 
             return projectView
+        }
+
+        private fun deleteComment() {
+            (context as MainActivity).deleteCommentOfProject(selectedComment)
+            adapteurComments.notifyDataSetChanged()
         }
     }
 
