@@ -1,5 +1,6 @@
 package fragments
 
+
 import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,7 +8,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.constraintlayout.widget.ConstraintLayout
-import kotlinx.android.synthetic.main.simple_text_input.view.*
 import library.Dialogs
 import library.Project
 import tgl.lecompteurdelaroulotte.MainActivity
@@ -19,10 +19,10 @@ class HomeFragment : MyFragment() {
 
     private lateinit var listView_projects: ListView
     private lateinit var button_addProject: Button
+    private lateinit var editText_projectName: EditText
     private lateinit var projects: ArrayList<Project>
     private lateinit var that: HomeFragment
     private lateinit var clickedProject: Project
-    private lateinit var viewInflated: View
 
     inner class ProjectAdapter(context: Context, list: ArrayList<Project>) : ArrayAdapter<Project>(context, 0, list) {
         private inner class ProjectViewHolder(var msg: TextView? = null)
@@ -71,6 +71,7 @@ class HomeFragment : MyFragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         super.onCreateView(inflater, container, savedInstanceState)
         context = activity as MainActivity
+        inflater.inflate(R.layout.simple_text_input, container, false)
         return inflater.inflate(R.layout.fragment_home, container, false)
     }
 
@@ -85,9 +86,10 @@ class HomeFragment : MyFragment() {
 
         button_addProject = context.findViewById(R.id.button_add_project)
         button_addProject.setOnClickListener {
-            viewInflated = LayoutInflater.from(context).inflate(R.layout.simple_text_input, view as ViewGroup, false)
-            viewInflated.input_text.hint = context.getString(R.string.project_name)
-            Dialogs.displayCustomDialog(context, viewInflated, R.string.project_name_id, ::registerProjectName)
+            val view: View = this.layoutInflater.inflate(R.layout.simple_text_input, null)
+            editText_projectName = view.findViewById(R.id.input_text)
+            editText_projectName.hint = context.getString(R.string.project_name)
+            Dialogs.displayCustomDialog(context, view, R.string.project_name_id, ::registerProjectName)
         }
 
         context.setMenu("home")
@@ -95,7 +97,7 @@ class HomeFragment : MyFragment() {
     }
 
     private fun registerProjectName(): Boolean {
-        val projectName = viewInflated.input_text.text.toString()
+        val projectName = editText_projectName.text.toString()
         if (context.projectsList.find { it.name == projectName } == null) {
             context.createProject(projectName)
             projects = ArrayList(context.projectsList.filter { proj -> !proj.archived })
