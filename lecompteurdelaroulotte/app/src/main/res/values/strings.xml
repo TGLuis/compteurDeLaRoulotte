@@ -1,4 +1,5 @@
 <resources>
+    <string name="zero" translatable="false">0</string>
     <!-- General -->
     <string name="app_name">The counter of la Roulotte</string>
     <string name="banderole">Bande</string>
@@ -113,7 +114,7 @@
     <string name="with_data">Copy also states of counters?</string>
 
     <string name="AboutTitle">About</string>
-    <string name="AboutText">This application was developed by\nLuis Tascon Gutierrez\nwith the advice of\nAlexandra Point\nand the shop \'La roulotte aux pelotes\'. \n\nThis is an open source project, you can find it on Github at this address:\nhttps://github.com/TGLuis/compteurDeLaRoulotte\n Feel free to give your opinion on the PlayStore or to collaborate on Github.</string>
+    <string name="AboutText">This application was developed by\nLuis Tascon Gutierrez\nwith the advice of\nAlexandra Point\nand the shop \'<a href="http://www.laroulotteauxpelotes.be">La roulotte aux pelotes</a>\'. \n\nThis is an open source project, you can find it on Github at this address:\nhttps://github.com/TGLuis/compteurDeLaRoulotte\n Feel free to give your opinion on the PlayStore or to collaborate on Github.</string>
 
     <!-- for the help fragment-->
     <string name="HelpTitle">Help</string>
@@ -162,4 +163,18 @@
     <string name="converter_length_value_2_hint">Second value</string>
     <string name="converter_arrow_descr">Conversion direction</string>
     <string name="NumberDefaultValue">0</string>
+
+    <!-- Units -->
+    <string name="meter">meter</string>
+    <string name="decimeter">decimeter</string>
+    <string name="centimeter">centimeter</string>
+    <string name="inch">inch</string>
+    <string name="feet">feet</string>
+    <string-array name="string_array_units">
+        <item>@string/meter</item>
+        <item>@string/decimeter</item>
+        <item>@string/centimeter</item>
+        <item>@string/inch</item>
+        <item>@string/feet</item>
+    </string-array>
 </resources>

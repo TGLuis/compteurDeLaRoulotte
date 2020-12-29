@@ -19,6 +19,7 @@ class AboutFragment : MyFragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+        context.setMenu("home")
         context.title = context.getString(R.string.AboutTitle)
     }
 }

@@ -5,6 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:background="@drawable/background_test"
     android:orientation="vertical"
+    android:layout_margin="@dimen/min_margin_border"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -13,9 +14,6 @@
         android:id="@+id/name_of_counter"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/min_margin_hor"
-        android:layout_marginEnd="@dimen/space_text_editext_hor"
-        android:layout_marginTop="8dp"
         app:layout_constraintBottom_toTopOf="@id/state_of_counter"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -36,7 +34,6 @@
             android:id="@+id/counter_name"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_marginEnd="@dimen/min_margin_hor"
             android:hint="@string/counter_name"
             android:importantForAutofill="no"
             android:inputType="text"
@@ -46,7 +43,6 @@
             android:textSize="20sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/count_name"
             app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -55,7 +51,6 @@
         android:id="@+id/state_of_counter"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/min_margin_hor"
         app:layout_constraintBottom_toTopOf="@id/max_of_counter"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -72,6 +67,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+        <!-- margin End = info_btn_size + 2*margin_hor -->
         <EditText
             android:id="@+id/counter_state"
             android:layout_width="wrap_content"
@@ -83,9 +79,12 @@
             android:textColor="@color/mauve"
             android:textSize="20sp"
             android:textStyle="bold"
+            android:minWidth="@dimen/min_size_editText"
+            android:layout_marginHorizontal="@dimen/min_margin_hor"
+            android:layout_marginEnd="56dp"
+            android:labelFor="@id/count_state"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/count_state"
             app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -94,47 +93,39 @@
         android:id="@+id/max_of_counter"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/min_margin_hor"
         app:layout_constraintBottom_toTopOf="@id/tours_of_counter"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/state_of_counter">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
+        <TextView
+            android:id="@+id/count_max"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:text="@string/counter_max_id"
+            android:textColor="@color/black"
+            android:textSize="20sp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
 
-            <TextView
-                android:id="@+id/count_max"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:text="@string/counter_max_id"
-                android:textColor="@color/black"
-                android:textSize="20sp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"/>
-
-            <EditText
-                android:id="@+id/counter_max"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:importantForAutofill="no"
-                android:inputType="number"
-                android:maxLines="1"
-                android:singleLine="true"
-                android:textColor="@color/mauve"
-                android:textSize="20sp"
-                android:textStyle="bold"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toEndOf="@id/count_max"
-                app:layout_constraintEnd_toEndOf="parent"/>
-        </androidx.constraintlayout.widget.ConstraintLayout>
+        <EditText
+            android:id="@+id/counter_max"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:importantForAutofill="no"
+            android:inputType="number"
+            android:maxLines="1"
+            android:singleLine="true"
+            android:textColor="@color/mauve"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:minWidth="@dimen/min_size_editText"
+            android:labelFor="@id/count_max"
+            android:layout_marginHorizontal="@dimen/min_margin_hor"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/info_max"/>
 
         <ImageButton
             android:id="@+id/info_max"
@@ -145,10 +136,9 @@
             android:contentDescription="@string/info_image"
             android:scaleType="fitXY"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_baseline_info_24"
-            tools:ignore="MissingConstraints" />
+            app:srcCompat="@drawable/ic_baseline_info_24" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <!-- Tours du compteur -->
@@ -156,45 +146,36 @@
         android:id="@+id/tours_of_counter"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/min_margin_hor"
         app:layout_constraintBottom_toTopOf="@id/position_of_counter"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/max_of_counter">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
+        <TextView
+            android:id="@+id/count_tours"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:text="@string/counter_tours_id"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            tools:layout_editor_absoluteY="7dp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent" />
 
-            <TextView
-                android:id="@+id/count_tours"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:text="@string/counter_tours_id"
-                android:textColor="@color/black"
-                android:textSize="20sp"
-                tools:layout_editor_absoluteY="7dp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent" />
-
-            <TextView
-                android:id="@+id/counter_tours"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:maxLines="1"
-                android:textColor="@color/mauve"
-                android:textSize="20sp"
-                android:textStyle="bold"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toEndOf="@id/count_tours"
-                app:layout_constraintEnd_toEndOf="parent"/>
-        </androidx.constraintlayout.widget.ConstraintLayout>
+        <TextView
+            android:id="@+id/counter_tours"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:maxLines="1"
+            android:textColor="@color/mauve"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:minWidth="@dimen/min_size_editText"
+            android:layout_marginHorizontal="@dimen/min_margin_hor"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/info_tours"/>
 
         <ImageButton
             android:id="@+id/info_tours"
@@ -205,10 +186,9 @@
             android:contentDescription="@string/info_image"
             android:scaleType="fitXY"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_baseline_info_24"
-            tools:ignore="MissingConstraints" />
+            app:srcCompat="@drawable/ic_baseline_info_24" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <!-- Place du compteur -->
@@ -216,47 +196,39 @@
         android:id="@+id/position_of_counter"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/min_margin_hor"
         app:layout_constraintBottom_toTopOf="@id/attach_of_counter"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tours_of_counter">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
+        <TextView
+            android:id="@+id/count_position"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:text="@string/counter_position_id"
+            android:textColor="@color/black"
+            android:textSize="20sp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
 
-            <TextView
-                android:id="@+id/count_position"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:text="@string/counter_position_id"
-                android:textColor="@color/black"
-                android:textSize="20sp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"/>
-
-            <EditText
-                android:id="@+id/counter_position"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:importantForAutofill="no"
-                android:inputType="number"
-                android:maxLines="1"
-                android:singleLine="true"
-                android:textColor="@color/mauve"
-                android:textSize="20sp"
-                android:textStyle="bold"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toEndOf="@id/count_position"
-                app:layout_constraintEnd_toEndOf="parent"/>
-        </androidx.constraintlayout.widget.ConstraintLayout>
+        <EditText
+            android:id="@+id/counter_position"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:importantForAutofill="no"
+            android:inputType="number"
+            android:maxLines="1"
+            android:singleLine="true"
+            android:textColor="@color/mauve"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:minWidth="@dimen/min_size_editText"
+            android:labelFor="@id/count_position"
+            android:layout_marginHorizontal="@dimen/min_margin_hor"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/info_position" />
 
         <ImageButton
             android:id="@+id/info_position"
@@ -267,10 +239,9 @@
             android:contentDescription="@string/info_image"
             android:scaleType="fitXY"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_baseline_info_24"
-            tools:ignore="MissingConstraints" />
+            app:srcCompat="@drawable/ic_baseline_info_24" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -279,40 +250,31 @@
         android:id="@+id/attach_of_counter"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/min_margin_hor"
         app:layout_constraintBottom_toTopOf="@id/attached_of_counter"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/position_of_counter">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
+        <TextView
+            android:id="@+id/count_attach"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:text="@string/counter_attach_main_id"
+            android:textColor="@color/black"
+            android:textSize="20sp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
 
-            <TextView
-                android:id="@+id/count_attach"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:text="@string/counter_attach_main_id"
-                android:textColor="@color/black"
-                android:textSize="20sp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"/>
-
-            <CheckBox
-                android:id="@+id/counter_attach"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toEndOf="@id/count_attach"
-                app:layout_constraintEnd_toEndOf="parent"/>
-        </androidx.constraintlayout.widget.ConstraintLayout>
+        <CheckBox
+            android:id="@+id/counter_attach"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:layout_marginHorizontal="@dimen/min_margin_hor"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/info_attach"/>
 
         <ImageButton
             android:id="@+id/info_attach"
@@ -323,10 +285,9 @@
             android:contentDescription="@string/info_image"
             android:scaleType="fitXY"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_baseline_info_24"
-            tools:ignore="MissingConstraints" />
+            app:srcCompat="@drawable/ic_baseline_info_24"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <!-- attacher le compteur à un autre -->
@@ -334,19 +295,10 @@
         android:id="@+id/attached_of_counter"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/min_margin_hor"
-        app:layout_constraintBottom_toBottomOf="@id/buttons"
+        app:layout_constraintBottom_toTopOf="@id/buttons"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/attach_of_counter">
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
 
             <TextView
                 android:id="@+id/count_attached"
@@ -364,25 +316,23 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAlignment="textStart"
+                android:layout_marginHorizontal="@dimen/min_margin_hor"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/info_attached"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageButton
+                android:id="@+id/info_attached"
+                android:layout_width="@dimen/info_btn_size"
+                android:layout_height="@dimen/info_btn_size"
+                android:layout_marginEnd="@dimen/min_margin_hor"
+                android:background="#00000000"
+                android:contentDescription="@string/info_image"
+                android:scaleType="fitXY"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@id/count_attached"
-                app:layout_constraintTop_toTopOf="parent" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-        <ImageButton
-            android:id="@+id/info_attached"
-            android:layout_width="@dimen/info_btn_size"
-            android:layout_height="@dimen/info_btn_size"
-            android:layout_marginEnd="@dimen/min_margin_hor"
-            android:background="#00000000"
-            android:contentDescription="@string/info_image"
-            android:scaleType="fitXY"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_baseline_info_24" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_baseline_info_24" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <!-- boutons -->
@@ -390,12 +340,9 @@
         android:id="@+id/buttons"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/min_margin_hor"
-        android:layout_marginEnd="@dimen/min_margin_hor"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/attached_of_counter">
+        app:layout_constraintStart_toStartOf="parent">
 
         <!-- Setting up app:backgroundTint="@null" is important because else material design theme will override custom shapes      -->
         <Button
@@ -409,21 +356,6 @@
             android:textSize="@dimen/text_btn_normal"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/save"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <Button
-            android:id="@+id/save"
-            style="@style/Widget.MaterialComponents.Button"
-            app:icon="@drawable/ic_baseline_save_24"
-            android:paddingHorizontal="@dimen/min_btn_padding"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:text="@string/save"
-            android:textSize="@dimen/text_btn_large"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@id/cancel"
             app:layout_constraintEnd_toStartOf="@id/delete"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -439,10 +371,24 @@
             android:text="@string/delete"
             android:textSize="@dimen/text_btn_normal"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/save"
+            app:layout_constraintEnd_toStartOf="@id/save"
+            app:layout_constraintStart_toEndOf="@id/cancel"
             app:layout_constraintTop_toTopOf="parent" />
 
+        <Button
+            android:id="@+id/save"
+            style="@style/Widget.MaterialComponents.Button"
+            app:icon="@drawable/ic_baseline_save_24"
+            android:paddingHorizontal="@dimen/min_btn_padding"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="@string/save"
+            android:textSize="@dimen/text_btn_large"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@id/delete"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -179,7 +179,7 @@ class ProjectFragment : MyFragment() {
         buttonPlus = context.findViewById(R.id.button_plus)
         listViewCounters = context.findViewById(R.id.listCounters)
         pdfView = context.findViewById(R.id.pdfView)
-        mainCounterLayout = context.findViewById<ConstraintLayout>(R.id.MCounter)
+        mainCounterLayout = context.findViewById(R.id.MCounter)
     }
 
     private fun displayPDF() {

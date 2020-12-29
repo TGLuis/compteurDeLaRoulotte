@@ -181,7 +181,7 @@ class RuleFragment : MyFragment() {
         button_save.setOnClickListener {
             save()
         }
-        context.title = context.getString(R.string.add_rule)
+        context.title = context.getString(R.string.add_rule) // todo what if modify??
     }
 
     private fun setAllView() {

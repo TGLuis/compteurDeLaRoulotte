@@ -79,7 +79,7 @@ class CommentFragment : MyFragment() {
             Dialogs.displayConfirmationDialog(context, buildMessage(), ::save)
         }
 
-        context.title = context.getString(R.string.add_comment)
+        context.title = context.getString(R.string.add_comment)  // todo what if modify??
     }
 
     private fun buildMessage(): String {

@@ -108,7 +108,7 @@ Luis Tascon Gutierrez
 met de advies van
 Alexandra Point
 en de winkel
-\'La Roulotte aux pelotes\'.
+\'<a href="http://www.laroulotteauxpelotes.be">La Roulotte aux pelotes</a>\'.
 
 Het is een open source project, u kan deze vinden op Github op dit adres:
 https://github.com/TGLuis/compteurDeLaRoulotte
@@ -168,4 +168,11 @@ Nu is er een lastig deel, kan u een teller met een andere teller hechten maar pa
     <string name="converter_length_value_2_hint">Tweede waarde</string>
     <string name="converter_arrow_descr">Conversion direction</string>
     <string name="NumberDefaultValue">0</string>
+
+    <!-- Units -->
+    <string name="meter">meter</string>
+    <string name="decimeter">decimeter</string>
+    <string name="centimeter">centimeter</string>
+    <string name="inch">inch</string>
+    <string name="feet">voet</string>
 </resources>

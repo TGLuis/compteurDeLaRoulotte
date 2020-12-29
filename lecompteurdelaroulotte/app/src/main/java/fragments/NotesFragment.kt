@@ -40,11 +40,10 @@ class NotesFragment : MyFragment() {
         }
 
         project = context.currentProject!!
-        val notes = project.notes
 
         editText_notes = context.findViewById(R.id.noteText)
         editText_notes.run {
-            setText(notes)
+            setText(project.notes)
             addTextChangedListener(CustomWatcher())
         }
         context.title = context.getString(R.string.edit_notes)

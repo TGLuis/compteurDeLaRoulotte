@@ -3,6 +3,7 @@ package fragments
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -19,6 +20,9 @@ class ConverterFragment : MyFragment() {
     private lateinit var spinner_value1: Spinner
     private lateinit var spinner_value2: Spinner
 
+    // correspondance with R.array.string_array_units
+    private val lengthUnits = ArrayList<String>(listOf("m", "dm", "cm", "mm", "inch", "feet"))
+
     // EditText
     private var value1 = 1f
     private var value2 = 1f
@@ -27,7 +31,6 @@ class ConverterFragment : MyFragment() {
     private var firstEnter2 = true
 
     // Spinners
-    private val lengthUnits = ArrayList<String>(listOf("m", "dm", "cm", "mm", "inch", "feet"))
     private var selectedUnit1 = 0
     private var selectedUnit2 = 0
 
@@ -46,12 +49,7 @@ class ConverterFragment : MyFragment() {
         spinner_value2 = context.findViewById(R.id.converter_spinner_length_2)
 
         // Set up the spinners
-        spinner_value1.adapter = prepareSpinner()
-        spinner_value1.setSelection(lengthUnits.indexOf("cm"))
         spinner_value1.onItemSelectedListener = listenerOne()
-
-        spinner_value2.adapter = prepareSpinner()
-        spinner_value2.setSelection(lengthUnits.indexOf("cm"))
         spinner_value2.onItemSelectedListener = listenerTwo()
 
         // Set up the editable texts
@@ -63,16 +61,19 @@ class ConverterFragment : MyFragment() {
         computeLenConverter(true)
         computeText = true
 
+        context.setMenu("home")
         context.title = context.getString(R.string.ConverterTitle)
     }
 
+    /*
     private fun prepareSpinner() : SpinnerAdapter {
         val adapter : ArrayAdapter<String> = ArrayAdapter(context, R.layout.support_simple_spinner_dropdown_item, lengthUnits)
         adapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item)
         return adapter
-    }
+    }*/
 
     private fun listenerOne(): AdapterView.OnItemSelectedListener {
+        // todo to move in Listeners
         return object : AdapterView.OnItemSelectedListener {
             override fun onNothingSelected(p0: AdapterView<*>?) {}
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
@@ -84,6 +85,7 @@ class ConverterFragment : MyFragment() {
     }
 
     private fun listenerTwo(): AdapterView.OnItemSelectedListener {
+        // todo to move in Listeners
         return object : AdapterView.OnItemSelectedListener {
             override fun onNothingSelected(p0: AdapterView<*>?) {}
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
@@ -144,60 +146,38 @@ class ConverterFragment : MyFragment() {
             value2 = res
             computeText = false
             editText_value2.setText(res.toString())
+            Log.e(TAG, res.toString())
             res
         } else {
             val res = computeLenConverter(value2, selectedUnit2, selectedUnit1)
             value1 = res
             computeText = false
             editText_value1.setText(res.toString())
+            Log.e(TAG, res.toString())
             res
         }
     }
 
     private fun computeToMeter(value: Float, unitFrom: Int): Float {
         when (lengthUnits[unitFrom]) {
-            "m" -> {
-                return value
-            }
-            "dm" -> {
-                return value/10
-            }
-            "cm" -> {
-                return value/100
-            }
-            "mm" -> {
-                return value/1000
-            }
-            "inch" -> {
-                return value*39.37007874f
-            }
-            "feet" -> {
-                return value*3.28084f
-            }
+            "m" -> return value
+            "dm" -> return value/10
+            "cm" -> return value/100
+            "mm" -> return value/1000
+            "inch" -> return value*0.0254f
+            "feet" -> return value*0.30479999f
         }
         return value
     }
 
     private fun computeFromMeter(value: Float, unitTo: Int): Float {
         when (lengthUnits[unitTo]) {
-            "m" -> {
-                return value
-            }
-            "dm" -> {
-                return value*10
-            }
-            "cm" -> {
-                return value*100
-            }
-            "mm" -> {
-                return value*1000
-            }
-            "inch" -> {
-                return value*0.0254f
-            }
-            "feet" -> {
-                return value*0.30479999f
-            }
+            "m" -> return value
+            "dm" -> return value*10
+            "cm" -> return value*100
+            "mm" -> return value*1000
+            "inch" -> return value*39.37007874f
+            "feet" -> return value*3.28084f
         }
         return value
     }

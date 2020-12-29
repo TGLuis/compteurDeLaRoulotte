@@ -64,13 +64,14 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
-                    android:hint="0"
+                    android:hint="@string/zero"
                     android:inputType="number"
                     android:maxLines="1"
                     android:minWidth="40dp"
                     android:textColor="@color/mauve"
                     android:textSize="16sp"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    android:importantForAutofill="no" />
             </TableRow>
 
         </TableLayout>
@@ -169,7 +170,9 @@
                 android:maxLines="1"
                 android:minWidth="80dp"
                 android:textColor="@color/mauve"
-                android:textSize="16sp" />
+                android:textSize="16sp"
+                android:inputType="text"
+                android:importantForAutofill="no" />
         </LinearLayout>
 
 
