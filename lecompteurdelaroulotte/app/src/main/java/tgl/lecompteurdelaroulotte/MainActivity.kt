@@ -6,10 +6,7 @@ import android.content.res.Resources
 import android.os.Build
 import android.os.Bundle
 import android.view.*
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
-import android.widget.Spinner
-import android.widget.Toast
+import android.widget.*
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
@@ -20,8 +17,6 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.navigation.NavigationView
 import com.ninenox.kotlinlocalemanager.AppCompatActivityBase
 import fragments.*
-import kotlinx.android.synthetic.main.simple_text_and_box_input.view.*
-import kotlinx.android.synthetic.main.simple_text_input.view.input_text
 import library.*
 import java.util.*
 
@@ -167,7 +162,7 @@ class MainActivity : AppCompatActivityBase() {
                         addCounter.setView(viewInflated)
                             .setTitle(R.string.counter_name_id)
                             .setPositiveButton(R.string.ok) { dialog, _ ->
-                                val counterName = viewInflated.input_text.text.toString()
+                                val counterName = viewInflated.findViewById<EditText>(R.id.input_text).text.toString()
                                 if (currentProject!!.hasCounter(counterName)) {
                                     Toast.makeText(
                                         context,
@@ -224,7 +219,7 @@ class MainActivity : AppCompatActivityBase() {
                                 R.style.AlertDialogPositiveBtnFilled
                             )
                             editCounter.setView(viewInflated)
-                                .setTitle(R.string.project_name_id)
+                                .setTitle(R.string.counter_name_id)
                                 .setPositiveButton(R.string.ok) { dialog, _ ->
                                     currentCounter =
                                         currentProject!!.myCounters.find { it.name == selectedItem }
@@ -262,8 +257,9 @@ class MainActivity : AppCompatActivityBase() {
                             context.navView as ViewGroup,
                             false
                         )
-                        viewInflated.tv.text = getString(R.string.with_data)
-                        viewInflated.input_text.hint = getString(R.string.project_name)
+                        viewInflated.findViewById<TextView>(R.id.tv).text = getString(R.string.with_data)
+                        val editText_input = viewInflated.findViewById<EditText>(R.id.input_text)
+                        editText_input.hint = getString(R.string.project_name)
                         val addCounter = MaterialAlertDialogBuilder(
                             context,
                             R.style.AlertDialogPositiveBtnFilled
@@ -271,8 +267,8 @@ class MainActivity : AppCompatActivityBase() {
                         addCounter.setView(viewInflated)
                             .setTitle(R.string.clone_proj)
                             .setPositiveButton(R.string.ok) { dialog, _ ->
-                                val projectName = viewInflated.input_text.text.toString()
-                                val data: Boolean = viewInflated.input_check_box.isChecked
+                                val projectName = editText_input.text.toString()
+                                val data: Boolean = viewInflated.findViewById<CheckBox>(R.id.input_check_box).isChecked
                                 if (context.projectsList.find { it.name == projectName } == null) {
                                     context.currentProject!!.clone(projectName, data)
                                     dialog.dismiss()
@@ -378,11 +374,12 @@ class MainActivity : AppCompatActivityBase() {
                     navView as ViewGroup,
                     false
                 )
-                viewInflated.input_text.hint = context.getString(R.string.project_name)
+                val editText_input = viewInflated.findViewById<EditText>(R.id.input_text)
+                editText_input.hint = context.getString(R.string.project_name)
                 addProj.setView(viewInflated)
                         .setTitle(R.string.project_name_id)
                         .setPositiveButton(R.string.ok) { dialog, _ ->
-                            val projectName = viewInflated.input_text.text.toString()
+                            val projectName = editText_input.text.toString()
                             if (context.projectsList.find { it.name == projectName } == null) {
                                 context.createProject(projectName)
                                 drawerLayout.closeDrawers()
