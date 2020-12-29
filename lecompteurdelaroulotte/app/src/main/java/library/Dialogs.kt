@@ -8,7 +8,7 @@ import tgl.lecompteurdelaroulotte.R
 
 object Dialogs {
 
-    fun simpleDialog(context: Context): MaterialAlertDialogBuilder {
+    private fun simpleDialog(context: Context): MaterialAlertDialogBuilder {
         /* still to call:
             .setPositiveButton() {}
             .setTitle()
@@ -30,10 +30,9 @@ object Dialogs {
             }
             .create()
             .show()
-
     }
 
-    fun infoDialog(context: Context): MaterialAlertDialogBuilder{
+    private fun infoDialog(context: Context): MaterialAlertDialogBuilder{
         return MaterialAlertDialogBuilder(context)
             .setTitle(R.string.info)
             .setPositiveButton(R.string.ok) { dialog, _ ->
@@ -49,7 +48,7 @@ object Dialogs {
             .show()
     }
 
-    fun warningDialog(context: Context): MaterialAlertDialogBuilder {
+    private fun warningDialog(context: Context): MaterialAlertDialogBuilder {
         return MaterialAlertDialogBuilder(context)
             .setTitle(R.string.warning)
             .setPositiveButton(R.string.ok) { dialog, _ -> dialog.dismiss() }
@@ -63,7 +62,7 @@ object Dialogs {
             .show()
     }
 
-    fun confirmationDialog(context: Context): MaterialAlertDialogBuilder {
+    private fun confirmationDialog(context: Context): MaterialAlertDialogBuilder {
         return MaterialAlertDialogBuilder(context)
             .setTitle(R.string.confirm)
             .setNegativeButton(R.string.cancel) { dialog, _ ->
@@ -83,9 +82,9 @@ object Dialogs {
             .show()
     }
 
-    fun displayCustomDialog(context: Context, viewInflated: View, title: Int, function: () -> Boolean) {
+    fun displayCustomDialog(context: Context, layoutToInflate: View, title: Int, function: () -> Boolean) {
         MaterialAlertDialogBuilder(context)
-            .setView(viewInflated)
+            .setView(layoutToInflate)
             .setTitle(title)
             .setPositiveButton(R.string.ok) { dialog, _ ->
                 if (function()){

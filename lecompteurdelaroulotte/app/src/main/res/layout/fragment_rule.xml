@@ -68,7 +68,7 @@
                     android:inputType="number"
                     android:maxLines="1"
                     android:minWidth="40dp"
-                    android:textColor="@color/mauve"
+                    android:textColor="@color/purple"
                     android:textSize="16sp"
                     android:textStyle="bold" />
             </TableRow>
@@ -168,7 +168,7 @@
                 android:hint="@string/a_comment"
                 android:maxLines="1"
                 android:minWidth="80dp"
-                android:textColor="@color/mauve"
+                android:textColor="@color/purple"
                 android:textSize="16sp" />
         </LinearLayout>
 

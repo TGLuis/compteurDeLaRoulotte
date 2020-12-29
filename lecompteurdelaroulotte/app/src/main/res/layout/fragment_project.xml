@@ -34,7 +34,7 @@
             android:layout_height="match_parent"
             android:contentDescription="@string/count_of_counter"
             android:layout_marginStart="10dp"
-            android:textColor="@color/mauve"
+            android:textColor="@color/purple"
             android:textSize="25sp"
             android:textStyle="bold"
             android:text="0"
@@ -75,7 +75,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="16sp"
-            android:textColor="@color/mauve"
+            android:textColor="@color/purple"
             android:textAlignment="textStart"
             android:maxLines="5"
             app:layout_constraintBottom_toBottomOf="parent"/>

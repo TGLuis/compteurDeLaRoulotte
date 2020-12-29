@@ -2,6 +2,7 @@ package library
 
 import tgl.lecompteurdelaroulotte.MainActivity
 import tgl.lecompteurdelaroulotte.R
+import java.util.ArrayList
 
 class Rule(var num: Int, var start: Int) {
     var steps: java.util.ArrayList<Step> = java.util.ArrayList()
@@ -11,7 +12,7 @@ class Rule(var num: Int, var start: Int) {
     fun clone(): Rule{
         val r = Rule(num, start)
         r.counter = counter
-        r.steps = steps.clone() as java.util.ArrayList<Step>
+        r.steps = steps.clone() as ArrayList<Step>
         return r
     }
 
