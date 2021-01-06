@@ -37,6 +37,8 @@
     <string name="my_comments">Mijn opmerkingen</string>
     <string name="start_now">Vanaf de huidige nld beginnen ?</string>
     <string name="start_other">Of vanaf nld:</string>
+    <string name="pre_comment">Wil u deze opmerking aan het project toevoegen?</string>
+    <string name="pre_comment_modif">Wil u deze opmerking veranderen?</string>
 
     <!-- rule -->
     <string name="rule">Regel</string>

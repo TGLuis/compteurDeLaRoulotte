@@ -15,7 +15,6 @@ import library.Dialogs
 import library.Project
 import tgl.lecompteurdelaroulotte.MainActivity
 import tgl.lecompteurdelaroulotte.R
-import java.lang.Math.abs
 import java.util.*
 
 
@@ -262,7 +261,7 @@ class ProjectFragment : MyFragment() {
                     } else {
                         pdfView.visibility = View.VISIBLE
                         if (PDFHeight == 0) {
-                            if (abs(pdfView.layoutParams.height - (view.height + pdfView.height) * 2 / 3) < 2) {
+                            if (kotlin.math.abs(pdfView.layoutParams.height - (view.height + pdfView.height) * 2 / 3) < 2) {
                                 PDFHeight = pdfView.layoutParams.height
                             }
                             pdfView.layoutParams.height = (view.height + pdfView.height) * 2 / 3

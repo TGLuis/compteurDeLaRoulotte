@@ -5,7 +5,6 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ArrayAdapter
 import android.widget.*
 import androidx.constraintlayout.widget.ConstraintLayout
 import library.Dialogs
@@ -94,7 +93,9 @@ class ArchiveFragment: MyFragment() {
 
         archivedProjects = ArrayList(context.projectsList.filter{ proj -> proj.archived })
         adapteur = that.ProjectAdapter(context, archivedProjects)
+
         listView_projects.adapter = adapteur
+        listView_projects.choiceMode = ListView.CHOICE_MODE_SINGLE
 
         context.setMenu("home")
         context.title = context.getString(R.string.archives)

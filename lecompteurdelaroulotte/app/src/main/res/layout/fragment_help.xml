@@ -56,7 +56,7 @@
                 android:gravity="start"
                 android:layout_marginStart="8dp"
                 android:textSize="18sp"
-                android:textColor="@color/mauve"
+                android:textColor="@color/purple"
                 android:text="@string/help_general"
                 android:ellipsize="end"
                 app:layout_constraintBottom_toBottomOf="parent" />
@@ -107,7 +107,7 @@
                 android:gravity="start"
                 android:layout_marginStart="8dp"
                 android:textSize="18sp"
-                android:textColor="@color/mauve"
+                android:textColor="@color/purple"
                 android:text="@string/help_counter"
                 android:ellipsize="end"
                 app:layout_constraintBottom_toBottomOf="parent" />
@@ -158,7 +158,7 @@
                 android:gravity="start"
                 android:layout_marginStart="8dp"
                 android:textSize="18sp"
-                android:textColor="@color/mauve"
+                android:textColor="@color/purple"
                 android:text="@string/help_comment"
                 android:ellipsize="end"
                 app:layout_constraintBottom_toBottomOf="parent" />
@@ -209,7 +209,7 @@
                 android:gravity="start"
                 android:layout_marginStart="8dp"
                 android:textSize="18sp"
-                android:textColor="@color/mauve"
+                android:textColor="@color/purple"
                 android:text="@string/help_rule"
                 android:ellipsize="end"
                 app:layout_constraintBottom_toBottomOf="parent" />

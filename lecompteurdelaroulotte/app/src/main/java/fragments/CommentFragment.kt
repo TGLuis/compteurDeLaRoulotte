@@ -101,7 +101,7 @@ class CommentFragment : MyFragment() {
             comment!!.end = end
         }
         comment!!.comment = editText_message.text.toString()
-        val prem = if (addingAComment) context.getString(R.string.pre_rule) else context.getString(R.string.pre_rule_modif)
+        val prem = if (addingAComment) context.getString(R.string.pre_comment) else context.getString(R.string.pre_comment_modif)
         val mess = editText_message.text.toString()
         return prem + "\n" + context.getString(R.string.from_row) + " " + start.toString() + " " +
                 context.getString(R.string.to_row) + " " + end.toString() + "\n" + mess

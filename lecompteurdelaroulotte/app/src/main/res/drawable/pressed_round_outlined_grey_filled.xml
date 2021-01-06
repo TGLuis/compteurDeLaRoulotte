@@ -3,7 +3,7 @@
     <item android:drawable="@drawable/round_outlined_grey_filled"/>
     <item>
         <shape>
-            <stroke android:color="@color/mauve" android:width="2dp"/>
+            <stroke android:color="@color/purple" android:width="2dp"/>
             <corners android:radius="10sp"/>
             <solid android:color="@color/darkylightGrey"/>
         </shape>
