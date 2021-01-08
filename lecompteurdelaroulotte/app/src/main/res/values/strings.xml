@@ -60,7 +60,7 @@
 
     <!-- help -->
     <string name="info">Info</string>
-    <string name="more_info_step">Click on the image for more informations</string>
+    <string name="more_info_step">Click on the image for more information</string>
     <string name="help_max">If you want the counter to loop, you can set a maximum. After reaching this maximum, the counter will come back to 1. If you don\'t want any maximum, you have to write 0.</string>
     <string name="help_tours">The number "round" is the number of time this counter has looped if you have set a maximum just above.</string>
     <string name="help_position">The position of the counter is used uniquely in the display of the project. 1 to be the first counter and x to be the xth counter.</string>
@@ -116,7 +116,7 @@
     <string name="with_data">Copy also states of counters?</string>
 
     <string name="AboutTitle">About</string>
-    <string name="AboutText">This application was developed by\nLuis Tascon Gutierrez\nwith the advice of\nAlexandra Point\nand the shop \'<a href="http://www.laroulotteauxpelotes.be">La roulotte aux pelotes</a>\'. \n\nThis is an open source project, you can find it on Github at this address:\nhttps://github.com/TGLuis/compteurDeLaRoulotte\n Feel free to give your opinion on the PlayStore or to collaborate on Github.</string>
+    <string name="AboutText">This application was developed by\nLuis Tascon Gutierrez\nwith the advice of\nAlexandra Point\nand the shop\n\'<a href="http://www.laroulotteauxpelotes.be">La roulotte aux pelotes</a>\'. \n\nThis is an open source project, you can find it on <a href="https://github.com/TGLuis/compteurDeLaRoulotte">Github</a>.\n\n Feel free to give your opinion on the <a href="https://play.google.com/store/apps/details?id=lufra.lecompteurdelaroulotte">PlayStore</a> or to collaborate on <a href="https://github.com/TGLuis/compteurDeLaRoulotte">Github</a>.</string>
 
     <!-- for the help fragment-->
     <string name="HelpTitle">Help</string>

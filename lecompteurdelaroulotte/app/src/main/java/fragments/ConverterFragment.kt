@@ -65,15 +65,7 @@ class ConverterFragment : MyFragment() {
         context.title = context.getString(R.string.ConverterTitle)
     }
 
-    /*
-    private fun prepareSpinner() : SpinnerAdapter {
-        val adapter : ArrayAdapter<String> = ArrayAdapter(context, R.layout.support_simple_spinner_dropdown_item, lengthUnits)
-        adapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item)
-        return adapter
-    }*/
-
     private fun listenerOne(): AdapterView.OnItemSelectedListener {
-        // todo to move in Listeners
         return object : AdapterView.OnItemSelectedListener {
             override fun onNothingSelected(p0: AdapterView<*>?) {}
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
@@ -85,7 +77,6 @@ class ConverterFragment : MyFragment() {
     }
 
     private fun listenerTwo(): AdapterView.OnItemSelectedListener {
-        // todo to move in Listeners
         return object : AdapterView.OnItemSelectedListener {
             override fun onNothingSelected(p0: AdapterView<*>?) {}
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
@@ -103,11 +94,7 @@ class ConverterFragment : MyFragment() {
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
                 if (computeText) {
                     val str = p0.toString()
-                    value1 = if (str != "") {
-                        str.toFloat()
-                    } else {
-                        0f
-                    }
+                    value1 = if (str != "") { str.toFloat() } else { 0f }
                     computeLenConverter(true)
                 } else {
                     computeText = true
@@ -123,11 +110,7 @@ class ConverterFragment : MyFragment() {
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
                 if (computeText) {
                     val str = p0.toString()
-                    value2 = if (str != "") {
-                        str.toFloat()
-                    } else {
-                        0f
-                    }
+                    value2 = if (str != "") { str.toFloat() } else { 0f }
                     computeLenConverter(false)
                 } else {
                     computeText = true
@@ -159,7 +142,6 @@ class ConverterFragment : MyFragment() {
     }
 
     private fun computeToMeter(value: Float, unitFrom: Int): Float {
-        Log.e(TAG, "unitFrom = $unitFrom")
         when (lengthUnits[unitFrom]) {
             "m" -> return value
             "dm" -> return value/10
@@ -172,7 +154,6 @@ class ConverterFragment : MyFragment() {
     }
 
     private fun computeFromMeter(value: Float, unitTo: Int): Float {
-        Log.e(TAG, "unitTo = $unitTo")
         when (lengthUnits[unitTo]) {
             "m" -> return value
             "dm" -> return value*10

@@ -105,8 +105,7 @@
     <string name="with_data">Copier aussi l\'état des compteurs?</string>
 
     <string name="AboutTitle">A propos</string>
-    <string name="AboutText">Cette application a été développée par\nLuis Tascon Gutierrez\navec les conseils de\nAlexandra Point\net le magasin\n\'<a href="http://www.laroulotteauxpelotes.be">La roulotte aux pelotes</a>\'.\n\n
-    C\'est un projet open source, vous pouvez le trouvez sur Github à l\'adresse:\nhttps://github.com/TGLuis/compteurDeLaRoulotte\nNous vous invitons à donnez votre avis sur le Play store ou de collaborer sur Github.</string>
+    <string name="AboutText">Cette application a été développée par\nLuis Tascon Gutierrez\navec les conseils de\nAlexandra Point\net le magasin\n\'<a href="http://www.laroulotteauxpelotes.be">La roulotte aux pelotes</a>\'.\n\nC\'est un projet open source, vous pouvez le trouvez sur <a href="https://github.com/TGLuis/compteurDeLaRoulotte">Github</a>.\nNous vous invitons à donnez votre avis sur le <a href="https://play.google.com/store/apps/details?id=lufra.lecompteurdelaroulotte">PlayStore</a> ou de collaborer sur <a href="https://github.com/TGLuis/compteurDeLaRoulotte">Github</a>.</string>
 
     <!-- Tools fragment -->
     <string name="tools">Outils</string>

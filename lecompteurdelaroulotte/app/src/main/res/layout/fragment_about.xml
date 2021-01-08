@@ -1,11 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
+    android:background="@drawable/background_test"
     android:layout_margin="@dimen/min_margin_border"
+    android:layout_height="wrap_content"
+    android:layout_width="match_parent">
+
+<androidx.constraintlayout.widget.ConstraintLayout
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@drawable/background_test">
+    android:layout_height="wrap_content">
 
     <TextView
         android:id="@+id/aboutTitle"
@@ -29,12 +33,11 @@
         android:textAlignment="center"
         android:textColor="@color/purple"
         android:textSize="24sp"
-        android:autoLink="web"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/aboutTitle" />
-
-    <!-- TODO Add floating buttons for the links -->
+    <!-- TODO Maybe Add floating buttons for the links -->
 
 </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

@@ -41,6 +41,7 @@
             android:singleLine="true"
             android:textColor="@color/purple"
             android:textSize="20sp"
+            android:nextFocusDown="@id/counter_state"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -83,6 +84,7 @@
             android:layout_marginHorizontal="@dimen/min_margin_hor"
             android:layout_marginEnd="56dp"
             android:labelFor="@id/count_state"
+            android:nextFocusDown="@id/counter_max"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -120,6 +122,7 @@
                 android:textColor="@color/purple"
                 android:textSize="20sp"
                 android:textStyle="bold"
+                android:nextFocusDown="@id/counter_position"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toEndOf="@id/count_max"

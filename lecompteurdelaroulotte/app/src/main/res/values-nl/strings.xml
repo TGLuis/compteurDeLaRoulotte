@@ -105,16 +105,7 @@
     <string name="with_data">De stand van de tellers ook kopiëren?</string>
 
     <string name="AboutTitle">Over</string>
-    <string name="AboutText">Deze app werd ontwikkeld door
-Luis Tascon Gutierrez
-met de advies van
-Alexandra Point
-en de winkel
-\'<a href="http://www.laroulotteauxpelotes.be">La Roulotte aux pelotes</a>\'.
-
-Het is een open source project, u kan deze vinden op Github op dit adres:
-https://github.com/TGLuis/compteurDeLaRoulotte
-Voel u vrij uw mening te geven op de PlayStore of op Github te samenwerken.</string>
+    <string name="AboutText">Deze app werd ontwikkeld door\nLuis Tascon Gutierrez\nmet de advies van\nAlexandra Point\nen de winkel\n\'<a href="http://www.laroulotteauxpelotes.be">La Roulotte aux pelotes</a>\'.\n\nHet is een open source project, u kan deze vinden op <a href="https://github.com/TGLuis/compteurDeLaRoulotte">Github</a>.\nVoel u vrij uw mening te geven op de <a href="https://play.google.com/store/apps/details?id=lufra.lecompteurdelaroulotte">PlayStore</a> of op <a href="https://github.com/TGLuis/compteurDeLaRoulotte">Github</a> te samenwerken.</string>
 
     <!-- for the help fragment-->
     <string name="HelpTitle">Hulp</string>
