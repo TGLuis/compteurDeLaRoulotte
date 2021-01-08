@@ -17,25 +17,25 @@
 
     <style name="ButtonStyleDark">
         <!-- Customize your theme here. -->
-        <item name="android:textColorPrimary">@color/mauve</item>
-        <item name="android:textColorSecondary">@color/vert</item>
-        <item name="android:colorButtonNormal">@color/mauve</item>
+        <item name="android:textColorPrimary">@color/purple</item>
+        <item name="android:textColorSecondary">@color/green</item>
+        <item name="android:colorButtonNormal">@color/purple</item>
         <item name="android:textColor">@color/black</item>
     </style>
 
     <style name="ButtonStyleTrans" parent="Widget.MaterialComponents.Button.OutlinedButton">
         <item name="android:colorButtonNormal">@color/trans</item>
-        <item name="strokeColor">@color/mauve</item>
+        <item name="strokeColor">@color/purple</item>
         <item name="android:shape">@drawable/round_outlined</item>
         <item name="android:textStyle">bold</item>
-        <item name="android:textColor">@color/mauve</item>
+        <item name="android:textColor">@color/purple</item>
     </style>
 
     <style name="ButtonStyleOutlinedFilled">
 <!--        <item name="strokeColor">@color/mauve</item>-->
         <item name="android:background">@drawable/selector_round_outlined_grey_filled</item>
         <item name="android:textStyle">bold</item>
-        <item name="android:textColor">@color/mauve</item>
+        <item name="android:textColor">@color/purple</item>
         <item name="android:textSize">18sp</item>
     </style>
 

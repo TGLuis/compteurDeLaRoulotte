@@ -37,6 +37,8 @@
     <string name="my_comments">Mes commentaires</string>
     <string name="start_now">Commencer à partir du rang actuel ?</string>
     <string name="start_other">Ou à partir du rang:</string>
+    <string name="pre_comment">Voulez-vous ajouter ce commentaire au projet?</string>
+    <string name="pre_comment_modif">Voulez-vous modifier ce commentaire?</string>
 
     <!-- rule -->
     <string name="rule">Règle</string>
@@ -161,6 +163,7 @@
     <string name="meter">mètre</string>
     <string name="decimeter">décimètre</string>
     <string name="centimeter">centimètre</string>
+    <string name="millimeter">millimètre</string>
     <string name="inch">pouce</string>
     <string name="feet">pied</string>
 </resources>

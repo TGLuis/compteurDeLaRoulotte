@@ -10,7 +10,7 @@
     <color name="darkylightGrey">#CDCDCD</color>
     <color name="linkOn">#2196F3</color>
     <!-- theme de la roulotte aux pelotes-->
-    <color name="vert">#B5FC29</color>
-    <color name="mauve">#8035bf</color>
+    <color name="green">#B5FC29</color>
+    <color name="purple">#8035bf</color>
     <color name="jaune">#F5F224</color>
 </resources>

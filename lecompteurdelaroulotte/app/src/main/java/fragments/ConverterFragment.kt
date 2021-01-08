@@ -159,6 +159,7 @@ class ConverterFragment : MyFragment() {
     }
 
     private fun computeToMeter(value: Float, unitFrom: Int): Float {
+        Log.e(TAG, "unitFrom = $unitFrom")
         when (lengthUnits[unitFrom]) {
             "m" -> return value
             "dm" -> return value/10
@@ -171,6 +172,7 @@ class ConverterFragment : MyFragment() {
     }
 
     private fun computeFromMeter(value: Float, unitTo: Int): Float {
+        Log.e(TAG, "unitTo = $unitTo")
         when (lengthUnits[unitTo]) {
             "m" -> return value
             "dm" -> return value*10

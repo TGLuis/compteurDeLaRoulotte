@@ -39,7 +39,7 @@
             android:inputType="text"
             android:maxLines="1"
             android:singleLine="true"
-            android:textColor="@color/mauve"
+            android:textColor="@color/purple"
             android:textSize="20sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -76,7 +76,7 @@
             android:inputType="number"
             android:maxLines="1"
             android:singleLine="true"
-            android:textColor="@color/mauve"
+            android:textColor="@color/purple"
             android:textSize="20sp"
             android:textStyle="bold"
             android:minWidth="@dimen/min_size_editText"
@@ -109,23 +109,21 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"/>
 
-        <EditText
-            android:id="@+id/counter_max"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:importantForAutofill="no"
-            android:inputType="number"
-            android:maxLines="1"
-            android:singleLine="true"
-            android:textColor="@color/mauve"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            android:minWidth="@dimen/min_size_editText"
-            android:labelFor="@id/count_max"
-            android:layout_marginHorizontal="@dimen/min_margin_hor"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/info_max"/>
+            <EditText
+                android:id="@+id/counter_max"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:importantForAutofill="no"
+                android:inputType="number"
+                android:maxLines="1"
+                android:singleLine="true"
+                android:textColor="@color/purple"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@id/count_max"
+                app:layout_constraintEnd_toEndOf="parent"/>
 
         <ImageButton
             android:id="@+id/info_max"
@@ -163,19 +161,19 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent" />
 
-        <TextView
-            android:id="@+id/counter_tours"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:maxLines="1"
-            android:textColor="@color/mauve"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            android:minWidth="@dimen/min_size_editText"
-            android:layout_marginHorizontal="@dimen/min_margin_hor"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/info_tours"/>
+            <TextView
+                android:id="@+id/counter_tours"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:maxLines="1"
+                android:textColor="@color/purple"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:text="@string/zero"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@id/count_tours"
+                app:layout_constraintEnd_toEndOf="parent"/>
 
         <ImageButton
             android:id="@+id/info_tours"
@@ -212,23 +210,21 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"/>
 
-        <EditText
-            android:id="@+id/counter_position"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:importantForAutofill="no"
-            android:inputType="number"
-            android:maxLines="1"
-            android:singleLine="true"
-            android:textColor="@color/mauve"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            android:minWidth="@dimen/min_size_editText"
-            android:labelFor="@id/count_position"
-            android:layout_marginHorizontal="@dimen/min_margin_hor"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/info_position" />
+            <EditText
+                android:id="@+id/counter_position"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:importantForAutofill="no"
+                android:inputType="number"
+                android:maxLines="1"
+                android:singleLine="true"
+                android:textColor="@color/purple"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@id/count_position"
+                app:layout_constraintEnd_toEndOf="parent"/>
 
         <ImageButton
             android:id="@+id/info_position"

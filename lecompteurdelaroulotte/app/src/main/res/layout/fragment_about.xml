@@ -27,7 +27,7 @@
         android:ellipsize="end"
         android:text="@string/AboutText"
         android:textAlignment="center"
-        android:textColor="@color/mauve"
+        android:textColor="@color/purple"
         android:textSize="24sp"
         android:autoLink="web"
         app:layout_constraintBottom_toBottomOf="parent"

@@ -84,7 +84,7 @@
                 android:importantForAutofill="no"
                 android:inputType="number"
                 android:minWidth="30dp"
-                android:textColor="@color/mauve"
+                android:textColor="@color/purple"
                 android:textSize="@dimen/text_big" />
 
             <TextView
@@ -103,7 +103,7 @@
                 android:importantForAutofill="no"
                 android:inputType="number"
                 android:minWidth="30dp"
-                android:textColor="@color/mauve"
+                android:textColor="@color/purple"
                 android:textSize="@dimen/text_big" />
 
         </LinearLayout>
