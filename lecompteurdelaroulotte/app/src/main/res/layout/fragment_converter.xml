@@ -9,7 +9,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/layout_converter_length_linear_1"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="@dimen/converter_layout_height"
         app:layout_constraintBottom_toTopOf="@id/converter_arrow"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -17,10 +17,10 @@
 
         <EditText
             android:id="@+id/converter_length_value_1"
+            android:layout_height="wrap_content"
             android:layout_width="wrap_content"
-            android:layout_height="128dp"
             android:autofillHints="@string/conv_length_value_1_autofill_hint"
-            android:ems="5"
+            android:ems="6"
             android:fontFamily="serif"
             android:hint="@string/converter_length_value_1_hint"
             android:inputType="numberDecimal"
@@ -33,7 +33,7 @@
         <Spinner
             android:id="@+id/converter_spinner_length_1"
             android:layout_width="wrap_content"
-            android:layout_height="@dimen/converter_layout_height"
+            android:layout_height="match_parent"
             android:entries="@array/string_array_units"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -41,7 +41,7 @@
             app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <ImageView
+    <ImageButton
         android:id="@+id/converter_arrow"
         android:layout_width="64dp"
         android:layout_height="64dp"
@@ -49,6 +49,8 @@
         android:layout_marginBottom="@dimen/margin_picture"
         android:contentDescription="@string/converter_arrow_descr"
         android:rotation="90"
+        android:background="#00000000"
+        android:scaleType="fitXY"
         app:layout_constraintBottom_toTopOf="@id/layout_converter_length_linear_2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -58,7 +60,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/layout_converter_length_linear_2"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="@dimen/converter_layout_height"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -67,9 +69,9 @@
         <EditText
             android:id="@+id/converter_length_value_2"
             android:layout_width="wrap_content"
-            android:layout_height="@dimen/converter_layout_height"
+            android:layout_height="wrap_content"
             android:autofillHints="@string/conv_length_value_1_autofill_hint"
-            android:ems="5"
+            android:ems="6"
             android:fontFamily="serif"
             android:hint="@string/converter_length_value_2_hint"
             android:inputType="numberDecimal"
@@ -82,7 +84,7 @@
         <Spinner
             android:id="@+id/converter_spinner_length_2"
             android:layout_width="wrap_content"
-            android:layout_height="@dimen/converter_layout_height"
+            android:layout_height="match_parent"
             android:entries="@array/string_array_units"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

@@ -8,6 +8,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.view.marginEnd
 import library.Dialogs
 import library.Rule
 import library.Step
@@ -40,23 +42,13 @@ class RuleFragment : MyFragment() {
     private lateinit var adapteur: StepsAdapter
 
     class CustomWatcher(private var st: Step, private var i: Int) : TextWatcher {
-
         override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
         override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
         override fun afterTextChanged(s: Editable?) {
             when (i) {
-                1 -> try {
-                    st.one = s.toString().toInt()
-                } catch (e: NumberFormatException) {
-                }
-                2 -> try {
-                    st.two = s.toString().toInt()
-                } catch (e: NumberFormatException) {
-                }
-                3 -> try {
-                    st.three = s.toString().toInt()
-                } catch (e: NumberFormatException) {
-                }
+                1 -> try { st.one = s.toString().toInt() } catch (e: NumberFormatException) {}
+                2 -> try { st.two = s.toString().toInt() } catch (e: NumberFormatException) {}
+                3 -> try { st.three = s.toString().toInt() } catch (e: NumberFormatException) {}
             }
         }
     }
@@ -87,10 +79,7 @@ class RuleFragment : MyFragment() {
             if (step == steps[0]) {
                 val tv = projectView.findViewById<TextView>(R.id.andthen)
                 tv.text = ""
-                imageButton_delete.setImageResource(R.drawable.ic_baseline_info_24)
-                imageButton_delete.setOnClickListener{
-                    Dialogs.displayInfoDialog(context, R.string.help_step)
-                }
+                replaceDeleteButtonByInfoButton(imageButton_delete)
             } else {
                 imageButton_delete.setOnClickListener {
                     selectedStep = step
@@ -99,6 +88,19 @@ class RuleFragment : MyFragment() {
             }
 
             return projectView
+        }
+
+        private fun replaceDeleteButtonByInfoButton(imageButton: ImageButton) {
+            imageButton.setImageResource(R.drawable.ic_baseline_info_24)
+            val size = resources.getDimension(R.dimen.info_btn_size).toInt()
+            val layoutParam = imageButton.layoutParams as ConstraintLayout.LayoutParams
+            layoutParam.setMargins(0, 0, resources.getDimension(R.dimen.min_margin_hor).toInt(), 0)
+            layoutParam.height = size
+            layoutParam.width = size
+            imageButton.layoutParams = layoutParam
+            imageButton.setOnClickListener{
+                Dialogs.displayInfoDialog(context, R.string.help_step)
+            }
         }
 
         private fun deleteStep() {
@@ -126,6 +128,7 @@ class RuleFragment : MyFragment() {
         }
 
         setAllView()
+        setButtons()
 
         rule = context.currentRule
         addingRule = rule == null
@@ -140,28 +143,15 @@ class RuleFragment : MyFragment() {
         spinner_counters.adapter = adaptor
         spinner_counters.onItemSelectedListener = spinnerListener(arr)
 
+        steps = if (addingRule) {ArrayList()} else {rule!!.steps}
+
         if (!addingRule) {
             selectedItem = rule!!.counter
             editText_otherStart.setText(rule!!.start.toString())
             val temp_selected = if (rule!!.counter == "") theProject else rule!!.counter
             spinner_counters.setSelection(adaptor.getPosition(temp_selected))
             editText_comment.setText(rule!!.comment)
-        }
-
-        imageButton_infoStart.setOnClickListener {
-            Dialogs.displayInfoDialog(context, R.string.help_start)
-        }
-
-        imageButton_infoCounter.setOnClickListener {
-            Dialogs.displayInfoDialog(context, R.string.help_which_counter)
-        }
-
-        imageButton_infoComment.setOnClickListener {
-            Dialogs.displayInfoDialog(context, R.string.help_comment_rule)
-        }
-
-        steps = if (addingRule) {ArrayList()} else {rule!!.steps}
-        if (addingRule) {
+        } else {
             steps.add(Step(true, 1, 1, 1))
         }
         rule!!.steps = steps
@@ -169,18 +159,6 @@ class RuleFragment : MyFragment() {
         adapteur = this.StepsAdapter(context, steps)
         listView_steps.adapter = adapteur
 
-        button_cancel.setOnClickListener {
-            context.onBackPressed()
-        }
-
-        button_addStep.setOnClickListener {
-            steps.add(Step(true, 1, 1, 1))
-            adapteur.notifyDataSetChanged()
-        }
-
-        button_save.setOnClickListener {
-            save()
-        }
         context.title = context.getString(R.string.add_rule) // todo what if modify??
     }
 
@@ -196,6 +174,24 @@ class RuleFragment : MyFragment() {
         button_cancel = context.findViewById(R.id.button_cancel)
         button_addStep = context.findViewById(R.id.button_add_step)
         button_save = context.findViewById(R.id.button_save)
+    }
+
+    private fun setButtons() {
+        imageButton_infoStart.setOnClickListener {
+            Dialogs.displayInfoDialog(context, R.string.help_start)
+        }
+        imageButton_infoCounter.setOnClickListener {
+            Dialogs.displayInfoDialog(context, R.string.help_which_counter)
+        }
+        imageButton_infoComment.setOnClickListener {
+            Dialogs.displayInfoDialog(context, R.string.help_comment_rule)
+        }
+        button_addStep.setOnClickListener {
+            steps.add(Step(true, 1, 1, 1))
+            adapteur.notifyDataSetChanged()
+        }
+        button_cancel.setOnClickListener { context.onBackPressed() }
+        button_save.setOnClickListener { save() }
     }
 
     private fun save() {
