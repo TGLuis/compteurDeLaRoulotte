@@ -12,7 +12,7 @@ import library.Dialogs
 import library.Rule
 import tgl.lecompteurdelaroulotte.MainActivity
 import tgl.lecompteurdelaroulotte.R
-import java.util.*
+import java.util.ArrayList
 
 class SeeRules: SeeFragment() {
     override var TAG: String = "===== SEERULES ====="
