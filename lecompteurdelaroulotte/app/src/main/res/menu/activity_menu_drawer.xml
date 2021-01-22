@@ -4,8 +4,8 @@
     tools:showIn="navigation_view">
 
     <group android:checkableBehavior="single">
-        <menu
-            android:id="@+id/menu">
-        </menu>
+        <!-- If the application works then can be removed
+        <menu android:id="@+id/menu"/>
+        -->
     </group>
 </menu>

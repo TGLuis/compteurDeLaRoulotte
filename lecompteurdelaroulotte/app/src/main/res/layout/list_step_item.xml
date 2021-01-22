@@ -10,16 +10,17 @@
         android:id="@+id/left"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="12dp"
+        android:orientation="vertical"
+        app:layout_constrainedWidth="true"
+        app:layout_constraintHorizontal_bias="0"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@id/delete_image"
-        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
-
 
         <LinearLayout
             android:id="@+id/first_line"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             app:layout_constraintBottom_toTopOf="@id/enter"
@@ -49,7 +50,7 @@
                 android:id="@+id/augm_check"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="10dp" />
+                android:layout_marginHorizontal="@dimen/min_margin_hor" />
 
         </LinearLayout>
 
@@ -59,6 +60,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:orientation="horizontal"
+
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -71,9 +73,9 @@
                 android:hint="@string/NumberDefaultValue"
                 android:importantForAutofill="no"
                 android:inputType="number"
-                android:minWidth="30dp"
                 android:textColor="@color/purple"
-                android:textSize="@dimen/text_normal" />
+                android:textSize="@dimen/text_normal"
+                android:nextFocusDown="@id/enter_rows"/>
 
             <TextView
                 android:id="@+id/rule_text1"
@@ -90,9 +92,9 @@
                 android:hint="@string/NumberDefaultValue"
                 android:importantForAutofill="no"
                 android:inputType="number"
-                android:minWidth="30dp"
                 android:textColor="@color/purple"
-                android:textSize="@dimen/text_normal" />
+                android:textSize="@dimen/text_normal"
+                android:nextFocusDown="@id/enter_stitches"/>
 
             <TextView
                 android:id="@+id/text_rows"
@@ -109,9 +111,9 @@
                 android:hint="@string/NumberDefaultValue"
                 android:importantForAutofill="no"
                 android:inputType="number"
-                android:minWidth="30dp"
                 android:textColor="@color/purple"
-                android:textSize="@dimen/text_normal" />
+                android:textSize="@dimen/text_normal"
+                android:nextFocusDown="@id/enter_fois"/>
 
             <TextView
                 android:id="@+id/text_stitches"
@@ -129,14 +131,12 @@
         android:id="@+id/delete_image"
         android:layout_width="48dp"
         android:layout_height="48dp"
-        android:layout_marginStart="68dp"
-        android:layout_marginEnd="12dp"
         android:background="@null"
         android:contentDescription="@string/delete_image"
         android:scaleType="fitXY"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:srcCompat="@drawable/ic_baseline_delete_outline_24" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

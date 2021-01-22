@@ -1,6 +1,8 @@
 package library
 
 import android.content.Context
+import android.view.View
+import android.widget.AdapterView
 import android.widget.ImageButton
 import android.widget.TextView
 import tgl.lecompteurdelaroulotte.R
@@ -26,5 +28,6 @@ object Listeners {
         tv.text = context.getString(text)
         ib.setImageResource(R.drawable.ic_baseline_arrow_drop_up_24)
     }
+
 
 }

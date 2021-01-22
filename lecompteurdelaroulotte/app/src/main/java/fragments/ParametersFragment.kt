@@ -67,7 +67,7 @@ class ParametersFragment : MyFragment() {
         context.language = selectedLanguage
         Helper.saveProperties()
 
-        if (languageDifferent) context.setNewLocale(context.language)
+        if (languageDifferent) context.setNewLocale(context.language) // this method restart the activity
         else if (restart) context.recreate()
     }
 

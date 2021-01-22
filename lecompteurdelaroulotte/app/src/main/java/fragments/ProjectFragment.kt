@@ -178,7 +178,7 @@ class ProjectFragment : MyFragment() {
         buttonPlus = context.findViewById(R.id.button_plus)
         listViewCounters = context.findViewById(R.id.listCounters)
         pdfView = context.findViewById(R.id.pdfView)
-        mainCounterLayout = context.findViewById<ConstraintLayout>(R.id.MCounter)
+        mainCounterLayout = context.findViewById(R.id.MCounter)
     }
 
     private fun displayPDF() {
@@ -255,7 +255,7 @@ class ProjectFragment : MyFragment() {
                 if (params is ViewGroup.MarginLayoutParams) {
                     val p: ViewGroup.MarginLayoutParams = params
                     if (project.pdf == null || !context.pdfIsOpen) {
-                        p.setMargins(5, mainCounterLayout.height + 2, 5, 5)
+                        p.setMargins(5, mainCounterLayout.height + 12, 5, 5)
                         pdfView.visibility = View.INVISIBLE
                         pdfView.layoutParams.height = 0
                     } else {
@@ -266,7 +266,7 @@ class ProjectFragment : MyFragment() {
                             }
                             pdfView.layoutParams.height = (view.height + pdfView.height) * 2 / 3
                         }
-                        p.setMargins(5, mainCounterLayout.height + 2, 5, pdfView.height)
+                        p.setMargins(5, mainCounterLayout.height + 12, 5, pdfView.height)
                     }
                     view.layoutParams = p
                 }

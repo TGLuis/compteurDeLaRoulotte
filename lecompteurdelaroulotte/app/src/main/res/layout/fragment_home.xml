@@ -36,7 +36,7 @@
         android:id="@+id/button_add_project"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/add_project"
+        android:text="@string/project"
         style="@style/Widget.MaterialComponents.Button"
         app:icon="@drawable/ic_baseline_add_24"
         app:layout_constraintBottom_toBottomOf="parent"

@@ -8,7 +8,6 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.ImageButton
 import android.widget.TextView
-import androidx.appcompat.app.AlertDialog
 import library.Dialogs
 import library.Rule
 import tgl.lecompteurdelaroulotte.MainActivity
@@ -67,7 +66,7 @@ class SeeRules: SeeFragment() {
         super.onActivityCreated(savedInstanceState)
 
         rules = context.currentProject!!.myRules
-        button_add.text = getString(R.string.add_rule)
+        button_add.text = getString(R.string.rule)
         button_add.setOnClickListener {
             context.currentRule = null
             context.openFragment(RuleFragment())

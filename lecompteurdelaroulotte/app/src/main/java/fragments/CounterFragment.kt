@@ -132,6 +132,7 @@ class CounterFragment : MyFragment() {
     }
 
     private fun spinnerListener(array: ArrayList<String>): AdapterView.OnItemSelectedListener {
+        // todo to move in Listeners
         return object : AdapterView.OnItemSelectedListener {
             override fun onNothingSelected(parent: AdapterView<*>?) {}
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {

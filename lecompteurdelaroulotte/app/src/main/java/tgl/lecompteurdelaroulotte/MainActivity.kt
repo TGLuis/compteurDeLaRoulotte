@@ -598,6 +598,10 @@ class MainActivity : AppCompatActivityBase() {
         super.onStop()
     }
 
+    fun db_to_file() {
+
+    }
+
     /***********************************************************************************************
      * Some more functions
      */

@@ -66,7 +66,7 @@ class SeeComments: SeeFragment() {
         super.onActivityCreated(savedInstanceState)
 
         comments = context.currentProject!!.myComments
-        button_add.text = getString(R.string.add_comment)
+        button_add.text = getString(R.string.comment)
         button_add.setOnClickListener {
             context.currentComment = null
             context.openFragment(CommentFragment())
