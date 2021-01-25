@@ -174,8 +174,7 @@
             android:orientation="horizontal"
             app:layout_constraintTop_toBottomOf="@id/help_comment"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent">
+            app:layout_constraintEnd_toEndOf="parent">
 
             <TextView
                 android:id="@+id/help_rule_title"
