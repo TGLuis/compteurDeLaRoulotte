@@ -169,4 +169,11 @@ Nu is er een lastig deel, kan u een teller met een andere teller hechten maar pa
     <string name="millimeter">millimeter</string>
     <string name="inch">inch</string>
     <string name="feet">voet</string>
+    <string name="unit_converter">Eenheden convertor</string>
+    <string name="balls_converter">Bollen convertor</string>
+    <string name="yard">yard</string>
+    <string name="number_of_balls_required">Aantal bollen van de aanbevolen garen:</string>
+    <string name="size_of_balls_required">Meeting van een bol van aanbevolen garen:</string>
+    <string name="size_of_balls_available">Meeting van een bol van vervangingsgaren:</string>
+    <string name="number_of_balls_i_need">"Aantal bollen van de vervangingsgaren: "</string>
 </resources>

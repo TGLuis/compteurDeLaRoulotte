@@ -165,4 +165,11 @@
     <string name="millimeter">millimètre</string>
     <string name="inch">pouce</string>
     <string name="feet">pied</string>
+    <string name="unit_converter">Convertisseur d\'unités</string>
+    <string name="balls_converter">Convertisseur de pelotes</string>
+    <string name="yard">yard</string>
+    <string name="number_of_balls_required">Nombre de pelotes du fil suggéré:</string>
+    <string name="size_of_balls_required">Longueur de la pelote du fil suggéré:</string>
+    <string name="size_of_balls_available">Longueur de la pelote du fil de substitution:</string>
+    <string name="number_of_balls_i_need">Nombre de pelotes du fil de substitution:</string>
 </resources>

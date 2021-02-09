@@ -167,12 +167,15 @@
     <string name="NumberDefaultValue">0</string>
 
     <!-- Units -->
+    <string name="unit_converter">Unit converter</string>
+    <string name="balls_converter">Balls converter</string>
     <string name="meter">meter</string>
     <string name="decimeter">decimeter</string>
     <string name="centimeter">centimeter</string>
     <string name="millimeter">millimeter</string>
     <string name="inch">inch</string>
     <string name="feet">feet</string>
+    <string name="yard">yard</string>
     <string-array name="string_array_units">
         <item>@string/meter</item>
         <item>@string/decimeter</item>
@@ -180,5 +183,13 @@
         <item>@string/millimeter</item>
         <item>@string/inch</item>
         <item>@string/feet</item>
+    </string-array>
+    <string name="number_of_balls_required">Number of balls of the recommended yarn:</string>
+    <string name="size_of_balls_required">Length of a ball of the recommended yarn:</string>
+    <string name="size_of_balls_available">Length of a ball of the substitution yarn:</string>
+    <string name="number_of_balls_i_need">Number of balls of the substitution yarn:</string>
+    <string-array name="string_array_balls">
+        <item>@string/meter</item>
+        <item>@string/yard</item>
     </string-array>
 </resources>
