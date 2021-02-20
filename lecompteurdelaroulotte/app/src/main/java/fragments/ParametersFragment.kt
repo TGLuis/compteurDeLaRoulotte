@@ -65,7 +65,7 @@ class ParametersFragment : MyFragment() {
         context.volumeOn = checkBox_volumeOn.isChecked
         context.screenOn = checkBox_screenOn.isChecked
         context.language = selectedLanguage
-        Helper.saveProperties()
+        context.saveProperties()
 
         if (languageDifferent) context.setNewLocale(context.language) // this method restart the activity
         else if (restart) context.recreate()

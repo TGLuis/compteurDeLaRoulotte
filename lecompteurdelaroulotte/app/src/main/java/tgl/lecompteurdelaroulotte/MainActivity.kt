@@ -5,8 +5,19 @@ import android.content.Intent
 import android.content.res.Resources
 import android.os.Build
 import android.os.Bundle
-import android.view.*
-import android.widget.*
+import android.view.WindowManager
+import android.view.Menu
+import android.view.MenuItem
+import android.view.LayoutInflater
+import android.view.ViewGroup
+import android.view.View
+import android.widget.EditText
+import android.widget.Toast
+import android.widget.Spinner
+import android.widget.ArrayAdapter
+import android.widget.AdapterView
+import android.widget.TextView
+import android.widget.CheckBox
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
@@ -18,7 +29,7 @@ import com.google.android.material.navigation.NavigationView
 import com.ninenox.kotlinlocalemanager.AppCompatActivityBase
 import fragments.*
 import library.*
-import java.util.*
+import java.util.Stack
 
 class MainActivity : AppCompatActivityBase() {
     private val TAG = "==== MAINACTIVITY ===="
@@ -81,8 +92,8 @@ class MainActivity : AppCompatActivityBase() {
 
     private fun setProperties() {
         Helper.init(this)
-        screenOn = Helper.getConfigValue("screen_on") == true.toString()
-        volumeOn = Helper.getConfigValue("volume_on") == true.toString()
+        screenOn = Helper.getPrefScreen()
+        volumeOn = Helper.getPrefVolume()
         if (screenOn) {
             // maintain screen open during activity
             window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
@@ -92,7 +103,7 @@ class MainActivity : AppCompatActivityBase() {
     }
 
     private fun setLanguage() {
-        language = Helper.getConfigValue("language").toString()
+        language = Helper.getPrefLanguage()
         if (language != "-" && Helper.getLanguage() != language) {
             // the following call restart the activity so it basically stops there
             setNewLocale(language)
@@ -602,11 +613,17 @@ class MainActivity : AppCompatActivityBase() {
 
     }
 
+    fun saveProperties() {
+        Helper.setPrefVolume(this.volumeOn)
+        Helper.setPrefScreen(this.screenOn)
+        Helper.setPrefLanguage(this.language)
+    }
+
     /***********************************************************************************************
      * Some more functions
      */
     private fun saveState() {
-        Helper.saveProperties()
+        saveProperties()
         if (projectsList.isNotEmpty()) {
             projectsList.forEach { thisit ->
                 db.updateProjectDB(thisit)
@@ -624,7 +641,6 @@ class MainActivity : AppCompatActivityBase() {
                         )
                     }
                 }
-                // fix disparition of some rules and comments by force save..
                 val rules = thisit.myRules
                 if (rules.isNotEmpty()) {
                     rules.forEach {
