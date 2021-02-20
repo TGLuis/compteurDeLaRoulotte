@@ -7,17 +7,31 @@
     android:orientation="vertical">
 
     <Button
-        android:id="@+id/tools_converter_btn"
+        android:id="@+id/tools_unit_converter_btn"
         style="@style/Widget.AppCompat.Button.Colored"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="serif"
-        android:text="@string/ToolsConvertorBtn"
+        android:text="@string/unit_converter"
+        android:textAlignment="center"
+        android:textSize="@dimen/text_big"
+        app:layout_constraintBottom_toTopOf="@id/tools_balls_converter_btn"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/tools_balls_converter_btn"
+        style="@style/Widget.AppCompat.Button.Colored"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="serif"
+        android:text="@string/balls_converter"
         android:textAlignment="center"
         android:textSize="@dimen/text_big"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/tools_unit_converter_btn" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

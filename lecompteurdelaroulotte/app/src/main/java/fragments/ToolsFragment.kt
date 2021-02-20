@@ -12,7 +12,8 @@ class ToolsFragment : MyFragment() {
     private lateinit var context: MainActivity
     override var TAG: String = "===== TOOLS FRAGMENT ====="
 
-    private lateinit var button_converter: Button
+    private lateinit var button_unit_converter: Button
+    private lateinit var button_balls_converter: Button
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         super.onCreateView(inflater, container, savedInstanceState)
@@ -23,9 +24,14 @@ class ToolsFragment : MyFragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        button_converter = context.findViewById(R.id.tools_converter_btn)
-        button_converter.setOnClickListener {
-            context.openFragment(ConverterFragment())
+        button_unit_converter = context.findViewById(R.id.tools_unit_converter_btn)
+        button_unit_converter.setOnClickListener {
+            context.openFragment(UnitConverterFragment())
+        }
+
+        button_balls_converter = context.findViewById(R.id.tools_balls_converter_btn)
+        button_balls_converter.setOnClickListener {
+            context.openFragment(BallConverterFragment())
         }
 
         context.title = context.getString(R.string.ToolsTitle)

@@ -10,7 +10,7 @@ import android.widget.*
 import tgl.lecompteurdelaroulotte.MainActivity
 import tgl.lecompteurdelaroulotte.R
 
-class ConverterFragment : MyFragment() {
+class UnitConverterFragment : MyFragment() {
     private lateinit var context: MainActivity
     override var TAG: String = "===== CONVERTER FRAGMENT ====="
 
@@ -21,6 +21,7 @@ class ConverterFragment : MyFragment() {
     private lateinit var imageButton_reverse: ImageButton
 
     // correspondence with R.array.string_array_units
+    // TODO add yards to units
     private val lengthUnits = ArrayList<String>(listOf("m", "dm", "cm", "mm", "inch", "feet"))
 
     // EditText
@@ -33,7 +34,7 @@ class ConverterFragment : MyFragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         super.onCreateView(inflater, container, savedInstanceState)
         context = activity as MainActivity
-        return inflater.inflate(R.layout.fragment_converter, container, false)
+        return inflater.inflate(R.layout.fragment_unit_converter, container, false)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
